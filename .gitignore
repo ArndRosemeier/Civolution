@@ -1,0 +1,12 @@
+# Original game files never enter this public repo
+*.exe
+*.biq
+*.bic
+*.pcx
+*.flc
+data/imported/
+
+node_modules/
+dist/
+.env
+.env.*

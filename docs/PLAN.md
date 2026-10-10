@@ -18,7 +18,7 @@ Status: revised 2026-10-11 after your decisions (§2). Mods, scenarios and multi
 | 3,861 PCX, 1,686 FLC, 2,275 WAV, 419 AMB, 54 MP3 | Terrain sheets, unit animations (per-unit INI + FLC), leaderheads, city art, sounds, era music | Not used (D2). At most a private reference for what each unit looks like. |
 | `C:\Projekte\Civ` (CivTS) | Your earlier Civ3-inspired TS game | Not reused (D1); inspiration only |
 | `C:\Projekte\SoundStudio` | Local Stable Audio 3 Small-SFX and Small-Music on the RTX 5070 (12 GB), HTTP API on `127.0.0.1:8765`, clips 0.25–120 s, WAV + `catalog.json` | All sound effects, ambience and music beds (§10). Server is not running right now; it starts with `uv run soundstudio serve`. |
-| `C:\Projekte\Minion\src\ai\openrouter.ts` | Working OpenRouter client incl. image generation (default image model `google/gemini-3.1-flash-image`) | Template for the art pipeline. Key comes from `OPEN_ROUTER_KEY` (D4). |
+| [Imager](https://github.com/ArndRosemeier/Imager) `src/llm/` | Your most complete OpenRouter client: live model list incl. Images-API-only models (`/models?output_modalities=all`), per-model limits from `/images/models` (count, aspect ratios, reference images), Images API with `input_references`, chat-image refinement, plus music, speech and video | Basis of the asset pipeline's OpenRouter client (§10.3). Key from `OPEN_ROUTER_KEY` (D4). |
 | `C:\Projekte\AssetGenerator` | Headless Blender pipeline producing `.glb` + renders from JSON specs, with automated quality gates | Main route to 3D models for units, cities and improvements (§10.2) |
 
 ---
@@ -29,7 +29,7 @@ Status: revised 2026-10-11 after your decisions (§2). Mods, scenarios and multi
 |---|---|---|
 | D1 | Start fresh or grow CivTS? | **Fresh repo.** CivTS is not reused. Its ideas (determinism rules, invariants, tournaments, golden hashes) are inspiration only; the test tooling is designed new for this project. |
 | D2 | What do we use from the original game? | **Data mining only.** The importer reads rule numbers and facts from your install to build our own rule set. No original art, sound, music or text ships or is committed, and there is no "classic skin". The repo is public, so the importer's raw output stays gitignored; only our own curated rule data (numbers and mechanics, written in our own words) is committed. |
-| D3 | Map presentation | **3D, decided by a spike.** See §10.1 for how. Phase 1 builds a 3D map prototype with go/no-go criteria; 2D isometric is the fallback, and the engine does not care which. |
+| D3 | Map presentation | **3D** (§10.1). Phase 1 still builds a 3D map prototype measured against the performance budget, so problems surface early; the engine stays renderer-agnostic. |
 | D4 | OpenRouter key | Read from the `OPEN_ROUTER_KEY` environment variable. |
 | D5 | Home | <https://github.com/ArndRosemeier/Civolution> (public). |
 | D6 | Headless games | **Required.** The engine runs complete games in Node with any mix of AI and scripted players; this drives AI tuning, invariant checks and regression tests. |
@@ -185,11 +185,15 @@ The automation package is built after the core economy exists (Phase 5) but its 
 
 ### 10.3 Art
 - **Style bible first:** a reference sheet (palette, lighting, level of stylisation, material feel) generated and approved before batch work. Every 2D prompt includes it as an input image; the 3D material library follows the same palette.
+- **OpenRouter client:** ported from Imager's `src/llm/` into a Node tool (`tools/openrouter`), keeping its rule that model limits come from the live API, never from guesses. Model choice per asset class is explicit in the manifest and picked by comparing a small batch from several models on the style bible first.
 - **2D via OpenRouter image models** (key from `OPEN_ROUTER_KEY`): seamless terrain and material textures, leader portraits (31 leaders), wonder splash art, building/wonder/tech/resource icons, UI ornaments, Civilopedia illustrations, and concept sheets that serve as references for 3D models.
 - **3D via the AssetGenerator Blender pipeline:** a JSON spec per model (unit, building piece, wonder, improvement), built headless, gated by automated checks (poly budget, scale, pivot, rig, silhouette), exported as `.glb` with renders for review. Image-model concept sheets feed the specs; textures come from the 2D pipeline.
 - **Pipeline:** a manifest per asset class (id, prompt or spec, references, size, post-processing) → `pnpm assets:gen` (rate-limited, cached by input hash) → post-process (background removal, seamless tiling, compression to KTX2) → contact sheets for review. Provenance recorded per file (model, prompt, date).
 
-### 10.4 Sound (local Sound Studio)
+### 10.4 Sound, music and voice
+- **Voice (OpenRouter speech, via Imager's client):** optional short spoken lines for advisors and leader greetings, written new (never the original lines).
+- **Music:** era themes from Sound Studio's Small-Music; OpenRouter music models are a second source to compare for the longer themes.
+- **Effects and ambience (local Sound Studio):**
 - Drive `POST /generate` on `127.0.0.1:8765` from a manifest the same way: UI clicks and confirms, per-unit-class move/attack/death (melee, archery, gunpowder, artillery, armour, ships, aircraft), city founding, building complete, wonder complete fanfare, tech discovered, golden age, disorder, terrain ambiences per biome and era, short music beds and stingers per era (Small-Music, up to 120 s, loopable prompts). Several variations each to avoid repetition. Output copied into `client/public/audio` with a generated sprite map.
 
 ---

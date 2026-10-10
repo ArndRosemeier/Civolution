@@ -17,7 +17,7 @@ Status: revised 2026-10-11 after your decisions (§2). Mods, scenarios and multi
 | … `\Conquests\Text\Civilopedia.txt` (565 KB, 772 entries), `PediaIcons.txt`, `diplomacy.txt`, `labels.txt` | Encyclopaedia, icon mapping, AI diplomacy lines, UI strings | Reference text and name tables |
 | 3,861 PCX, 1,686 FLC, 2,275 WAV, 419 AMB, 54 MP3 | Terrain sheets, unit animations (per-unit INI + FLC), leaderheads, city art, sounds, era music | Not used (D2). At most a private reference for what each unit looks like. |
 | `C:\Projekte\Civ` (CivTS) | Your earlier Civ3-inspired TS game | Not reused (D1); inspiration only |
-| `C:\Projekte\SoundStudio` | Local Stable Audio 3 Small-SFX and Small-Music on the RTX 5070 (12 GB), HTTP API on `127.0.0.1:8765`, clips 0.25–120 s, WAV + `catalog.json` | All sound effects, ambience and music beds (§10). Server is not running right now; it starts with `uv run soundstudio serve`. |
+| `C:\Projekte\SoundStudio` | Local Stable Audio 3 Small-SFX and Small-Music on the RTX 5070 (12 GB), HTTP API on `127.0.0.1:8765`, clips 0.25–120 s, WAV + `catalog.json` | Second source for effects and music beds (§10.4); ByteDance Seed audio on OpenRouter is the primary effects source. Server is not running right now; it starts with `uv run soundstudio serve`. |
 | [Imager](https://github.com/ArndRosemeier/Imager) `src/llm/` | Your most complete OpenRouter client: live model list incl. Images-API-only models (`/models?output_modalities=all`), per-model limits from `/images/models` (count, aspect ratios, reference images), Images API with `input_references`, chat-image refinement, plus music, speech and video | Basis of the asset pipeline's OpenRouter client (§10.3). Key from `OPEN_ROUTER_KEY` (D4). |
 | `C:\Projekte\AssetGenerator` | Headless Blender pipeline producing `.glb` + renders from JSON specs, with automated quality gates | Main route to 3D models for units, cities and improvements (§10.2) |
 
@@ -193,7 +193,8 @@ The automation package is built after the core economy exists (Phase 5) but its 
 ### 10.4 Sound, music and voice
 - **Voice (OpenRouter speech, via Imager's client):** optional short spoken lines for advisors and leader greetings, written new (never the original lines).
 - **Music:** era themes from Sound Studio's Small-Music; OpenRouter music models are a second source to compare for the longer themes.
-- **Effects and ambience (local Sound Studio):**
+- **Effects and ambience: ByteDance Seed audio on OpenRouter first.** Prompts must start with "The sound of …" ("the sound of a fireball"); without the prefix the model speaks the words instead. The pipeline adds the prefix automatically and rejects clips that a quick check flags as speech. The local Sound Studio stays as a free second source; a short A/B round on ten representative effects picks the default per category.
+- **Effect list (either source):**
 - Drive `POST /generate` on `127.0.0.1:8765` from a manifest the same way: UI clicks and confirms, per-unit-class move/attack/death (melee, archery, gunpowder, artillery, armour, ships, aircraft), city founding, building complete, wonder complete fanfare, tech discovered, golden age, disorder, terrain ambiences per biome and era, short music beds and stingers per era (Small-Music, up to 120 s, loopable prompts). Several variations each to avoid repetition. Output copied into `client/public/audio` with a generated sprite map.
 
 ---

@@ -604,5 +604,131 @@
     "prompt": "The sound of a rough barbarian war horn blowing from distant hills with faint wild drumming, about three seconds",
     "hash": "52660b140e5a9d7f",
     "date": "2026-10-11"
+  },
+  "first-contact-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of two distant horns answering each other across a wide valley, followed by a soft ceremonial drum roll, without voices, about three seconds",
+    "hash": "8554d8ec6f23598c",
+    "date": "2026-10-11"
+  },
+  "first-contact-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of two distant horns answering each other across a wide valley, followed by a soft ceremonial drum roll, without voices, about three seconds",
+    "hash": "5066b939b9d2cd49",
+    "date": "2026-10-11"
+  },
+  "envoy-arrives-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a herald's short brass fanfare and footsteps on a stone floor as heavy palace doors swing open, without voices, about two seconds",
+    "hash": "9210478f9b87b577",
+    "date": "2026-10-11"
+  },
+  "envoy-arrives-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a herald's short brass fanfare and footsteps on a stone floor as heavy palace doors swing open, without voices, about two seconds",
+    "hash": "2934d9ad5c8c6e59",
+    "date": "2026-10-11"
+  },
+  "treaty-signed-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a quill scratching across parchment, then a wax seal pressed down with a firm thud and a small bell chime, about two seconds",
+    "hash": "d3f978030d76253e",
+    "date": "2026-10-11"
+  },
+  "treaty-signed-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a quill scratching across parchment, then a wax seal pressed down with a firm thud and a small bell chime, about two seconds",
+    "hash": "72c95ef4804c3fd3",
+    "date": "2026-10-11"
+  },
+  "treaty-signed-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a quill scratching across parchment, then a wax seal pressed down with a firm thud and a small bell chime, about two seconds",
+    "hash": "bf211f961867bc6d",
+    "date": "2026-10-11"
+  },
+  "deal-declined-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a heavy book closing on a wooden table and a chair pushed back across a stone floor, without voices, about one and a half seconds",
+    "hash": "fca3e5fbc961c4a2",
+    "date": "2026-10-11"
+  },
+  "deal-declined-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a heavy book closing on a wooden table and a chair pushed back across a stone floor, without voices, about one and a half seconds",
+    "hash": "c97d0e27764ff9ce",
+    "date": "2026-10-11"
+  },
+  "embassy-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a flag snapping in the wind on a tall pole, a rope pulley creaking and a short bright trumpet call, about two seconds",
+    "hash": "0a0e17905ddd0b48",
+    "date": "2026-10-11"
+  },
+  "embassy-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a flag snapping in the wind on a tall pole, a rope pulley creaking and a short bright trumpet call, about two seconds",
+    "hash": "4a5f03a5a52ecfcc",
+    "date": "2026-10-11"
+  },
+  "spy-success-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a soft click of a lock opening, papers being slipped quickly into a leather satchel and quiet footsteps hurrying away, about two seconds",
+    "hash": "a7e9fca47e9bd1c5",
+    "date": "2026-10-11"
+  },
+  "spy-success-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a soft click of a lock opening, papers being slipped quickly into a leather satchel and quiet footsteps hurrying away, about two seconds",
+    "hash": "b7458b33e4b888e5",
+    "date": "2026-10-11"
+  },
+  "spy-caught-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a guard's whistle, running footsteps on cobblestones and an iron cell door slamming shut, without voices, about two seconds",
+    "hash": "fc94cf9f2cd53d6b",
+    "date": "2026-10-11"
+  },
+  "spy-caught-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a guard's whistle, running footsteps on cobblestones and an iron cell door slamming shut, without voices, about two seconds",
+    "hash": "205e1d3b76cde972",
+    "date": "2026-10-11"
+  },
+  "parachute-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a propeller aircraft droning overhead and several parachutes snapping open in the wind, fabric fluttering, about three seconds",
+    "hash": "78205595236bd8c3",
+    "date": "2026-10-11"
+  },
+  "parachute-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a propeller aircraft droning overhead and several parachutes snapping open in the wind, fabric fluttering, about three seconds",
+    "hash": "9eeac60726a7ce1e",
+    "date": "2026-10-11"
+  },
+  "airlift-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a large transport aircraft's engines roaring up for takeoff on a runway and climbing away, about three seconds",
+    "hash": "a417d9d40c3255a9",
+    "date": "2026-10-11"
+  },
+  "airlift-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a large transport aircraft's engines roaring up for takeoff on a runway and climbing away, about three seconds",
+    "hash": "4ce927c3aa7bcc28",
+    "date": "2026-10-11"
+  },
+  "barbarian-landing-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of oars splashing, wooden boat hulls grinding onto a pebble beach, waves breaking and a rough war horn blown, without words, about three seconds",
+    "hash": "55b3316cbb57a2c0",
+    "date": "2026-10-11"
+  },
+  "barbarian-landing-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of oars splashing, wooden boat hulls grinding onto a pebble beach, waves breaking and a rough war horn blown, without words, about three seconds",
+    "hash": "2de31afe3dfdebe2",
+    "date": "2026-10-11"
   }
 }

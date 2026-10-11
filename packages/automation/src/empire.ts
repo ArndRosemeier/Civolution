@@ -9,6 +9,8 @@ import {
   cityReport,
   distance,
   hasFreshWater,
+  neighbours,
+  tileOwners,
   isCoastal,
   playerCities,
   playerUnits,
@@ -47,14 +49,54 @@ export function siteScore(rules: Rules, state: GameState, player: number, tile: 
   return score;
 }
 
-/** Best site within `range` tiles of `from`, weighing travel. */
+const landCache = new WeakMap<number[], Int32Array>();
+
+/**
+ * Pieces of land a player's units can walk between over tiles it has explored (units
+ * and borders aside): two tiles with different labels have no known route. -1 for water,
+ * impassable and unexplored tiles. Cached per explored map.
+ */
+export function knownLand(rules: Rules, state: GameState, player: number): Int32Array {
+  const p = state.players[player]!;
+  let ids = landCache.get(p.explored);
+  if (ids) return ids;
+  const m = state.map;
+  ids = new Int32Array(m.terrain.length).fill(-1);
+  const open = (t: number) => ((p.explored[t >> 5]! >>> (t & 31)) & 1) === 1 && !rules.terrains[m.terrain[t]!]!.water && !rules.terrains[m.terrain[t]!]!.impassable;
+  let next = 0;
+  const stack: number[] = [];
+  for (let i = 0; i < ids.length; i++) {
+    if (ids[i] !== -1 || !open(i)) continue;
+    ids[i] = next;
+    stack.push(i);
+    while (stack.length > 0) {
+      const t = stack.pop()!;
+      for (const j of neighbours(m, t)) {
+        if (ids[j] !== -1 || !open(j)) continue;
+        ids[j] = next;
+        stack.push(j);
+      }
+    }
+    next++;
+  }
+  landCache.set(p.explored, ids);
+  return ids;
+}
+
+/** Best site within `range` tiles of `from` on the same land (settlers walk there), weighing travel. */
 export function bestSite(rules: Rules, state: GameState, player: number, from: number, range = 10): number {
   const p = state.players[player]!;
   let best = -1;
   let bestScore = 0;
   const own = playerCities(state, player);
+  const known = knownLand(rules, state, player);
+  const owners = tileOwners(state);
+  const home = known[from]!;
+  const water = rules.terrains[state.map.terrain[from]!]!.water;
   for (const tile of tilesInRadius(state.map, from, range)) {
     const d = distance(state.map, from, tile);
+    if (!water && known[tile] !== home) continue;
+    if ((owners.get(tile) ?? []).some((o) => o !== player)) continue;
     if (!((p.explored[tile >> 5]! >>> (tile & 31)) & 1)) continue;
     const base = siteScore(rules, state, player, tile);
     if (base <= 0) continue;
@@ -103,8 +145,15 @@ const BUILDING_PRIORITY: { id: string; when: (r: ReturnType<typeof cityReport>, 
   { id: 'policeStation', when: (r) => r.corruptionRate.value >= 30, why: 'corruption' },
 ];
 
+export interface PlanBuildOptions {
+  /** Leave settlers out (the caller has enough on the way). */
+  noSettlers?: boolean;
+  /** Leave great wonders out. */
+  noWonders?: boolean;
+}
+
 /** What a city should build next (simple priorities; the full governors come in Phase 5). */
-export function planBuild(rules: Rules, state: GameState, city: City): PlannedBuild {
+export function planBuild(rules: Rules, state: GameState, city: City, opts: PlanBuildOptions = {}): PlannedBuild {
   const ok = (b: Build) => buildBlocker(rules, state, city, b) === null;
   const report = cityReport(rules, state, city);
   const defenders = Object.values(state.units).filter((u) => u.tile === city.tile && u.owner === city.owner && rules.unit(u.type).defence > 0);
@@ -116,7 +165,7 @@ export function planBuild(rules: Rules, state: GameState, city: City): PlannedBu
   }
   const settler = rules.set.units.find((u) => u.specialActions.includes('buildCity'));
   // Shields wait in the box until the city is big enough to give up the settlers.
-  if (settler && report.foodSurplus >= 1 && wantsMoreCities(rules, state, city.owner) && ok({ kind: 'unit', id: settler.id })) {
+  if (settler && !opts.noSettlers && report.foodSurplus >= 1 && wantsMoreCities(rules, state, city.owner) && ok({ kind: 'unit', id: settler.id })) {
     const settling = bestSite(rules, state, city.owner, city.tile, 12);
     if (settling >= 0) return { build: { kind: 'unit', id: settler.id }, reason: 'Room for another city nearby' };
     // No known site: send someone to look, unless someone already is.
@@ -136,7 +185,7 @@ export function planBuild(rules: Rules, state: GameState, city: City): PlannedBu
     return { build: { kind: 'building', id: b.id }, reason: `${rules.building(b.id).name}: ${b.why}` };
   }
   // Wonders in the capital when nothing else is needed.
-  if ('palace' in city.buildings) {
+  if ('palace' in city.buildings && !opts.noWonders) {
     // Wonders that hand out units every few turns would bury a builder in upkeep.
     const wonder = rules.set.buildings
       .filter((b) => b.kind === 'wonder' && !b.unitProduced && ok({ kind: 'building', id: b.id }))
@@ -153,7 +202,7 @@ export function planResearch(rules: Rules, state: GameState, player: number): st
   if (options.length === 0) return null;
   const govTechs = new Set(rules.set.governments.map((g) => g.requiredTech).filter((t): t is string => !!t));
   const required = (t: string) => !rules.tech(t).flags.includes('notRequiredForEraAdvance');
-  const score = (t: string) => techCost(rules, state, t) * (govTechs.has(t) ? 0.5 : required(t) ? 1 : 1.6);
+  const score = (t: string) => techCost(rules, state, t, player) * (govTechs.has(t) ? 0.5 : required(t) ? 1 : 1.6);
   return [...options].sort((a, b) => score(a) - score(b) || a.localeCompare(b))[0]!;
 }
 

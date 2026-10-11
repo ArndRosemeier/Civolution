@@ -32,3 +32,18 @@ last hit point is shot down.
 
 Airdrops, airlifts, helicopters carrying troops, air superiority over a stack, and
 stealth attacks.
+
+## Airdrops and airlifts (Phase 4)
+
+- **Airdrop:** a unit with the airdrop action (Paratroopers) that has not moved this turn
+  jumps from one of your cities onto any known, free land tile within its operational
+  range (not a foreign city). It lands with no movement left.
+- **Airlift:** a unit with the airlift action that has not moved flies from one of your
+  cities with an airport (or what acts as one) to another; each airport sends out one
+  unit per turn. The unit arrives with no movement left.
+
+## Stealth attack (Phase 4)
+
+Units with the stealth attack action (submarines, stealth aircraft) pick which unit of a
+stack they fight instead of meeting its best defender (`moveUnit` with `defender`). Air
+units with the action still bomb the whole stack; choosing a target for them is open.

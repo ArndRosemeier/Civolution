@@ -17,6 +17,7 @@ import { cityAt } from './territory.ts';
 import type { Tx } from './tx.ts';
 import { carryAlong, cargoOf, isArmy, newUnit, transportFor } from './units.ts';
 import { reveal, unitSight } from './vision.ts';
+import { meetAround } from './diplomacy.ts';
 
 /** Gold for destroying a barbarian camp (docs/rules/barbarians.md). */
 export const CAMP_GOLD = 25;
@@ -44,7 +45,9 @@ export function moveUnitTo(rules: Rules, tx: Tx, unitId: number, to: number, cos
     tx.emit({ type: 'zoneOfControl', unit: unitId, player: u.owner, from, to, by: zoc });
     zocShots(rules, tx, unitId, zoc);
   }
-  reveal(tx, u.owner, unitSight(rules, tx.state, u));
+  const sight = unitSight(rules, tx.state, u);
+  reveal(tx, u.owner, sight);
+  meetAround(tx, u.owner, sight);
   const flags = tx.state.map.flags[to]!;
   if (rule.domain === 'land' && !water) {
     if (flags & FLAG_HUT) enterHut(rules, tx, unitId, to);
@@ -136,6 +139,7 @@ export function canHostBarbarian(rules: Rules, tx: Tx, t: number): boolean {
 
 /** Moves a unit along its goto order as far as its movement allows. */
 export function continueGoto(rules: Rules, tx: Tx, unitId: number): void {
+  let route: number[] = [];
   for (let guard = 0; guard < 1000; guard++) {
     const u = tx.state.units[unitId];
     if (!u || u.order?.type !== 'goto') return;
@@ -146,14 +150,20 @@ export function continueGoto(rules: Rules, tx: Tx, unitId: number): void {
       return;
     }
     if (u.movesLeft <= 0) return;
-    const path = findPath(rules, tx.state, u, target);
-    const next = path?.tiles[0];
-    const check = next === undefined ? null : checkMove(rules, tx.state, u, next);
+    // Follow the planned route; plan (again) when there is none or the next step is refused.
+    let next = route[0];
+    let check = next === undefined ? null : checkMove(rules, tx.state, u, next);
+    if (next === undefined || !check?.ok) {
+      route = findPath(rules, tx.state, u, target)?.tiles ?? [];
+      next = route[0];
+      check = next === undefined ? null : checkMove(rules, tx.state, u, next);
+    }
     if (next === undefined || !check?.ok) {
       tx.unit(unitId).order = null;
       tx.emit({ type: 'gotoFinished', unit: unitId, player: u.owner, arrived: false });
       return;
     }
+    route = route.slice(1);
     moveUnitTo(rules, tx, unitId, next, check.cost);
   }
 }

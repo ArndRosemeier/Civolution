@@ -3,17 +3,12 @@
  * invariant checks after every turn, a command log for replays and a machine-readable
  * report.
  */
+import { takeTurn as aiTakeTurn, respond as aiRespond } from '@civolution/ai';
 import { planEmpire, runRoutines } from '@civolution/automation';
 import {
   apply,
-  attackBlocker,
-  buildOptions,
-  distance,
-  findPath,
-  neighbours,
-  previewAttack,
-  type City,
   checkInvariants,
+  score,
   createGame,
   exploredCount,
   IMP_ROAD,
@@ -26,6 +21,7 @@ import {
   type Command,
   type GameState,
   type NewGameOptions,
+  type Proposal,
   type Rules,
 } from '@civolution/engine';
 
@@ -33,6 +29,13 @@ import {
 export interface Controller {
   id: string;
   takeTurn(rules: Rules, state: GameState, player: number, act: (cmd: Command) => GameState): void;
+  /** Answers an offer made to this player; players without it decline everything. */
+  respond?(rules: Rules, state: GameState, player: number, proposal: Proposal): boolean;
+  /**
+   * Refused commands are counted rather than fatal (the AI tries things the engine may
+   * turn down, such as a route that just closed); `act` then returns the unchanged state.
+   */
+  lenient?: boolean;
 }
 
 /** Does nothing but end its turn. */
@@ -90,95 +93,10 @@ function manageUnits(rules: Rules, state: GameState, player: number, act: (cmd: 
   for (const cmd of run.commands) act(cmd);
 }
 
-/** The strongest attacker a city can build now, or null. */
-function bestAttacker(rules: Rules, state: GameState, city: City): string | null {
-  const options = buildOptions(rules, state, city)
-    .filter((o) => o.blocker === null && o.build.kind === 'unit')
-    .map((o) => rules.unit(o.build.id))
-    .filter((u) => u.domain === 'land' && u.attack > u.defence && u.populationCost === 0)
-    .sort((a, b) => b.attack - a.attack || a.shieldCost - b.shieldCost || a.id.localeCompare(b.id));
-  return options[0]?.id ?? null;
-}
+/** The computer player (@civolution/ai). */
+export const ai: Controller = { id: 'ai', lenient: true, takeTurn: aiTakeTurn, respond: aiRespond };
 
-/**
- * Conqueror: the builder's economy, then an army of attackers sent against the nearest
- * civilization from turn 40 on. Exercises combat, capture and war weariness in
- * headless games; the real AI arrives in Phase 4.
- */
-export const conqueror: Controller = {
-  id: 'conqueror',
-  takeTurn(rules, state, player, act) {
-    const p = state.players[player]!;
-    const atWarWith = p.atWarWith.filter((x) => state.players[x]?.alive);
-    for (const cmd of planEmpire(rules, state, player)) {
-      if (cmd.type === 'disband' && atWarWith.length > 0) continue;
-      state = act(cmd);
-    }
-    const mine = playerCities(state, player);
-    if (mine.length === 0) {
-      manageUnits(rules, state, player, act);
-      return;
-    }
-    const capital = mine.find((c) => 'palace' in c.buildings) ?? mine[0]!;
-    // Pick a war once the empire stands.
-    if (state.turn >= 40 && atWarWith.length === 0) {
-      const rivals = state.players
-        .filter((q) => q.alive && !q.barbarian && q.id !== player && playerCities(state, q.id).length > 0)
-        .map((q) => ({ q, d: Math.min(...playerCities(state, q.id).map((c) => distance(state.map, c.tile, capital.tile))) }))
-        .sort((a, b) => a.d - b.d || a.q.id - b.q.id);
-      const target = rivals[0];
-      if (target) state = act({ type: 'declareWar', player, target: target.q.id, reason: 'Scripted conqueror: nearest rival' });
-    }
-    // Cities beyond the capital train attackers once they hold a defender.
-    if (state.turn >= 30) {
-      for (const c of playerCities(state, player)) {
-        if (c.id === capital.id || (c.build?.kind === 'building' && c.shields > 0)) continue;
-        const defended = playerUnits(state, player).some((u) => u.tile === c.tile && rules.unit(u.type).defence >= rules.unit(u.type).attack && rules.unit(u.type).defence > 0);
-        if (!defended) continue;
-        const unit = bestAttacker(rules, state, c);
-        if (unit && !(c.build?.kind === 'unit' && c.build.id === unit)) state = act({ type: 'setBuild', player, city: c.id, build: { kind: 'unit', id: unit }, reason: 'Scripted conqueror: attackers' });
-      }
-    }
-    const enemies = state.players[player]!.atWarWith;
-    const targets = Object.values(state.cities).filter((c) => enemies.includes(c.owner)).sort((a, b) => a.id - b.id);
-    for (const u0 of playerUnits(state, player)) {
-      const u = state.units[u0.id];
-      if (!u || u.carriedBy !== null) continue;
-      const r = rules.unit(u.type);
-      if (r.domain !== 'land' || r.attack <= r.defence || targets.length === 0) continue;
-      if (u.routine) state = act({ type: 'setRoutine', player, unit: u.id, routine: null, reason: 'Scripted conqueror: to war' });
-      for (let step = 0; step < 4; step++) {
-        const v = state.units[u.id];
-        if (!v || v.movesLeft <= 0) break;
-        // Attack a neighbouring enemy when the odds are good enough.
-        const near = neighbours(state.map, v.tile)
-          .filter((t) => Object.values(state.units).some((x) => x.tile === t && enemies.includes(x.owner)) || targets.some((c) => c.tile === t))
-          .sort((a, b) => a - b);
-        let acted = false;
-        for (const t of near) {
-          if (attackBlocker(rules, state, v, t)) continue;
-          const preview = previewAttack(rules, state, v, t);
-          if (preview && preview.odds.attackerWins < 0.45) continue;
-          state = act({ type: 'moveUnit', player, unit: v.id, to: t, reason: 'Scripted conqueror: attack' });
-          acted = true;
-          break;
-        }
-        if (acted) continue;
-        const goal = [...targets].sort((a, b) => distance(state.map, a.tile, v.tile) - distance(state.map, b.tile, v.tile) || a.id - b.id)[0]!;
-        const approach = neighbours(state.map, goal.tile)
-          .sort((a, b) => distance(state.map, a, v.tile) - distance(state.map, b, v.tile) || a - b)
-          .slice(0, 3)
-          .find((t) => t === v.tile || findPath(rules, state, v, t) !== null);
-        if (approach === undefined || approach === v.tile) break;
-        state = act({ type: 'goto', player, unit: v.id, to: approach, reason: `Scripted conqueror: marching on ${goal.name}` });
-        break;
-      }
-    }
-    manageUnits(rules, state, player, act);
-  },
-};
-
-export const CONTROLLERS: Record<string, Controller> = { idle, explorer, builder, conqueror };
+export const CONTROLLERS: Record<string, Controller> = { idle, explorer, builder, ai };
 
 export interface SimOptions {
   rules: Rules;
@@ -208,6 +126,10 @@ export interface SimReport {
     era: string;
     government: string;
     culture: number;
+    score: number;
+    alive: boolean;
+    reputation: number;
+    contacts: number;
   }[];
   /** Year at the end of the run. */
   year: number;
@@ -215,8 +137,13 @@ export interface SimReport {
   commands: number;
   invariantFailures: { turn: number; problems: string[] }[];
   war: { battles: number; attackerWins: number; citiesCaptured: number; citiesDestroyed: number; unitsLost: number; leaders: number; barbarianCamps: number };
+  diplomacy: { wars: number; peaces: number; ceasefires: number; deals: number; proposals: number; rejected: number; treatiesBroken: number; contacts: number; missions: number; eliminated: number };
+  /** Commands lenient controllers sent that the engine refused. */
+  refused: number;
   finalHash: string;
   msPerTurn: number;
+  /** Slowest turn, in milliseconds (a stall shows here). */
+  maxMsPerTurn: number;
 }
 
 export interface SimResult {
@@ -231,9 +158,29 @@ export function runGame(opts: SimOptions, clock: () => number = () => 0): SimRes
   const log: Command[] = [];
   const failures: SimReport['invariantFailures'] = [];
   const war: SimReport['war'] = { battles: 0, attackerWins: 0, citiesCaptured: 0, citiesDestroyed: 0, unitsLost: 0, leaders: 0, barbarianCamps: 0 };
-  const act = (cmd: Command): GameState => {
+  const diplomacy: SimReport['diplomacy'] = { wars: 0, peaces: 0, ceasefires: 0, deals: 0, proposals: 0, rejected: 0, treatiesBroken: 0, contacts: 0, missions: 0, eliminated: 0 };
+  let refused = 0;
+  const act = (cmd: Command, lenient = false): GameState => {
     const r = apply(rules, state, cmd);
-    if (r.error) throw new Error(`turn ${state.turn}: ${cmd.type} by player ${cmd.player} rejected: ${r.error.message}`);
+    if (r.error) {
+      if (lenient) {
+        refused++;
+        return state;
+      }
+      throw new Error(`turn ${state.turn}: ${cmd.type} by player ${cmd.player} rejected: ${r.error.message}`);
+    }
+    for (const e of r.events) {
+      if (e.type === 'warDeclared') diplomacy.wars++;
+      else if (e.type === 'peaceMade') diplomacy.peaces++;
+      else if (e.type === 'ceasefireAgreed') diplomacy.ceasefires++;
+      else if (e.type === 'dealMade') diplomacy.deals++;
+      else if (e.type === 'dealProposed') diplomacy.proposals++;
+      else if (e.type === 'dealRejected') diplomacy.rejected++;
+      else if (e.type === 'treatyBroken') diplomacy.treatiesBroken++;
+      else if (e.type === 'contactMade') diplomacy.contacts++;
+      else if (e.type === 'espionage') diplomacy.missions++;
+      else if (e.type === 'playerEliminated') diplomacy.eliminated++;
+    }
     for (const e of r.events) {
       if (e.type === 'combat') {
         war.battles++;
@@ -246,20 +193,35 @@ export function runGame(opts: SimOptions, clock: () => number = () => 0): SimRes
     }
     state = r.state;
     log.push(cmd);
+    // Offers are answered on the spot by the recipient's controller (humans and scripts decline).
+    for (const e of r.events) {
+      if (e.type !== 'dealProposed') continue;
+      const proposal = state.diplomacy.proposals.find((p) => p.id === e.proposal);
+      if (!proposal) continue;
+      const responder = opts.controllers[proposal.to] ?? idle;
+      if (state.players[proposal.to]!.human) continue;
+      const accept = responder.respond?.(rules, state, proposal.to, proposal) ?? false;
+      act({ type: 'answerDeal', player: proposal.to, proposal: proposal.id, accept }, true);
+    }
     return state;
   };
   const started = clock();
   let played = 0;
+  let slowest = 0;
   for (let t = 0; t < opts.turns; t++) {
     played++;
+    const turnStart = clock();
     state.players.forEach((p, i) => {
       // Barbarians are moved by the engine at the end of the turn.
       if (!state.players[i]!.alive || p.barbarian) return;
       const controller = opts.controllers[i] ?? idle;
       // Routines replay their commands through `act`; feed them the current state.
-      controller.takeTurn(rules, state, i, (cmd) => act(cmd));
-      act({ type: 'endTurn', player: i });
+      controller.takeTurn(rules, state, i, (cmd) => act(cmd, controller.lenient === true));
+      // A counter-attack during its own turn can end a civilization (takeTurn replaced `state`).
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      if (state.players[i]!.alive && !state.players[i]!.endedTurn) act({ type: 'endTurn', player: i });
     });
+    slowest = Math.max(slowest, clock() - turnStart);
     if (opts.invariants !== false) {
       const problems = checkInvariants(rules, state);
       if (problems.length > 0) failures.push({ turn: state.turn, problems: problems.slice(0, 20) });
@@ -287,14 +249,21 @@ export function runGame(opts: SimOptions, clock: () => number = () => 0): SimRes
         era: rules.set.eras[p.era]!.id,
         government: p.government,
         culture: p.culture,
+        score: score(rules, state, i),
+        alive: p.alive,
+        reputation: p.reputation,
+        contacts: p.contacts.length,
       })),
       year: yearOf(rules, state.turn),
       roads: state.map.improvements.filter((x) => x & IMP_ROAD).length,
       commands: log.length,
       invariantFailures: failures,
       war,
+      diplomacy,
+      refused,
       finalHash: stateHash(state),
       msPerTurn: played > 0 ? Math.round(((clock() - started) / played) * 10) / 10 : 0,
+      maxMsPerTurn: Math.round(slowest * 10) / 10,
     },
   };
 }

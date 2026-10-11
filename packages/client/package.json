@@ -10,10 +10,10 @@
     "e2e": "playwright test"
   },
   "dependencies": {
+    "@civolution/ai": "workspace:*",
     "@civolution/automation": "workspace:*",
     "@civolution/engine": "workspace:*",
     "@civolution/rules": "workspace:*",
-    "@civolution/sim": "workspace:*",
     "comlink": "^4.4.2",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",

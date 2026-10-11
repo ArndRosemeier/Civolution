@@ -56,8 +56,14 @@ export function empireInfo(rules: Rules, state: GameState, player: number): Empi
   return info;
 }
 
+// Keyed by the terrain array, which a transaction copies before changing it (tx.mapArray
+// drops the entry for the copy), so land masses survive every write that leaves terrain be.
 const landCache = new WeakMap<number[], Int32Array>();
-registerCache((s) => landCache.delete(s.map.terrain));
+
+/** Forgets the land masses computed for a terrain array about to change. */
+export function invalidateLandMasses(terrain: number[]): void {
+  landCache.delete(terrain);
+}
 
 /** Connected land masses (ids from 0); water tiles get -1. */
 export function landMasses(rules: Rules, state: GameState): Int32Array {
@@ -224,7 +230,10 @@ function tradeNetwork(
 
   // Resources: on a network tile, or in a city's work area, inside the player's borders.
   const resources = new Map<number, Set<string>>();
-  for (const c of cities) if (!resources.has(component.get(c.id)!)) resources.set(component.get(c.id)!, new Set(p.resources));
+  // Scenario grants and resources delivered by deals reach every city.
+  const granted = [...p.resources];
+  for (const o of state.diplomacy.ongoing) if (o.to === player && o.item.kind === 'resource') granted.push(o.item.resource);
+  for (const c of cities) if (!resources.has(component.get(c.id)!)) resources.set(component.get(c.id)!, new Set(granted));
   const areaOf = new Map<number, number>();
   for (const c of cities) for (const t of cityRadiusTiles(m, c.tile)) if (!areaOf.has(t)) areaOf.set(t, component.get(c.id)!);
   for (let t = 0; t < n; t++) {

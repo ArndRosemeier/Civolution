@@ -281,3 +281,239 @@ img.rank {
   vertical-align: -3px;
   margin-right: 3px;
 }
+
+/* Phase 4: diplomacy, offers and leaders. */
+.dialog.wide:has(.diplomacy) {
+  width: min(1180px, calc(100vw - 32px));
+}
+.diplomacy {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 16px;
+  min-height: 480px;
+}
+@media (max-width: 760px) {
+  .diplomacy {
+    grid-template-columns: 1fr;
+  }
+}
+.civ-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 70vh;
+  overflow: auto;
+}
+.civ-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  padding: 6px 8px;
+}
+.civ-row.on {
+  border-color: var(--accent);
+  background: rgba(233, 185, 73, 0.1);
+}
+.civ-row-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.civ-row-text small {
+  color: var(--muted);
+  text-transform: capitalize;
+}
+.leader-portrait {
+  border-radius: 50%;
+  border: 3px solid var(--panel-border);
+  object-fit: cover;
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+.leader-portrait.mood-furious {
+  box-shadow: 0 0 0 3px var(--war), 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+.leader-portrait.mood-annoyed {
+  box-shadow: 0 0 0 3px var(--warn), 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+.leader-portrait.mood-polite {
+  box-shadow: 0 0 0 3px var(--accent-2), 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+.leader-portrait.mood-gracious {
+  box-shadow: 0 0 0 3px var(--win), 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+.leader-head {
+  display: grid;
+  grid-template-columns: auto 1fr minmax(160px, 220px);
+  gap: 16px;
+  align-items: start;
+  padding: 12px;
+  border-radius: var(--radius);
+  /* The chamber painting, dimmed so the text over it stays readable. */
+  background: linear-gradient(90deg, rgba(10, 14, 20, 0.94) 0%, rgba(10, 14, 20, 0.82) 55%, rgba(10, 14, 20, 0.9) 100%), url('/art/diplomacy/chamber.jpg') center / cover;
+  border: 1px solid var(--panel-border);
+}
+.leader-head p {
+  margin: 4px 0;
+}
+.leader-title {
+  margin: 0;
+  font-size: 22px;
+}
+.mood-reasons {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-variant-numeric: tabular-nums;
+}
+.mood-reasons .good {
+  color: var(--win);
+}
+.mood-reasons .bad {
+  color: var(--loss);
+}
+.badge.mood {
+  text-transform: capitalize;
+}
+.badge.mood-furious,
+.badge.rel-war {
+  color: var(--war);
+}
+.badge.mood-gracious,
+.badge.mood-polite,
+.badge.rel-peace {
+  color: var(--peace);
+}
+.badge.rel-ceasefire,
+.badge.mood-annoyed {
+  color: var(--retreat);
+}
+.tabs {
+  margin: 12px 0 4px;
+}
+.trade-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 760px) {
+  .trade-table {
+    grid-template-columns: 1fr;
+  }
+}
+.deal-items {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.deal-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px 3px 4px;
+  border-radius: 999px;
+  border: 1px solid var(--panel-border);
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 13px;
+}
+.deal-item img {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+}
+.deal-item .icon {
+  padding: 0 4px;
+  min-width: 0;
+}
+.item-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.item-picker select {
+  max-width: 100%;
+}
+.gold-input {
+  display: inline-flex;
+  gap: 4px;
+}
+.gold-input input {
+  width: 70px;
+}
+.leader-reply {
+  font-style: italic;
+  color: var(--accent);
+  margin: 12px 0 0;
+}
+.dialog-actions .spacer {
+  flex: 1;
+}
+.offer {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.offer p {
+  font-style: italic;
+  margin-top: 0;
+}
+.espionage .thumb {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
+.news-card .news-leader {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+.civ-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+  gap: 6px;
+  max-height: 220px;
+  overflow: auto;
+}
+.civ-picker button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 4px;
+}
+.civ-picker button.on {
+  border-color: var(--accent);
+  background: rgba(233, 185, 73, 0.12);
+}
+.civ-picker img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.civ-picker small {
+  color: var(--muted);
+  font-size: 11px;
+}
+td.cap {
+  text-transform: capitalize;
+}
+.diplomacy select,
+.espionage select {
+  font: inherit;
+  color: var(--text);
+  background: var(--panel-solid);
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  padding: 4px 6px;
+}

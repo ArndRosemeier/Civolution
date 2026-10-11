@@ -1,0 +1,17 @@
+{
+  "$comment": "Phase 4 sound effects (ByteDance Seed Audio on OpenRouter). Run: OPEN_ROUTER_KEY=... pnpm --filter @civolution/assets sounds -- --manifest manifests/phase4-sounds.json. Prompts get a 'The sound of' prefix automatically.",
+  "model": "bytedance-seed/seed-audio-1-0",
+  "outDir": "packages/client/public/audio",
+  "items": [
+    { "id": "first-contact", "prompt": "two distant horns answering each other across a wide valley, followed by a soft ceremonial drum roll, without voices, about three seconds", "variations": 2 },
+    { "id": "envoy-arrives", "prompt": "a herald's short brass fanfare and footsteps on a stone floor as heavy palace doors swing open, without voices, about two seconds", "variations": 2 },
+    { "id": "treaty-signed", "prompt": "a quill scratching across parchment, then a wax seal pressed down with a firm thud and a small bell chime, about two seconds", "variations": 3 },
+    { "id": "deal-declined", "prompt": "a heavy book closing on a wooden table and a chair pushed back across a stone floor, without voices, about one and a half seconds", "variations": 2 },
+    { "id": "embassy", "prompt": "a flag snapping in the wind on a tall pole, a rope pulley creaking and a short bright trumpet call, about two seconds", "variations": 2 },
+    { "id": "spy-success", "prompt": "a soft click of a lock opening, papers being slipped quickly into a leather satchel and quiet footsteps hurrying away, about two seconds", "variations": 2 },
+    { "id": "spy-caught", "prompt": "a guard's whistle, running footsteps on cobblestones and an iron cell door slamming shut, without voices, about two seconds", "variations": 2 },
+    { "id": "parachute", "prompt": "a propeller aircraft droning overhead and several parachutes snapping open in the wind, fabric fluttering, about three seconds", "variations": 2 },
+    { "id": "airlift", "prompt": "a large transport aircraft's engines roaring up for takeoff on a runway and climbing away, about three seconds", "variations": 2 },
+    { "id": "barbarian-landing", "prompt": "oars splashing, wooden boat hulls grinding onto a pebble beach, waves breaking and a rough war horn blown, without words, about three seconds", "variations": 2 }
+  ]
+}

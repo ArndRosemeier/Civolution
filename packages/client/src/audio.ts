@@ -68,6 +68,20 @@ const WAR_SOUNDS: Partial<Record<GameEvent['type'], string>> = {
   cityRaided: 'city-destroyed',
   leaderBorn: 'leader-born',
   playerEliminated: 'city-destroyed',
+  treatyBroken: 'war-declared',
+  ceasefireEnded: 'war-declared',
+  cityRevolted: 'city-captured',
+  barbarianLanding: 'barbarian-landing',
+};
+
+const DIPLOMACY_SOUNDS: Partial<Record<GameEvent['type'], string>> = {
+  contactMade: 'first-contact',
+  dealMade: 'treaty-signed',
+  ceasefireAgreed: 'treaty-signed',
+  dealRejected: 'deal-declined',
+  dealProposed: 'envoy-arrives',
+  airdrop: 'parachute',
+  airlift: 'airlift',
 };
 
 const SKIRMISH_SOUNDS: Partial<Record<GameEvent['type'], string>> = {
@@ -104,6 +118,16 @@ export function playEvents(events: readonly GameEvent[], human: number): void {
     const humanWon = (last.attackerPlayer === human) === attackerWon;
     // Presentation timing only.
     setTimeout(() => play(humanWon ? 'battle-won' : 'battle-lost'), 900);
+    return;
+  }
+  const spy = mine.find((e) => e.type === 'espionage');
+  if (spy?.type === 'espionage') {
+    play(spy.mission === 'embassy' ? 'embassy' : spy.success ? 'spy-success' : 'spy-caught');
+    return;
+  }
+  const talk = mine.find((e) => DIPLOMACY_SOUNDS[e.type]);
+  if (talk) {
+    play(DIPLOMACY_SOUNDS[talk.type]!);
     return;
   }
   const skirmish = mine.find((e) => SKIRMISH_SOUNDS[e.type]);

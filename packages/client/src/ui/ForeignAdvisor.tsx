@@ -1,20 +1,19 @@
 /**
- * The war room (F4): every civilization with war or peace, war weariness, and your
- * military at a glance. Diplomacy proper (treaties, trades, attitudes) arrives with the
- * rivals in Phase 4; until then war and peace are declared here.
+ * The war room (F3): every civilization met with war or peace, war weariness, and your
+ * military at a glance. Treaties, trades and peace talks are on the diplomacy screen (F4).
  */
-import { armyCount, armyLimit, campTiles, cargoOf, currentHp, isArmy, maxHp, playerCities, playerUnits } from '@civolution/engine';
+import { armyCount, armyLimit, attitude, campTiles, cargoOf, currentHp, isArmy, maxHp, playerCities, playerUnits, relation } from '@civolution/engine';
 import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
 import { Dialog } from './Dialog.tsx';
 
 export function ForeignAdvisor({ onClose }: { onClose: () => void }) {
   const snap = useGame((s) => s.snapshot)!;
-  const send = useGame((s) => s.send);
   const { state, human } = snap;
   const me = state.players[human]!;
   const gov = rules.government(me.government);
-  const rivals = state.players.filter((p) => p.id !== human && !p.barbarian);
+  const rivals = state.players.filter((p) => p.id !== human && !p.barbarian && me.contacts.includes(p.id));
+  const talk = (id: number) => useGame.getState().open({ kind: 'diplomacy', with: id });
   const barbarians = state.players.find((p) => p.barbarian);
   const totalWeariness = Object.values(me.weariness).reduce((a, x) => a + x, 0);
   const units = playerUnits(state, human).filter((u) => u.carriedBy === null || !isArmy(rules, state.units[u.carriedBy]!));
@@ -43,6 +42,7 @@ export function ForeignAdvisor({ onClose }: { onClose: () => void }) {
                 <th>Civilization</th>
                 <th>Cities</th>
                 <th>Status</th>
+                <th>Mood</th>
                 <th title="War weariness points your people feel against them">Weariness</th>
                 <th />
               </tr>
@@ -50,6 +50,7 @@ export function ForeignAdvisor({ onClose }: { onClose: () => void }) {
             <tbody>
               {rivals.map((p) => {
                 const war = me.atWarWith.includes(p.id);
+                const ceasefire = relation(state, human, p.id) === 'ceasefire';
                 return (
                   <tr key={p.id} className={p.alive ? '' : 'muted'}>
                     <td>
@@ -67,24 +68,25 @@ export function ForeignAdvisor({ onClose }: { onClose: () => void }) {
                       ) : (
                         <span className="badge peace">
                           <img src={`${import.meta.env.BASE_URL}art/war/peace.png`} alt="" onError={(e) => (e.currentTarget.style.display = 'none')} />
-                          At peace
+                          {ceasefire ? 'Ceasefire' : 'At peace'}
                         </span>
                       )}
                     </td>
+                    <td className="cap">{p.alive ? attitude(rules, state, p.id, human).level : '—'}</td>
                     <td>{me.weariness[p.id] ?? 0}</td>
                     <td>
-                      {p.alive &&
-                        (war ? (
-                          <button onClick={() => void send({ type: 'makePeace', target: p.id })}>Make peace</button>
-                        ) : (
-                          <button className="danger" onClick={() => confirm(`Declare war on ${p.name}?`) && void send({ type: 'declareWar', target: p.id })}>
-                            Declare war
-                          </button>
-                        ))}
+                      {p.alive && <button onClick={() => talk(p.id)}>{war ? 'Talk peace' : 'Talk'}</button>}
                     </td>
                   </tr>
                 );
               })}
+              {rivals.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="muted">
+                    No other civilization met yet.
+                  </td>
+                </tr>
+              )}
               {barbarians && (
                 <tr>
                   <td>
@@ -97,6 +99,7 @@ export function ForeignAdvisor({ onClose }: { onClose: () => void }) {
                       Always hostile
                     </span>
                   </td>
+                  <td>—</td>
                   <td>—</td>
                   <td className="muted small">Activity: {state.settings.barbarians}</td>
                 </tr>

@@ -1,0 +1,766 @@
+{
+  "$comment": "Phase 4 art, written by scripts/phase4-manifest.ts. Generate with: OPEN_ROUTER_KEY=... pnpm --filter @civolution/assets gen -- --manifest manifests/phase4.json. Reuses the Phase 1 style bible as the reference image.",
+  "modelPreference": [
+    "meta/muse-image",
+    "openai/gpt-image-2",
+    "google/gemini-2.5-flash-image",
+    "google/gemini-3-pro-image-preview",
+    "openai/gpt-image-1",
+    "black-forest-labs/flux-1.1-pro"
+  ],
+  "styleBible": {
+    "id": "styleBible",
+    "prompt": "A style reference sheet (no text) for a game's art direction. Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Show, arranged on one sheet: a small coastal landscape vignette with grassland, forest, hills and a snowy mountain; three round game icons (a wheat sheaf, a horse head, a gemstone) on medallions with bronze rims; a colour swatch row of the palette.",
+    "aspectRatio": "16:9",
+    "out": "packages/client/public/art/style-bible.png",
+    "post": {
+      "resize": 1600
+    },
+    "references": []
+  },
+  "styleSuffix": "Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+  "items": [
+    {
+      "id": "leader-romans",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a Roman emperor in his fifties with short grey hair and a laurel wreath, wearing a white toga with a purple border over a bronze cuirass, in a marble hall with red drapery. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/romans.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-egyptians",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: an Egyptian queen of the Ptolemaic era with dark braided hair, a golden vulture crown with a cobra and a broad jewelled collar, before sandstone columns painted with lotus motifs. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/egyptians.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-greeks",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a young Macedonian king with tousled golden hair, a bronze cuirass decorated with a gorgon head and a red cloak, before a sunlit Greek temple. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/greeks.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-babylonians",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: an ancient Mesopotamian king with a long curled black beard and a tall rounded cap, in fringed robes, before a blue glazed-brick wall with golden lions. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/babylonians.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-germans",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a nineteenth-century Prussian statesman with a bald head and a thick grey moustache, in a dark military coat with a high collar and a spiked helmet held at his side, in a wood-panelled study. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/germans.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-russians",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: an eighteenth-century Russian empress with powdered grey hair, a small jewelled crown and an ermine-trimmed blue sash over a silver gown, in a gilded palace hall. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/russians.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-chinese",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a twentieth-century Chinese leader in his sixties in a grey buttoned tunic suit, calm expression, before red lacquered columns and a misty landscape scroll. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/chinese.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-americans",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a tall nineteenth-century American president with a dark chin beard and no moustache, in a black frock coat and bow tie, in a study with a flag in the background. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/americans.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-japanese",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a Japanese shogun of the early seventeenth century in dark lacquered armour with a crested helmet beside him, seated before painted paper screens with pine trees. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/japanese.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-french",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a young French heroine of the fifteenth century with short dark hair in polished plate armour, holding a white banner with golden lilies, before a cathedral at dawn. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/french.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-indians",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: an Indian leader of the twentieth century, an elderly slight man with round spectacles and a white homespun shawl, smiling gently, before a spinning wheel and a sunlit courtyard. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/indians.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-persians",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: an ancient Persian king with a long square curled beard and a tall fluted crown, in purple and gold robes, before the columns of a palace with bull capitals. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/persians.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-aztecs",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: an Aztec emperor with a magnificent green quetzal-feather headdress, jade earspools and a turquoise cloak, before a stepped stone temple. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/aztecs.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-zulu",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a Zulu king of the early nineteenth century, powerful build, with a headband of leopard skin, feathers and a cowhide shield and short spear, on a grassy hillside. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/zulu.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-iroquois",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: an Iroquois statesman with a feathered gustoweh headdress, a wampum belt and a deerskin mantle, in an autumn forest by a longhouse. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/iroquois.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-english",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: an English queen of the sixteenth century with red curled hair, pale complexion, a jewelled ruffled collar and pearls, in a tapestried palace hall. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/english.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-mongols",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a Mongol khan with a weathered face and a long thin moustache, wearing a fur-trimmed helmet and lamellar armour, on the open steppe under a vast sky. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/mongols.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-spanish",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a Castilian queen of the fifteenth century with auburn hair under a gold circlet and a veil, in a deep red velvet gown, before a Moorish arch. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/spanish.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-vikings",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a Viking chieftain with a braided blond beard, an iron helmet without horns and a fur cloak, at the prow of a longship in a fjord. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/vikings.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-ottomans",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: an Ottoman sultan of the fourteenth century with a full dark beard and a large white turban, in a richly embroidered kaftan, before tiled arches. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/ottomans.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-celts",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a Celtic war chief with a long drooping moustache, a golden torc at the neck and a checked cloak, before a misty hill fort. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/celts.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-arabs",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: an early Arab caliph, a dignified elderly man with a white beard, a simple white headcloth and robes, in a courtyard with palm trees. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/arabs.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-carthaginians",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a Carthaginian general with curly black hair and beard, in a bronze helmet and a purple cloak, with war elephants and mountains behind. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/carthaginians.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-koreans",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a Korean king of the tenth century with a black winged hat and red dragon-embroidered robes, before a palace with curved tiled roofs. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/koreans.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-sumerians",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a legendary Sumerian king with a long braided beard and a golden helmet, bare-chested with a sheepskin skirt, before a mud-brick ziggurat. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/sumerians.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-hittites",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a Hittite king with a tall conical cap and a long robe, holding a curved staff, before a stone gate carved with lions. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/hittites.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-dutch",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a seventeenth-century Dutch prince with long dark curled hair, a lace collar and a steel breastplate with an orange sash, before a harbour full of tall ships. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/dutch.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-portuguese",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a Portuguese prince of the fifteenth century, a serious man with a dark moustache and a large black chaperon hat, before maps and a navigator's astrolabe. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/portuguese.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-byzantines",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a Byzantine empress with a jewelled crown hung with pearls and a purple robe embroidered in gold, before a golden mosaic. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/byzantines.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-inca",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: an Inca emperor with a royal fringe headband, large golden ear spools and a geometric tunic, before terraced mountains and stone walls. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/inca.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "leader-maya",
+      "prompt": "Painted head-and-shoulders portrait of a historical ruler for a strategy game's diplomacy screen: a Maya king with a towering jade and feather headdress and a jaguar-skin cape, before a white stone pyramid in the jungle. Facing the viewer, dignified, expressive, looking into the camera, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised but respectful, not a caricature. No text, no letters, no frame. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/leaders/maya.jpg",
+      "post": {
+        "resize": 320
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-chamber",
+      "prompt": "A grand council chamber for diplomacy in a strategy game: a long table with maps and candles under tall arched windows, banners of many colours without any emblems or writing hanging from the walls, warm evening light, empty of people. Wide composition with calm areas for interface panels. No text, no letters. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/diplomacy/chamber.jpg",
+      "post": {
+        "resize": 1280
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-gold",
+      "prompt": "Small round game icon: a small heap of gold coins, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/gold.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-goldPerTurn",
+      "prompt": "Small round game icon: a stack of gold coins beside a small hourglass, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/goldPerTurn.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-tech",
+      "prompt": "Small round game icon: an open book with a glowing quill and a small brass gear, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/tech.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-worldMap",
+      "prompt": "Small round game icon: a rolled-out parchment map with a compass rose, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/worldMap.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-contact",
+      "prompt": "Small round game icon: two hands reaching toward each other across a stylised globe, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/contact.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-embassy",
+      "prompt": "Small round game icon: a small classical embassy building with a flag on its roof, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/embassy.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-resource",
+      "prompt": "Small round game icon: a wooden crate with grapes, silk and an iron ingot spilling out, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/resource.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-city",
+      "prompt": "Small round game icon: a small walled city with towers on a hill, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/city.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-peace",
+      "prompt": "Small round game icon: a white dove with an olive branch, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/peace.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-ceasefire",
+      "prompt": "Small round game icon: a white flag on a spear planted in the ground, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/ceasefire.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-rightOfPassage",
+      "prompt": "Small round game icon: an open city gate with a road passing through, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/rightOfPassage.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-mutualProtection",
+      "prompt": "Small round game icon: two shields overlapping each other, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/mutualProtection.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-alliance",
+      "prompt": "Small round game icon: two crossed swords tied together with a ribbon, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/alliance.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-embargo",
+      "prompt": "Small round game icon: a padlocked chain across a cargo crate, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/embargo.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-investigateCity",
+      "prompt": "Small round game icon: a magnifying glass over a small city, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/investigateCity.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-stealTechnology",
+      "prompt": "Small round game icon: a hand in a dark glove taking a glowing scroll, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/stealTechnology.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-stealWorldMap",
+      "prompt": "Small round game icon: a dark-gloved hand rolling up a parchment map, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/stealWorldMap.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-plantSpy",
+      "prompt": "Small round game icon: a hooded figure in a dark cloak with a wide-brimmed hat, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/plantSpy.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-stealPlans",
+      "prompt": "Small round game icon: a folded battle plan with little unit markers and a candle, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/stealPlans.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-propaganda",
+      "prompt": "Small round game icon: a speaking trumpet with leaflets fluttering out, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/propaganda.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-sabotageProduction",
+      "prompt": "Small round game icon: a broken cogwheel with a lit fuse, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/sabotageProduction.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "diplomacy-exposeEnemySpy",
+      "prompt": "Small round game icon: a lantern lighting up a cloaked figure in a dark alley, centered on a round deep navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. No text, no letters, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/diplomacy/exposeEnemySpy.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-contactMade",
+      "prompt": "Painted illustration for a headline in a strategy game: two groups of travellers from different lands meeting on a hilltop road at sunrise, one raising an open hand in greeting. Wide cinematic composition, dramatic but not gory, no close-up faces. No text, no letters, no lettering on banners or parchment. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/contactMade.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-ceasefireEnded",
+      "prompt": "Painted illustration for a headline in a strategy game: soldiers taking down a white flag and picking up their spears again at the edge of a quiet battlefield at dusk. Wide cinematic composition, dramatic but not gory, no close-up faces. No text, no letters, no lettering on banners or parchment. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/ceasefireEnded.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-treatyBroken",
+      "prompt": "Painted illustration for a headline in a strategy game: a torn treaty parchment with a broken wax seal lying on a council table, a dagger stuck through it, candles guttering. Wide cinematic composition, dramatic but not gory, no close-up faces. No text, no letters, no lettering on banners or parchment. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/treatyBroken.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-cityRevolted",
+      "prompt": "Painted illustration for a headline in a strategy game: townspeople in a city square raising a new banner over the gate while the old one is lowered, crowds cheering. Wide cinematic composition, dramatic but not gory, no close-up faces. No text, no letters, no lettering on banners or parchment. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/cityRevolted.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-barbarianLanding",
+      "prompt": "Painted illustration for a headline in a strategy game: longboats of barbarian raiders running onto a beach below a coastal town, warriors leaping into the surf. Wide cinematic composition, dramatic but not gory, no close-up faces. No text, no letters, no lettering on banners or parchment. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/barbarianLanding.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-spyCaught",
+      "prompt": "Painted illustration for a headline in a strategy game: a cloaked spy caught by lantern light by two city guards in a narrow cobbled alley at night. Wide cinematic composition, dramatic but not gory, no close-up faces. No text, no letters, no lettering on banners or parchment. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/spyCaught.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    }
+  ]
+}

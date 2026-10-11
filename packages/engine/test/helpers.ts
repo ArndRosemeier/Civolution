@@ -14,14 +14,11 @@ import {
 export const rules = indexRules(conquests);
 
 /** A Tiny map with two players, then flattened to grassland around (20, 20) for hand-built cases. */
-export function flatGame(seed = 1): GameState {
+export function flatGame(seed = 1, count = 2): GameState {
   const s = createGame(rules, {
     seed,
     map: { worldSize: 'tiny' },
-    players: [
-      { name: 'A', color: PLAYER_COLORS[0]!, human: true },
-      { name: 'B', color: PLAYER_COLORS[1]!, human: false },
-    ],
+    players: Array.from({ length: count }, (_, i) => ({ name: String.fromCharCode(65 + i), color: PLAYER_COLORS[i]!, human: i === 0 })),
   });
   const grass = rules.terrainIndex('grassland');
   const n = s.map.terrain.length;
@@ -35,8 +32,9 @@ export function flatGame(seed = 1): GameState {
     flags: new Array<number>(n).fill(0),
     territory: new Array<number>(n).fill(-1),
   };
-  // Everyone sees everything, no units yet.
-  const players = s.players.map((p) => ({ ...p, explored: p.explored.map(() => 0xffffffff) }));
+  // Everyone sees everything and has met everyone, no units yet.
+  const civs = s.players.filter((p) => !p.barbarian).map((p) => p.id);
+  const players = s.players.map((p) => ({ ...p, explored: p.explored.map(() => 0xffffffff), contacts: p.barbarian ? [] : civs.filter((x) => x !== p.id) }));
   return { ...s, map, players, units: {}, nextUnitId: 1 };
 }
 

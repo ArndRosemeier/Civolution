@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PLAYER_COLORS } from '@civolution/engine';
+import { makeRng, PLAYER_COLORS } from '@civolution/engine';
 import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
 import { Dialog } from './Dialog.tsx';
@@ -67,10 +67,18 @@ export function NewGameDialog({ onClose }: { onClose: () => void }) {
   const [scout, setScout] = useState(true);
   const [seed, setSeed] = useState(() => Math.floor(Math.random() * 1_000_000));
   const [difficulty, setDifficulty] = useState(rules.set.general.defaultDifficulty);
+  const civs = rules.set.civs;
+  const [civ, setCiv] = useState<string>(() => civs[Math.floor(Math.random() * civs.length)]!.id);
 
   const start = async () => {
-    const players = Array.from({ length: rivals + 1 }, (_, i) => ({
-      name: i === 0 ? 'Your people' : `Rival ${i}`,
+    // Rivals get distinct civilizations, drawn from the map seed.
+    const rng = makeRng(seed ^ 0x63697673);
+    const pool = civs.map((c) => c.id).filter((id) => id !== civ);
+    const picks = [civ];
+    for (let i = 0; i < rivals && pool.length > 0; i++) picks.push(pool.splice(rng.int(pool.length), 1)[0]!);
+    const players = picks.map((id, i) => ({
+      name: rules.civ(id).name,
+      civ: id,
       color: PLAYER_COLORS[i % PLAYER_COLORS.length]!,
       human: i === 0,
     }));
@@ -115,6 +123,18 @@ export function NewGameDialog({ onClose }: { onClose: () => void }) {
       <Segmented label="Climate" options={CLIMATE} value={climate} onChange={setClimate} />
       <Segmented label="Temperature" options={TEMP} value={temp} onChange={setTemp} />
       <Segmented label="Age" options={AGE} value={age} onChange={setAge} />
+      <div className="field">
+        <span className="field-label">Civilization</span>
+        <div className="civ-picker" role="radiogroup" aria-label="Civilization">
+          {civs.map((c) => (
+            <button key={c.id} role="radio" aria-checked={civ === c.id} className={civ === c.id ? 'on' : ''} onClick={() => setCiv(c.id)} title={`${c.leaderTitle} ${c.leader} · ${c.traits.join(', ')}`}>
+              <img src={`${import.meta.env.BASE_URL}art/leaders/${c.id}.jpg`} alt="" onError={(e) => (e.currentTarget.style.visibility = 'hidden')} />
+              <span>{c.name}</span>
+              <small>{c.leader}</small>
+            </button>
+          ))}
+        </div>
+      </div>
       <Segmented label="Difficulty" options={rules.set.difficulties.map((d) => ({ value: d.id, label: d.name }))} value={difficulty} onChange={setDifficulty} />
       <div className="field row">
         <label>
@@ -130,7 +150,7 @@ export function NewGameDialog({ onClose }: { onClose: () => void }) {
           Start with a scout
         </label>
       </div>
-      <p className="hint">Rivals build their own empires but cannot meet you yet: contact, combat and diplomacy arrive in later phases.</p>
+      <p className="hint">Rivals are computer players with their own leaders' temper: they expand, trade, make alliances and go to war. You meet them as your explorers and borders reach theirs.</p>
       <div className="dialog-actions">
         <button onClick={onClose}>Cancel</button>
         <button className="primary" disabled={busy} onClick={() => void start()}>

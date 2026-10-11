@@ -36,6 +36,22 @@ importers:
         specifier: ^3.2.7
         version: 3.2.7(@types/node@24.19.2)(supports-color@7.2.0)(tsx@4.23.15)
 
+  packages/ai:
+    dependencies:
+      '@civolution/automation':
+        specifier: workspace:*
+        version: link:../automation
+      '@civolution/data-schema':
+        specifier: workspace:*
+        version: link:../data-schema
+      '@civolution/engine':
+        specifier: workspace:*
+        version: link:../engine
+    devDependencies:
+      '@civolution/rules':
+        specifier: workspace:*
+        version: link:../rules
+
   packages/assets:
     dependencies:
       '@civolution/engine':
@@ -63,6 +79,9 @@ importers:
 
   packages/client:
     dependencies:
+      '@civolution/ai':
+        specifier: workspace:*
+        version: link:../ai
       '@civolution/automation':
         specifier: workspace:*
         version: link:../automation
@@ -72,9 +91,6 @@ importers:
       '@civolution/rules':
         specifier: workspace:*
         version: link:../rules
-      '@civolution/sim':
-        specifier: workspace:*
-        version: link:../sim
       comlink:
         specifier: ^4.4.2
         version: 4.4.2
@@ -137,6 +153,9 @@ importers:
 
   packages/sim:
     dependencies:
+      '@civolution/ai':
+        specifier: workspace:*
+        version: link:../ai
       '@civolution/automation':
         specifier: workspace:*
         version: link:../automation

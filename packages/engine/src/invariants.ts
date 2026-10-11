@@ -190,3 +190,39 @@ invariants.push({
 export function checkInvariants(rules: Rules, state: GameState): string[] {
   return invariants.flatMap((inv) => inv.check(rules, state).map((msg) => `[${inv.id}] ${msg}`));
 }
+
+invariants.push({
+  id: 'diplomacy',
+  check(rules, s) {
+    const out: string[] = [];
+    s.players.forEach((p, i) => {
+      if (p.reputation < 0 || p.reputation > 100) out.push(`player ${i}: reputation ${p.reputation}`);
+      for (const o of p.contacts) {
+        if (o === i || s.players[o]?.barbarian) out.push(`player ${i}: contact with ${o}`);
+        else if (!s.players[o]?.contacts.includes(i)) out.push(`player ${i} has met ${o} but not the other way round`);
+      }
+      if (p.barbarian && p.contacts.length > 0) out.push('the barbarians have contacts');
+      for (const e of p.atWarWith) {
+        if (!s.players[e]?.barbarian && !p.contacts.includes(e) && p.alive && s.players[e]?.alive) out.push(`player ${i} is at war with ${e} without contact`);
+        if (p.alive && s.players[e]?.alive && !(String(e) in p.warSince)) out.push(`player ${i}: no start turn for the war with ${e}`);
+      }
+      for (const [k, v] of Object.entries(p.memory)) if (v < -100 || v > 100 || Number(k) === i) out.push(`player ${i}: memory ${v} of ${k}`);
+    });
+    const seen = new Set<string>();
+    for (const t of s.diplomacy.treaties) {
+      const [a, b] = t.parties;
+      if (a >= b) out.push(`treaty ${t.id}: parties out of order`);
+      if (t.id >= s.diplomacy.nextId) out.push(`treaty ${t.id} is not below nextId`);
+      const key = `${t.kind}:${a}:${b}:${t.against ?? ''}`;
+      if (seen.has(key)) out.push(`treaty ${t.kind} between ${a} and ${b} twice`);
+      seen.add(key);
+      const war = s.players[a]?.atWarWith.includes(b);
+      if (war && t.kind !== 'embargo') out.push(`treaty ${t.kind} between ${a} and ${b} while at war`);
+    }
+    for (const o of s.diplomacy.ongoing) {
+      if (o.from === o.to) out.push(`ongoing deal ${o.id} with itself`);
+      if (o.item.kind === 'resource' && !rules.resources.some((r) => r.id === (o.item as { resource: string }).resource)) out.push(`ongoing deal ${o.id}: unknown resource`);
+    }
+    return out;
+  },
+});

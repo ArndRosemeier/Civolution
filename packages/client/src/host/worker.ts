@@ -18,13 +18,14 @@ import {
   tileCount,
   visibleTiles,
   type Command,
+  type Deal,
   type GameEvent,
   type GameState,
   type NewGameOptions,
   type Unit,
 } from '@civolution/engine';
 import { conquests } from '@civolution/rules';
-import { conqueror } from '@civolution/sim';
+import { balance, respond, takeTurn } from '@civolution/ai';
 
 const rules = indexRules(conquests);
 
@@ -60,30 +61,37 @@ function stillAlive(s: GameState, i: number): boolean {
 }
 
 /**
- * Runs the AI players' turns and the human's routines for the new turn. Until the real
- * AI arrives (Phase 4) rivals are the scripted conqueror: they build, expand and, from
- * turn 40, go to war with their nearest neighbour.
+ * Applies a command; an offer to an AI player is answered on the spot by that player's
+ * AI (offers to the human wait in the state for the UI). Returns the error, if any.
  */
+function applyCommand(cmd: Command, events: GameEvent[]): string | undefined {
+  const r = apply(rules, current(), cmd);
+  if (r.error) return r.error.message;
+  state = r.state;
+  events.push(...r.events);
+  for (const e of r.events) {
+    if (e.type !== 'dealProposed') continue;
+    const s = current();
+    const proposal = s.diplomacy.proposals.find((p) => p.id === e.proposal);
+    if (!proposal || s.players[proposal.to]!.human) continue;
+    applyCommand({ type: 'answerDeal', player: proposal.to, proposal: proposal.id, accept: respond(rules, s, proposal.to, proposal) }, events);
+  }
+  return undefined;
+}
+
+/** Runs the AI players' turns (@civolution/ai), then the human's routines for the new turn. */
 function finishRound(events: GameEvent[]): void {
-  let s = current();
-  s.players.forEach((p, i) => {
-    if (i === human || !s.players[i]!.alive || p.endedTurn || p.barbarian) return;
-    conqueror.takeTurn(rules, s, i, (cmd) => {
-      const r = apply(rules, s, cmd);
-      if (!r.error) {
-        s = r.state;
-        events.push(...r.events);
-      }
-      return s;
+  current().players.forEach((p, i) => {
+    const s = current();
+    if (i === human || !s.players[i]!.alive || s.players[i]!.endedTurn || p.barbarian) return;
+    takeTurn(rules, s, i, (cmd) => {
+      applyCommand(cmd, events);
+      return current();
     });
-    if (!stillAlive(s, i)) return;
-    const r = apply(rules, s, { type: 'endTurn', player: i });
-    if (!r.error) {
-      s = r.state;
-      events.push(...r.events);
-    }
+    if (!stillAlive(current(), i)) return;
+    applyCommand({ type: 'endTurn', player: i }, events);
   });
-  const run = runRoutines(rules, s, human);
+  const run = runRoutines(rules, current(), human);
   state = run.state;
   events.push(...run.events);
 }
@@ -96,13 +104,12 @@ const host = {
   },
 
   command(cmd: Command): CommandResult {
-    const r = apply(rules, current(), cmd);
-    if (r.error) return { snapshot: snapshot(), events: [], error: r.error.message };
-    state = r.state;
-    const events = [...r.events];
+    const events: GameEvent[] = [];
+    const error = applyCommand(cmd, events);
+    if (error) return { snapshot: snapshot(), events: [], error };
     // Turning a routine on acts immediately rather than at the next turn.
     if (cmd.type === 'setRoutine' && cmd.routine) {
-      const run = runRoutines(rules, state, human);
+      const run = runRoutines(rules, current(), human);
       state = run.state;
       events.push(...run.events);
     }
@@ -116,6 +123,16 @@ const host = {
     const events = [...r.events];
     finishRound(events);
     return { snapshot: snapshot(), events };
+  },
+
+  /**
+   * The AI's view of a deal the human is about to offer: whether it would agree, and the
+   * deal topped up with what it would ask for ("What would you want for this?").
+   */
+  appraise(deal: Deal): { accepts: boolean; counter: Deal | null } {
+    const s = current();
+    const counter = balance(rules, s, deal.to, deal);
+    return { accepts: counter === deal, counter };
   },
 
   save(): string {
@@ -195,8 +212,9 @@ const host = {
     const spots = [...near.slice(0, 2), ...ring2.slice(0, 1)];
     for (const [i, t] of spots.entries()) put(other, i === 0 ? 'warrior' : i === 1 ? 'archer' : 'horseman', t);
     const players = s.players.map((p) => {
-      if (p.id === human) return { ...p, atWarWith: [...p.atWarWith, other], explored: p.explored.map(() => 0xffffffff) };
-      if (p.id === other) return { ...p, atWarWith: [...p.atWarWith, human] };
+      const met = (q: typeof p, o: number) => (q.contacts.includes(o) ? q.contacts : [...q.contacts, o].sort((a, b) => a - b));
+      if (p.id === human) return { ...p, atWarWith: [...p.atWarWith, other], warSince: { ...p.warSince, [other]: s.turn }, contacts: met(p, other), explored: p.explored.map(() => 0xffffffff) };
+      if (p.id === other) return { ...p, atWarWith: [...p.atWarWith, human], warSince: { ...p.warSince, [human]: s.turn }, contacts: met(p, human) };
       return p;
     });
     s = { ...s, units, nextUnitId: next, players };

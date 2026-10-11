@@ -247,10 +247,30 @@ Defaults picked where the plan left a choice, all documented in `docs/rules/`:
 - War and peace are immediate for both sides until Phase 4 diplomacy; barbarians are a
   player of their own, moved by the engine, and loot rather than hold cities.
 - War weariness is our own points model (battles, losses, cities; decays a tenth a turn).
-- Rival civilizations in the browser use the scripted `conqueror` player (builder economy,
-  war on the nearest rival from turn 40) until the Phase 4 AI replaces it.
-- Not yet: airdrops, airlifts, helicopter transport, stealth attack, hidden nationality,
-  barbarian landings, resistance and culture flips (Phase 6).
+- Rival civilizations in the browser used the scripted `conqueror` player until Phase 4.
+- Not yet: helicopter transport, hidden nationality, resistance and culture flips (Phase 6).
+
+### Phase 4 notes (rivals, alpha 0.002)
+
+Defaults picked where the plan left a choice ([diplomacy.md](rules/diplomacy.md),
+[espionage.md](rules/espionage.md), [ai-handicaps.md](rules/ai-handicaps.md), [ai.md](ai.md)):
+- Contact puts two civilizations at peace. A signed peace binds for 20 turns; declaring
+  war while bound costs 40 reputation (alliance 40, protection pact 30, ceasefire 25, right
+  of passage 20). Peace sends units home; ceasefires last 16 turns.
+- The difficulty's cost factor applies to AI research only; humans pay Regent's. Content
+  citizens are the same for everyone.
+- Espionage costs base cost × 3 × (era + 1); chances are ours, propaganda uses the rule
+  file's culture table.
+- Civilizations are curated from the rule file (names, leaders, aggression, governments,
+  build preferences); their traits, unique units and free techs take effect in Phase 6.
+- Results (`pnpm --filter @civolution/sim tournament`): AI beat a passive builder at
+  Monarch in 7 of 8 Tiny games (eliminated it in 6; island maps take up to 400 turns);
+  AI-only games on Small (4 civs) and Standard (8 civs) maps ran 500 turns with no
+  invariant failures at 20–80 ms a turn; Huge with 16 civs about 90–155 ms a turn.
+- For Phase 5: AI economies are slow (medieval to industrial by turn 500, the shared
+  Phase 2 city logic), stealth aircraft cannot pick a bombing target, traded resources need
+  no route between capitals yet, and the trade network recomputed after every command is
+  the largest remaining cost on big maps.
 
 ## 13. Deferred
 

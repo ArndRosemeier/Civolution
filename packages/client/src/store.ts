@@ -20,14 +20,31 @@ export interface LogEntry {
 }
 
 /** The open screen over the map, if any. */
-export type Panel = { kind: 'city'; id: number } | { kind: 'domestic' } | { kind: 'science' } | { kind: 'foreign' } | null;
+export type Panel = { kind: 'city'; id: number } | { kind: 'domestic' } | { kind: 'science' } | { kind: 'foreign' } | { kind: 'diplomacy'; with?: number } | null;
 
 /** A unit action waiting for its target tile. */
-export type AimAction = 'bombard' | 'bomb' | 'precisionBomb' | 'recon' | 'rebase' | 'nuke';
+export type AimAction = 'bombard' | 'bomb' | 'precisionBomb' | 'recon' | 'rebase' | 'nuke' | 'airdrop' | 'airlift';
 
 /** A headline event shown as a card over the map. */
 export interface News {
-  kind: 'warDeclared' | 'peaceMade' | 'cityCaptured' | 'cityLost' | 'cityDestroyed' | 'cityRaided' | 'nuclearStrike' | 'leaderBorn' | 'playerEliminated';
+  kind:
+    | 'warDeclared'
+    | 'peaceMade'
+    | 'cityCaptured'
+    | 'cityLost'
+    | 'cityDestroyed'
+    | 'cityRaided'
+    | 'nuclearStrike'
+    | 'leaderBorn'
+    | 'playerEliminated'
+    | 'contactMade'
+    | 'ceasefireEnded'
+    | 'treatyBroken'
+    | 'cityRevolted'
+    | 'barbarianLanding'
+    | 'spyCaught';
+  /** The civilization the news is about (its leader's portrait is shown). */
+  civ?: number;
   text: string;
   tile?: number;
 }
@@ -107,8 +124,14 @@ function headlines(snapshot: Snapshot, events: readonly GameEvent[]): News[] {
   for (const e of events) {
     const text = describeEvent(snapshot, e);
     if (!text) continue;
-    if (e.type === 'warDeclared' && e.target === h) out.push({ kind: 'warDeclared', text });
-    else if (e.type === 'peaceMade' && e.target === h) out.push({ kind: 'peaceMade', text });
+    if (e.type === 'warDeclared' && e.target === h) out.push({ kind: 'warDeclared', text, civ: e.player });
+    else if (e.type === 'peaceMade' && (e.target === h || e.player === h)) out.push({ kind: 'peaceMade', text, civ: e.player === h ? e.target : e.player });
+    else if (e.type === 'contactMade' && (e.player === h || e.other === h)) out.push({ kind: 'contactMade', text, civ: e.player === h ? e.other : e.player });
+    else if (e.type === 'ceasefireEnded' && (e.player === h || e.target === h)) out.push({ kind: 'ceasefireEnded', text, civ: e.player === h ? e.target : e.player });
+    else if (e.type === 'treatyBroken' && e.target === h) out.push({ kind: 'treatyBroken', text, civ: e.player });
+    else if (e.type === 'cityRevolted' && (e.player === h || e.from === h)) out.push({ kind: 'cityRevolted', text, tile: e.tile, civ: e.player === h ? e.from : e.player });
+    else if (e.type === 'barbarianLanding' && snapshot.state.cities[e.near]?.owner === h) out.push({ kind: 'barbarianLanding', text, tile: e.tile });
+    else if (e.type === 'espionage' && e.target === h && !e.success) out.push({ kind: 'spyCaught', text, civ: e.player });
     else if (e.type === 'cityCaptured' && e.player === h) out.push({ kind: 'cityCaptured', text, tile: e.tile });
     else if (e.type === 'cityCaptured' && e.from === h) out.push({ kind: 'cityLost', text, tile: e.tile });
     else if (e.type === 'cityDestroyed' && e.player === h) out.push({ kind: 'cityDestroyed', text, tile: e.tile });

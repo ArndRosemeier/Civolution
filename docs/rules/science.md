@@ -23,15 +23,16 @@ with the highest upkeep is sold and the debt is written off.
 
 ## Research cost
 
-Beakers for a tech = cost factor (rule file, in tens) × the difficulty's cost factor
-(Regent 10) × the world size's tech rate / 100 (Tiny 160 … Huge 400).
+Beakers for a tech = cost factor (rule file, in tens) × a cost factor × the world size's
+tech rate / 100 (Tiny 160 … Huge 400). Humans use Regent's factor (10) at every level;
+computer players use the difficulty's ([ai-handicaps.md](ai-handicaps.md)).
 Bronze Working on a Tiny map at Regent: 3 × 10 × 160 / 100 = 48 beakers.
 
 Research takes at least `minimumResearchTime` (4) turns per advance; beakers beyond the
 cost are lost when the advance arrives. After `maximumResearchTime` (50) turns on one
 advance it arrives regardless. Beakers collected without a target are kept for the next.
-Civ3 also makes a tech cheaper when known civilizations already have it; that waits for
-contact and diplomacy (Phase 4).
+A tech costs up to 30 % less when the civilizations you have met already know it
+([diplomacy.md](diplomacy.md)).
 
 ## Eras
 

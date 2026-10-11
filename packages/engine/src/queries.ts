@@ -84,6 +84,10 @@ export function emptyBitset(g: Grid): number[] {
   return new Array<number>(Math.ceil(tileCount(g) / 32)).fill(0);
 }
 
+function riverEdgeBetween(m: GameState['map'], a: number, b: number, dirAB: number): boolean {
+  return a >= 0 && b >= 0 && (m.rivers[a]! & DIR_EDGE[dirAB]!) !== 0;
+}
+
 /** Whether moving from `from` in direction `dir` crosses a river (docs/rules/movement.md). */
 export function crossesRiver(state: GameState, from: number, dir: number): boolean {
   const m = state.map;
@@ -95,11 +99,9 @@ export function crossesRiver(state: GameState, from: number, dir: number): boole
   const l = neighbour(m, from, left);
   const r = neighbour(m, from, right);
   const to = neighbour(m, from, dir);
-  const edgeBetween = (a: number, b: number, dirAB: number) => a >= 0 && b >= 0 && (m.rivers[a]! & DIR_EDGE[dirAB]!) !== 0;
   // from -> left neighbour is direction `left`; left -> to is direction `right` (the edge on the far side).
-  const viaLeft = edgeBetween(from, l, left) || edgeBetween(l, to, right);
-  const viaRight = edgeBetween(from, r, right) || edgeBetween(r, to, left);
-  return viaLeft && viaRight;
+  if (!(riverEdgeBetween(m, from, l, left) || riverEdgeBetween(m, l, to, right))) return false;
+  return riverEdgeBetween(m, from, r, right) || riverEdgeBetween(m, r, to, left);
 }
 
 /** Fresh water next to a tile: a river on its edges, or a lake or irrigated tile sharing an edge. */

@@ -68,6 +68,11 @@ from hand-written subjects): building and wonder icons (`art/buildings`), tech m
 (`art/people`), unit portraits for the build list (`art/units`). The UI hides a picture
 until its file exists.
 
+`manifests/phase4.json` (scripts/phase4-manifest.ts, 60 items): a portrait for each of the
+31 leaders (`art/leaders/<civ>.jpg`, painted as historical figures in our own words), the
+diplomacy chamber, icons for deal items, treaties and espionage missions
+(`art/diplomacy`), and headline illustrations for diplomatic news.
+
 ## Sound effects (OpenRouter, ByteDance Seed Audio)
 
 `src/sounds.ts` calls `POST /audio/speech` with `bytedance-seed/seed-audio-1-0` and writes
@@ -94,3 +99,6 @@ barbarian horn.
 unit and wonder complete, tech and era, disorder and celebration, revolution, borders,
 gold, hurry, UI clicks, end of turn). The client (`src/audio.ts`) plays one per batch of
 events and stays silent without the files.
+
+`manifests/phase4-sounds.json`: first contact, envoy, treaty signed, deal declined,
+embassy, spy success and capture, parachute drop, airlift, barbarian landing.

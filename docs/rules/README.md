@@ -30,13 +30,15 @@ interpreted.
 | [naval.md](naval.md) | Ships, ports, transports and cargo | draft (Phase 3) |
 | [armies.md](armies.md) | Great leaders and armies | draft (Phase 3) |
 | [capture.md](capture.md) | Capturing and razing cities, prizes, elimination | draft (Phase 3) |
-| [war-weariness.md](war-weariness.md) | War, peace and war weariness | draft (Phase 3) |
+| [war-weariness.md](war-weariness.md) | War weariness | draft (Phase 3) |
 | [nukes.md](nukes.md) | Nuclear weapons and missile defence | draft (Phase 3) |
 | [barbarians.md](barbarians.md) | Camps, raiders, tribal villages | draft (Phase 3) |
 | golden-age.md | Triggers and effects | to do (Phase 6) |
 | leaders.md | Scientific great leaders | to do (Phase 6) |
 | pollution.md | Pollution and global warming | to do (Phase 6) |
-| ai-handicaps.md | Difficulty-level handicaps | to do (Phase 4) |
+| [diplomacy.md](diplomacy.md) | Contact, war and peace, treaties, deals, reputation, attitude | draft (Phase 4) |
+| [espionage.md](espionage.md) | Embassies and espionage missions | draft (Phase 4) |
+| [ai-handicaps.md](ai-handicaps.md) | Difficulty-level handicaps for computer players | draft (Phase 4) |
 
 Page template:
 

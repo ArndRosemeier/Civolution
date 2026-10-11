@@ -1,5 +1,22 @@
 [
   {
+    "version": "0.002",
+    "date": "2026-10-11",
+    "title": "Rivals: computer leaders, diplomacy and espionage",
+    "items": [
+      "Play as one of 31 civilizations; every rival is led by a computer player with its own leader's temper, favourite government and build preferences.",
+      "The computer players expand, defend their cities, research, trade advances among themselves, form alliances, and raise armies that besiege and storm enemy cities.",
+      "Meet other civilizations as your explorers and borders reach theirs. The new diplomacy screen (F4) shows each leader's mood, from furious to gracious, and the reasons behind it.",
+      "Trade advances, gold, gold per turn, world maps, contacts, embassies, luxuries and strategic resources, even cities. Ask a leader \"What would you want?\" to hear their price.",
+      "Treaties: peace, ceasefires, right of passage, mutual protection pacts, alliances against a common enemy, and embargoes. Peace now needs the other side's agreement.",
+      "Reputation: breaking a fresh peace treaty or a pact is remembered by every civilization; defaulting on payments costs trust.",
+      "Espionage: open embassies, investigate cities, steal advances and world maps, plant spies, sabotage production and turn cities with propaganda.",
+      "Difficulty levels now give computer players Civ3's handicaps: extra start units, extra unit support and cheaper research at the higher levels.",
+      "Paratroopers jump from cities, units are airlifted between airports, submarines and stealth aircraft pick their targets, and barbarians land from the sea.",
+      "The war room moved to F3; advances already known to civilizations you have met cost less to research."
+    ]
+  },
+  {
     "version": "0.001",
     "date": "2026-10-11",
     "title": "First alpha: war comes to the world",

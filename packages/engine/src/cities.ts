@@ -59,6 +59,7 @@ export function newCity(rules: Rules, state: GameState, owner: number, tile: num
     hurried: false,
     wonderUnitTimer: 0,
     capturedOn: null,
+    airliftedOn: 0,
   };
 }
 
@@ -380,6 +381,11 @@ export function unitSupportCost(rules: Rules, state: GameState, player: number):
     const cls = c.size <= rules.set.general.maxTownSize ? 'town' : c.size <= rules.set.general.maxCitySize ? 'city' : 'metropolis';
     free += gov.freeUnits[cls];
   }
+  // AI players get the difficulty's extra support (docs/rules/ai-handicaps.md).
+  if (!p.human && !p.barbarian) {
+    const diff = rules.difficulty(state.difficulty);
+    free += diff.aiFreeUnitSupport + diff.aiBonusPerCity * playerCities(state, player).length;
+  }
   let military = 0;
   for (const u of Object.values(state.units)) {
     if (u.owner !== player) continue;
@@ -613,7 +619,7 @@ function research(rules: Rules, tx: Tx, player: number, beakers: number): void {
     return;
   }
   r.turns += 1;
-  const cost = techCost(rules, tx.state, r.tech);
+  const cost = techCost(rules, tx.state, r.tech, player);
   const done = (r.beakers >= cost && r.turns >= g.minimumResearchTime) || (g.maximumResearchTime > 0 && r.turns >= g.maximumResearchTime);
   if (!done) {
     tx.player(player).research = r;

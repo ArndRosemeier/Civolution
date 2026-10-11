@@ -11283,6 +11283,860 @@
       "attackBonusVsBarbarians": 0
     }
   ],
+  "civs": [
+    {
+      "id": "romans",
+      "name": "Rome",
+      "adjective": "Roman",
+      "noun": "Romans",
+      "leader": "Caesar",
+      "leaderTitle": "Emperor",
+      "leaderFemale": false,
+      "cultureGroup": "mediterranean",
+      "aggression": 1,
+      "favoriteGovernment": "republic",
+      "shunnedGovernment": "communism",
+      "traits": [
+        "militaristic",
+        "commercial"
+      ],
+      "buildOften": [
+        "offensiveLandUnits",
+        "defensiveLandUnits",
+        "growth",
+        "production"
+      ],
+      "buildNever": [],
+      "color": 1
+    },
+    {
+      "id": "egyptians",
+      "name": "Egypt",
+      "adjective": "Egyptian",
+      "noun": "Egyptians",
+      "leader": "Cleopatra",
+      "leaderTitle": "Queen",
+      "leaderFemale": true,
+      "cultureGroup": "mediterranean",
+      "aggression": 0,
+      "favoriteGovernment": "despotism",
+      "shunnedGovernment": "republic",
+      "traits": [
+        "religious",
+        "industrious"
+      ],
+      "buildOften": [
+        "growth",
+        "production",
+        "culture"
+      ],
+      "buildNever": [],
+      "color": 3
+    },
+    {
+      "id": "greeks",
+      "name": "Greece",
+      "adjective": "Greek",
+      "noun": "Greeks",
+      "leader": "Alexander",
+      "leaderTitle": "King",
+      "leaderFemale": false,
+      "cultureGroup": "mediterranean",
+      "aggression": 0,
+      "favoriteGovernment": "democracy",
+      "shunnedGovernment": "despotism",
+      "traits": [
+        "commercial",
+        "scientific"
+      ],
+      "buildOften": [
+        "navalUnits",
+        "science",
+        "trade",
+        "culture"
+      ],
+      "buildNever": [],
+      "color": 10
+    },
+    {
+      "id": "babylonians",
+      "name": "Babylon",
+      "adjective": "Babylonian",
+      "noun": "Babylonians",
+      "leader": "Hammurabi",
+      "leaderTitle": "King",
+      "leaderFemale": false,
+      "cultureGroup": "middleEastern",
+      "aggression": 0,
+      "favoriteGovernment": "monarchy",
+      "shunnedGovernment": "despotism",
+      "traits": [
+        "scientific",
+        "religious"
+      ],
+      "buildOften": [
+        "defensiveLandUnits",
+        "growth",
+        "science"
+      ],
+      "buildNever": [],
+      "color": 1
+    },
+    {
+      "id": "germans",
+      "name": "Germany",
+      "adjective": "German",
+      "noun": "Germans",
+      "leader": "Bismarck",
+      "leaderTitle": "Chancellor",
+      "leaderFemale": false,
+      "cultureGroup": "european",
+      "aggression": 2,
+      "favoriteGovernment": "republic",
+      "shunnedGovernment": "communism",
+      "traits": [
+        "militaristic",
+        "scientific"
+      ],
+      "buildOften": [
+        "offensiveLandUnits",
+        "science",
+        "culture"
+      ],
+      "buildNever": [],
+      "color": 6
+    },
+    {
+      "id": "russians",
+      "name": "Russia",
+      "adjective": "Russian",
+      "noun": "Russians",
+      "leader": "Catherine",
+      "leaderTitle": "Czarina",
+      "leaderFemale": true,
+      "cultureGroup": "european",
+      "aggression": 1,
+      "favoriteGovernment": "communism",
+      "shunnedGovernment": "democracy",
+      "traits": [
+        "expansionist",
+        "scientific"
+      ],
+      "buildOften": [
+        "airUnits",
+        "growth",
+        "science"
+      ],
+      "buildNever": [],
+      "color": 9
+    },
+    {
+      "id": "chinese",
+      "name": "China",
+      "adjective": "Chinese",
+      "noun": "Chinese",
+      "leader": "Mao",
+      "leaderTitle": "Chairman",
+      "leaderFemale": false,
+      "cultureGroup": "asian",
+      "aggression": -1,
+      "favoriteGovernment": "communism",
+      "shunnedGovernment": "feudalism",
+      "traits": [
+        "militaristic",
+        "industrious"
+      ],
+      "buildOften": [
+        "growth",
+        "production",
+        "science"
+      ],
+      "buildNever": [],
+      "color": 5
+    },
+    {
+      "id": "americans",
+      "name": "America",
+      "adjective": "American",
+      "noun": "Americans",
+      "leader": "Lincoln",
+      "leaderTitle": "President",
+      "leaderFemale": false,
+      "cultureGroup": "american",
+      "aggression": 0,
+      "favoriteGovernment": "democracy",
+      "shunnedGovernment": "communism",
+      "traits": [
+        "expansionist",
+        "industrious"
+      ],
+      "buildOften": [
+        "airUnits",
+        "growth",
+        "production",
+        "culture"
+      ],
+      "buildNever": [],
+      "color": 5
+    },
+    {
+      "id": "japanese",
+      "name": "Japan",
+      "adjective": "Japanese",
+      "noun": "Japanese",
+      "leader": "Tokugawa",
+      "leaderTitle": "Shogun",
+      "leaderFemale": false,
+      "cultureGroup": "asian",
+      "aggression": 1,
+      "favoriteGovernment": "feudalism",
+      "shunnedGovernment": "republic",
+      "traits": [
+        "militaristic",
+        "religious"
+      ],
+      "buildOften": [
+        "offensiveLandUnits",
+        "navalUnits",
+        "happiness"
+      ],
+      "buildNever": [],
+      "color": 4
+    },
+    {
+      "id": "french",
+      "name": "France",
+      "adjective": "French",
+      "noun": "French",
+      "leader": "Joan d'Arc",
+      "leaderTitle": "Saint",
+      "leaderFemale": true,
+      "cultureGroup": "european",
+      "aggression": -2,
+      "favoriteGovernment": "republic",
+      "shunnedGovernment": "fascism",
+      "traits": [
+        "commercial",
+        "industrious"
+      ],
+      "buildOften": [
+        "happiness",
+        "trade",
+        "culture"
+      ],
+      "buildNever": [],
+      "color": 7
+    },
+    {
+      "id": "indians",
+      "name": "India",
+      "adjective": "Indian",
+      "noun": "Indians",
+      "leader": "Gandhi",
+      "leaderTitle": "Mahatma",
+      "leaderFemale": false,
+      "cultureGroup": "asian",
+      "aggression": -2,
+      "favoriteGovernment": "democracy",
+      "shunnedGovernment": "despotism",
+      "traits": [
+        "commercial",
+        "religious"
+      ],
+      "buildOften": [
+        "growth",
+        "wealth",
+        "trade",
+        "culture"
+      ],
+      "buildNever": [],
+      "color": 8
+    },
+    {
+      "id": "persians",
+      "name": "Persia",
+      "adjective": "Persian",
+      "noun": "Persians",
+      "leader": "Xerxes",
+      "leaderTitle": "Emperor",
+      "leaderFemale": false,
+      "cultureGroup": "middleEastern",
+      "aggression": 1,
+      "favoriteGovernment": "monarchy",
+      "shunnedGovernment": "republic",
+      "traits": [
+        "scientific",
+        "industrious"
+      ],
+      "buildOften": [
+        "offensiveLandUnits",
+        "wealth",
+        "trade"
+      ],
+      "buildNever": [],
+      "color": 10
+    },
+    {
+      "id": "aztecs",
+      "name": "Aztecs",
+      "adjective": "Aztec",
+      "noun": "Aztecs",
+      "leader": "Montezuma",
+      "leaderTitle": "Chief",
+      "leaderFemale": false,
+      "cultureGroup": "american",
+      "aggression": 1,
+      "favoriteGovernment": "despotism",
+      "shunnedGovernment": "monarchy",
+      "traits": [
+        "militaristic",
+        "agricultural"
+      ],
+      "buildOften": [
+        "offensiveLandUnits",
+        "growth",
+        "explore"
+      ],
+      "buildNever": [],
+      "color": 4
+    },
+    {
+      "id": "zulu",
+      "name": "Zululand",
+      "adjective": "Zulu",
+      "noun": "Zulu",
+      "leader": "Shaka",
+      "leaderTitle": "Chief",
+      "leaderFemale": false,
+      "cultureGroup": "middleEastern",
+      "aggression": 2,
+      "favoriteGovernment": "despotism",
+      "shunnedGovernment": "republic",
+      "traits": [
+        "militaristic",
+        "expansionist"
+      ],
+      "buildOften": [
+        "offensiveLandUnits"
+      ],
+      "buildNever": [],
+      "color": 3
+    },
+    {
+      "id": "iroquois",
+      "name": "Iroquois",
+      "adjective": "Iroquois",
+      "noun": "Iroquois",
+      "leader": "Hiawatha",
+      "leaderTitle": "Chief",
+      "leaderFemale": false,
+      "cultureGroup": "american",
+      "aggression": -1,
+      "favoriteGovernment": "communism",
+      "shunnedGovernment": "monarchy",
+      "traits": [
+        "commercial",
+        "agricultural"
+      ],
+      "buildOften": [
+        "growth",
+        "production",
+        "trade"
+      ],
+      "buildNever": [],
+      "color": 8
+    },
+    {
+      "id": "english",
+      "name": "England",
+      "adjective": "English",
+      "noun": "English",
+      "leader": "Elizabeth",
+      "leaderTitle": "Queen",
+      "leaderFemale": true,
+      "cultureGroup": "european",
+      "aggression": 0,
+      "favoriteGovernment": "democracy",
+      "shunnedGovernment": "fascism",
+      "traits": [
+        "commercial",
+        "seafaring"
+      ],
+      "buildOften": [
+        "navalUnits",
+        "wealth",
+        "trade",
+        "culture"
+      ],
+      "buildNever": [],
+      "color": 2
+    },
+    {
+      "id": "mongols",
+      "name": "Mongols",
+      "adjective": "Mongol",
+      "noun": "Mongols",
+      "leader": "Temujin",
+      "leaderTitle": "Genghis Khan",
+      "leaderFemale": false,
+      "cultureGroup": "asian",
+      "aggression": 2,
+      "favoriteGovernment": "despotism",
+      "shunnedGovernment": "democracy",
+      "traits": [
+        "militaristic",
+        "expansionist"
+      ],
+      "buildOften": [
+        "offensiveLandUnits",
+        "production"
+      ],
+      "buildNever": [],
+      "color": 3
+    },
+    {
+      "id": "spanish",
+      "name": "Spain",
+      "adjective": "Spanish",
+      "noun": "Spanish",
+      "leader": "Isabella",
+      "leaderTitle": "Queen",
+      "leaderFemale": true,
+      "cultureGroup": "european",
+      "aggression": 0,
+      "favoriteGovernment": "monarchy",
+      "shunnedGovernment": "despotism",
+      "traits": [
+        "religious",
+        "seafaring"
+      ],
+      "buildOften": [
+        "navalUnits",
+        "trade",
+        "explore",
+        "culture"
+      ],
+      "buildNever": [],
+      "color": 5
+    },
+    {
+      "id": "vikings",
+      "name": "Scandinavia",
+      "adjective": "Viking",
+      "noun": "Vikings",
+      "leader": "Ragnar Lodbrok",
+      "leaderTitle": "King",
+      "leaderFemale": false,
+      "cultureGroup": "european",
+      "aggression": 1,
+      "favoriteGovernment": "monarchy",
+      "shunnedGovernment": "republic",
+      "traits": [
+        "militaristic",
+        "seafaring"
+      ],
+      "buildOften": [
+        "offensiveLandUnits",
+        "navalUnits"
+      ],
+      "buildNever": [],
+      "color": 8
+    },
+    {
+      "id": "ottomans",
+      "name": "Ottomans",
+      "adjective": "Ottoman",
+      "noun": "Ottomans",
+      "leader": "Osman",
+      "leaderTitle": "Sultan",
+      "leaderFemale": false,
+      "cultureGroup": "middleEastern",
+      "aggression": 0,
+      "favoriteGovernment": "republic",
+      "shunnedGovernment": "despotism",
+      "traits": [
+        "scientific",
+        "industrious"
+      ],
+      "buildOften": [
+        "artilleryLandUnits",
+        "happiness"
+      ],
+      "buildNever": [],
+      "color": 2
+    },
+    {
+      "id": "celts",
+      "name": "Celts",
+      "adjective": "Celtic",
+      "noun": "Celts",
+      "leader": "Brennus",
+      "leaderTitle": "King",
+      "leaderFemale": false,
+      "cultureGroup": "european",
+      "aggression": 1,
+      "favoriteGovernment": "despotism",
+      "shunnedGovernment": "feudalism",
+      "traits": [
+        "religious",
+        "agricultural"
+      ],
+      "buildOften": [
+        "offensiveLandUnits",
+        "production",
+        "culture"
+      ],
+      "buildNever": [],
+      "color": 4
+    },
+    {
+      "id": "arabs",
+      "name": "Arabia",
+      "adjective": "Arabic",
+      "noun": "Arabs",
+      "leader": "Abu Bakr",
+      "leaderTitle": "Caliph",
+      "leaderFemale": false,
+      "cultureGroup": "middleEastern",
+      "aggression": 1,
+      "favoriteGovernment": "republic",
+      "shunnedGovernment": "despotism",
+      "traits": [
+        "expansionist",
+        "religious"
+      ],
+      "buildOften": [
+        "growth",
+        "culture"
+      ],
+      "buildNever": [],
+      "color": 7
+    },
+    {
+      "id": "carthaginians",
+      "name": "Carthage",
+      "adjective": "Carthaginian",
+      "noun": "Carthaginians",
+      "leader": "Hannibal",
+      "leaderTitle": "General",
+      "leaderFemale": false,
+      "cultureGroup": "mediterranean",
+      "aggression": -1,
+      "favoriteGovernment": "republic",
+      "shunnedGovernment": "communism",
+      "traits": [
+        "industrious",
+        "seafaring"
+      ],
+      "buildOften": [
+        "navalUnits",
+        "growth"
+      ],
+      "buildNever": [],
+      "color": 9
+    },
+    {
+      "id": "koreans",
+      "name": "Korea",
+      "adjective": "Korean",
+      "noun": "Koreans",
+      "leader": "Wang Kon",
+      "leaderTitle": "King",
+      "leaderFemale": false,
+      "cultureGroup": "asian",
+      "aggression": -1,
+      "favoriteGovernment": "monarchy",
+      "shunnedGovernment": "republic",
+      "traits": [
+        "commercial",
+        "scientific"
+      ],
+      "buildOften": [
+        "artilleryLandUnits",
+        "wealth",
+        "trade"
+      ],
+      "buildNever": [],
+      "color": 6
+    },
+    {
+      "id": "sumerians",
+      "name": "Sumeria",
+      "adjective": "Sumerian",
+      "noun": "Sumerians",
+      "leader": "Gilgamesh",
+      "leaderTitle": "King",
+      "leaderFemale": false,
+      "cultureGroup": "middleEastern",
+      "aggression": -1,
+      "favoriteGovernment": "monarchy",
+      "shunnedGovernment": "republic",
+      "traits": [
+        "scientific",
+        "agricultural"
+      ],
+      "buildOften": [
+        "science",
+        "culture"
+      ],
+      "buildNever": [],
+      "color": 5
+    },
+    {
+      "id": "hittites",
+      "name": "Hittites",
+      "adjective": "Hittite",
+      "noun": "Hittites",
+      "leader": "Mursilis",
+      "leaderTitle": "King",
+      "leaderFemale": false,
+      "cultureGroup": "middleEastern",
+      "aggression": 1,
+      "favoriteGovernment": "fascism",
+      "shunnedGovernment": "republic",
+      "traits": [
+        "commercial",
+        "expansionist"
+      ],
+      "buildOften": [
+        "offensiveLandUnits",
+        "trade"
+      ],
+      "buildNever": [],
+      "color": 14
+    },
+    {
+      "id": "dutch",
+      "name": "Netherlands",
+      "adjective": "Dutch",
+      "noun": "Dutch",
+      "leader": "William",
+      "leaderTitle": "King",
+      "leaderFemale": false,
+      "cultureGroup": "european",
+      "aggression": 0,
+      "favoriteGovernment": "monarchy",
+      "shunnedGovernment": "despotism",
+      "traits": [
+        "agricultural",
+        "seafaring"
+      ],
+      "buildOften": [
+        "defensiveLandUnits",
+        "navalUnits",
+        "production"
+      ],
+      "buildNever": [],
+      "color": 2
+    },
+    {
+      "id": "portuguese",
+      "name": "Portugal",
+      "adjective": "Portuguese",
+      "noun": "Portuguese",
+      "leader": "Henry",
+      "leaderTitle": "Prince",
+      "leaderFemale": false,
+      "cultureGroup": "european",
+      "aggression": 0,
+      "favoriteGovernment": "democracy",
+      "shunnedGovernment": "fascism",
+      "traits": [
+        "expansionist",
+        "seafaring"
+      ],
+      "buildOften": [
+        "navalUnits",
+        "wealth",
+        "trade",
+        "explore"
+      ],
+      "buildNever": [],
+      "color": 8
+    },
+    {
+      "id": "byzantines",
+      "name": "Byzantines",
+      "adjective": "Byzantine",
+      "noun": "Byzantines",
+      "leader": "Theodora",
+      "leaderTitle": "Empress",
+      "leaderFemale": true,
+      "cultureGroup": "mediterranean",
+      "aggression": 0,
+      "favoriteGovernment": "republic",
+      "shunnedGovernment": "feudalism",
+      "traits": [
+        "scientific",
+        "seafaring"
+      ],
+      "buildOften": [
+        "defensiveLandUnits",
+        "navalUnits",
+        "happiness",
+        "trade",
+        "culture"
+      ],
+      "buildNever": [],
+      "color": 11
+    },
+    {
+      "id": "inca",
+      "name": "Inca",
+      "adjective": "Incan",
+      "noun": "Inca",
+      "leader": "Pachacuti",
+      "leaderTitle": "Sapa-Inca",
+      "leaderFemale": false,
+      "cultureGroup": "american",
+      "aggression": 0,
+      "favoriteGovernment": "communism",
+      "shunnedGovernment": "republic",
+      "traits": [
+        "expansionist",
+        "agricultural"
+      ],
+      "buildOften": [
+        "offensiveLandUnits",
+        "workers",
+        "wealth",
+        "culture"
+      ],
+      "buildNever": [],
+      "color": 7
+    },
+    {
+      "id": "maya",
+      "name": "Maya",
+      "adjective": "Mayan",
+      "noun": "Maya",
+      "leader": "Smoke-Jaguar",
+      "leaderTitle": "Great Instigator",
+      "leaderFemale": false,
+      "cultureGroup": "american",
+      "aggression": 0,
+      "favoriteGovernment": "feudalism",
+      "shunnedGovernment": "democracy",
+      "traits": [
+        "industrious",
+        "agricultural"
+      ],
+      "buildOften": [
+        "defensiveLandUnits",
+        "workers",
+        "production",
+        "culture"
+      ],
+      "buildNever": [],
+      "color": 6
+    }
+  ],
+  "espionageMissions": [
+    {
+      "id": "embassy",
+      "name": "Build an Embassy",
+      "needs": "embassy",
+      "baseCost": 20
+    },
+    {
+      "id": "investigateCity",
+      "name": "Investigate City",
+      "needs": "either",
+      "baseCost": 10
+    },
+    {
+      "id": "stealTechnology",
+      "name": "Steal Technology",
+      "needs": "either",
+      "baseCost": 10
+    },
+    {
+      "id": "stealWorldMap",
+      "name": "Steal World Map",
+      "needs": "spy",
+      "baseCost": 1
+    },
+    {
+      "id": "plantSpy",
+      "name": "Plant Spy",
+      "needs": "spy",
+      "baseCost": 60
+    },
+    {
+      "id": "stealPlans",
+      "name": "Steal Plans",
+      "needs": "spy",
+      "baseCost": 10
+    },
+    {
+      "id": "propaganda",
+      "name": "Initiate Propaganda",
+      "needs": "spy",
+      "baseCost": 100
+    },
+    {
+      "id": "sabotageProduction",
+      "name": "Sabotage Production",
+      "needs": "spy",
+      "baseCost": 10
+    },
+    {
+      "id": "exposeEnemySpy",
+      "name": "Expose Enemy Spy",
+      "needs": "spy",
+      "baseCost": 80
+    }
+  ],
+  "cultureOpinions": [
+    {
+      "id": "inAweOf",
+      "name": "in awe of",
+      "ratioPercent": 300,
+      "propagandaSuccess": 30,
+      "initialResistanceChance": 40,
+      "continuedResistanceChance": 30
+    },
+    {
+      "id": "admirersOf",
+      "name": "admirers of",
+      "ratioPercent": 200,
+      "propagandaSuccess": 25,
+      "initialResistanceChance": 50,
+      "continuedResistanceChance": 40
+    },
+    {
+      "id": "impressedWith",
+      "name": "impressed with",
+      "ratioPercent": 100,
+      "propagandaSuccess": 20,
+      "initialResistanceChance": 60,
+      "continuedResistanceChance": 50
+    },
+    {
+      "id": "unimpressedBy",
+      "name": "unimpressed by",
+      "ratioPercent": 75,
+      "propagandaSuccess": 10,
+      "initialResistanceChance": 70,
+      "continuedResistanceChance": 60
+    },
+    {
+      "id": "dismissiveOf",
+      "name": "dismissive of",
+      "ratioPercent": 50,
+      "propagandaSuccess": 5,
+      "initialResistanceChance": 80,
+      "continuedResistanceChance": 70
+    },
+    {
+      "id": "disdainfulOf",
+      "name": "disdainful of",
+      "ratioPercent": 33,
+      "propagandaSuccess": 3,
+      "initialResistanceChance": 90,
+      "continuedResistanceChance": 80
+    }
+  ],
   "calendar": {
     "startYear": -4000,
     "spans": [

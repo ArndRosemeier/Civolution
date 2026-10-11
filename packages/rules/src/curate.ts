@@ -61,6 +61,9 @@ const TRANSFORM_RESULT: Record<string, string> = {
   clearWetlands: 'grassland',
 };
 
+/** Culture groups in rule-file order. */
+const CULTURE_GROUPS = ['american', 'european', 'mediterranean', 'middleEastern', 'asian'] as const;
+
 const WATER = new Set(['coast', 'sea', 'ocean']);
 
 const CORRUPTION = ['minimal', 'nuisance', 'problematic', 'rampant', 'catastrophic', 'communal', 'off'] as const;
@@ -344,6 +347,39 @@ export function curate(raw: ImportedRules): RuleSet {
       aiBonusPerCity: d.bonusPerCity,
       aiTradeRate: d.aiToAiTradeRate,
       attackBonusVsBarbarians: d.attackBonusVsBarbarians,
+    })),
+    civs: raw.civs
+      .filter((c) => c.cultureGroup >= 0)
+      .map((c) => ({
+        id: toId(c.noun),
+        name: c.name,
+        adjective: c.adjective,
+        noun: c.noun,
+        leader: c.leaderName,
+        leaderTitle: c.leaderTitle,
+        leaderFemale: c.leaderGender === 1,
+        cultureGroup: CULTURE_GROUPS[c.cultureGroup]!,
+        aggression: c.aggressionLevel,
+        ...opt('favoriteGovernment', ref(govIds, c.favoriteGovernment)),
+        ...opt('shunnedGovernment', ref(govIds, c.shunnedGovernment)),
+        traits: c.traits.civ,
+        buildOften: c.traits.buildOften,
+        buildNever: c.traits.buildNever,
+        color: c.defaultColor,
+      })),
+    espionageMissions: raw.espionageMissions.map((m) => ({
+      id: toId(m.name.replace(/^(Build an|Initiate) /, '')),
+      name: m.name,
+      needs: m.performedBy === 1 ? ('embassy' as const) : m.performedBy === 2 ? ('spy' as const) : ('either' as const),
+      baseCost: m.baseCost,
+    })),
+    cultureOpinions: raw.cultureOpinions.map((o) => ({
+      id: toId(o.name),
+      name: o.name,
+      ratioPercent: o.cultureRatioPercent,
+      propagandaSuccess: o.propagandaSuccess,
+      initialResistanceChance: o.initialResistanceChance,
+      continuedResistanceChance: o.continuedResistanceChance,
     })),
     calendar: {
       startYear: raw.game.startYear,

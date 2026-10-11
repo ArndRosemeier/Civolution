@@ -6,13 +6,29 @@
 import type { Rules } from './rules.ts';
 import type { GameState, Player } from './state.ts';
 
-/** Beakers to research `tech`: cost factor × difficulty factor × world-size rate. */
-export function techCost(rules: Rules, state: GameState, tech: string): number {
+/** Share of a tech's cost saved when every other civilization the player has met knows it. */
+export const KNOWN_TECH_DISCOUNT = 30;
+/** Research cost factor of human players (Regent's; the difficulty's factor applies to AI players). */
+export const HUMAN_COST_FACTOR = 10;
+
+/**
+ * Beakers for `player` to research `tech` (docs/rules/science.md): cost factor × the
+ * difficulty's AI cost factor (humans pay Regent's) × world-size rate, less a share for
+ * each civilization met that already knows it. Without a player, the human cost.
+ */
+export function techCost(rules: Rules, state: GameState, tech: string, player?: number): number {
   const t = rules.tech(tech);
-  const diff = rules.difficulty(state.difficulty);
+  const p = player === undefined ? undefined : state.players[player];
+  const factor = p && !p.human ? rules.difficulty(state.difficulty).costFactor : HUMAN_COST_FACTOR;
   const ws = rules.set.worldSizes.find((w) => w.id === state.settings.worldSize);
   const rate = ws?.techRate ?? 240;
-  return Math.max(1, Math.floor((t.costFactor * diff.costFactor * rate) / 100));
+  let cost = Math.floor((t.costFactor * factor * rate) / 100);
+  if (p) {
+    const others = state.players.filter((o) => o.alive && !o.barbarian && o.id !== p.id).length;
+    const knowing = p.contacts.filter((o) => state.players[o]?.alive && state.players[o].techs.includes(tech)).length;
+    if (others > 0 && knowing > 0) cost = Math.floor((cost * (100 * others - KNOWN_TECH_DISCOUNT * knowing)) / (100 * others));
+  }
+  return Math.max(1, cost);
 }
 
 /** Techs an era needs before the next era opens. */

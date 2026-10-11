@@ -37,7 +37,7 @@ export function empireSummary(snap: Snapshot): EmpireSummary {
   let researchTurns: number | null = null;
   let researchCost: number | null = null;
   if (p.research.tech) {
-    researchCost = techCost(rules, state, p.research.tech);
+    researchCost = techCost(rules, state, p.research.tech, p.id);
     const left = Math.max(0, researchCost - p.research.beakers);
     const byBeakers = science > 0 ? Math.ceil(left / science) : Infinity;
     const minTurns = Math.max(0, rules.set.general.minimumResearchTime - p.research.turns);

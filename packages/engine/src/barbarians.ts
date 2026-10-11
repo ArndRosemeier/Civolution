@@ -3,7 +3,7 @@
  * civilizations, spawn raiders, and the raiders go for nearby cities and units. The
  * engine moves them at the end of every turn through the same commands as everyone.
  */
-import { distance, neighbours, tileCount } from './grid.ts';
+import { distance, neighbours, tileCount, tilesInRadius } from './grid.ts';
 import { canHostBarbarian } from './move.ts';
 import { checkMove } from './movement.ts';
 import type { Rules } from './rules.ts';
@@ -21,6 +21,10 @@ const RAID_INTERVAL = [0, 0, 14, 9, 5];
 export const BARBARIAN_START_TURN = 10;
 /** Raiders look this far for something to attack. */
 const SEARCH_RADIUS = 8;
+/** Percent chance per turn of a landing from the sea near a coastal city, by activity level. */
+const LANDING_CHANCE = [0, 0, 2, 3, 5];
+/** First turn on which barbarians come by sea. */
+export const LANDING_START_TURN = 40;
 
 export function barbarianPlayer(state: GameState): number {
   return state.players.findIndex((p) => p.barbarian && p.alive);
@@ -99,11 +103,42 @@ export function runBarbarians(rules: Rules, tx: Tx): void {
     }
   }
 
+  if (tx.state.turn >= LANDING_START_TURN && units().length < unitCap + 4 && tx.random(100) < LANDING_CHANCE[level]!) land(rules, tx, player, level);
+
   if (level < LEVELS.roaming) return;
   for (const u0 of units()) {
     if (u0.order?.type === 'fortify' && tx.state.map.flags[u0.tile]! & FLAG_CAMP) continue;
+    // Their ships only bring the raiders; they wait offshore.
+    if (rules.unit(u0.type).domain !== 'land') continue;
     raid(rules, tx, u0.id);
   }
+}
+
+/**
+ * A landing from the sea (docs/rules/barbarians.md): a ship appears off a coastal city
+ * and puts raiders ashore next to it.
+ */
+function land(rules: Rules, tx: Tx, player: number, level: number): void {
+  const cities = Object.values(tx.state.cities)
+    .filter((c) => !tx.state.players[c.owner]!.barbarian)
+    .sort((a, b) => a.id - b.id);
+  if (cities.length === 0) return;
+  const city = cities[tx.random(cities.length)]!;
+  const m = tx.state.map;
+  const water = (t: number) => rules.terrains[m.terrain[t]!]!.water;
+  const free = (t: number) => !Object.values(tx.state.units).some((u) => u.tile === t);
+  const shores = tilesInRadius(m, city.tile, 2)
+    .filter((t) => t !== city.tile && !water(t) && canHostBarbarian(rules, tx, t) && neighbours(m, t).some((w) => water(w) && free(w)))
+    .sort((a, b) => a - b);
+  if (shores.length === 0) return;
+  const beach = shores[tx.random(shores.length)]!;
+  const sea = neighbours(m, beach).filter((w) => water(w) && free(w)).sort((a, b) => a - b)[0]!;
+  const ship = rules.set.general.barbarianSeaUnit;
+  const boat = tx.addUnit({ ...newUnit(rules, player, ship, sea), order: { type: 'sentry' } });
+  tx.emit({ type: 'unitCreated', unit: boat.id, player, unitType: ship, tile: sea });
+  const count = 1 + Math.floor(level / 2);
+  for (let i = 0; i < count; i++) spawn(rules, tx, player, beach, false);
+  tx.emit({ type: 'barbarianLanding', tile: beach, units: count, near: city.id });
 }
 
 /** Nearest civilized city or unit within reach, or -1. */

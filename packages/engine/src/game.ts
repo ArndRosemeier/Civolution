@@ -21,6 +21,9 @@ import {
   type Temperature,
 } from './state.ts';
 import { beginTx, type Tx } from './tx.ts';
+import { answerDeal, dropProposalsTo, proposeDeal, runDiplomacyTurn } from './diplomacy.ts';
+import { runMission } from './espionage.ts';
+import { isCommonUnit } from './production.ts';
 import { invalidateCaches } from './caches.ts';
 import { eraFor } from './science.ts';
 import { cargoOf, isArmy, newUnit, removeUnitDeep, unitMaxMoves } from './units.ts';
@@ -41,7 +44,8 @@ export interface NewGameOptions {
     age?: OrRandom<3 | 4 | 5>;
     barbarians?: Barbarians;
   };
-  players: { name: string; color: string; human: boolean }[];
+  /** `civ` names the civilization played (rules.set.civs); it shapes the AI's character. */
+  players: { name: string; color: string; human: boolean; civ?: string }[];
   /** Units every player starts with; defaults to the rule set's start units. */
   startUnits?: string[];
   /** Techs every player starts with (for tests and scenarios). */
@@ -77,9 +81,16 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
   const difficulty = options.difficulty ?? rules.set.general.defaultDifficulty;
   rules.difficulty(difficulty);
   const startTechs = [...(options.startTechs ?? [])];
+  for (const p of options.players) if (p.civ !== undefined) rules.civ(p.civ);
   const players: Player[] = options.players.map((p, id) => ({
     id,
     name: p.name,
+    civ: p.civ ?? null,
+    contacts: [],
+    embassies: [],
+    spies: [],
+    reputation: 100,
+    memory: {},
     color: p.color,
     human: p.human,
     barbarian: false,
@@ -90,6 +101,7 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
     resources: [],
     explored: emptyBitset(map),
     atWarWith: [],
+    warSince: {},
     weariness: {},
     armyVictory: false,
     endedTurn: false,
@@ -104,6 +116,12 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
       id: players.length,
       name: 'Barbarians',
       color: '#6b2a22',
+      civ: null,
+      contacts: [],
+      embassies: [],
+      spies: [],
+      reputation: 100,
+      memory: {},
       human: false,
       barbarian: true,
       alive: true,
@@ -114,6 +132,7 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
       // Barbarians know the whole map.
       explored: emptyBitset(map).map(() => 0xffffffff),
       atWarWith: [],
+      warSince: {},
       weariness: {},
       armyVictory: false,
       endedTurn: true,
@@ -126,7 +145,7 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
   }
   const base: GameState = {
     format: 'civolution-state',
-    version: 3,
+    version: 4,
     rulesHash: rules.hash,
     seed: options.seed >>> 0,
     rng: seedRng(options.seed ^ 0x67616d65),
@@ -141,17 +160,41 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
     cities: {},
     nextCityId: 1,
     wonders: {},
+    diplomacy: { treaties: [], ongoing: [], proposals: [], nextId: 1 },
   };
   const tx = beginTx(base);
+  const diff = rules.difficulty(difficulty);
   players.forEach((p, i) => {
     if (p.barbarian) return;
     const tile = map.starts[i]!;
-    for (const type of startUnits) {
+    const units = [...startUnits];
+    // AI players get the difficulty's extra start units (docs/rules/ai-handicaps.md).
+    if (!p.human) {
+      diff.aiExtraStartUnits.forEach((n, k) => {
+        const type = rules.set.general.startUnits[k];
+        if (type) for (let j = 0; j < n; j++) units.push(type);
+      });
+      const guard = startingUnit(rules, startTechs, 'defence');
+      const raider = startingUnit(rules, startTechs, 'attack');
+      for (let j = 0; j < diff.aiDefensiveStartUnits && guard; j++) units.push(guard);
+      for (let j = 0; j < diff.aiOffensiveStartUnits && raider; j++) units.push(raider);
+    }
+    for (const type of units) {
       const u = tx.addUnit(newUnit(rules, p.id, type, tile));
       reveal(tx, p.id, unitSight(rules, tx.state, u));
     }
   });
   return tx.state;
+}
+
+/** The best land unit for `role` buildable with no advances beyond `techs` (AI start units). */
+function startingUnit(rules: Rules, techs: readonly string[], role: 'attack' | 'defence'): string | null {
+  const known = new Set(techs);
+  const options = rules.set.units.filter(
+    (u) => u.domain === 'land' && u.shieldCost > 0 && u.populationCost === 0 && (!u.requiredTech || known.has(u.requiredTech)) && u.requiredResources.length === 0 && isCommonUnit(rules, u.id) && u[role] > 0,
+  );
+  options.sort((a, b) => b[role] - a[role] || a.shieldCost - b.shieldCost || a.id.localeCompare(b.id));
+  return options[0]?.id ?? null;
 }
 
 export interface ApplyResult {
@@ -169,18 +212,30 @@ const err = (state: GameState, code: CommandError['code'], message: string): App
 export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult {
   const player = state.players[cmd.player];
   if (!player?.alive) return err(state, 'invalid', `No active player ${cmd.player}.`);
-  if (player.endedTurn) return err(state, 'turnEnded', 'This player has already ended the turn.');
+  // Offers are answered whenever they arrive, also between turns.
+  if (player.endedTurn && cmd.type !== 'answerDeal') return err(state, 'turnEnded', 'This player has already ended the turn.');
   const tx = beginTx(state, cmd.reason);
 
   if (cmd.type === 'endTurn') {
     tx.player(cmd.player).endedTurn = true;
+    dropProposalsTo(tx, cmd.player);
     tx.emit({ type: 'playerEndedTurn', player: cmd.player });
     if (tx.state.players.every((p) => !p.alive || p.endedTurn || p.barbarian)) runEndOfTurn(rules, tx);
     return done(tx);
   }
 
-  if (cmd.type === 'declareWar' || cmd.type === 'makePeace' || cmd.type === 'razeCity') {
+  if (cmd.type === 'declareWar' || cmd.type === 'razeCity') {
     const error = applyWarCommand(rules, tx, cmd);
+    if (error) return { state, events: [], error };
+    return done(tx);
+  }
+  if (cmd.type === 'proposeDeal' || cmd.type === 'answerDeal' || cmd.type === 'espionage') {
+    const error =
+      cmd.type === 'proposeDeal'
+        ? proposeDeal(rules, tx, { from: cmd.player, to: cmd.target, give: cmd.give, take: cmd.take }, cmd.reason)
+        : cmd.type === 'answerDeal'
+          ? answerDeal(rules, tx, cmd.player, cmd.proposal, cmd.accept)
+          : runMission(rules, tx, cmd.player, cmd.target, cmd.mission, cmd.city);
     if (error) return { state, events: [], error };
     return done(tx);
   }
@@ -199,7 +254,7 @@ export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult
 
   switch (cmd.type) {
     case 'moveUnit': {
-      const error = moveOrAttack(rules, tx, cmd.unit, cmd.to, cmd.raze ?? false);
+      const error = moveOrAttack(rules, tx, cmd.unit, cmd.to, cmd.raze ?? false, cmd.defender);
       if (error) return { state, events: [], error };
       break;
     }
@@ -209,8 +264,11 @@ export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult
     case 'pillage':
     case 'upgrade':
     case 'load':
+    case 'unload':
     case 'buildArmy':
     case 'joinArmy':
+    case 'airdrop':
+    case 'airlift':
     case 'leaderHurry': {
       const error = applyWarCommand(rules, tx, cmd);
       if (error) return { state, events: [], error };
@@ -311,6 +369,7 @@ function runEndOfTurn(rules: Rules, tx: Tx): void {
   runCityTurn(rules, tx);
   healUnits(rules, tx);
   decayWeariness(tx);
+  runDiplomacyTurn(rules, tx);
   tx.state.turn = tx.state.turn + 1;
   for (const p of tx.state.players) if (p.alive && !p.barbarian) tx.player(p.id).endedTurn = false;
   const units = Object.values(tx.state.units).sort((a, b) => a.id - b.id);

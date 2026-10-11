@@ -101,7 +101,7 @@ export function ScienceAdvisor({ onClose }: { onClose: () => void }) {
                   const blocker = researchBlocker(rules, p, t.id);
                   const state_ = known ? 'known' : t.id === current ? 'current' : blocker === null ? 'open' : 'locked';
                   const what = unlocks(t.id);
-                  const cost = techCost(rules, state, t.id);
+                  const cost = techCost(rules, state, t.id, human);
                   const tip = [
                     t.name,
                     t.prerequisites.length ? `Needs ${t.prerequisites.map((x) => rules.tech(x).name).join(', ')}` : null,

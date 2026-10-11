@@ -2,7 +2,7 @@
  * Combat odds before you attack (PLAN.md §10.2): who would defend, the chance to win,
  * retreat or lose, and every modifier on both sides.
  */
-import { attackStrength, defenceStrength, distance, isArmy, cargoOf, cityAt, previewAttack, attackBlocker, type GameState, type Strength, type Unit } from '@civolution/engine';
+import { attackStrength, defenceStrength, distance, isArmy, cargoOf, cityAt, previewAttack, attackBlocker, stealthTargets, type GameState, type Strength, type Unit } from '@civolution/engine';
 import { rules } from '../rules.ts';
 
 function pct(x: number): string {
@@ -27,6 +27,16 @@ function front(state: GameState, u: Unit, attack: boolean): Unit {
   return ms.sort((a, b) => (attack ? rules.unit(b.type).attack - rules.unit(a.type).attack : rules.unit(b.type).defence - rules.unit(a.type).defence) || b.hp - a.hp)[0] ?? u;
 }
 
+/** For a stealth attacker: the unit on `tile` it has the best odds against, if it may choose. */
+export function bestStealthTarget(state: GameState, unit: Unit, tile: number): number | undefined {
+  let best: { id: number; odds: number } | undefined;
+  for (const t of stealthTargets(rules, state, unit, tile)) {
+    const p = previewAttack(rules, state, unit, tile, t.id);
+    if (p && (!best || p.odds.attackerWins > best.odds)) best = { id: t.id, odds: p.odds.attackerWins };
+  }
+  return best?.id;
+}
+
 export function AttackPreview({ state, unit, tile }: { state: GameState; unit: Unit; tile: number }) {
   if (distance(state.map, unit.tile, tile) !== 1) return null;
   const enemies = Object.values(state.units).filter((x) => x.tile === tile && x.owner !== unit.owner);
@@ -38,7 +48,8 @@ export function AttackPreview({ state, unit, tile }: { state: GameState; unit: U
   if (!atWar) return <div className="attack-preview warn">At peace with {state.players[other]!.name}: declare war in the war room (F4) to attack.</div>;
   const why = attackBlocker(rules, state, unit, tile);
   if (why) return <div className="attack-preview warn">{why}</div>;
-  const preview = previewAttack(rules, state, unit, tile);
+  const chosen = bestStealthTarget(state, unit, tile);
+  const preview = previewAttack(rules, state, unit, tile, chosen);
   if (!preview) {
     return <div className="attack-preview good">Undefended: moving in {city ? `captures ${city.name}` : 'captures or destroys what stands there'}.</div>;
   }

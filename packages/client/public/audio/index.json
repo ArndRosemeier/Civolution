@@ -3,6 +3,10 @@
     "aircraft-1.mp3",
     "aircraft-2.mp3"
   ],
+  "airlift": [
+    "airlift-1.mp3",
+    "airlift-2.mp3"
+  ],
   "attack-air": [
     "attack-air-1.mp3",
     "attack-air-2.mp3",
@@ -51,6 +55,10 @@
   "barbarian-horn": [
     "barbarian-horn-1.mp3",
     "barbarian-horn-2.mp3"
+  ],
+  "barbarian-landing": [
+    "barbarian-landing-1.mp3",
+    "barbarian-landing-2.mp3"
   ],
   "battle-lost": [
     "battle-lost-1.mp3",
@@ -107,6 +115,10 @@
     "city-starved-1.mp3",
     "city-starved-2.mp3"
   ],
+  "deal-declined": [
+    "deal-declined-1.mp3",
+    "deal-declined-2.mp3"
+  ],
   "disorder": [
     "disorder-1.mp3",
     "disorder-2.mp3"
@@ -115,12 +127,24 @@
     "dogfight-1.mp3",
     "dogfight-2.mp3"
   ],
+  "embassy": [
+    "embassy-1.mp3",
+    "embassy-2.mp3"
+  ],
   "end-turn": [
     "end-turn-1.mp3",
     "end-turn-2.mp3"
   ],
+  "envoy-arrives": [
+    "envoy-arrives-1.mp3",
+    "envoy-arrives-2.mp3"
+  ],
   "era-entered": [
     "era-entered-1.mp3"
+  ],
+  "first-contact": [
+    "first-contact-1.mp3",
+    "first-contact-2.mp3"
   ],
   "gold-coins": [
     "gold-coins-1.mp3",
@@ -146,6 +170,10 @@
   "order-restored": [
     "order-restored-1.mp3"
   ],
+  "parachute": [
+    "parachute-1.mp3",
+    "parachute-2.mp3"
+  ],
   "peace": [
     "peace-1.mp3",
     "peace-2.mp3"
@@ -161,10 +189,23 @@
   "revolution": [
     "revolution-1.mp3"
   ],
+  "spy-caught": [
+    "spy-caught-1.mp3",
+    "spy-caught-2.mp3"
+  ],
+  "spy-success": [
+    "spy-success-1.mp3",
+    "spy-success-2.mp3"
+  ],
   "tech-discovered": [
     "tech-discovered-1.mp3",
     "tech-discovered-2.mp3",
     "tech-discovered-3.mp3"
+  ],
+  "treaty-signed": [
+    "treaty-signed-1.mp3",
+    "treaty-signed-2.mp3",
+    "treaty-signed-3.mp3"
   ],
   "ui-click": [
     "ui-click-1.mp3",

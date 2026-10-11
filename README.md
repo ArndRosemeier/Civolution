@@ -13,7 +13,10 @@ pnpm install
 pnpm check          # typecheck, lint, tests
 pnpm dev            # the game at http://localhost:5173
 pnpm sim -- --size huge --turns 100   # a headless game, JSON report
+pnpm --filter @civolution/sim tournament -- --size small --players 4 --turns 500 --seeds 1-4   # AI tournament
 ```
+
+The computer players live in `packages/ai` ([docs/ai.md](docs/ai.md)).
 
 The map benchmark runs at `http://localhost:5173/?bench`; the UI smoke test with
 `pnpm --filter @civolution/client e2e`. See [docs/rendering.md](docs/rendering.md) and

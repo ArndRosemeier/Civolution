@@ -48,6 +48,21 @@ describe('worker jobs', () => {
     expect(checkJob(rules, s, w, 'irrigation')).toMatchObject({ ok: true });
   });
 
+  it('treats a city with fresh water as an irrigation source', () => {
+    let s = flatGame();
+    const city = at(s, 20, 20);
+    const settler = place(s, 0, 'settler', city);
+    s = run(s, { type: 'foundCity', player: 0, unit: settler.id });
+    const next = at(s, 21, 21); // shares the city's SE edge
+    const w = place(s, 0, 'worker', next);
+    expect(checkJob(rules, s, w, 'irrigation')).toMatchObject({ ok: false }); // dry city
+    s.map.rivers[city] = EDGE_NE; // the river runs past the city, not this tile
+    expect(s.map.rivers[next]).toBe(0);
+    expect(checkJob(rules, s, w, 'irrigation')).toMatchObject({ ok: true });
+    const corner = place(s, 0, 'worker', at(s, 20, 22)); // only touches the city's corner
+    expect(checkJob(rules, s, corner, 'irrigation')).toMatchObject({ ok: false });
+  });
+
   it('clears forest back to its underlying terrain and reports the shields', () => {
     let s = flatGame();
     const tile = at(s, 20, 20);

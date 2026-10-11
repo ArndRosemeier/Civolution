@@ -1,5 +1,13 @@
 [
   {
+    "version": "0.008",
+    "date": "2026-10-11",
+    "title": "Irrigation next to cities",
+    "items": [
+      "Workers can now irrigate land next to a city that sits on a river or by a lake: the city counts as irrigated, so water spreads on from it. Automated workers and rival civilizations use this too."
+    ]
+  },
+  {
     "version": "0.007",
     "date": "2026-10-11",
     "title": "Ground textures fix",

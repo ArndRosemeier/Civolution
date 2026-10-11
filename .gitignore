@@ -2,11 +2,16 @@
 *.exe
 *.biq
 *.bic
+*.bix
 *.pcx
 *.flc
+*.wav
+*.amb
 data/imported/
 
 node_modules/
 dist/
+coverage/
 .env
 .env.*
+!.env.example

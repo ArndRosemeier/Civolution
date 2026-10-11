@@ -272,6 +272,34 @@ Defaults picked where the plan left a choice ([diplomacy.md](rules/diplomacy.md)
   no route between capitals yet, and the trade network recomputed after every command is
   the largest remaining cost on big maps.
 
+### Phase 5 notes (automation, alpha 0.003)
+
+Defaults picked where the plan left a choice ([automation.md](automation.md)):
+- Automation settings are part of the state (format 5; 0.002 saves load with defaults) and
+  change through one `setAutomation` command. Seven aspects can be delegated (citizens,
+  builds, workers, research, treasury, military, offers); a city's own governor or
+  template works whether or not its aspect is delegated.
+- Governors: eight presets plus custom weights; disorder is ended with entertainers, and
+  luxury is raised only under the Celebrate rates policy. Rushing uses one empire budget
+  per turn (not a budget per city) and never goes below the treasury reserve.
+- Builds: a defender first in an undefended city, then the empire's settlers (up to the
+  world size's optimal number, one in flight per two cities) and workers (1.5 per city),
+  then the template; military templates skip settlers and workers.
+- Workers: one pool, one worker per tile, no re-terraforming, two tiles of distance from
+  visible enemies. Manual orders pause automation for that city or unit.
+- The digest's input estimate is five seconds a decision plus five to end the turn.
+  Exit test: a 200-city industrial empire, fully delegated, needs about ten seconds of
+  input a turn; the automation pass takes about 0.1 s.
+- Carry-overs done: trade networks are cached across commands, traded resources need a
+  trade route between the capitals, stealth bombers single out a unit. AI cities use the
+  Balanced governor and AI workers the pool.
+- For Phase 6: AI economies are still slow; the governors and worker pool did not change
+  tournament results, so the cause lies in AI build choices and expansion (cities stay at
+  size 1–4 while pumping settlers). Huge with 16 AI civilizations averages about 160 ms a
+  turn over 500 turns (slowest turn about 0.5 s); a profile should find the next cost now
+  that the trade network is cached. Not yet: automation map lenses, auto-reinforcing a
+  front, transport escorts, interception schedules, sentry wake conditions.
+
 ## 13. Deferred
 
 Mods and rule-set editing UI, scenarios (custom BIQs, maps, Conquests campaigns), multiplayer (hotseat, PBEM, online), loading original `.SAV`/`.BIQ` maps as starting positions, mobile layout beyond basic responsiveness.

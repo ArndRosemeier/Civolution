@@ -23,6 +23,8 @@ export default tseslint.config(
       '@typescript-eslint/no-confusing-void-expression': ['error', { ignoreArrowShorthand: true }],
       '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      // `let { s, c } = …` where only `s` is reassigned later is fine.
+      'prefer-const': ['error', { destructuring: 'all' }],
     },
   },
   {

@@ -147,10 +147,10 @@ describe('corruption and waste', () => {
   // Tiny map: 60 × 60, so the distance scale is (60 + 60) / 4 = 30 tiles; the optimal
   // number of cities at Regent is 14 × 90 % = 12.
   function twoCities(connected: boolean) {
-    let { s, c: capital } = found(flatGame(), 0, 20, 20);
+    const first = found(flatGame(), 0, 20, 20);
+    const capital = first.c;
     // Six tiles east: x + 12.
-    let other: City;
-    ({ s, c: other } = found(s, 0, 32, 20));
+    const { s, c: other } = found(first.s, 0, 32, 20);
     if (connected) for (let x = 20; x <= 32; x += 2) s.map.improvements[at(s, x, 20)]! |= IMP_ROAD;
     invalidateCaches(s);
     return { s, capital, other };
@@ -358,7 +358,7 @@ describe('governments', () => {
   });
 
   it('collects no science during anarchy', () => {
-    let { s, c } = found(flatGame(), 0, 20, 20);
+    const { s, c } = found(flatGame(), 0, 20, 20);
     s.players[0] = { ...s.players[0]!, government: 'anarchy' };
     invalidateCaches(s);
     expect(cityReport(rules, s, c).science.value).toBe(0);

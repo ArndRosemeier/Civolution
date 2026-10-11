@@ -8,13 +8,19 @@ Players give orders in any order; a player ends their turn with `endTurn`. When 
 living player has ended the turn, the engine runs the end of turn:
 
 1. Worker jobs advance and complete (`docs/rules/workers.md`).
-2. The turn counter advances and every unit's movement is restored.
-3. Sentries wake if a foreign unit is in sight.
-4. Goto orders continue, in unit-id order.
+2. Cities that place their own citizens re-place them ([cities.md](cities.md)).
+3. For each player, each city in id order: mood (disorder, celebration), food and growth,
+   production and completed builds, wonder-made units, culture
+   ([cities.md](cities.md), [production.md](production.md), [culture.md](culture.md)).
+4. For each player: the treasury (tax − building upkeep − unit support), research, debt,
+   and the end of anarchy ([science.md](science.md), [governments.md](governments.md)).
+5. Borders are recomputed if any city's border ring grew.
+6. The turn counter advances and every unit's movement is restored.
+7. Sentries wake if a foreign unit is in sight.
+8. Goto orders continue, in unit-id order.
 
-Cities, research and upkeep join this pipeline in Phase 2. Civ3 itself moves players one
-after another; simultaneous orders change nothing while civilizations cannot interact,
-and Phase 4 revisits this with diplomacy and combat.
+Civ3 itself moves players one after another; simultaneous orders change nothing while
+civilizations cannot interact, and Phase 4 revisits this with diplomacy and combat.
 
 ## Orders
 

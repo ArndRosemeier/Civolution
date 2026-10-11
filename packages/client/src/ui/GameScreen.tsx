@@ -437,12 +437,15 @@ export function GameScreen() {
       });
       return;
     }
-    if ((d.button === 2 || s.gotoMode) && u && u.owner === snap.human) {
+    const goto = (unit: NonNullable<typeof u>) => {
       s.setGotoMode(false);
-      void s.send({ type: 'goto', unit: u.id, to: tile }).then((ok) => {
-        const after = useGame.getState().snapshot?.state.units[u.id];
+      void s.send({ type: 'goto', unit: unit.id, to: tile }).then((ok) => {
+        const after = useGame.getState().snapshot?.state.units[unit.id];
         if (ok && after && after.movesLeft <= 0) useGame.getState().selectNext();
       });
+    };
+    if ((d.button === 2 || s.gotoMode) && u && u.owner === snap.human) {
+      goto(u);
       return;
     }
     if (d.button !== 0) return;
@@ -450,6 +453,12 @@ export function GameScreen() {
       .filter((x) => x.tile === tile && x.owner === snap.human)
       .sort((a, b) => a.id - b.id);
     const city = cityAt(snap.state, tile);
+    // A left click on an empty tile sends the selected unit there.
+    const empty = !city && !Object.values(snap.state.units).some((x) => x.tile === tile);
+    if (empty && u && u.owner === snap.human && u.tile !== tile) {
+      goto(u);
+      return;
+    }
     // A click on your city opens it, unless it cycles through a unit stack already selected there.
     if (city && city.owner === snap.human && !(u && u.tile === tile && mine.length > 1)) {
       s.open({ kind: 'city', id: city.id });

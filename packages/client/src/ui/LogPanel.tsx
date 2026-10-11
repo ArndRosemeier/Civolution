@@ -12,7 +12,7 @@ export function LogPanel({ onJump }: { onJump: (tile: number) => void }) {
       </button>
       {open && (
         <ul>
-          {recent.length === 0 && <li className="muted">Your units await orders. Right-click a tile to move, or press X to explore.</li>}
+          {recent.length === 0 && <li className="muted">Your units await orders. Click an empty tile (or right-click any tile) to move, or press X to explore.</li>}
           {recent.map((e, i) => (
             <li key={`${e.turn}-${i}-${e.text}`} title={e.reason ?? ''}>
               {e.tile !== undefined ? (

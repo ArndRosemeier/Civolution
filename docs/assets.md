@@ -112,3 +112,10 @@ starting a job, rally and patrol orders, garrison duty.
 
 `manifests/phase4-sounds.json`: first contact, envoy, treaty signed, deal declined,
 embassy, spy success and capture, parachute drop, airlift, barbarian landing.
+
+`manifests/phase8.json` (scripts/phase8-manifest.ts, 55 items): the six advisors who give
+the tutorial hints (`art/advisors`), worker-job medallions (`art/jobs`), a picture for each
+Civilopedia topic and the cover (`art/pedia`), era panoramas (`art/eras`).
+`manifests/phase8-sounds.json`: hint, Civilopedia open and page-turn sounds. An item's
+`from` renders only variations from that number on (used for the modern-era music, which
+Seed Audio's moderation still refuses).

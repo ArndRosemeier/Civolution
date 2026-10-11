@@ -1,5 +1,14 @@
 [
   {
+    "version": "0.008",
+    "date": "2026-10-11",
+    "title": "Random civilization and remembered setup",
+    "items": [
+      "The New game screen has a Random choice for your civilization: a civilization is picked for you when the game starts.",
+      "The New game screen remembers your choices: world, climate, civilization (including Random), difficulty, rivals, game type and victories start as you left them last time. The map seed stays fresh so every game gets a new world."
+    ]
+  },
+  {
     "version": "0.007",
     "date": "2026-10-11",
     "title": "Ground textures fix",

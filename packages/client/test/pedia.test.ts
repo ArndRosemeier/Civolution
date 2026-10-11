@@ -56,3 +56,11 @@ describe('Civilopedia', () => {
     expect(parseLinks('Learn [Writing](pedia:techs/writing) first.')).toEqual(['Learn ', { label: 'Writing', to: 'techs/writing' }, ' first.']);
   });
 });
+
+describe('Civilopedia upgrades', () => {
+  it('follows the engine: unique units upgrade within their own civilization', async () => {
+    const { upgradeOf } = await import('../src/pedia/index.ts');
+    expect(upgradeOf('legionary')).toBe('medievalInfantry');
+    expect(upgradeOf('swordsman')).toBe('medievalInfantry');
+  });
+});

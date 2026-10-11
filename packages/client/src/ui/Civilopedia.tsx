@@ -13,14 +13,15 @@ export function PediaLink({ to, children, title }: { to: string; children?: Reac
   return (
     <button
       type="button"
-      className="pedia-link"
+      className={children ? 'pedia-link text' : 'pedia-link'}
       title={title ?? 'Open in the Civilopedia'}
+      aria-label={children ? undefined : 'Open in the Civilopedia'}
       onClick={(e) => {
         e.stopPropagation();
         open(to);
       }}
     >
-      {children ?? '?'}
+      {children}
     </button>
   );
 }
@@ -66,33 +67,33 @@ function Fact({ value, go }: { value: FactValue; go: (to: string) => void }) {
   return <>{value}</>;
 }
 
-/** Prose: paragraphs split on blank lines, "- " lines as a list, links inline. */
+/** Prose: paragraphs split on blank lines, runs of "- " lines as lists, links inline. */
 function Prose({ text, go }: { text: string; go: (to: string) => void }) {
-  const blocks = text.split(/\n\s*\n/).filter((b) => b.trim());
+  const blocks: { list: boolean; lines: string[] }[] = [];
+  for (const block of text.split(/\n\s*\n/)) {
+    let current: { list: boolean; lines: string[] } | null = null;
+    for (const raw of block.split('\n')) {
+      const line = raw.trim();
+      if (!line) continue;
+      const list = line.startsWith('- ');
+      if (!current || current.list !== list) blocks.push((current = { list, lines: [] }));
+      current.lines.push(list ? line.slice(2) : line);
+    }
+  }
+  const inline = (t: string) => parseLinks(t).map((p, k) => <Inline key={k} part={p} go={go} />);
   return (
     <>
-      {blocks.map((block, i) => {
-        const lines = block.split('\n');
-        if (lines.every((l) => l.trim().startsWith('- ')))
-          return (
-            <ul key={i}>
-              {lines.map((l, j) => (
-                <li key={j}>
-                  {parseLinks(l.trim().slice(2)).map((p, k) => (
-                    <Inline key={k} part={p} go={go} />
-                  ))}
-                </li>
-              ))}
-            </ul>
-          );
-        return (
-          <p key={i}>
-            {parseLinks(block).map((p, k) => (
-              <Inline key={k} part={p} go={go} />
+      {blocks.map((b, i) =>
+        b.list ? (
+          <ul key={i}>
+            {b.lines.map((l, j) => (
+              <li key={j}>{inline(l)}</li>
             ))}
-          </p>
-        );
-      })}
+          </ul>
+        ) : (
+          <p key={i}>{inline(b.lines.join(' '))}</p>
+        ),
+      )}
     </>
   );
 }

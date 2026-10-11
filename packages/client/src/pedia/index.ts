@@ -161,6 +161,21 @@ function unitOwners(id: string): string[] | null {
   return (king.length > 0 ? king : civs).map((c) => c.id);
 }
 
+/**
+ * What a unit upgrades to, as the engine sees it: the rule file's chain skips other
+ * civilizations' unique units (a legionary becomes medieval infantry, not immortals).
+ */
+export function upgradeOf(id: string): string | undefined {
+  const owners = unitOwners(id);
+  let next = rules.unit(id).upgradeTo;
+  for (let guard = 0; next && rules.hasUnit(next) && guard < 20; guard++) {
+    const theirs = unitOwners(next);
+    if (theirs === null || (owners !== null && theirs.some((c) => owners.includes(c)))) return next;
+    next = rules.unit(next).upgradeTo;
+  }
+  return undefined;
+}
+
 function unitFacts(id: string): [string, FactValue][] {
   const u = rules.unit(id);
   const f: [string, FactValue][] = [];
@@ -174,8 +189,9 @@ function unitFacts(id: string): [string, FactValue][] {
   if (u.capacity > 0) f.push(['Carries', `${u.capacity} unit${u.capacity === 1 ? '' : 's'}`]);
   if (u.requiredTech) f.push(['Requires', link('techs', u.requiredTech)]);
   if (u.requiredResources.length) f.push(['Needs', u.requiredResources.map((r) => link('resources', r))]);
-  if (u.upgradeTo && rules.hasUnit(u.upgradeTo)) f.push(['Upgrades to', link('units', u.upgradeTo)]);
-  const from = rules.set.units.filter((x) => x.upgradeTo === id && !/\d{3}$/.test(x.id)).map((x) => link('units', x.id));
+  const up = upgradeOf(id);
+  if (up) f.push(['Upgrades to', link('units', up)]);
+  const from = rules.set.units.filter((x) => !/\d{3}$/.test(x.id) && upgradeOf(x.id) === id).map((x) => link('units', x.id));
   if (from.length) f.push(['Upgraded from', from]);
   const owners = unitOwners(id);
   if (owners) f.push([rules.set.civs.some((c) => c.kingUnit === id) ? 'King of' : 'Only for', owners.map((c) => link('civs', c))]);

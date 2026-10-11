@@ -6,7 +6,7 @@
 
 /* Interface size: panels and dialogs grow; the map canvas keeps its pixels. */
 .panel:not(.panel .panel),
-.corner,
+.corner > button,
 .title-card {
   zoom: var(--ui-scale);
 }
@@ -76,6 +76,10 @@
   line-height: 1;
   vertical-align: middle;
   color: var(--accent-2);
+}
+/* The "?" is drawn by CSS so names around it read the same to scripts and screen readers. */
+.pedia-link:not(.text)::before {
+  content: '?';
 }
 
 /* Civilopedia. */
@@ -221,8 +225,8 @@
 /* Advisor hint. */
 .hint-card {
   position: fixed;
-  left: 16px;
-  bottom: 120px;
+  right: 16px;
+  top: 112px;
   z-index: 40;
   width: min(420px, calc(100vw - 32px));
   display: flex;
@@ -296,4 +300,13 @@ button.link {
 .segmented button.on {
   background: rgba(233, 185, 73, 0.22);
   border-color: rgba(233, 185, 73, 0.5);
+}
+:root[data-theme='light'] .end-turn:not(.ready) {
+  background: var(--panel-solid);
+}
+/* The diplomacy chamber stays a dark painting in either theme. */
+:root[data-theme='light'] .leader-head {
+  --text: #e8edf2;
+  --muted: #b4bec8;
+  color: var(--text);
 }

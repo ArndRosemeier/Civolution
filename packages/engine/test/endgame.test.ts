@@ -304,8 +304,8 @@ describe('saves', () => {
     const old = JSON.parse(saveGame(s)) as { header: { version: number }; state: Record<string, unknown> & { version: number; players: Record<string, unknown>[] } };
     old.header.version = 5;
     old.state.version = 5;
-    for (const k of ['options', 'victory', 'climate', 'un']) delete old.state[k];
-    for (const p of old.state.players) for (const k of ['goldenAge', 'hadGoldenAge', 'leadersBorn', 'spaceship', 'victoryPoints', 'scores']) delete p[k];
+    const { options: _o, victory: _v, climate: _c, un: _u, ...rest } = old.state;
+    old.state = { ...rest, version: 5, players: old.state.players.map(({ goldenAge: _g, hadGoldenAge: _h, leadersBorn: _l, spaceship: _s, victoryPoints: _p, scores: _x, ...p }) => p) };
     const loaded = loadGame(rules, JSON.stringify(old));
     expect(loaded.version).toBe(6);
     expect(loaded.options.mode).toBe('standard');

@@ -3,7 +3,7 @@
  * by era (PLAN.md §10.2). Every card says what it unlocks.
  */
 import { useMemo, useState } from 'react';
-import { isCommonUnit, requiredTechs, researchBlocker, techCost } from '@civolution/engine';
+import { requiredTechs, researchBlocker, techCost, unitAvailable, type GameState } from '@civolution/engine';
 import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
 import { Dialog } from './Dialog.tsx';
@@ -13,9 +13,9 @@ import { empireSummary } from './empire.ts';
 type TechRule = (typeof rules.set.techs)[number];
 
 /** What learning a tech makes available. */
-function unlocks(tech: string): string[] {
+function unlocks(state: GameState, player: number, tech: string): string[] {
   const out: string[] = [];
-  for (const u of rules.set.units) if (u.requiredTech === tech && isCommonUnit(rules, u.id)) out.push(u.name);
+  for (const u of rules.set.units) if (u.requiredTech === tech && unitAvailable(rules, state, player, u.id)) out.push(u.name);
   for (const b of rules.set.buildings) if (b.requiredTech === tech) out.push(b.name);
   for (const g of rules.set.governments) if (g.requiredTech === tech) out.push(`${g.name} (government)`);
   for (const j of rules.set.workerJobs) if (j.requiredTech === tech) out.push(`${j.name} (workers)`);
@@ -117,7 +117,7 @@ export function ScienceAdvisor({ onClose }: { onClose: () => void }) {
                   const known = p.techs.includes(t.id);
                   const blocker = researchBlocker(rules, p, t.id);
                   const state_ = known ? 'known' : t.id === current ? 'current' : blocker === null ? 'open' : t.id === goal ? 'goal' : 'locked';
-                  const what = unlocks(t.id);
+                  const what = unlocks(state, human, t.id);
                   const cost = techCost(rules, state, t.id, human);
                   const tip = [
                     t.name,

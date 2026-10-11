@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { indexRules, stateHash } from '@civolution/engine';
 import { conquests } from '@civolution/rules';
-import { ai, automated, builder, defaultPlayers, explorer, idle, replay, runGame, runTournament } from '../src/index.ts';
+import { ai, automated, builder, civsForSeed, defaultPlayers, explorer, idle, replay, runGame, runTournament } from '../src/index.ts';
 
 const rules = indexRules(conquests);
 const withScouts = [...rules.set.general.startUnits, rules.set.general.scoutUnit];
@@ -20,7 +20,7 @@ describe('headless games', () => {
     const game = { seed: 11, map: { worldSize: 'tiny' }, players: defaultPlayers(2), startUnits: withScouts };
     const { report } = runGame({ rules, game, controllers: [explorer, explorer], turns: 15 });
     // Changing this hash needs a stated reason in the commit (PLAN.md §11).
-    expect(report.finalHash).toMatchInlineSnapshot(`"6215fb2974644c2d"`);
+    expect(report.finalHash).toMatchInlineSnapshot(`"20a8fcd5e22d6b06"`);
   });
 
   it('explores a Huge map with 16 players and builds roads (Phase 1 exit criterion)', () => {
@@ -80,6 +80,15 @@ describe('headless games', () => {
     expect(g!.report.invariantFailures).toEqual([]);
     expect(g!.report.players.filter((p) => p.controller === 'ai' && p.alive).length).toBeGreaterThan(0);
   }, 600_000);
+
+  it('plays AI civilizations with their traits until the game is decided (Phase 6)', () => {
+    const game = { seed: 4, map: { worldSize: 'tiny' }, players: defaultPlayers(3, civsForSeed(rules, 4, 3)) };
+    const { state, log, report } = runGame({ rules, game, controllers: [ai, ai, ai], turns: rules.set.general.lastTurn, until: (s) => s.victory !== null });
+    expect(report.invariantFailures).toEqual([]);
+    expect(state.victory).not.toBeNull();
+    expect(state.players.filter((p) => !p.barbarian).every((p) => p.civ !== null)).toBe(true);
+    expect(stateHash(replay(rules, game, log))).toBe(stateHash(state));
+  }, 240_000);
 
   it('beats a passive player at Monarch (Phase 4 exit criterion)', () => {
     const games = runTournament({ rules, size: 'tiny', players: 2, turns: 300, seeds: [1, 5], difficulty: 'monarch', passive: true });

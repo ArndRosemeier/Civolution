@@ -16,7 +16,7 @@ import {
   playerCities,
   playerUnits,
   exploredCount,
-  isCommonUnit,
+  unitAvailable,
   tilesInRadius,
   transportFor,
   tileCount,
@@ -47,7 +47,7 @@ export function isTransport(rule: UnitRule): boolean {
 /** Whether the civilization knows how to build a transport ship. */
 export function canSail(view: View, state: GameState): boolean {
   const p = state.players[view.player]!;
-  return view.rules.set.units.some((u) => isTransport(u) && isCommonUnit(view.rules, u.id) && (!u.requiredTech || p.techs.includes(u.requiredTech)));
+  return view.rules.set.units.some((u) => isTransport(u) && unitAvailable(view.rules, state, view.player, u.id) && (!u.requiredTech || p.techs.includes(u.requiredTech)));
 }
 
 /** The roomiest transport that can sail the open sea, else the roomiest at all. */

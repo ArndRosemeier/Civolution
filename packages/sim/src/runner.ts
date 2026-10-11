@@ -144,6 +144,7 @@ export interface SimReport {
     alive: boolean;
     reputation: number;
     contacts: number;
+    civ: string | null;
   }[];
   /** Year at the end of the run. */
   year: number;
@@ -158,6 +159,10 @@ export interface SimReport {
   msPerTurn: number;
   /** Slowest turn, in milliseconds (a stall shows here). */
   maxMsPerTurn: number;
+  /** How the game was won, if it was. */
+  victory: GameState['victory'];
+  /** Golden ages that began. */
+  goldenAges: number;
 }
 
 export interface SimResult {
@@ -267,6 +272,7 @@ export function runGame(opts: SimOptions, clock: () => number = () => 0): SimRes
         alive: p.alive,
         reputation: p.reputation,
         contacts: p.contacts.length,
+        civ: p.civ,
       })),
       year: yearOf(rules, state.turn),
       roads: state.map.improvements.filter((x) => x & IMP_ROAD).length,
@@ -278,6 +284,8 @@ export function runGame(opts: SimOptions, clock: () => number = () => 0): SimRes
       finalHash: stateHash(state),
       msPerTurn: played > 0 ? Math.round(((clock() - started) / played) * 10) / 10 : 0,
       maxMsPerTurn: Math.round(slowest * 10) / 10,
+      victory: state.victory,
+      goldenAges: state.players.filter((p) => p.hadGoldenAge).length,
     },
   };
 }
@@ -293,6 +301,23 @@ export function replay(rules: Rules, game: NewGameOptions, log: readonly Command
   return state;
 }
 
-export function defaultPlayers(count: number): NewGameOptions['players'] {
-  return Array.from({ length: count }, (_, i) => ({ name: `Player ${i + 1}`, color: PLAYER_COLORS[i % PLAYER_COLORS.length]!, human: false }));
+/** Unnamed players, or with `civs` the civilizations to play (one per player, in order). */
+export function defaultPlayers(count: number, civs?: readonly string[]): NewGameOptions['players'] {
+  return Array.from({ length: count }, (_, i) => ({
+    name: civs?.[i] ? civs[i] : `Player ${i + 1}`,
+    color: PLAYER_COLORS[i % PLAYER_COLORS.length]!,
+    human: false,
+    ...(civs?.[i] ? { civ: civs[i] } : {}),
+  }));
+}
+
+/** A different set of civilizations for each seed, the same set for the same seed. */
+export function civsForSeed(rules: Rules, seed: number, count: number): string[] {
+  const ids = rules.set.civs.map((c) => c.id);
+  const out: string[] = [];
+  for (let i = 0; out.length < count && i < ids.length * 2; i++) {
+    const id = ids[(seed * 7 + i * 11) % ids.length]!;
+    if (!out.includes(id)) out.push(id);
+  }
+  return out;
 }

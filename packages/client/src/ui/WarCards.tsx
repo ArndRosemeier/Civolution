@@ -1,6 +1,7 @@
 /**
- * Headline cards for the big moments of war (declarations, fallen cities, nuclear
- * strikes, great leaders) and the keep-or-raze choice after taking a city.
+ * Headline cards for the big moments (declarations, fallen cities, nuclear strikes, great
+ * leaders, golden ages, the space race, the climate, UN votes) and the keep-or-raze
+ * choice after taking a city.
  */
 import { useGame } from '../store.ts';
 import { Dialog } from './Dialog.tsx';
@@ -22,6 +23,14 @@ const TITLES = {
   cityRevolted: 'A city changes sides',
   barbarianLanding: 'Barbarians from the sea',
   spyCaught: 'A spy is caught',
+  goldenAge: 'A golden age',
+  scientistBorn: 'A great scientist',
+  cultureFlip: 'A city changes sides',
+  spaceshipLaunched: 'A spaceship is launched',
+  spaceshipLost: 'A spaceship is lost',
+  globalWarming: 'The climate warms',
+  meltdown: 'Nuclear meltdown',
+  unitedNations: 'The United Nations votes',
 } as const;
 
 export function NewsCards({ onJump }: { onJump: (tile: number) => void }) {

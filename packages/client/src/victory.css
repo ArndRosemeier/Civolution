@@ -1,0 +1,139 @@
+/* Victory screen (F8), golden age chip, game options (Phase 6). */
+
+.victory .victory-banner {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--panel-border);
+  background: rgba(233, 185, 73, 0.08);
+}
+.victory .victory-banner.lost {
+  background: rgba(240, 163, 94, 0.06);
+}
+.victory .victory-banner img {
+  width: 260px;
+  max-width: 40%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.victory .victory-banner h3 {
+  margin: 0 0 6px;
+  color: var(--accent);
+  font-size: 1.4rem;
+}
+
+.histograph {
+  width: 100%;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.histograph .grid {
+  stroke: rgba(255, 255, 255, 0.06);
+  stroke-width: 1;
+}
+
+.victory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+.victory-grid > div {
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+}
+.victory-grid h4 {
+  margin: 0 0 4px;
+}
+.victory-grid p {
+  margin: 4px 0;
+}
+
+.meter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+}
+.meter .bar {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.meter .bar i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+.ship-parts {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.ship-parts li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ship-parts li.done {
+  color: var(--ok);
+}
+.ship-parts img {
+  width: 22px;
+  height: 22px;
+}
+
+.top-bar .stat.golden strong {
+  color: var(--accent);
+  text-shadow: 0 0 8px rgba(233, 185, 73, 0.6);
+}
+
+.civ-detail {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+}
+.civ-detail .traits {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.civ-detail .trait {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px 2px 2px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 0.85rem;
+}
+.civ-detail .trait img {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+}
+.options-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+}

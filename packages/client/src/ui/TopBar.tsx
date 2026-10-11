@@ -1,4 +1,4 @@
-import { formatYear, playerUnits, yearOf } from '@civolution/engine';
+import { formatYear, inGoldenAge, playerUnits, yearOf } from '@civolution/engine';
 import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
 import { empireSummary, signed } from './empire.ts';
@@ -62,6 +62,16 @@ export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => v
           {sum.cities.length} <small className="muted">cities · pop {sum.population}</small>
         </strong>
       </div>
+      {inGoldenAge(state, human) && (
+        <div className="stat golden" title={`A golden age: +1 shield and +1 commerce on every tile that yields any, until turn ${p.goldenAge!.until}`}>
+          <span className="label">Golden age</span>
+          <strong>{p.goldenAge!.until - state.turn} turns</strong>
+        </div>
+      )}
+      <button className={`stat ${state.victory ? 'attention' : ''}`} onClick={() => open({ kind: 'victory' })} title="Victory, spaceship and histograph (F8)">
+        <span className="label">Victory</span>
+        <strong>{state.victory ? (state.victory.winner === human ? 'Won' : 'Decided') : p.spaceship.launched !== null ? `Ship · turn ${p.spaceship.arrives}` : `Score ${p.scores.at(-1) ?? 0}`}</strong>
+      </button>
       <div className="spacer" />
       <button className={Object.values(p.automation.delegate).some(Boolean) ? 'on' : ''} onClick={() => open({ kind: 'automation' })} title="Automation: governors, templates, workers, policies, rules (F7)">
         Automation

@@ -332,7 +332,7 @@ export class ThreeMapView implements MapView {
     for (const c of Object.values(state.cities)) {
       if (c.owner !== human) continue;
       const r = cityReport(this.rules, state, c);
-      const remaining = c.build ? Math.max(0, buildCost(this.rules, c.build) - c.shields) : 0;
+      const remaining = c.build ? Math.max(0, buildCost(this.rules, c.build, state, c.owner) - c.shields) : 0;
       info.set(c.id, {
         city: c,
         production: c.build ? buildName(this.rules, c.build) : 'Choose production',

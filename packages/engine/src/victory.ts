@@ -19,7 +19,13 @@ export const UN_VOTE_TURNS = 10;
 export function defaultOptions(): GameOptions {
   return {
     mode: 'standard',
-    victories: { conquest: true, domination: true, space: true, cultural: true, diplomatic: true },
+    victories: {
+      conquest: true,
+      domination: true,
+      space: true,
+      cultural: true,
+      diplomatic: true,
+    },
     cultureFlips: true,
   };
 }
@@ -51,7 +57,7 @@ export function addVictoryPoints(tx: Tx, player: number, points: number, why: st
 export function eliminatePlayer(rules: Rules, tx: Tx, player: number, by: number | null, why: string): void {
   const p = tx.state.players[player];
   if (!p?.alive || p.barbarian) return;
-  const heir = by !== null && by !== player && tx.state.players[by]?.alive && !tx.state.players[by]!.barbarian ? by : null;
+  const heir = by !== null && by !== player && tx.state.players[by]?.alive && !tx.state.players[by].barbarian ? by : null;
   for (const u of Object.values(tx.state.units).sort((a, b) => a.id - b.id)) {
     if (u.owner === player && tx.state.units[u.id]) removeUnitDeep(tx, u.id, false, 'eliminated');
   }
@@ -59,7 +65,14 @@ export function eliminatePlayer(rules: Rules, tx: Tx, player: number, by: number
     if (heir === null) {
       for (const b of Object.keys(c.buildings)) if (tx.state.wonders[b] === c.id) tx.setWonder(b, -1);
       tx.removeCity(c.id);
-      tx.emit({ type: 'cityDestroyed', city: c.id, player, by: by ?? player, tile: c.tile, name: c.name });
+      tx.emit({
+        type: 'cityDestroyed',
+        city: c.id,
+        player,
+        by: by ?? player,
+        tile: c.tile,
+        name: c.name,
+      });
       continue;
     }
     const w = tx.city(c.id);
@@ -73,7 +86,14 @@ export function eliminatePlayer(rules: Rules, tx: Tx, player: number, by: number
       // eslint-disable-next-line @typescript-eslint/no-dynamic-delete -- records keyed by building id
       if (rules.building(b).kind === 'smallWonder') delete w.buildings[b];
     }
-    tx.emit({ type: 'cityRevolted', city: c.id, player: heir, from: player, tile: c.tile, name: c.name });
+    tx.emit({
+      type: 'cityRevolted',
+      city: c.id,
+      player: heir,
+      from: player,
+      tile: c.tile,
+      name: c.name,
+    });
   }
   const pl = tx.player(player);
   pl.alive = false;
@@ -121,7 +141,10 @@ export function dominationShares(rules: Rules, state: GameState, player: number)
     people += c.size;
     if (c.owner === player) own += c.size;
   }
-  return { land: Math.floor((mine * 100) / Math.max(1, landTotal)), population: Math.floor((own * 100) / Math.max(1, people)) };
+  return {
+    land: Math.floor((mine * 100) / Math.max(1, landTotal)),
+    population: Math.floor((own * 100) / Math.max(1, people)),
+  };
 }
 
 /** Whether a civilization meets the cultural victory: one city or the whole civilization. */
@@ -130,12 +153,21 @@ export function culturalWinner(rules: Rules, state: GameState): { player: number
   const civs = civilizations(state);
   for (const p of [...civs].sort((a, b) => b.culture - a.culture || a.id - b.id)) {
     const runnerUp = Math.max(0, ...civs.filter((o) => o.id !== p.id).map((o) => o.culture));
-    if (p.culture >= v.civCulture && p.culture >= runnerUp * 2) return { player: p.id, detail: `${p.culture} culture points, twice any rival's` };
+    if (p.culture >= v.civCulture && p.culture >= runnerUp * 2)
+      return {
+        player: p.id,
+        detail: `${p.culture} culture points, twice any rival's`,
+      };
   }
   const city = Object.values(state.cities)
     .filter((c) => !state.players[c.owner]?.barbarian && c.culture >= v.cityCulture)
     .sort((a, b) => b.culture - a.culture || a.id - b.id)[0];
-  return city ? { player: city.owner, detail: `${city.name} reached ${city.culture} culture points` } : null;
+  return city
+    ? {
+        player: city.owner,
+        detail: `${city.name} reached ${city.culture} culture points`,
+      }
+    : null;
 }
 
 /** The United Nations' owner, while the wonder stands. */
@@ -205,8 +237,16 @@ export function runVictory(rules: Rules, tx: Tx): void {
     const un = tx.state.un ?? { nextVote: tx.state.turn, last: null };
     if (tx.state.turn >= un.nextVote) {
       const r = unVote(rules, tx.state);
-      tx.state.un = { nextVote: tx.state.turn + UN_VOTE_TURNS, last: { turn: tx.state.turn, votes: r.votes, total: r.total } };
-      tx.emit({ type: 'unitedNationsVote', votes: r.votes, total: r.total, winner: r.winner });
+      tx.state.un = {
+        nextVote: tx.state.turn + UN_VOTE_TURNS,
+        last: { turn: tx.state.turn, votes: r.votes, total: r.total },
+      };
+      tx.emit({
+        type: 'unitedNationsVote',
+        votes: r.votes,
+        total: r.total,
+        winner: r.winner,
+      });
       if (r.winner !== null && !tx.state.victory) win(tx, 'diplomatic', r.winner, `elected by the United Nations with ${r.votes[r.winner]} of ${r.total} votes`);
     } else if (!tx.state.un) tx.state.un = un;
   }
@@ -215,33 +255,57 @@ export function runVictory(rules: Rules, tx: Tx): void {
   const v = rules.set.general.victory;
   const civs = civilizations(tx.state);
   const started = tx.state.players.filter((p) => !p.barbarian).length;
-  if (civs.length === 0) return win(tx, 'conquest', null, 'No civilization survived.');
+  if (civs.length === 0) {
+    win(tx, 'conquest', null, 'No civilization survived.');
+    return;
+  }
   if (civs.length === 1 && started > 1) {
     const kind: VictoryKind = opts.mode === 'regicide' || opts.mode === 'massRegicide' ? 'regicide' : 'conquest';
-    if (opts.victories.conquest || kind === 'regicide') return win(tx, kind, civs[0]!.id, 'the last civilization standing');
+    if (opts.victories.conquest || kind === 'regicide') {
+      win(tx, kind, civs[0]!.id, 'the last civilization standing');
+      return;
+    }
   }
   const ship = arrivedSpaceship(tx.state);
-  if (ship !== null && opts.victories.space) return win(tx, 'space', ship, 'the spaceship reached Alpha Centauri');
+  if (ship !== null && opts.victories.space) {
+    win(tx, 'space', ship, 'the spaceship reached Alpha Centauri');
+    return;
+  }
   if (opts.victories.domination) {
     for (const p of civs) {
       const s = dominationShares(rules, tx.state, p.id);
-      if (s.land >= v.dominationLandPercent && s.population >= v.dominationPopulationPercent) return win(tx, 'domination', p.id, `${s.land} % of the land and ${s.population} % of the people`);
+      if (s.land >= v.dominationLandPercent && s.population >= v.dominationPopulationPercent) {
+        win(tx, 'domination', p.id, `${s.land} % of the land and ${s.population} % of the people`);
+        return;
+      }
     }
   }
   if (opts.victories.cultural) {
     const c = culturalWinner(rules, tx.state);
-    if (c) return win(tx, 'cultural', c.player, c.detail);
+    if (c) {
+      win(tx, 'cultural', c.player, c.detail);
+      return;
+    }
   }
   if (opts.mode === 'victoryPoints') {
     const top = [...civs].sort((a, b) => b.victoryPoints - a.victoryPoints || a.id - b.id)[0]!;
-    if (top.victoryPoints >= v.pointLimit) return win(tx, 'victoryPoints', top.id, `${top.victoryPoints} victory points`);
+    if (top.victoryPoints >= v.pointLimit) {
+      win(tx, 'victoryPoints', top.id, `${top.victoryPoints} victory points`);
+      return;
+    }
   }
   if (tx.state.turn >= rules.set.general.lastTurn) {
     if (opts.mode === 'victoryPoints') {
       const top = [...civs].sort((a, b) => b.victoryPoints - a.victoryPoints || a.id - b.id)[0]!;
-      return win(tx, 'victoryPoints', top.id, `the most victory points (${top.victoryPoints}) when time ran out`);
+      {
+        win(tx, 'victoryPoints', top.id, `the most victory points (${top.victoryPoints}) when time ran out`);
+        return;
+      }
     }
     const top = [...civs].sort((a, b) => score(rules, tx.state, b.id) - score(rules, tx.state, a.id) || a.id - b.id)[0]!;
-    return win(tx, 'score', top.id, `the highest score (${score(rules, tx.state, top.id)}) when time ran out`);
+    {
+      win(tx, 'score', top.id, `the highest score (${score(rules, tx.state, top.id)}) when time ran out`);
+      return;
+    }
   }
 }

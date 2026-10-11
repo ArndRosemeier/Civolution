@@ -12,7 +12,8 @@ import {
   cargoOf,
   cityAt,
   cityReport,
-  isCommonUnit,
+  launchBlocker,
+  unitAvailable,
   researchBlocker,
   isCoastal,
   distance,
@@ -68,6 +69,8 @@ function runEmpire(ctx: Ctx): void {
     }
   }
   if (gov.transitional) return;
+  // A finished spaceship flies at once.
+  if (launchBlocker(rules, ctx.state(), view.player) === null) ctx.act({ type: 'launchSpaceship', player: view.player, reason: why('the spaceship is ready') });
   const rates = fiscalRates(rules, ctx.state(), view.player);
   const now = ctx.state().players[view.player]!.rates;
   if (rates.tax !== now.tax || rates.science !== now.science || rates.luxury !== now.luxury) ctx.act({ type: 'setRates', player: view.player, rates, reason: why('balancing the treasury') });
@@ -104,10 +107,10 @@ function seaGoal(view: View, state: GameState): string | null {
   if (state.turn < 30 || !view.cities.some((c) => isCoastal(rules, state, c.tile))) return null;
   const landFull = isLandFull(view, state);
   if (view.me.contacts.length > 0 && !landFull) return null;
-  const known = rules.set.units.filter((u) => u.domain === 'sea' && u.capacity > 0 && isCommonUnit(rules, u.id) && (!u.requiredTech || p.techs.includes(u.requiredTech)));
+  const known = rules.set.units.filter((u) => u.domain === 'sea' && u.capacity > 0 && unitAvailable(rules, state, view.player, u.id) && (!u.requiredTech || p.techs.includes(u.requiredTech)));
   const have = Math.max(-1, ...known.map(reach));
   const next = rules.set.units
-    .filter((u) => u.domain === 'sea' && u.capacity > 0 && isCommonUnit(rules, u.id) && u.requiredTech && !p.techs.includes(u.requiredTech) && reach(u) > have)
+    .filter((u) => u.domain === 'sea' && u.capacity > 0 && unitAvailable(rules, state, view.player, u.id) && u.requiredTech && !p.techs.includes(u.requiredTech) && reach(u) > have)
     .sort((a, b) => reach(a) - reach(b) || rules.tech(a.requiredTech!).costFactor - rules.tech(b.requiredTech!).costFactor || a.id.localeCompare(b.id))[0];
   return next?.requiredTech ?? null;
 }
@@ -224,7 +227,9 @@ function trimUnits(ctx: Ctx, garrison: Set<number>): void {
   const rules = view.rules;
   const s = ctx.state();
   const support = unitSupportCost(rules, s, view.player);
-  if (support <= 0 || s.players[view.player]!.gold > 40 + view.cities.length * 10) return;
+  if (support <= 0) return;
+  const taxes = view.cities.reduce((a, c) => a + cityReport(rules, s, c).tax.value, 0);
+  if (s.players[view.player]!.gold > 40 + view.cities.length * 10 && support * 3 <= taxes) return;
   const per = Math.max(1, rules.government(s.players[view.player]!.government).unitCost);
   const spare = playerUnits(s, view.player)
     .filter((u) => !garrison.has(u.id) && u.carriedBy === null && roleOf(rules.unit(u.type)) === 'defender' && cityAt(s, u.tile)?.owner === view.player)
@@ -281,7 +286,10 @@ export function takeTurn(rules: Rules, state: GameState, player: number, act: (c
   const settlers = playerUnits(current, player).filter((u) => roleOf(rules.unit(u.type)) === 'settler').length;
   const garrisonNeeds = new Map<number, number>();
   for (const c of view.cities) garrisonNeeds.set(c.id, garrisonFor(view, c));
-  const broke = current.players[player]!.gold < 20 && unitSupportCost(rules, current, player) > 0;
+  // Broke: the treasury is empty, or unit upkeep eats more than a third of the taxes.
+  const support = unitSupportCost(rules, current, player);
+  const taxes = support > 0 ? view.cities.reduce((a, c) => a + cityReport(rules, current, c).tax.value, 0) : 0;
+  const broke = support > 0 && (current.players[player]!.gold < 20 || support * 3 > taxes);
   const needs: BuildNeeds = {
     wantField: broke ? field : wantedField(view, plan.preparing !== null),
     haveField: field,
@@ -364,7 +372,7 @@ export function takeTurn(rules: Rules, state: GameState, player: number, act: (c
   runColonists(ctx, colony);
   runRoutines(ctx);
   runUpgrades(ctx);
-  if (current.players[player]!.atWarWith.filter((e) => !current.players[e]!.barbarian).length === 0) trimUnits(ctx, garrison);
+  if (broke || current.players[player]!.atWarWith.filter((e) => !current.players[e]!.barbarian).length === 0) trimUnits(ctx, garrison);
 }
 
 /** The AI as a player controller (headless games, the browser host). */

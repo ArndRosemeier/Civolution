@@ -90,6 +90,18 @@ describe('headless games', () => {
     expect(stateHash(replay(rules, game, log))).toBe(stateHash(state));
   }, 240_000);
 
+  it('plays a full game on a Standard map from start to finish (Phase 8 exit criterion)', () => {
+    // Eight AI civilizations, every rule on, invariants checked every turn, until the game is decided (by turn 540 at the latest).
+    const game = { seed: 8, map: { worldSize: 'standard' }, players: defaultPlayers(8, civsForSeed(rules, 8, 8)), difficulty: 'monarch' };
+    const { state, report } = runGame({ rules, game, controllers: Array.from({ length: 8 }, () => ai), turns: rules.set.general.lastTurn + 1, until: (s) => s.victory !== null });
+    expect(report.invariantFailures).toEqual([]);
+    expect(state.victory).not.toBeNull();
+    expect(state.turn).toBeLessThanOrEqual(rules.set.general.lastTurn + 1);
+    // Gotos towards land the unit cannot reach are refused and cost nothing; anything else refused would point at an AI that misreads the rules.
+    const misread = Object.entries(report.refusals).filter(([k]) => !k.startsWith('goto: No known route'));
+    expect(misread.reduce((a, [, n]) => a + n, 0)).toBeLessThan(report.commands / 500);
+  }, 600_000);
+
   it('beats a passive player at Monarch (Phase 4 exit criterion)', () => {
     const games = runTournament({ rules, size: 'tiny', players: 2, turns: 300, seeds: [1, 5], difficulty: 'monarch', passive: true });
     for (const g of games) {

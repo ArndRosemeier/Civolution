@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { findPath, neighbour, pathTurns, stepCost } from '@civolution/engine';
+import { cityAt, findPath, neighbour, pathTurns, stepCost } from '@civolution/engine';
 import { host } from '../host/client.ts';
 import { loadModels, type ModelSet } from '../map/three/models.ts';
 import { ThreeMapView } from '../map/three/ThreeMapView.ts';
 import { rules } from '../rules.ts';
 import { writeSave } from '../saves.ts';
-import { idleUnits, useGame } from '../store.ts';
+import { idleCities, idleUnits, useGame } from '../store.ts';
+import { CityScreen } from './CityScreen.tsx';
+import { DomesticAdvisor } from './DomesticAdvisor.tsx';
+import { ScienceAdvisor } from './ScienceAdvisor.tsx';
 import { LogPanel } from './LogPanel.tsx';
 import { Minimap } from './Minimap.tsx';
 import { PerfHud } from './PerfHud.tsx';
@@ -21,6 +24,8 @@ const NUMPAD: Record<string, number> = { Numpad8: 0, Numpad9: 1, Numpad6: 2, Num
 
 export function GameScreen() {
   const canvas = useRef<HTMLCanvasElement>(null);
+  const labels = useRef<HTMLDivElement>(null);
+  const panel = useGame((s) => s.panel);
   const [view, setView] = useState<ThreeMapView | null>(null);
   const [dialog, setDialog] = useState<'save' | 'load' | null>(null);
   const snapshot = useGame((s) => s.snapshot)!;
@@ -39,7 +44,11 @@ export function GameScreen() {
     modelsPromise ??= loadModels();
     void modelsPromise.then((models) => {
       if (disposed || !canvas.current) return;
-      v = new ThreeMapView(canvas.current, rules, models, { shadows: settings.shadows });
+      v = new ThreeMapView(canvas.current, rules, models, {
+        shadows: settings.shadows,
+        ...(labels.current ? { labelLayer: labels.current } : {}),
+        onCityClick: (id) => useGame.getState().open({ kind: 'city', id }),
+      });
       setView(v);
     });
     return () => {
@@ -113,6 +122,14 @@ export function GameScreen() {
       const s = store.getState();
       const snap = s.snapshot;
       if (!snap) return false;
+      if (code === 'F1') {
+        s.open({ kind: 'domestic' });
+        return true;
+      }
+      if (code === 'F6') {
+        s.open({ kind: 'science' });
+        return true;
+      }
       if (code === 'Enter' || code === 'NumpadEnter') {
         void s.endTurn();
         return true;
@@ -185,7 +202,7 @@ export function GameScreen() {
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || dialog) return;
+      if (e.target instanceof HTMLInputElement || dialog || useGame.getState().panel) return;
       if (e.code.startsWith('Arrow')) {
         view?.camera.keyDown(e.code);
         e.preventDefault();
@@ -245,6 +262,12 @@ export function GameScreen() {
     const mine = Object.values(snap.state.units)
       .filter((x) => x.tile === tile && x.owner === snap.human)
       .sort((a, b) => a.id - b.id);
+    const city = cityAt(snap.state, tile);
+    // A click on your city opens it, unless it cycles through a unit stack already selected there.
+    if (city && city.owner === snap.human && !(u && u.tile === tile && mine.length > 1)) {
+      s.open({ kind: 'city', id: city.id });
+      return;
+    }
     if (mine.length > 0) {
       const idx = mine.findIndex((x) => x.id === s.selected);
       s.select(mine[(idx + 1) % mine.length]!.id);
@@ -253,6 +276,7 @@ export function GameScreen() {
   const onWheel = (e: React.WheelEvent) => view?.camera.zoomBy(e.deltaY > 0 ? 1.15 : 1 / 1.15);
 
   const remaining = idleUnits(snapshot).length;
+  const idle = idleCities(snapshot);
   const pathInfo = (() => {
     const u = selected !== null ? snapshot.state.units[selected] : undefined;
     if (!u || hover === null || hover === u.tile) return null;
@@ -272,6 +296,7 @@ export function GameScreen() {
         onWheel={onWheel}
         onContextMenu={(e) => e.preventDefault()}
       />
+      <div ref={labels} className="city-labels" />
       {!view && <div className="loading">Preparing the world…</div>}
       <TopBar onSave={() => setDialog('save')} onLoad={() => setDialog('load')} />
       <LogPanel onJump={(tile) => view?.centerOn(tile)} />
@@ -279,6 +304,11 @@ export function GameScreen() {
       <UnitPanel />
       <div className="corner">
         {view && <Minimap view={view} />}
+        {idle.length > 0 && (
+          <button className="idle-cities" onClick={() => useGame.getState().open({ kind: 'city', id: idle[0]! })} title="Open the first city with nothing to build">
+            {idle.length} cit{idle.length === 1 ? 'y needs' : 'ies need'} orders
+          </button>
+        )}
         <button className={`end-turn ${remaining === 0 ? 'ready' : ''}`} onClick={() => void useGame.getState().endTurn()} title="End turn (Enter)">
           <span>End turn</span>
           <small>{remaining === 0 ? 'All units have orders' : `${remaining} unit${remaining === 1 ? '' : 's'} waiting`}</small>
@@ -287,6 +317,9 @@ export function GameScreen() {
       {settings.perf && view && <PerfHud view={view} />}
       {toast && <div className="toast">{toast}</div>}
       {dialog && <SavesDialog mode={dialog} onClose={() => setDialog(null)} />}
+      {panel?.kind === 'city' && <CityScreen cityId={panel.id} onClose={() => useGame.getState().open(null)} />}
+      {panel?.kind === 'domestic' && <DomesticAdvisor onClose={() => useGame.getState().open(null)} />}
+      {panel?.kind === 'science' && <ScienceAdvisor onClose={() => useGame.getState().open(null)} />}
     </div>
   );
 }

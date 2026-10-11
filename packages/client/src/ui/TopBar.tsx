@@ -1,31 +1,52 @@
-import { exploredCount, playerUnits, tileCount } from '@civolution/engine';
+import { formatYear, playerUnits, yearOf } from '@civolution/engine';
+import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
+import { empireSummary, signed } from './empire.ts';
 
 export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => void }) {
   const snap = useGame((s) => s.snapshot)!;
   const settings = useGame((s) => s.settings);
   const setSettings = useGame((s) => s.setSettings);
+  const open = useGame((s) => s.open);
   const { state, human } = snap;
   const p = state.players[human]!;
-  const explored = Math.round((exploredCount(p) * 1000) / tileCount(state.map)) / 10;
+  const sum = empireSummary(snap);
+  const gov = rules.government(p.government);
+  const research = p.research.tech ? rules.tech(p.research.tech).name : null;
+  const pct = sum.researchCost ? Math.min(100, Math.round((p.research.beakers * 100) / sum.researchCost)) : 0;
   return (
     <div className="top-bar panel">
       <div className="brand">Civolution</div>
-      <div className="stat" title="Turn">
-        <span className="label">Turn</span>
-        <strong>{state.turn}</strong>
+      <div className="stat" title={`Turn ${state.turn}`}>
+        <span className="label">{formatYear(yearOf(rules, state.turn))}</span>
+        <strong>Turn {state.turn}</strong>
       </div>
-      <div className="stat" title="Treasury">
+      <div className="stat" title={`Treasury ${p.gold}\nTaxes ${signed(sum.tax)}\nBuilding upkeep −${sum.upkeep}\nUnit support −${sum.unitSupport}`}>
         <span className="label">Gold</span>
-        <strong className="gold">{p.gold}</strong>
+        <strong className="gold">
+          {p.gold} <small className={sum.net < 0 ? 'warn' : 'muted'}>{signed(sum.net)}</small>
+        </strong>
       </div>
-      <div className="stat" title="Share of the world you have explored">
-        <span className="label">Explored</span>
-        <strong>{explored}%</strong>
-      </div>
-      <div className="stat" title="Your units">
-        <span className="label">Units</span>
-        <strong>{playerUnits(state, human).length}</strong>
+      <button className={`stat research ${research ? '' : 'attention'}`} onClick={() => open({ kind: 'science' })} title="Science advisor (F6)">
+        <span className="label">Research</span>
+        <strong>{research ? `${research} · ${sum.researchTurns ?? '–'}` : 'Choose research'}</strong>
+        {research && (
+          <span className="bar">
+            <i style={{ width: `${pct}%` }} />
+          </span>
+        )}
+      </button>
+      <button className="stat" onClick={() => open({ kind: 'domestic' })} title="Domestic advisor (F1)">
+        <span className="label">{p.revolution ? `Revolution → ${rules.government(p.revolution.target).name}` : 'Government'}</span>
+        <strong>
+          {gov.name} <small className="muted">{p.rates.tax * 10}/{p.rates.science * 10}/{p.rates.luxury * 10}</small>
+        </strong>
+      </button>
+      <div className="stat" title={`${sum.cities.length} cities, ${playerUnits(state, human).length} units`}>
+        <span className="label">Empire</span>
+        <strong>
+          {sum.cities.length} <small className="muted">cities · pop {sum.population}</small>
+        </strong>
       </div>
       <div className="spacer" />
       <button className={settings.grid ? 'on' : ''} onClick={() => setSettings({ grid: !settings.grid })} title="Tile grid (Ctrl+G)">

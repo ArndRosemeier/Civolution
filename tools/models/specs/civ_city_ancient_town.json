@@ -1,0 +1,119 @@
+{
+  "spec_version": 1,
+  "id": "civ_city_ancient_town",
+  "generator": "civ.city",
+  "params": {
+    "era": "ancient",
+    "tier": 1,
+    "seed": 25
+  },
+  "materials": {
+    "wall": {
+      "base_color": [
+        0.86,
+        0.8,
+        0.66,
+        1
+      ],
+      "roughness": 0.85,
+      "metallic": 0
+    },
+    "roof": {
+      "base_color": [
+        0.66,
+        0.3,
+        0.18,
+        1
+      ],
+      "roughness": 0.85,
+      "metallic": 0
+    },
+    "stone": {
+      "base_color": [
+        0.7,
+        0.68,
+        0.62,
+        1
+      ],
+      "roughness": 0.85,
+      "metallic": 0
+    },
+    "wood": {
+      "base_color": [
+        0.4,
+        0.27,
+        0.15,
+        1
+      ],
+      "roughness": 0.85,
+      "metallic": 0
+    },
+    "team": {
+      "base_color": [
+        0.85,
+        0.85,
+        0.85,
+        1
+      ],
+      "roughness": 0.85,
+      "metallic": 0
+    },
+    "brick": {
+      "base_color": [
+        0.6,
+        0.27,
+        0.2,
+        1
+      ],
+      "roughness": 0.85,
+      "metallic": 0
+    },
+    "glass": {
+      "base_color": [
+        0.42,
+        0.6,
+        0.72,
+        1
+      ],
+      "roughness": 0.35,
+      "metallic": 0
+    },
+    "metal": {
+      "base_color": [
+        0.36,
+        0.38,
+        0.42,
+        1
+      ],
+      "roughness": 0.5,
+      "metallic": 0.6
+    },
+    "concrete": {
+      "base_color": [
+        0.74,
+        0.74,
+        0.72,
+        1
+      ],
+      "roughness": 0.85,
+      "metallic": 0
+    },
+    "green": {
+      "base_color": [
+        0.32,
+        0.55,
+        0.25,
+        1
+      ],
+      "roughness": 0.85,
+      "metallic": 0
+    }
+  },
+  "qa": {
+    "max_triangles": 9000,
+    "require_uvs": true,
+    "require_manifold": true,
+    "require_origin_at_base": true,
+    "max_dimension_m": 7.0
+  }
+}

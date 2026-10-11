@@ -51,7 +51,7 @@ export type GameEvent = { reason?: string } & (
   | { type: 'orderChanged'; unit: number; player: number }
   | { type: 'workStarted'; unit: number; player: number; tile: number; job: string; turns: number }
   | { type: 'workCompleted'; tile: number; job: string; player: number }
-  | { type: 'forestCleared'; tile: number; player: number; shields: number }
+  | { type: 'forestCleared'; tile: number; player: number; shields: number; city?: number }
   | { type: 'gotoFinished'; unit: number; player: number; arrived: boolean }
   | { type: 'unitWoke'; unit: number; player: number; tile: number }
   | { type: 'playerEndedTurn'; player: number }

@@ -5,6 +5,8 @@
  * the same tile doing the same job pool their work.
  */
 import { availableResources } from './empire.ts';
+import { distance } from './grid.ts';
+import { cityRadiusTiles, playerCities } from './territory.ts';
 import { hasFreshWaterAccess, hasTechFlag, knowsTech, unitsAt } from './queries.ts';
 import type { Rules } from './rules.ts';
 import {
@@ -166,7 +168,15 @@ function completeJob(rules: Rules, tx: Tx, tile: number, job: string, player: nu
       const under = m.underlying[tile]!;
       setTerrain(under >= 0 ? under : rules.terrainIndex(before.transform!.result));
       tx.mapArray('underlying')[tile] = -1;
-      if (job === 'clearForest') tx.emit({ type: 'forestCleared', tile, player, shields: rules.set.general.forestClearShields });
+      if (job === 'clearForest') {
+        // The timber goes to the nearest of the player's cities whose work area holds the tile.
+        const shields = rules.set.general.forestClearShields;
+        const city = playerCities(tx.state, player)
+          .filter((c) => cityRadiusTiles(m, c.tile).includes(tile))
+          .sort((a, b) => distance(m, a.tile, tile) - distance(m, b.tile, tile) || a.id - b.id)[0];
+        if (city) tx.city(city.id).shields = city.shields + shields;
+        tx.emit({ type: 'forestCleared', tile, player, shields: city ? shields : 0, ...(city ? { city: city.id } : {}) });
+      }
       break;
     }
   }

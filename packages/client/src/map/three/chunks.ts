@@ -6,6 +6,7 @@
  */
 import * as THREE from 'three';
 import {
+  cityAt,
   FLAG_HUT,
   IMP_MINE,
   IMP_RAIL,
@@ -156,7 +157,11 @@ export class Chunk {
         };
         const lat = Math.abs((2 * z) / map.height - 1);
         const imp = map.improvements[tile]!;
-        if (terrain === T['forest']) {
+        // A city stands here: its model replaces trees, mines and tokens.
+        const city = cityAt(state, tile) !== undefined;
+        if (city) {
+          // nothing but roads
+        } else if (terrain === T['forest']) {
           const cold = map.underlying[tile] === T['tundra'] || lat > 0.55;
           for (let k = 0; k < 6; k++) {
             const [px, pz] = spot();
@@ -181,10 +186,10 @@ export class Chunk {
             put('palm', px, pz, 0.8 + r() * 0.3, r() * 6.28);
           }
         }
-        if (imp & IMP_MINE) put('mine', x + 0.15, z - 0.1, 1, r() * 6.28);
+        if (imp & IMP_MINE && !city) put('mine', x + 0.15, z - 0.1, 1, r() * 6.28);
         if (map.flags[tile]! & FLAG_HUT) put('village', x, z, 1, r() * 6.28);
         const res = map.resource[tile]!;
-        if (res >= 0) {
+        if (res >= 0 && !city) {
           const rule = rules.resources[res]!;
           if (!rule.revealedBy || player.techs.includes(rule.revealedBy)) {
             const color = new THREE.Color(rule.kind === 'bonus' ? '#7dd36a' : rule.kind === 'luxury' ? '#c47ae6' : '#f0a640');

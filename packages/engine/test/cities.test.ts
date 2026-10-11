@@ -391,3 +391,21 @@ describe('calendar', () => {
     expect(formatYear(yearOf(rules, 129))).toBe('AD 11');
   });
 });
+
+describe('forest clearing', () => {
+  it('sends the timber to the nearest city whose work area holds the tile', () => {
+    let { s, c } = found(flatGame(), 0, 20, 20);
+    const t = at(s, 22, 20);
+    setTerrain(s, t, 'forest');
+    s.map.underlying[t] = rules.terrainIndex('grassland');
+    invalidateCaches(s);
+    const w = place(s, 0, 'worker', t);
+    s = run(s, { type: 'work', player: 0, unit: w.id, job: 'clearForest' });
+    const before = s.cities[c.id]!.shields;
+    for (let i = 0; i < 4 && s.map.terrain[t] === rules.terrainIndex('forest'); i++) s = endTurnAll(s);
+    c = s.cities[c.id]!;
+    expect(s.map.terrain[t]).toBe(rules.terrainIndex('grassland'));
+    // 10 shields of timber on top of the city's own production that turn.
+    expect(c.shields + (Object.values(s.units).filter((u) => u.type === 'warrior').length * 10)).toBeGreaterThanOrEqual(before + 10);
+  });
+});

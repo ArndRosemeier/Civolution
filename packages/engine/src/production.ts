@@ -92,6 +92,7 @@ export function buildBlocker(rules: Rules, state: GameState, city: City, b: Buil
   if (r.effects.includes('buildLargerArmies')) return 'Needs armies (Phase 3).';
   if (b.id.startsWith('ss')) return 'The space race arrives in Phase 6.';
   if (b.id === 'palace' && 'palace' in city.buildings) return 'Already the capital.';
+  if (r.kind === 'smallWonder' && r.effects.includes('reducesCorruption') && 'palace' in city.buildings) return 'The capital is already the seat of government.';
   return null;
 }
 
@@ -146,7 +147,8 @@ export function hurryQuote(rules: Rules, state: GameState, city: City): HurryQuo
   }
   if (gov.hurry === 'forcedLabor') {
     const citizens = Math.ceil(remaining / Math.max(1, g.citizenValueInShields));
-    if (citizens >= city.size) return { kind: 'none', reason: `Needs ${citizens} citizens; the city has ${city.size}.` };
+    if (citizens >= city.size)
+      return { kind: 'none', reason: `Forced labour needs ${citizens} citizen${citizens === 1 ? '' : 's'} and the city must keep one; it has ${city.size}.` };
     return { kind: 'forcedLabor', citizens, remaining };
   }
   return { kind: 'none', reason: `${gov.name} cannot hurry production.` };

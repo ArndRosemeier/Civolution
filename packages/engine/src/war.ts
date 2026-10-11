@@ -28,6 +28,7 @@ import type { Rules } from './rules.ts';
 import {
   FLAG_CAMP,
   IMP_BARRICADE,
+  IMP_CRATER,
   IMP_FORTRESS,
   IMP_IRRIGATION,
   IMP_MINE,
@@ -741,7 +742,7 @@ function nukeCommand(rules: Rules, tx: Tx, cmd: Extract<Command, { type: 'nuke' 
     replaceCitizens(rules, tx, c.id);
   }
   const imp = tx.mapArray('improvements');
-  for (const t of area) if (!rules.terrains[tx.state.map.terrain[t]!]!.water) imp[t] = imp[t]! | IMP_POLLUTION;
+  for (const t of area) if (!rules.terrains[tx.state.map.terrain[t]!]!.water) imp[t] = imp[t]! | (t === cmd.target && !cityAt(tx.state, t) ? IMP_CRATER : IMP_POLLUTION);
   for (const p of [...hitPlayers].sort((a, b) => a - b)) {
     if (p !== u.owner) addWeariness(tx, p, u.owner, 10);
     checkElimination(rules, tx, p, u.owner);

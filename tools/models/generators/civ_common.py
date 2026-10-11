@@ -28,6 +28,14 @@ class ShapeBuilder:
     def __init__(self, material_slots: Sequence[str]) -> None:
         self._slots = tuple(material_slots)
         self._bm = bmesh.new()
+        self._xform: Matrix | None = None
+
+    def placed(self, offset: Vec3, scale: float = 1.0, yaw: float = 0.0) -> "_Placement":
+        """Context manager: primitives added inside are scaled, turned about Z and moved.
+
+        Lets a generator reuse a whole sub-assembly (a rider, a soldier in a group).
+        """
+        return _Placement(self, offset, scale, yaw)
 
     def _index(self, slot: str) -> int:
         if slot not in self._slots:
@@ -36,6 +44,8 @@ class ShapeBuilder:
 
     def _tag(self, verts: Sequence[bmesh.types.BMVert], slot: str) -> None:
         index = self._index(slot)
+        if self._xform is not None:
+            bmesh.ops.transform(self._bm, matrix=self._xform, verts=list(verts))
         for face in {f for v in verts for f in v.link_faces}:
             face.material_index = index
 
@@ -120,10 +130,48 @@ class ShapeBuilder:
 
     def mesh(self, verts: Sequence[Vec3], faces: Sequence[Sequence[int]], slot: str) -> None:
         index = self._index(slot)
-        created = [self._bm.verts.new(Vector(v)) for v in verts]
+        m = self._xform
+        created = [self._bm.verts.new(Vector(v) if m is None else m @ Vector(v)) for v in verts]
         for corners in faces:
             face = self._bm.faces.new([created[c] for c in corners])
             face.material_index = index
+
+    def extrude(self, outline: Sequence[tuple[float, float]], axis: str, a0: float, a1: float, slot: str) -> None:
+        """Prism from a 2D outline swept along one axis between a0 and a1.
+
+        The outline is (x, y) for axis "z", (x, z) for axis "y" and (y, z) for axis "x".
+        Flags, fins, wings and kite shields are made this way.
+        """
+        def point(u: float, v: float, a: float) -> Vec3:
+            if axis == "z":
+                return (u, v, a)
+            if axis == "y":
+                return (u, a, v)
+            return (a, u, v)
+
+        n = len(outline)
+        verts = [point(u, v, a0) for u, v in outline] + [point(u, v, a1) for u, v in outline]
+        faces: list[tuple[int, ...]] = [tuple(range(n)), tuple(range(n, 2 * n))]
+        faces += [(i, (i + 1) % n, n + (i + 1) % n, n + i) for i in range(n)]
+        self.mesh(verts, faces, slot)
+
+    def wheel(self, center: Vec3, radius: float, width: float, slot: str, segments: int = 12) -> None:
+        """Cylinder whose axis runs along X (wheels, rollers, axles)."""
+        self.cylinder(center, radius, width, slot, rotation=(0.0, math.pi / 2, 0.0), segments=segments)
+
+    def spoked_wheel(self, center: Vec3, radius: float, width: float, rim: str, spokes_slot: str, hub: str, spokes: int = 6, segments: int = 12) -> None:
+        """An open wheel turning about X: a segmented rim, spokes and a hub."""
+        x, y, z = center
+        depth = radius * 0.13
+        chord = 2.0 * (radius - depth * 0.5) * math.sin(math.pi / segments) * 1.08
+        for i in range(segments):
+            a = (i + 0.5) * 2.0 * math.pi / segments
+            r = radius - depth * 0.5
+            self.box((x, y + r * math.cos(a), z + r * math.sin(a)), (width, chord, depth), rim, rotation=(a + math.pi / 2, 0.0, 0.0))
+        for i in range(spokes):
+            a = i * math.pi / spokes
+            self.box((x, y, z), (width * 0.45, (radius - depth * 0.5) * 2.0, width * 0.45), spokes_slot, rotation=(a, 0.0, 0.0))
+        self.wheel((x, y, z), radius * 0.17, width * 1.8, hub, segments=8)
 
     def loft(self, sections: Sequence[Sequence[Vec3]], slot: str) -> None:
         """Closed loft through rings of equal vertex count (hulls). Ends are capped."""
@@ -160,6 +208,21 @@ class ShapeBuilder:
                 raise SpecError(f"Spec has no material for slot '{slot}'")
             mesh.materials.append(make_material(slot, materials[slot]))
         return obj
+
+
+class _Placement:
+    def __init__(self, builder: ShapeBuilder, offset: Vec3, scale: float, yaw: float) -> None:
+        self._b = builder
+        self._m = Matrix.Translation(Vector(offset)) @ Matrix.Rotation(yaw, 4, "Z") @ Matrix.Scale(scale, 4)
+        self._saved: Matrix | None = None
+
+    def __enter__(self) -> ShapeBuilder:
+        self._saved = self._b._xform
+        self._b._xform = self._m if self._saved is None else self._saved @ self._m
+        return self._b
+
+    def __exit__(self, *exc: object) -> None:
+        self._b._xform = self._saved
 
 
 def finish(obj: bpy.types.Object) -> None:

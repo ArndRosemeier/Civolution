@@ -23,6 +23,16 @@ interface Shown {
   stackSize: number;
   /** Hit points left as a fraction of full health. */
   hp: number;
+  domain: 'land' | 'sea' | 'air';
+}
+
+/** Aircraft hover over their base. */
+const AIR_LIFT = 0.55;
+
+function groundOf(s: { domain: 'land' | 'sea' | 'air'; model: ModelId }, hf: HeightField, x: number, z: number): number {
+  if (s.domain === 'sea') return 0.02;
+  const g = Math.max(0, hf.heightAt(x, z));
+  return s.domain === 'air' ? g + AIR_LIFT : hf.heightAt(x, z);
 }
 
 interface Ghost extends Shown {
@@ -174,6 +184,7 @@ export class UnitLayer {
           stackIndex: i,
           stackSize: list.length,
           hp: Math.min(1, currentHp(rules, state, u) / Math.max(1, maxHp(rules, state, u))),
+          domain: rule.domain,
         });
       });
     }
@@ -211,9 +222,8 @@ export class UnitLayer {
       let wx = s.x + (lunge ? lunge.dx * push : 0);
       const wz = s.z + (lunge ? lunge.dz * push : 0);
       wx += Math.round((cameraX - wx) / W) * W;
-      const sea = MODELS[s.model].fit === 'length';
-      const ground = sea ? 0.02 : hf.heightAt(wx, wz);
-      const bob = sea ? Math.sin(time * 1.6 + s.unit.id) * 0.015 : 0;
+      const ground = groundOf(s, hf, wx, wz);
+      const bob = s.domain === 'sea' ? Math.sin(time * 1.6 + s.unit.id) * 0.015 : s.domain === 'air' ? Math.sin(time * 2 + s.unit.id) * 0.04 : 0;
       if (icons) {
         if (s.stackIndex === 0) {
           this.tmp.compose(new THREE.Vector3(wx, Math.max(ground, 0) + 0.15, wz), this.q.identity(), new THREE.Vector3(iconScale, 1, iconScale));
@@ -232,7 +242,7 @@ export class UnitLayer {
         mesh.setColorAt(i, s.color);
         // Health bar over the front unit when it is hurt or selected.
         if (s.stackIndex === 0 && (s.hp < 0.999 || s.unit.id === this.selected) && bars < 1024) {
-          const top = ground + MODELS[s.model].size * (MODELS[s.model].fit === 'height' ? 1.08 : 0.55) + 0.12;
+          const top = ground + MODELS[s.model]!.size * (MODELS[s.model]!.fit === 'height' ? 1.08 : 0.55) + 0.12;
           const w = 0.42;
           this.tmp.compose(new THREE.Vector3(wx, top, wz), this.camQ, new THREE.Vector3(w + 0.03, 0.075, 1));
           this.hpBack.setMatrixAt(bars, this.tmp);
@@ -265,8 +275,7 @@ export class UnitLayer {
         used.set(g.model, i + 1);
         let wx = g.x;
         wx += Math.round((cameraX - wx) / W) * W;
-        const sea = MODELS[g.model].fit === 'length';
-        const ground = sea ? 0.02 : hf.heightAt(wx, g.z);
+        const ground = groundOf(g, hf, wx, g.z);
         const f = Math.min(1, g.t / 1.4);
         this.q.setFromAxisAngle(this.up, g.heading);
         const tilt = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), f * 1.2);

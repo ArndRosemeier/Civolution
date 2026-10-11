@@ -1,0 +1,98 @@
+{
+  "spec_version": 1,
+  "id": "civ_unit_catapult",
+  "generator": "civ.siege",
+  "params": {
+    "kind": "catapult",
+    "seed": 400
+  },
+  "materials": {
+    "wood": {
+      "base_color": [
+        0.42,
+        0.29,
+        0.16,
+        1
+      ],
+      "roughness": 0.8,
+      "metallic": 0.0
+    },
+    "dark": {
+      "base_color": [
+        0.16,
+        0.15,
+        0.14,
+        1
+      ],
+      "roughness": 0.55,
+      "metallic": 0.6
+    },
+    "metal": {
+      "base_color": [
+        0.62,
+        0.5,
+        0.3,
+        1
+      ],
+      "roughness": 0.35,
+      "metallic": 0.85
+    },
+    "team": {
+      "base_color": [
+        0.85,
+        0.85,
+        0.85,
+        1
+      ],
+      "roughness": 0.75,
+      "metallic": 0.0
+    },
+    "rope": {
+      "base_color": [
+        0.7,
+        0.6,
+        0.42,
+        1
+      ],
+      "roughness": 0.95,
+      "metallic": 0.0
+    },
+    "rubber": {
+      "base_color": [
+        0.09,
+        0.09,
+        0.09,
+        1
+      ],
+      "roughness": 0.9,
+      "metallic": 0.0
+    },
+    "paint": {
+      "base_color": [
+        0.33,
+        0.36,
+        0.24,
+        1
+      ],
+      "roughness": 0.75,
+      "metallic": 0.0
+    },
+    "stone": {
+      "base_color": [
+        0.55,
+        0.53,
+        0.5,
+        1
+      ],
+      "roughness": 0.95,
+      "metallic": 0.0
+    }
+  },
+  "qa": {
+    "max_triangles": 8000,
+    "require_uvs": true,
+    "require_manifold": true,
+    "require_origin_at_base": true,
+    "max_dimension_m": 12.0
+  }
+}

@@ -250,5 +250,359 @@
     "prompt": "The sound of a deep wooden drum hit with a soft brass swell signalling the end of a turn, about two seconds",
     "hash": "0d1082a0cab14e81",
     "date": "2026-10-11"
+  },
+  "attack-melee-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a short clash of bronze swords and wooden shields, two or three heavy blows and a battle shout without words, about two seconds",
+    "hash": "e393cf009ba28201",
+    "date": "2026-10-11"
+  },
+  "attack-melee-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a short clash of bronze swords and wooden shields, two or three heavy blows and a battle shout without words, about two seconds",
+    "hash": "cb1d613e9a6f1c6d",
+    "date": "2026-10-11"
+  },
+  "attack-melee-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a short clash of bronze swords and wooden shields, two or three heavy blows and a battle shout without words, about two seconds",
+    "hash": "d2f5b77905383776",
+    "date": "2026-10-11"
+  },
+  "attack-archery-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a volley of arrows released from several bows, strings twanging and arrows whistling through the air before thudding into wood, about two seconds",
+    "hash": "4e4b19099e430c5e",
+    "date": "2026-10-11"
+  },
+  "attack-archery-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a volley of arrows released from several bows, strings twanging and arrows whistling through the air before thudding into wood, about two seconds",
+    "hash": "b2e388de3d22515c",
+    "date": "2026-10-11"
+  },
+  "attack-archery-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a volley of arrows released from several bows, strings twanging and arrows whistling through the air before thudding into wood, about two seconds",
+    "hash": "1aa8e2cd1c09516a",
+    "date": "2026-10-11"
+  },
+  "attack-mounted-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a cavalry charge: galloping hooves on hard ground, a horse neighing and a clash of lances, about two seconds",
+    "hash": "4bad7ee28b72fa24",
+    "date": "2026-10-11"
+  },
+  "attack-mounted-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a cavalry charge: galloping hooves on hard ground, a horse neighing and a clash of lances, about two seconds",
+    "hash": "9e13749db9e54dbc",
+    "date": "2026-10-11"
+  },
+  "attack-mounted-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a cavalry charge: galloping hooves on hard ground, a horse neighing and a clash of lances, about two seconds",
+    "hash": "83cd5fd244612cf9",
+    "date": "2026-10-11"
+  },
+  "attack-gunpowder-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a ragged musket volley with black powder cracks and echoing smoke, about two seconds",
+    "hash": "f6410c7e695a63c3",
+    "date": "2026-10-11"
+  },
+  "attack-gunpowder-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a ragged musket volley with black powder cracks and echoing smoke, about two seconds",
+    "hash": "3faf89fe5f3e48a7",
+    "date": "2026-10-11"
+  },
+  "attack-gunpowder-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a ragged musket volley with black powder cracks and echoing smoke, about two seconds",
+    "hash": "47eac92efb3a89d7",
+    "date": "2026-10-11"
+  },
+  "attack-rifle-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a burst of rifle and machine gun fire across a battlefield, distant and punchy, about two seconds",
+    "hash": "5a5f2a03f0e60307",
+    "date": "2026-10-11"
+  },
+  "attack-rifle-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a burst of rifle and machine gun fire across a battlefield, distant and punchy, about two seconds",
+    "hash": "6f84badd7210f936",
+    "date": "2026-10-11"
+  },
+  "attack-rifle-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a burst of rifle and machine gun fire across a battlefield, distant and punchy, about two seconds",
+    "hash": "dba290ad443e58bf",
+    "date": "2026-10-11"
+  },
+  "attack-armour-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a tank's main gun firing with a deep boom, followed by clanking tracks and a diesel engine roaring, about two seconds",
+    "hash": "e14e746bf8574e72",
+    "date": "2026-10-11"
+  },
+  "attack-armour-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a tank's main gun firing with a deep boom, followed by clanking tracks and a diesel engine roaring, about two seconds",
+    "hash": "8cef1f1d3ebfaa61",
+    "date": "2026-10-11"
+  },
+  "attack-armour-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a tank's main gun firing with a deep boom, followed by clanking tracks and a diesel engine roaring, about two seconds",
+    "hash": "ee1edf333e85fe0b",
+    "date": "2026-10-11"
+  },
+  "attack-artillery-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a heavy siege weapon or cannon firing: a deep thump, a whistle and a distant explosion, about two seconds",
+    "hash": "78465b4902ae961f",
+    "date": "2026-10-11"
+  },
+  "attack-artillery-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a heavy siege weapon or cannon firing: a deep thump, a whistle and a distant explosion, about two seconds",
+    "hash": "8327192d8da97046",
+    "date": "2026-10-11"
+  },
+  "attack-artillery-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a heavy siege weapon or cannon firing: a deep thump, a whistle and a distant explosion, about two seconds",
+    "hash": "32f3d310201c20e6",
+    "date": "2026-10-11"
+  },
+  "attack-naval-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a broadside of ship cannons over open water, booming shots and splashes, with creaking timber, about two seconds",
+    "hash": "e348194a68002ee2",
+    "date": "2026-10-11"
+  },
+  "attack-naval-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a broadside of ship cannons over open water, booming shots and splashes, with creaking timber, about two seconds",
+    "hash": "411196da4b03fd4b",
+    "date": "2026-10-11"
+  },
+  "attack-naval-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a broadside of ship cannons over open water, booming shots and splashes, with creaking timber, about two seconds",
+    "hash": "6e43ef4e6a854d0d",
+    "date": "2026-10-11"
+  },
+  "attack-air-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a combat aircraft diving past at speed with a jet roar and a burst of cannon fire, about two seconds",
+    "hash": "cb533877a50023e7",
+    "date": "2026-10-11"
+  },
+  "attack-air-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a combat aircraft diving past at speed with a jet roar and a burst of cannon fire, about two seconds",
+    "hash": "50570dc7ebb1d1d5",
+    "date": "2026-10-11"
+  },
+  "attack-air-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a combat aircraft diving past at speed with a jet roar and a burst of cannon fire, about two seconds",
+    "hash": "7eadc2bbee5b8425",
+    "date": "2026-10-11"
+  },
+  "battle-won-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a short triumphant brass fanfare of three rising notes with a snare roll, about two seconds",
+    "hash": "5d3e082e9a98e5df",
+    "date": "2026-10-11"
+  },
+  "battle-won-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a short triumphant brass fanfare of three rising notes with a snare roll, about two seconds",
+    "hash": "44d8bccca4b18704",
+    "date": "2026-10-11"
+  },
+  "battle-lost-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a low mournful horn note over a slow muffled drum, about two seconds",
+    "hash": "09b33937f0b1b2cf",
+    "date": "2026-10-11"
+  },
+  "battle-lost-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a low mournful horn note over a slow muffled drum, about two seconds",
+    "hash": "05cb63ab77bb0415",
+    "date": "2026-10-11"
+  },
+  "bombard-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a distant artillery barrage: several deep booms, whistling shells and crumbling stone, about three seconds",
+    "hash": "508967a3b50f579e",
+    "date": "2026-10-11"
+  },
+  "bombard-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a distant artillery barrage: several deep booms, whistling shells and crumbling stone, about three seconds",
+    "hash": "6fac9634820b99f0",
+    "date": "2026-10-11"
+  },
+  "bombard-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a distant artillery barrage: several deep booms, whistling shells and crumbling stone, about three seconds",
+    "hash": "c1148ba7b68a9f39",
+    "date": "2026-10-11"
+  },
+  "aircraft-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a propeller bomber formation droning overhead and fading into the distance, about three seconds",
+    "hash": "b1cf371fd8c7c2dd",
+    "date": "2026-10-11"
+  },
+  "aircraft-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a propeller bomber formation droning overhead and fading into the distance, about three seconds",
+    "hash": "0001ee4e5c2ce62c",
+    "date": "2026-10-11"
+  },
+  "dogfight-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of two fighter planes in a dogfight, engines screaming, short machine gun bursts and a plane spiralling down, about three seconds",
+    "hash": "9391b11fcb23997b",
+    "date": "2026-10-11"
+  },
+  "dogfight-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of two fighter planes in a dogfight, engines screaming, short machine gun bursts and a plane spiralling down, about three seconds",
+    "hash": "cc69bd3f00c87e1b",
+    "date": "2026-10-11"
+  },
+  "nuclear-blast-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a colossal nuclear explosion: a blinding crack, a long rolling thunderous roar and a rushing shock wave of wind, about five seconds",
+    "hash": "88780c678dd7e949",
+    "date": "2026-10-11"
+  },
+  "missile-intercepted-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a missile streaking upward and a sharp mid-air explosion high in the sky, followed by debris whistling away, about three seconds",
+    "hash": "d1108f77d862bcc4",
+    "date": "2026-10-11"
+  },
+  "war-declared-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of deep war drums pounding with a long ominous horn call and a crowd of soldiers roaring without words, about three seconds",
+    "hash": "2c63e7e8eebe4064",
+    "date": "2026-10-11"
+  },
+  "war-declared-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of deep war drums pounding with a long ominous horn call and a crowd of soldiers roaring without words, about three seconds",
+    "hash": "917c61713cafbc8e",
+    "date": "2026-10-11"
+  },
+  "peace-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of gentle church bells ringing over a quiet town with birdsong, calm and relieved, about three seconds",
+    "hash": "f06e22a273fc6d8b",
+    "date": "2026-10-11"
+  },
+  "peace-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of gentle church bells ringing over a quiet town with birdsong, calm and relieved, about three seconds",
+    "hash": "e4310747a448ce00",
+    "date": "2026-10-11"
+  },
+  "city-captured-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a city gate being forced open with a heavy crash, then marching boots and a victorious horn call, about three seconds",
+    "hash": "d50ada5b0f54e5aa",
+    "date": "2026-10-11"
+  },
+  "city-captured-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a city gate being forced open with a heavy crash, then marching boots and a victorious horn call, about three seconds",
+    "hash": "26c82ac9b8958eaf",
+    "date": "2026-10-11"
+  },
+  "city-destroyed-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a great fire crackling and roaring as wooden buildings collapse and stone walls crumble, about three seconds",
+    "hash": "64b9da21879dc256",
+    "date": "2026-10-11"
+  },
+  "city-destroyed-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a great fire crackling and roaring as wooden buildings collapse and stone walls crumble, about three seconds",
+    "hash": "9d0c89785e47bf39",
+    "date": "2026-10-11"
+  },
+  "leader-born-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a heroic brass fanfare rising over a cheering army without words, about three seconds",
+    "hash": "82b5f33f765c6611",
+    "date": "2026-10-11"
+  },
+  "promotion-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a short bright bugle call with a metal medal clinking, about one second",
+    "hash": "a9319312b3270da4",
+    "date": "2026-10-11"
+  },
+  "promotion-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a short bright bugle call with a metal medal clinking, about one second",
+    "hash": "83561c09bf0f77e8",
+    "date": "2026-10-11"
+  },
+  "pillage-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of soldiers smashing wooden fences and tearing up a stone road with axes and crowbars, about two seconds",
+    "hash": "19a9c7107b6bcba8",
+    "date": "2026-10-11"
+  },
+  "pillage-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of soldiers smashing wooden fences and tearing up a stone road with axes and crowbars, about two seconds",
+    "hash": "0f2bc8512bf1c85c",
+    "date": "2026-10-11"
+  },
+  "capture-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of heavy iron chains rattling and a prisoner cart creaking away, about two seconds",
+    "hash": "3cfe0e6bea11911a",
+    "date": "2026-10-11"
+  },
+  "capture-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of heavy iron chains rattling and a prisoner cart creaking away, about two seconds",
+    "hash": "e15303e2582e3417",
+    "date": "2026-10-11"
+  },
+  "board-ship-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of soldiers' boots on a wooden gangplank, creaking ship timbers and lapping water, about two seconds",
+    "hash": "448113c0fcdc6c89",
+    "date": "2026-10-11"
+  },
+  "board-ship-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of soldiers' boots on a wooden gangplank, creaking ship timbers and lapping water, about two seconds",
+    "hash": "7f758b2388773280",
+    "date": "2026-10-11"
+  },
+  "barbarian-horn-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a rough barbarian war horn blowing from distant hills with faint wild drumming, about three seconds",
+    "hash": "77d628587f090882",
+    "date": "2026-10-11"
+  },
+  "barbarian-horn-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a rough barbarian war horn blowing from distant hills with faint wild drumming, about three seconds",
+    "hash": "52660b140e5a9d7f",
+    "date": "2026-10-11"
   }
 }

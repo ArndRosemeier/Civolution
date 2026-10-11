@@ -803,12 +803,6 @@
     "hash": "42c03e71ed963a58",
     "date": "2026-10-11"
   },
-  "work-started-1.mp3": {
-    "model": "bytedance-seed/seed-audio-1-0",
-    "prompt": "The sound of a pickaxe striking hard soil twice and a shovel scraping gravel, outdoors, without voices, about one and a half seconds",
-    "hash": "4e835e38a00c2810",
-    "date": "2026-10-11"
-  },
   "work-started-2.mp3": {
     "model": "bytedance-seed/seed-audio-1-0",
     "prompt": "The sound of a pickaxe striking hard soil twice and a shovel scraping gravel, outdoors, without voices, about one and a half seconds",

@@ -53,6 +53,7 @@ test('a 200-city empire handed to automation: delegation, governors, the digest,
   await expect(page.locator('.turn-digest')).toContainText('Automation:');
   const needs = await page.evaluate(() => (window as unknown as { __civ: Civ }).__civ.store.getState().digest.filter((d) => d.needsInput).length);
   expect(needs).toBeLessThan(10);
+  await page.waitForTimeout(400);
   await page.screenshot({ path: 'test-results/automation-digest.png' });
 
   // The city screen shows the governor and template; a hand-placed citizen pauses the governor.

@@ -5,6 +5,9 @@
  */
 import { useMemo, useState } from 'react';
 import {
+  draftBlocker,
+  draftedThisTurn,
+  draftUnit,
   flipOdds,
   PERCENT_PER_POINT,
   inGoldenAge,
@@ -258,6 +261,7 @@ export function CityScreen({ cityId, onClose }: { cityId: number; onClose: () =>
                   {city.shields} / {cost}
                 </div>
                 {mine && <HurryButton city={city} />}
+                {mine && <DraftButton city={city} />}
               </>
             ) : (
               <div className="warn">Nothing is being built.</div>
@@ -366,6 +370,26 @@ function HurryButton({ city }: { city: City }) {
       className={short ? 'disabled' : 'primary'}
       title={short ? `The treasury has ${gold} gold.` : `Completes ${buildName(rules, city.build!)} at the end of the turn.`}
       onClick={() => !short && confirm(`${label}?`) && void send({ type: 'hurry', city: city.id })}
+    >
+      {label}
+    </button>
+  );
+}
+
+/** The draft: a citizen becomes a conscript defender (governments that allow it, after Nationalism). */
+function DraftButton({ city }: { city: City }) {
+  const snap = useGame((s) => s.snapshot)!;
+  const send = useGame((s) => s.send);
+  const gov = rules.government(snap.state.players[city.owner]!.government);
+  if (gov.draftLimit <= 0) return null;
+  const blocker = draftBlocker(rules, snap.state, city);
+  const unit = draftUnit(rules, snap.state, city.owner, city);
+  const label = unit ? `Draft ${rules.unit(unit).name}` : 'Draft';
+  return (
+    <button
+      className={blocker ? 'disabled' : ''}
+      title={blocker ?? `One citizen becomes a conscript ${unit ? rules.unit(unit).name : 'unit'}; the city stays unhappy about it for a while. ${draftedThisTurn(snap.state, city)} of ${gov.draftLimit} drafted this turn.`}
+      onClick={() => !blocker && confirm(`${label}? The city loses a citizen.`) && void send({ type: 'draft', city: city.id })}
     >
       {label}
     </button>

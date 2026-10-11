@@ -18,6 +18,7 @@ export { saveGame, loadGame, stateHash, SaveError, type SaveHeader } from './sav
 export { checkInvariants, invariants, type Invariant } from './invariants.ts';
 export { canonicalJson, hashString, hashValue } from './hash.ts';
 export { yearOf, formatYear, yearsBetween } from './calendar.ts';
+export { invalidateCaches } from './caches.ts';
 export {
   cityReport,
   cityTileYield,

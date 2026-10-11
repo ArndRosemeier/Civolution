@@ -8,6 +8,8 @@
  */
 import { bestSite, siteScore } from './empire.ts';
 import {
+  cityAt,
+  cityReport,
   checkJob,
   costField,
   distance,
@@ -130,6 +132,9 @@ export function proposeAutoWorker(rules: Rules, state: GameState, u: Unit): Prop
   }
   const field = costField(rules, state, u, rules.moveScale * 30);
   const candidates: Job[] = [];
+  // A home city short of food wants forests and wetlands cleared in its work area.
+  const homeCity = cityAt(state, home);
+  const hungry = homeCity ? cityReport(rules, state, homeCity).foodSurplus < 2 : false;
   for (const [tile, cost] of field) {
     const d = distance(state.map, home, tile);
     if (d > 6 || claimed.has(tile)) continue;
@@ -145,6 +150,8 @@ export function proposeAutoWorker(rules: Rules, state: GameState, u: Unit): Prop
     if (!(imp & IMP_ROAD)) consider('road', 30 - d * 3, `road ${d} tiles from home`);
     if (t.irrigationFood > 0 && !(imp & IMP_IRRIGATION) && !(imp & IMP_MINE)) consider('irrigation', 18 + t.food * 2, `irrigate ${t.name}`);
     if (t.mineShields > 1 && !(imp & IMP_MINE)) consider('mine', 16 + t.mineShields * 2, `mine ${t.name}`);
+    if (hungry && d <= 2 && t.transform && t.transform.job !== 'plantForest')
+      consider(t.transform.job, 34 - d * 2, `clear ${t.name} for food near ${homeCity!.name}`);
   }
   if (candidates.length === 0) return null;
   candidates.sort((a, b) => b.score - a.score || a.tile - b.tile);

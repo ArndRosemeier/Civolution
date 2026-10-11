@@ -6,6 +6,7 @@
  * Computed once per state and player and cached, so the many per-city queries a turn
  * makes stay cheap.
  */
+import { registerCache } from './caches.ts';
 import { neighbour, neighbours, distance } from './grid.ts';
 import { hasTechFlag, knowsTech } from './queries.ts';
 import type { Rules } from './rules.ts';
@@ -39,6 +40,7 @@ export interface EmpireInfo {
 }
 
 const cache = new WeakMap<GameState, Map<number, EmpireInfo>>();
+registerCache((s) => cache.delete(s));
 
 export function empireInfo(rules: Rules, state: GameState, player: number): EmpireInfo {
   let perState = cache.get(state);
@@ -55,6 +57,7 @@ export function empireInfo(rules: Rules, state: GameState, player: number): Empi
 }
 
 const landCache = new WeakMap<number[], Int32Array>();
+registerCache((s) => landCache.delete(s.map.terrain));
 
 /** Connected land masses (ids from 0); water tiles get -1. */
 export function landMasses(rules: Rules, state: GameState): Int32Array {

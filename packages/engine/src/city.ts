@@ -6,6 +6,7 @@
  * Rules: docs/rules/cities.md (tiles, growth), production.md, corruption.md,
  * happiness.md, science.md, culture.md.
  */
+import { registerCache } from './caches.ts';
 import { yearsBetween } from './calendar.ts';
 import { connectedToCapital, empireInfo, cityResources, type EmpireInfo } from './empire.ts';
 import { neighbours } from './grid.ts';
@@ -77,6 +78,7 @@ export function workableTiles(_rules: Rules, state: GameState, city: City): numb
 }
 
 const workedCache = new WeakMap<GameState['cities'], Map<number, number>>();
+registerCache((s) => workedCache.delete(s.cities));
 
 /** Tile → city working it, across all cities. */
 export function workedTiles(state: GameState): Map<number, number> {

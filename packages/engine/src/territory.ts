@@ -5,6 +5,7 @@
  * when du² + dv² ≤ r(r + 1). Ring 1 is the 3×3 block around the city, ring 2 the 21-tile
  * "fat cross" that is also the city's work area.
  */
+import { registerCache } from './caches.ts';
 import { tileX, tileY, wrapTile, type Grid } from './grid.ts';
 import type { Rules } from './rules.ts';
 import type { City, GameState } from './state.ts';
@@ -43,6 +44,7 @@ export function borderRadius(rules: Rules, culture: number): number {
 }
 
 const cityAtCache = new WeakMap<GameState['cities'], Map<number, City>>();
+registerCache((s) => cityAtCache.delete(s.cities));
 
 /** The city standing on `tile`, if any. */
 export function cityAt(state: GameState, tile: number): City | undefined {

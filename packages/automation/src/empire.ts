@@ -15,6 +15,7 @@ import {
   researchableTechs,
   resourceVisibleTo,
   tilesInRadius,
+  unitSupportCost,
   techCost,
   tileYield,
   type Build,
@@ -118,6 +119,12 @@ export function planBuild(rules: Rules, state: GameState, city: City): PlannedBu
   if (settler && report.foodSurplus >= 1 && wantsMoreCities(rules, state, city.owner) && ok({ kind: 'unit', id: settler.id })) {
     const settling = bestSite(rules, state, city.owner, city.tile, 12);
     if (settling >= 0) return { build: { kind: 'unit', id: settler.id }, reason: 'Room for another city nearby' };
+    // No known site: send someone to look, unless someone already is.
+    const exploring = playerUnits(state, city.owner).some((u) => u.routine === 'explore');
+    const scout = rules.set.units
+      .filter((u) => u.domain === 'land' && u.attack + u.defence > 0 && ok({ kind: 'unit', id: u.id }))
+      .sort((a, b) => a.shieldCost - b.shieldCost || b.movement - a.movement)[0];
+    if (!exploring && scout) return { build: { kind: 'unit', id: scout.id }, reason: 'Exploring for city sites' };
   }
   const cities = playerCities(state, city.owner).length;
   const workers = playerUnits(state, city.owner).filter((u) => rules.unit(u.type).jobs.length > 0).length;
@@ -130,8 +137,9 @@ export function planBuild(rules: Rules, state: GameState, city: City): PlannedBu
   }
   // Wonders in the capital when nothing else is needed.
   if ('palace' in city.buildings) {
+    // Wonders that hand out units every few turns would bury a builder in upkeep.
     const wonder = rules.set.buildings
-      .filter((b) => b.kind === 'wonder' && ok({ kind: 'building', id: b.id }))
+      .filter((b) => b.kind === 'wonder' && !b.unitProduced && ok({ kind: 'building', id: b.id }))
       .sort((a, b) => a.cost - b.cost)[0];
     if (wonder) return { build: { kind: 'building', id: wonder.id }, reason: `${wonder.name}: nothing more urgent` };
   }
@@ -192,6 +200,24 @@ export function planEmpire(rules: Rules, state: GameState, player: number): Comm
   const rates = planRates(rules, state, player);
   if (!revolt && !rules.government(p.government).transitional && (rates.tax !== p.rates.tax || rates.science !== p.rates.science || rates.luxury !== p.rates.luxury))
     out.push({ type: 'setRates', player, rates, reason: 'Most science the treasury allows' });
+  // Units cost gold beyond the free ones: disband those that are not guarding a city.
+  const support = unitSupportCost(rules, state, player);
+  if (support > 0) {
+    const cityTiles = new Set(playerCities(state, player).map((c) => c.tile));
+    const guarded = new Set<number>();
+    const spare = playerUnits(state, player).filter((u) => {
+      const r = rules.unit(u.type);
+      if (r.attack + r.defence === 0) return false;
+      if (cityTiles.has(u.tile) && !guarded.has(u.tile)) {
+        guarded.add(u.tile);
+        return false;
+      }
+      return true;
+    });
+    const perUnit = Math.max(1, rules.government(p.government).unitCost);
+    for (const u of spare.slice(0, Math.ceil(support / perUnit)))
+      out.push({ type: 'disband', player, unit: u.id, reason: 'Unit upkeep: not needed to guard a city' });
+  }
   for (const c of playerCities(state, player)) {
     // Buildings in progress are kept; units and Wealth are reconsidered every turn.
     if (c.build?.kind === 'building' && c.build.id !== 'wealth' && buildBlocker(rules, state, c, c.build) === null) continue;

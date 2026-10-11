@@ -13,6 +13,7 @@ import {
   defenceStrength,
   attackStrength,
   fight,
+  foodBox,
   invalidateCaches,
   IMP_FORTRESS,
   IMP_POLLUTION,
@@ -320,6 +321,18 @@ describe('attacking', () => {
     expect(r.events.some((e) => e.type === 'cityDestroyed')).toBe(true);
     expect(s.players[1]!.alive).toBe(false);
     expect(r.events.some((e) => e.type === 'playerEliminated')).toBe(true);
+    expect(checkInvariants(rules, s)).toEqual([]);
+  });
+
+  it('keeps a size 1 city with at least half a food box, without its food', () => {
+    let s = war(flatGame());
+    const c = found(s, 1, 20, 20);
+    s = found(c.s, 1, 30, 20).s;
+    s.cities[c.c.id] = { ...s.cities[c.c.id]!, food: foodBox(rules, 1) / 2 };
+    invalidateCaches(s);
+    const a = place(s, 0, 'warrior', at(s, 22, 20));
+    s = run(s, { type: 'moveUnit', player: 0, unit: a.id, to: c.c.tile });
+    expect(s.cities[c.c.id]).toMatchObject({ owner: 0, size: 1, food: 0 });
     expect(checkInvariants(rules, s)).toEqual([]);
   });
 

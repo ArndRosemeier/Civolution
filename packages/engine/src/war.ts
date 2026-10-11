@@ -4,7 +4,7 @@
  * war weariness (docs/rules/combat.md, bombard.md, air.md, naval.md, armies.md,
  * capture.md, war-weariness.md, nukes.md).
  */
-import { cityReport, effectiveBuildings } from './city.ts';
+import { cityReport, effectiveBuildings, foodBox } from './city.ts';
 import { replaceCitizens, updateTerritory } from './cities.ts';
 import {
   attackSide,
@@ -433,13 +433,14 @@ export function captureCity(rules: Rules, tx: Tx, cityId: number, captor: number
     tx.player(captor).gold = tx.state.players[captor]!.gold + gold;
   }
   addWeariness(tx, loser, captor, 10);
-  if (raze || c0.size <= 1) {
+  // A size-1 city survives only when its food box is at least half full ("size 1.5").
+  if (raze || (c0.size <= 1 && c0.food * 2 < foodBox(rules, c0.size))) {
     destroyCity(rules, tx, cityId, captor);
     return;
   }
   const c = tx.city(cityId);
   c.owner = captor;
-  c.size = c0.size - 1;
+  c.size = Math.max(1, c0.size - 1);
   c.food = 0;
   c.shields = 0;
   c.shieldsFor = null;

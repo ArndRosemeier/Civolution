@@ -85,7 +85,7 @@
     },
     {
       "id": "ui-click",
-      "prompt": "a soft short wooden click of a game interface button",
+      "prompt": "a short crisp wooden click of a game interface button, under half a second",
       "variations": 3
     },
     {

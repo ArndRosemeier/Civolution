@@ -8,6 +8,7 @@
  * provenance next to them, and unchanged items are skipped. The key comes from
  * OPEN_ROUTER_KEY.
  */
+import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -50,6 +51,25 @@ async function speech(apiKey: string, model: string, input: string): Promise<Buf
   return bytes;
 }
 
+/**
+ * Seed Audio renders at very uneven levels (quiet UI clicks peak near -45 dB) and pads clips
+ * with silence, sometimes seconds of it. When ffmpeg is installed each clip is peak-normalised
+ * to -1 dB and its leading and trailing silence is cut; the client sets loudness per category.
+ * A clip with no real signal is an error.
+ */
+export function finishClip(bytes: Buffer): Buffer {
+  const ffmpeg = (args: string[]) => spawnSync('ffmpeg', ['-hide_banner', '-i', 'pipe:0', ...args], { input: bytes, maxBuffer: 64 * 1024 * 1024 });
+  const probe = ffmpeg(['-af', 'volumedetect', '-f', 'null', '-']);
+  if (probe.error) return bytes; // no ffmpeg: keep the clip as rendered
+  const peak = Number(/max_volume: (-?[\d.]+) dB/.exec(probe.stderr.toString())?.[1] ?? Number.NaN);
+  if (!(peak > -60)) throw new Error(`clip is silent (peak ${peak} dB)`);
+  const trim = 'silenceremove=start_periods=1:start_threshold=-45dB';
+  const filter = `volume=${(-1 - peak).toFixed(1)}dB,${trim},areverse,${trim},areverse`;
+  const r = ffmpeg(['-loglevel', 'error', '-af', filter, '-c:a', 'libmp3lame', '-b:a', '128k', '-f', 'mp3', 'pipe:1']);
+  if (r.status !== 0) throw new Error(`ffmpeg failed: ${r.stderr.toString().slice(0, 200)}`);
+  return r.stdout;
+}
+
 async function main(): Promise<void> {
   const { values } = parseArgs({
     args: process.argv.slice(2).filter((a) => a !== '--'),
@@ -68,6 +88,7 @@ async function main(): Promise<void> {
   const apiKey = process.env['OPEN_ROUTER_KEY'] ?? '';
   mkdirSync(outDir, { recursive: true });
   let made = 0;
+  const failed: string[] = [];
   for (const item of manifest.items) {
     if (only && !only.has(item.id)) continue;
     const prompt = soundPrompt(item.prompt);
@@ -84,7 +105,20 @@ async function main(): Promise<void> {
         continue;
       }
       process.stdout.write(`gen  ${file} … `);
-      writeFileSync(resolve(outDir, file), await speech(apiKey, manifest.model, prompt));
+      // Seed Audio's moderation now and then rejects a harmless render, and some renders come back silent; one retry usually clears it.
+      let bytes: Buffer | null = null;
+      for (let attempt = 1; attempt <= 2 && !bytes; attempt++) {
+        try {
+          bytes = finishClip(await speech(apiKey, manifest.model, prompt));
+        } catch (e) {
+          if (attempt === 2) console.log(`FAIL (${e instanceof Error ? e.message.slice(0, 160) : String(e)})`);
+        }
+      }
+      if (!bytes) {
+        failed.push(file);
+        continue;
+      }
+      writeFileSync(resolve(outDir, file), bytes);
       provenance[file] = { model: manifest.model, prompt, hash, date: new Date().toISOString().slice(0, 10) };
       writeFileSync(provenancePath, `${JSON.stringify(provenance, null, 2)}\n`);
       made++;
@@ -98,7 +132,8 @@ async function main(): Promise<void> {
     if (existsSync(resolve(outDir, file))) (index[id] ??= []).push(file);
   }
   writeFileSync(resolve(outDir, 'index.json'), `${JSON.stringify(index, null, 2)}\n`);
+  if (failed.length) console.log(`Failed (rerun to retry): ${failed.join(', ')}`);
   console.log(`Generated ${made} clip(s).`);
 }
 
-await main();
+if (process.argv[1] === fileURLToPath(import.meta.url)) await main();

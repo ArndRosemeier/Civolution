@@ -1,6 +1,7 @@
 {
   "$comment": "Phase 2 art, written by scripts/phase2-manifest.ts. Generate with: OPEN_ROUTER_KEY=... pnpm --filter @civolution/assets gen -- --manifest manifests/phase2.json. Reuses the Phase 1 style bible as the reference image.",
   "modelPreference": [
+    "meta/muse-image",
     "openai/gpt-image-2",
     "google/gemini-2.5-flash-image",
     "google/gemini-3-pro-image-preview",
@@ -17,15 +18,16 @@
     },
     "references": []
   },
-  "styleSuffix": "Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+  "styleSuffix": "Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
   "items": [
     {
       "id": "building-palace",
-      "prompt": "Game icon of a city building: a stately palace with a golden dome, banners and a broad stair. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a stately palace with a golden dome, banners and a broad stair. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/palace.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -33,11 +35,12 @@
     },
     {
       "id": "building-barracks",
-      "prompt": "Game icon of a city building: a fortified barracks yard with racks of spears and shields and a training dummy. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a fortified barracks yard with racks of spears and shields and a training dummy. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/barracks.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -45,11 +48,12 @@
     },
     {
       "id": "building-granary",
-      "prompt": "Game icon of a city building: a round clay granary with a thatched roof and sacks of grain spilling wheat. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a round clay granary with a thatched roof and sacks of grain spilling wheat. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/granary.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -57,11 +61,12 @@
     },
     {
       "id": "building-temple",
-      "prompt": "Game icon of a city building: a small stone temple with columns and an altar flame at its steps. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a small stone temple with columns and an altar flame at its steps. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/temple.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -69,11 +74,12 @@
     },
     {
       "id": "building-marketplace",
-      "prompt": "Game icon of a city building: a lively market stall with an awning, baskets of fruit, cloth and coins. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a lively market stall with an awning, baskets of fruit, cloth and coins. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/marketplace.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -81,11 +87,12 @@
     },
     {
       "id": "building-library",
-      "prompt": "Game icon of a city building: shelves of scrolls and bound books in a sunlit reading room. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: shelves of scrolls and bound books in a sunlit reading room. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/library.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -93,11 +100,12 @@
     },
     {
       "id": "building-courthouse",
-      "prompt": "Game icon of a city building: a columned courthouse with a judge’s gavel and balance scales in front. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a columned courthouse with a judge’s gavel and balance scales in front. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/courthouse.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -105,11 +113,12 @@
     },
     {
       "id": "building-walls",
-      "prompt": "Game icon of a city building: a stretch of sturdy stone city wall with a gate tower and battlements. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a stretch of sturdy stone city wall with a gate tower and battlements. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/walls.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -117,11 +126,12 @@
     },
     {
       "id": "building-aqueduct",
-      "prompt": "Game icon of a city building: a tall stone aqueduct of arches carrying a channel of clear water. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a tall stone aqueduct of arches carrying a channel of clear water. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/aqueduct.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -129,11 +139,12 @@
     },
     {
       "id": "building-bank",
-      "prompt": "Game icon of a city building: a grand bank front with a heavy vault door and stacks of gold coins. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a grand bank front with a heavy vault door and stacks of gold coins. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/bank.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -141,11 +152,12 @@
     },
     {
       "id": "building-cathedral",
-      "prompt": "Game icon of a city building: a soaring cathedral with a rose window and twin bell towers. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a soaring cathedral with a rose window and twin bell towers. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/cathedral.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -153,11 +165,12 @@
     },
     {
       "id": "building-university",
-      "prompt": "Game icon of a city building: a university quadrangle with a clock tower and scholars’ gowns. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a university quadrangle with a clock tower and scholars’ gowns. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/university.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -165,11 +178,12 @@
     },
     {
       "id": "building-colosseum",
-      "prompt": "Game icon of a city building: an oval stone arena with tiers of arches under a bright sky. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: an oval stone arena with tiers of arches under a bright sky. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/colosseum.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -177,11 +191,12 @@
     },
     {
       "id": "building-factory",
-      "prompt": "Game icon of a city building: a brick factory hall with saw-tooth roofs and smoking chimneys. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a brick factory hall with saw-tooth roofs and smoking chimneys. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/factory.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -189,11 +204,12 @@
     },
     {
       "id": "building-manufacturingPlant",
-      "prompt": "Game icon of a city building: a vast modern assembly hall with robotic arms and conveyor belts. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a vast modern assembly hall with robotic arms and conveyor belts. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/manufacturingPlant.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -201,11 +217,12 @@
     },
     {
       "id": "building-recyclingCenter",
-      "prompt": "Game icon of a city building: a recycling plant with sorted bales and the circular arrows symbol. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a recycling plant with sorted bales and the circular arrows symbol. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/recyclingCenter.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -213,11 +230,12 @@
     },
     {
       "id": "building-coalPlant",
-      "prompt": "Game icon of a city building: a coal power station with cooling chimney, coal heaps and pylons. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a coal power station with cooling chimney, coal heaps and pylons. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/coalPlant.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -225,11 +243,12 @@
     },
     {
       "id": "building-hydroPlant",
-      "prompt": "Game icon of a city building: a concrete hydroelectric dam with water rushing through its gates. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a concrete hydroelectric dam with water rushing through its gates. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/hydroPlant.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -237,11 +256,12 @@
     },
     {
       "id": "building-nuclearPlant",
-      "prompt": "Game icon of a city building: a nuclear power station with two hyperbolic cooling towers and steam. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a nuclear power station with two hyperbolic cooling towers and steam. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/nuclearPlant.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -249,11 +269,12 @@
     },
     {
       "id": "building-hospital",
-      "prompt": "Game icon of a city building: a white hospital building with a red cross sign and an ambulance bay. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a white hospital building with a red cross sign and an ambulance bay. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/hospital.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -261,11 +282,12 @@
     },
     {
       "id": "building-researchLab",
-      "prompt": "Game icon of a city building: a research laboratory with glassware, a microscope and glowing screens. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a research laboratory with glassware, a microscope and glowing screens. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/researchLab.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -273,11 +295,12 @@
     },
     {
       "id": "building-massTransitSystem",
-      "prompt": "Game icon of a city building: a sleek electric tram gliding along a tree-lined city street. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a sleek electric tram gliding along a tree-lined city street. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/massTransitSystem.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -285,11 +308,12 @@
     },
     {
       "id": "building-samMissileBattery",
-      "prompt": "Game icon of a city building: a surface-to-air missile launcher with radar dish on a concrete pad. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a surface-to-air missile launcher with radar dish on a concrete pad. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/samMissileBattery.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -297,11 +321,12 @@
     },
     {
       "id": "building-coastalFortress",
-      "prompt": "Game icon of a city building: a stone coastal fortress with cannons facing the sea. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a stone coastal fortress with cannons facing the sea. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/coastalFortress.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -309,11 +334,12 @@
     },
     {
       "id": "building-solarPlant",
-      "prompt": "Game icon of a city building: rows of shining solar panels under a bright sun. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: rows of shining solar panels under a bright sun. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/solarPlant.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -321,11 +347,12 @@
     },
     {
       "id": "building-harbor",
-      "prompt": "Game icon of a city building: a busy wooden harbour with piers, fishing boats and stacked crates. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a busy wooden harbour with piers, fishing boats and stacked crates. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/harbor.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -333,11 +360,12 @@
     },
     {
       "id": "building-offshorePlatform",
-      "prompt": "Game icon of a city building: an offshore drilling platform standing in the open sea. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: an offshore drilling platform standing in the open sea. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/offshorePlatform.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -345,11 +373,12 @@
     },
     {
       "id": "building-airport",
-      "prompt": "Game icon of a city building: an airport control tower with a jet airliner on the runway. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: an airport control tower with a jet airliner on the runway. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/airport.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -357,11 +386,12 @@
     },
     {
       "id": "building-policeStation",
-      "prompt": "Game icon of a city building: a city police station with a blue lamp and a patrol car. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a city police station with a blue lamp and a patrol car. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/policeStation.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -369,11 +399,12 @@
     },
     {
       "id": "building-wealth",
-      "prompt": "Game icon of a city building: a heap of gold coins and a treasure chest overflowing with riches. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a heap of gold coins and a treasure chest overflowing with riches. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/wealth.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -381,11 +412,12 @@
     },
     {
       "id": "building-pyramids",
-      "prompt": "Game icon of a world wonder: the great pyramids of the desert rising golden in the sun. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: the great pyramids of the desert rising golden in the sun. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/pyramids.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -393,11 +425,12 @@
     },
     {
       "id": "building-hangingGardens",
-      "prompt": "Game icon of a world wonder: terraced hanging gardens cascading with greenery and waterfalls. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: terraced hanging gardens cascading with greenery and waterfalls. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/hangingGardens.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -405,11 +438,12 @@
     },
     {
       "id": "building-colossus",
-      "prompt": "Game icon of a world wonder: a gigantic bronze statue straddling a harbour entrance. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a gigantic bronze statue straddling a harbour entrance. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/colossus.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -417,11 +451,12 @@
     },
     {
       "id": "building-greatLighthouse",
-      "prompt": "Game icon of a world wonder: a towering ancient lighthouse with a beacon fire at the top beside the sea. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a towering ancient lighthouse with a beacon fire at the top beside the sea. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/greatLighthouse.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -429,11 +464,12 @@
     },
     {
       "id": "building-greatLibrary",
-      "prompt": "Game icon of a world wonder: a monumental ancient library hall filled with scroll shelves. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a monumental ancient library hall filled with scroll shelves. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/greatLibrary.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -441,11 +477,12 @@
     },
     {
       "id": "building-oracle",
-      "prompt": "Game icon of a world wonder: a mountain temple of the oracle with a priestess and incense smoke. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a mountain temple of the oracle with a priestess and incense smoke. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/oracle.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -453,11 +490,12 @@
     },
     {
       "id": "building-greatWall",
-      "prompt": "Game icon of a world wonder: a great wall snaking across green hills with watchtowers. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a great wall snaking across green hills with watchtowers. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/greatWall.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -465,11 +503,12 @@
     },
     {
       "id": "building-sunTzusArtOfWar",
-      "prompt": "Game icon of a world wonder: an open bamboo scroll of military strategy beside a general’s helmet. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: an open bamboo scroll of military strategy beside a general’s helmet. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/sunTzusArtOfWar.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -477,11 +516,12 @@
     },
     {
       "id": "building-sistineChapel",
-      "prompt": "Game icon of a world wonder: a chapel ceiling painted with grand heavenly frescoes. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a chapel ceiling painted with grand heavenly frescoes. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/sistineChapel.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -489,11 +529,12 @@
     },
     {
       "id": "building-magellansVoyage",
-      "prompt": "Game icon of a world wonder: a three-masted carrack with a globe and compass, sailing around the world. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a three-masted carrack with a globe and compass, sailing around the world. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/magellansVoyage.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -501,11 +542,12 @@
     },
     {
       "id": "building-copernicusObservatory",
-      "prompt": "Game icon of a world wonder: an observatory tower with a brass telescope and orbiting planets model. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: an observatory tower with a brass telescope and orbiting planets model. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/copernicusObservatory.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -513,11 +555,12 @@
     },
     {
       "id": "building-shakespearesTheater",
-      "prompt": "Game icon of a world wonder: a round timber-framed theatre with a stage, curtain and masks. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a round timber-framed theatre with a stage, curtain and masks. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/shakespearesTheater.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -525,11 +568,12 @@
     },
     {
       "id": "building-leonardosWorkshop",
-      "prompt": "Game icon of a world wonder: a Renaissance inventor’s workshop with gears, sketches and a flying machine. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a Renaissance inventor’s workshop with gears, sketches and a flying machine. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/leonardosWorkshop.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -537,11 +581,12 @@
     },
     {
       "id": "building-jsBachsCathedral",
-      "prompt": "Game icon of a world wonder: a cathedral organ with towering pipes and sheet music. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a cathedral organ with towering pipes and sheet music. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/jsBachsCathedral.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -549,11 +594,12 @@
     },
     {
       "id": "building-newtonsUniversity",
-      "prompt": "Game icon of a world wonder: a scholar’s desk with an apple, prisms and gravity diagrams. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a scholar’s desk with an apple, prisms and gravity diagrams. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/newtonsUniversity.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -561,11 +607,12 @@
     },
     {
       "id": "building-smithsTradingCompany",
-      "prompt": "Game icon of a world wonder: a merchant company house with ledgers, scales and trading ships. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a merchant company house with ledgers, scales and trading ships. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/smithsTradingCompany.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -573,11 +620,12 @@
     },
     {
       "id": "building-universalSuffrage",
-      "prompt": "Game icon of a world wonder: a ballot box with many hands casting votes. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a ballot box with many hands casting votes. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/universalSuffrage.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -585,11 +633,12 @@
     },
     {
       "id": "building-hooverDam",
-      "prompt": "Game icon of a world wonder: a colossal curved concrete dam holding back a blue reservoir. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a colossal curved concrete dam holding back a blue reservoir. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/hooverDam.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -597,11 +646,12 @@
     },
     {
       "id": "building-theoryOfEvolution",
-      "prompt": "Game icon of a world wonder: a naturalist’s journal with finch sketches and a fossil. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a naturalist’s journal with finch sketches and a fossil. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/theoryOfEvolution.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -609,11 +659,12 @@
     },
     {
       "id": "building-unitedNations",
-      "prompt": "Game icon of a world wonder: a gathering of nations: a round assembly hall with many flags. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a gathering of nations: a round assembly hall with many flags. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/unitedNations.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -621,11 +672,12 @@
     },
     {
       "id": "building-manhattanProject",
-      "prompt": "Game icon of a world wonder: a secret laboratory with an atom symbol and glowing apparatus. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a secret laboratory with an atom symbol and glowing apparatus. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/manhattanProject.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -633,11 +685,12 @@
     },
     {
       "id": "building-cureForCancer",
-      "prompt": "Game icon of a world wonder: a glowing double-helix DNA strand beside a healing lab. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a glowing double-helix DNA strand beside a healing lab. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/cureForCancer.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -645,11 +698,12 @@
     },
     {
       "id": "building-longevity",
-      "prompt": "Game icon of a world wonder: an elderly smiling couple in a blooming garden with an hourglass. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: an elderly smiling couple in a blooming garden with an hourglass. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/longevity.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -657,11 +711,12 @@
     },
     {
       "id": "building-setiProgram",
-      "prompt": "Game icon of a world wonder: a giant radio telescope dish pointed at a starry night sky. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a giant radio telescope dish pointed at a starry night sky. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/setiProgram.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -669,11 +724,12 @@
     },
     {
       "id": "building-heroicEpic",
-      "prompt": "Game icon of a world wonder: an epic illuminated book with a hero’s laurel wreath. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: an epic illuminated book with a hero’s laurel wreath. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/heroicEpic.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -681,11 +737,12 @@
     },
     {
       "id": "building-ironWorks",
-      "prompt": "Game icon of a world wonder: a blazing iron foundry with molten metal pouring from a crucible. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a blazing iron foundry with molten metal pouring from a crucible. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/ironWorks.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -693,11 +750,12 @@
     },
     {
       "id": "building-forbiddenPalace",
-      "prompt": "Game icon of a world wonder: a grand red and gold palace with tiered roofs behind walls. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a grand red and gold palace with tiered roofs behind walls. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/forbiddenPalace.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -705,11 +763,12 @@
     },
     {
       "id": "building-militaryAcademy",
-      "prompt": "Game icon of a world wonder: a military academy with cadets in formation and crossed sabres. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a military academy with cadets in formation and crossed sabres. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/militaryAcademy.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -717,11 +776,12 @@
     },
     {
       "id": "building-pentagon",
-      "prompt": "Game icon of a world wonder: a five-sided headquarters building seen from above. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a five-sided headquarters building seen from above. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/pentagon.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -729,11 +789,12 @@
     },
     {
       "id": "building-wallStreet",
-      "prompt": "Game icon of a world wonder: a stock exchange floor with a ticker board and a bull statue. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a stock exchange floor with a ticker board and a bull statue. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/wallStreet.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -741,11 +802,12 @@
     },
     {
       "id": "building-apolloProgram",
-      "prompt": "Game icon of a world wonder: a rocket on a launch pad with a mission control dish. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a rocket on a launch pad with a mission control dish. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/apolloProgram.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -753,11 +815,12 @@
     },
     {
       "id": "building-strategicMissileDefense",
-      "prompt": "Game icon of a world wonder: an interceptor missile streaking up from a defensive shield dome. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: an interceptor missile streaking up from a defensive shield dome. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/strategicMissileDefense.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -765,11 +828,12 @@
     },
     {
       "id": "building-intelligenceAgency",
-      "prompt": "Game icon of a world wonder: a spy agency desk with a magnifying glass, files and a hat. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a spy agency desk with a magnifying glass, files and a hat. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/intelligenceAgency.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -777,11 +841,12 @@
     },
     {
       "id": "building-battlefieldMedicine",
-      "prompt": "Game icon of a world wonder: a field medic’s tent with a stretcher and a red cross. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a field medic’s tent with a stretcher and a red cross. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/battlefieldMedicine.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -789,11 +854,12 @@
     },
     {
       "id": "building-internet",
-      "prompt": "Game icon of a world wonder: a glowing globe wrapped in a web of light connections. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a glowing globe wrapped in a web of light connections. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/internet.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -801,11 +867,12 @@
     },
     {
       "id": "building-civilDefense",
-      "prompt": "Game icon of a city building: an air raid shelter entrance with sandbags and a siren. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: an air raid shelter entrance with sandbags and a siren. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/civilDefense.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -813,11 +880,12 @@
     },
     {
       "id": "building-stockExchange",
-      "prompt": "Game icon of a city building: a stately stock exchange building with columns and rising charts. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a stately stock exchange building with columns and rising charts. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/stockExchange.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -825,11 +893,12 @@
     },
     {
       "id": "building-commercialDock",
-      "prompt": "Game icon of a city building: a large commercial dock with cranes loading cargo ships. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border. No text. Square image.",
+      "prompt": "Game icon of a city building: a large commercial dock with cranes loading cargo ships. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/commercialDock.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -837,11 +906,12 @@
     },
     {
       "id": "building-templeOfArtemis",
-      "prompt": "Game icon of a world wonder: a vast marble temple of many columns dedicated to the huntress. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a vast marble temple of many columns dedicated to the huntress. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/templeOfArtemis.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -849,11 +919,12 @@
     },
     {
       "id": "building-statueOfZeus",
-      "prompt": "Game icon of a world wonder: an enthroned colossal statue of the sky god in ivory and gold. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: an enthroned colossal statue of the sky god in ivory and gold. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/statueOfZeus.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -861,11 +932,12 @@
     },
     {
       "id": "building-mausoleumOfMausollos",
-      "prompt": "Game icon of a world wonder: a grand marble tomb with a stepped roof and a chariot on top. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a grand marble tomb with a stepped roof and a chariot on top. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/mausoleumOfMausollos.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -873,11 +945,12 @@
     },
     {
       "id": "building-knightsTemplar",
-      "prompt": "Game icon of a world wonder: a crusader fortress with knights’ banners and a red cross shield. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a crusader fortress with knights’ banners and a red cross shield. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/knightsTemplar.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -885,11 +958,12 @@
     },
     {
       "id": "building-secretPoliceHq",
-      "prompt": "Game icon of a world wonder: a grim grey headquarters with searchlights and guards. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border. No text. Square image.",
+      "prompt": "Game icon of a world wonder: a grim grey headquarters with searchlights and guards. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft golden gradient background and a thin gold border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/buildings/secretPoliceHq.png",
       "post": {
-        "resize": 192
+        "resize": 192,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -897,7 +971,7 @@
     },
     {
       "id": "tech-bronzeWorking",
-      "prompt": "Game icon for a technology: a bronze sword and shield cast in a mould. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a bronze sword and shield cast in a mould. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/bronzeWorking.png",
       "post": {
@@ -910,7 +984,7 @@
     },
     {
       "id": "tech-masonry",
-      "prompt": "Game icon for a technology: cut stone blocks with a mason’s hammer and chisel. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: cut stone blocks with a mason’s hammer and chisel. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/masonry.png",
       "post": {
@@ -923,7 +997,7 @@
     },
     {
       "id": "tech-alphabet",
-      "prompt": "Game icon for a technology: clay tablet with early carved letters. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: clay tablet with early carved letters. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/alphabet.png",
       "post": {
@@ -936,7 +1010,7 @@
     },
     {
       "id": "tech-pottery",
-      "prompt": "Game icon for a technology: a painted clay pot on a potter’s wheel. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a painted clay pot on a potter’s wheel. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/pottery.png",
       "post": {
@@ -949,7 +1023,7 @@
     },
     {
       "id": "tech-theWheel",
-      "prompt": "Game icon for a technology: a wooden spoked wheel. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a wooden spoked wheel. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/theWheel.png",
       "post": {
@@ -962,7 +1036,7 @@
     },
     {
       "id": "tech-warriorCode",
-      "prompt": "Game icon for a technology: crossed bow and arrows with a war banner. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: crossed bow and arrows with a war banner. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/warriorCode.png",
       "post": {
@@ -975,7 +1049,7 @@
     },
     {
       "id": "tech-ceremonialBurial",
-      "prompt": "Game icon for a technology: a burial mound with standing stones. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a burial mound with standing stones. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/ceremonialBurial.png",
       "post": {
@@ -988,7 +1062,7 @@
     },
     {
       "id": "tech-ironWorking",
-      "prompt": "Game icon for a technology: an anvil with a glowing iron bar and hammer. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: an anvil with a glowing iron bar and hammer. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/ironWorking.png",
       "post": {
@@ -1001,7 +1075,7 @@
     },
     {
       "id": "tech-writing",
-      "prompt": "Game icon for a technology: a reed pen writing on papyrus. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a reed pen writing on papyrus. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/writing.png",
       "post": {
@@ -1014,7 +1088,7 @@
     },
     {
       "id": "tech-mysticism",
-      "prompt": "Game icon for a technology: a starry astrology chart with a crystal. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a starry astrology chart with a crystal. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/mysticism.png",
       "post": {
@@ -1027,7 +1101,7 @@
     },
     {
       "id": "tech-mathematics",
-      "prompt": "Game icon for a technology: an abacus with geometric compass and triangle. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: an abacus with geometric compass and triangle. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/mathematics.png",
       "post": {
@@ -1040,7 +1114,7 @@
     },
     {
       "id": "tech-philosophy",
-      "prompt": "Game icon for a technology: a thinker’s bust with a scroll. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a thinker’s bust with a scroll. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/philosophy.png",
       "post": {
@@ -1053,7 +1127,7 @@
     },
     {
       "id": "tech-codeOfLaws",
-      "prompt": "Game icon for a technology: a stone stele carved with laws. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a stone stele carved with laws. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/codeOfLaws.png",
       "post": {
@@ -1066,7 +1140,7 @@
     },
     {
       "id": "tech-literature",
-      "prompt": "Game icon for a technology: an open book with a quill and ink. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: an open book with a quill and ink. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/literature.png",
       "post": {
@@ -1079,7 +1153,7 @@
     },
     {
       "id": "tech-mapMaking",
-      "prompt": "Game icon for a technology: a hand-drawn coastal map with a compass rose. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a hand-drawn coastal map with a compass rose. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/mapMaking.png",
       "post": {
@@ -1092,7 +1166,7 @@
     },
     {
       "id": "tech-horsebackRiding",
-      "prompt": "Game icon for a technology: a horse with a simple saddle and bridle. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a horse with a simple saddle and bridle. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/horsebackRiding.png",
       "post": {
@@ -1105,7 +1179,7 @@
     },
     {
       "id": "tech-polytheism",
-      "prompt": "Game icon for a technology: a circle of carved god statues. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a circle of carved god statues. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/polytheism.png",
       "post": {
@@ -1118,7 +1192,7 @@
     },
     {
       "id": "tech-currency",
-      "prompt": "Game icon for a technology: a pile of stamped ancient coins. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a pile of stamped ancient coins. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/currency.png",
       "post": {
@@ -1131,7 +1205,7 @@
     },
     {
       "id": "tech-theRepublic",
-      "prompt": "Game icon for a technology: a senate hall with a laurel wreath. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a senate hall with a laurel wreath. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/theRepublic.png",
       "post": {
@@ -1144,7 +1218,7 @@
     },
     {
       "id": "tech-monarchy",
-      "prompt": "Game icon for a technology: a jewelled crown and sceptre. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a jewelled crown and sceptre. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/monarchy.png",
       "post": {
@@ -1157,7 +1231,7 @@
     },
     {
       "id": "tech-construction",
-      "prompt": "Game icon for a technology: a wooden crane lifting a stone block. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a wooden crane lifting a stone block. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/construction.png",
       "post": {
@@ -1170,7 +1244,7 @@
     },
     {
       "id": "tech-monotheism",
-      "prompt": "Game icon for a technology: a single radiant light above a temple dome. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a single radiant light above a temple dome. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/monotheism.png",
       "post": {
@@ -1183,7 +1257,7 @@
     },
     {
       "id": "tech-feudalism",
-      "prompt": "Game icon for a technology: a castle keep with a lord’s banner and fields. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a castle keep with a lord’s banner and fields. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/feudalism.png",
       "post": {
@@ -1196,7 +1270,7 @@
     },
     {
       "id": "tech-engineering",
-      "prompt": "Game icon for a technology: a stone arch bridge blueprint with gears. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a stone arch bridge blueprint with gears. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/engineering.png",
       "post": {
@@ -1209,7 +1283,7 @@
     },
     {
       "id": "tech-theology",
-      "prompt": "Game icon for a technology: an illuminated holy manuscript and candles. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: an illuminated holy manuscript and candles. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/theology.png",
       "post": {
@@ -1222,7 +1296,7 @@
     },
     {
       "id": "tech-chivalry",
-      "prompt": "Game icon for a technology: a knight’s helmet with plume and a lance. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a knight’s helmet with plume and a lance. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/chivalry.png",
       "post": {
@@ -1235,7 +1309,7 @@
     },
     {
       "id": "tech-invention",
-      "prompt": "Game icon for a technology: gears, levers and a sketch of a machine. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: gears, levers and a sketch of a machine. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/invention.png",
       "post": {
@@ -1248,7 +1322,7 @@
     },
     {
       "id": "tech-printingPress",
-      "prompt": "Game icon for a technology: a wooden printing press with fresh pages. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a wooden printing press with fresh pages. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/printingPress.png",
       "post": {
@@ -1261,7 +1335,7 @@
     },
     {
       "id": "tech-musicTheory",
-      "prompt": "Game icon for a technology: a lute with sheets of musical notation. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a lute with sheets of musical notation. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/musicTheory.png",
       "post": {
@@ -1274,7 +1348,7 @@
     },
     {
       "id": "tech-education",
-      "prompt": "Game icon for a technology: a teacher’s lectern with books and a globe. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a teacher’s lectern with books and a globe. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/education.png",
       "post": {
@@ -1287,7 +1361,7 @@
     },
     {
       "id": "tech-gunpowder",
-      "prompt": "Game icon for a technology: a powder keg with a matchlock gun. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a powder keg with a matchlock gun. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/gunpowder.png",
       "post": {
@@ -1300,7 +1374,7 @@
     },
     {
       "id": "tech-banking",
-      "prompt": "Game icon for a technology: a merchant’s counting table with a ledger and coins. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a merchant’s counting table with a ledger and coins. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/banking.png",
       "post": {
@@ -1313,7 +1387,7 @@
     },
     {
       "id": "tech-astronomy",
-      "prompt": "Game icon for a technology: a brass telescope pointed at the moon and stars. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a brass telescope pointed at the moon and stars. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/astronomy.png",
       "post": {
@@ -1326,7 +1400,7 @@
     },
     {
       "id": "tech-chemistry",
-      "prompt": "Game icon for a technology: glass flasks and a bubbling alembic. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: glass flasks and a bubbling alembic. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/chemistry.png",
       "post": {
@@ -1339,7 +1413,7 @@
     },
     {
       "id": "tech-democracy",
-      "prompt": "Game icon for a technology: a ballot urn with voting stones. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a ballot urn with voting stones. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/democracy.png",
       "post": {
@@ -1352,7 +1426,7 @@
     },
     {
       "id": "tech-economics",
-      "prompt": "Game icon for a technology: a balance scale weighing goods against gold. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a balance scale weighing goods against gold. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/economics.png",
       "post": {
@@ -1365,7 +1439,7 @@
     },
     {
       "id": "tech-navigation",
-      "prompt": "Game icon for a technology: a sextant over a sea chart. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a sextant over a sea chart. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/navigation.png",
       "post": {
@@ -1378,7 +1452,7 @@
     },
     {
       "id": "tech-physics",
-      "prompt": "Game icon for a technology: a pendulum and falling-weight diagram. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a pendulum and falling-weight diagram. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/physics.png",
       "post": {
@@ -1391,7 +1465,7 @@
     },
     {
       "id": "tech-metallurgy",
-      "prompt": "Game icon for a technology: a cannon barrel being cast in a foundry. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a cannon barrel being cast in a foundry. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/metallurgy.png",
       "post": {
@@ -1404,7 +1478,7 @@
     },
     {
       "id": "tech-freeArtistry",
-      "prompt": "Game icon for a technology: an artist’s easel with palette and brushes. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: an artist’s easel with palette and brushes. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/freeArtistry.png",
       "post": {
@@ -1417,7 +1491,7 @@
     },
     {
       "id": "tech-theoryOfGravity",
-      "prompt": "Game icon for a technology: an apple falling beside orbiting planets. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: an apple falling beside orbiting planets. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/theoryOfGravity.png",
       "post": {
@@ -1430,7 +1504,7 @@
     },
     {
       "id": "tech-magnetism",
-      "prompt": "Game icon for a technology: a magnetic compass needle with iron filings. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a magnetic compass needle with iron filings. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/magnetism.png",
       "post": {
@@ -1443,7 +1517,7 @@
     },
     {
       "id": "tech-militaryTradition",
-      "prompt": "Game icon for a technology: crossed sabres over a regimental drum. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: crossed sabres over a regimental drum. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/militaryTradition.png",
       "post": {
@@ -1456,7 +1530,7 @@
     },
     {
       "id": "tech-nationalism",
-      "prompt": "Game icon for a technology: a waving national flag with a crowd. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a waving national flag with a crowd. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/nationalism.png",
       "post": {
@@ -1469,7 +1543,7 @@
     },
     {
       "id": "tech-steamPower",
-      "prompt": "Game icon for a technology: a steam engine with pistons and puffing steam. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a steam engine with pistons and puffing steam. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/steamPower.png",
       "post": {
@@ -1482,7 +1556,7 @@
     },
     {
       "id": "tech-medicine",
-      "prompt": "Game icon for a technology: a physician’s bag with a stethoscope and herbs. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a physician’s bag with a stethoscope and herbs. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/medicine.png",
       "post": {
@@ -1495,7 +1569,7 @@
     },
     {
       "id": "tech-communism",
-      "prompt": "Game icon for a technology: a hammer and sickle-like workers’ tools crossed over a gear. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a hammer and sickle-like workers’ tools crossed over a gear. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/communism.png",
       "post": {
@@ -1508,7 +1582,7 @@
     },
     {
       "id": "tech-industrialization",
-      "prompt": "Game icon for a technology: a row of factory chimneys with smoke. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a row of factory chimneys with smoke. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/industrialization.png",
       "post": {
@@ -1521,7 +1595,7 @@
     },
     {
       "id": "tech-electricity",
-      "prompt": "Game icon for a technology: a glowing light bulb with lightning sparks. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a glowing light bulb with lightning sparks. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/electricity.png",
       "post": {
@@ -1534,7 +1608,7 @@
     },
     {
       "id": "tech-scientificMethod",
-      "prompt": "Game icon for a technology: a notebook with experiment diagrams and a microscope. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a notebook with experiment diagrams and a microscope. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/scientificMethod.png",
       "post": {
@@ -1547,7 +1621,7 @@
     },
     {
       "id": "tech-sanitation",
-      "prompt": "Game icon for a technology: clean water pipes and a sewer tunnel. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: clean water pipes and a sewer tunnel. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/sanitation.png",
       "post": {
@@ -1560,7 +1634,7 @@
     },
     {
       "id": "tech-espionage",
-      "prompt": "Game icon for a technology: a trench coat, magnifier and secret dossier. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a trench coat, magnifier and secret dossier. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/espionage.png",
       "post": {
@@ -1573,7 +1647,7 @@
     },
     {
       "id": "tech-theCorporation",
-      "prompt": "Game icon for a technology: an office tower with a company logo-less emblem and graphs. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: an office tower with a company logo-less emblem and graphs. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/theCorporation.png",
       "post": {
@@ -1586,7 +1660,7 @@
     },
     {
       "id": "tech-refining",
-      "prompt": "Game icon for a technology: an oil refinery with tanks and pipes. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: an oil refinery with tanks and pipes. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/refining.png",
       "post": {
@@ -1599,7 +1673,7 @@
     },
     {
       "id": "tech-steel",
-      "prompt": "Game icon for a technology: steel girders and a riveted I-beam. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: steel girders and a riveted I-beam. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/steel.png",
       "post": {
@@ -1612,7 +1686,7 @@
     },
     {
       "id": "tech-atomicTheory",
-      "prompt": "Game icon for a technology: an atom model with orbiting electrons. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: an atom model with orbiting electrons. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/atomicTheory.png",
       "post": {
@@ -1625,7 +1699,7 @@
     },
     {
       "id": "tech-combustion",
-      "prompt": "Game icon for a technology: an internal combustion engine cutaway. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: an internal combustion engine cutaway. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/combustion.png",
       "post": {
@@ -1638,7 +1712,7 @@
     },
     {
       "id": "tech-replaceableParts",
-      "prompt": "Game icon for a technology: standardised bolts, nuts and interchangeable gears. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: standardised bolts, nuts and interchangeable gears. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/replaceableParts.png",
       "post": {
@@ -1651,7 +1725,7 @@
     },
     {
       "id": "tech-flight",
-      "prompt": "Game icon for a technology: an early biplane in flight. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: an early biplane in flight. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/flight.png",
       "post": {
@@ -1664,7 +1738,7 @@
     },
     {
       "id": "tech-amphibiousWar",
-      "prompt": "Game icon for a technology: a landing craft hitting a beach. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a landing craft hitting a beach. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/amphibiousWar.png",
       "post": {
@@ -1677,7 +1751,7 @@
     },
     {
       "id": "tech-massProduction",
-      "prompt": "Game icon for a technology: an assembly line of identical cars. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: an assembly line of identical cars. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/massProduction.png",
       "post": {
@@ -1690,7 +1764,7 @@
     },
     {
       "id": "tech-electronics",
-      "prompt": "Game icon for a technology: vacuum tubes and a radio set. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: vacuum tubes and a radio set. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/electronics.png",
       "post": {
@@ -1703,7 +1777,7 @@
     },
     {
       "id": "tech-motorizedTransportation",
-      "prompt": "Game icon for a technology: a vintage truck on a paved road. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a vintage truck on a paved road. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/motorizedTransportation.png",
       "post": {
@@ -1716,7 +1790,7 @@
     },
     {
       "id": "tech-advancedFlight",
-      "prompt": "Game icon for a technology: a jet fighter breaking through clouds. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a jet fighter breaking through clouds. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/advancedFlight.png",
       "post": {
@@ -1729,7 +1803,7 @@
     },
     {
       "id": "tech-rocketry",
-      "prompt": "Game icon for a technology: a rocket lifting off with a fiery trail. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a rocket lifting off with a fiery trail. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/rocketry.png",
       "post": {
@@ -1742,7 +1816,7 @@
     },
     {
       "id": "tech-fission",
-      "prompt": "Game icon for a technology: a splitting atom releasing energy. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a splitting atom releasing energy. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/fission.png",
       "post": {
@@ -1755,7 +1829,7 @@
     },
     {
       "id": "tech-computers",
-      "prompt": "Game icon for a technology: a computer with a glowing screen and circuit board. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a computer with a glowing screen and circuit board. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/computers.png",
       "post": {
@@ -1768,7 +1842,7 @@
     },
     {
       "id": "tech-recycling",
-      "prompt": "Game icon for a technology: circular recycling arrows around a green leaf. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: circular recycling arrows around a green leaf. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/recycling.png",
       "post": {
@@ -1781,7 +1855,7 @@
     },
     {
       "id": "tech-spaceFlight",
-      "prompt": "Game icon for a technology: an astronaut floating above the earth. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: an astronaut floating above the earth. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/spaceFlight.png",
       "post": {
@@ -1794,7 +1868,7 @@
     },
     {
       "id": "tech-nuclearPower",
-      "prompt": "Game icon for a technology: a glowing reactor core in blue light. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a glowing reactor core in blue light. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/nuclearPower.png",
       "post": {
@@ -1807,7 +1881,7 @@
     },
     {
       "id": "tech-superconductor",
-      "prompt": "Game icon for a technology: a magnet levitating over a cold superconductor. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a magnet levitating over a cold superconductor. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/superconductor.png",
       "post": {
@@ -1820,7 +1894,7 @@
     },
     {
       "id": "tech-miniaturization",
-      "prompt": "Game icon for a technology: a tiny microchip on a fingertip. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a tiny microchip on a fingertip. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/miniaturization.png",
       "post": {
@@ -1833,7 +1907,7 @@
     },
     {
       "id": "tech-ecology",
-      "prompt": "Game icon for a technology: a green earth with forests and rivers. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a green earth with forests and rivers. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/ecology.png",
       "post": {
@@ -1846,7 +1920,7 @@
     },
     {
       "id": "tech-syntheticFibers",
-      "prompt": "Game icon for a technology: spools of shiny synthetic thread. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: spools of shiny synthetic thread. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/syntheticFibers.png",
       "post": {
@@ -1859,7 +1933,7 @@
     },
     {
       "id": "tech-satellites",
-      "prompt": "Game icon for a technology: a satellite orbiting the earth with solar wings. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a satellite orbiting the earth with solar wings. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/satellites.png",
       "post": {
@@ -1872,7 +1946,7 @@
     },
     {
       "id": "tech-theLaser",
-      "prompt": "Game icon for a technology: a bright red laser beam through a crystal. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a bright red laser beam through a crystal. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/theLaser.png",
       "post": {
@@ -1885,7 +1959,7 @@
     },
     {
       "id": "tech-genetics",
-      "prompt": "Game icon for a technology: a double helix strand of DNA. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a double helix strand of DNA. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/genetics.png",
       "post": {
@@ -1898,7 +1972,7 @@
     },
     {
       "id": "tech-stealth",
-      "prompt": "Game icon for a technology: a black angular stealth aircraft. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a black angular stealth aircraft. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/stealth.png",
       "post": {
@@ -1911,7 +1985,7 @@
     },
     {
       "id": "tech-smartWeapons",
-      "prompt": "Game icon for a technology: a guided missile with a targeting reticle. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a guided missile with a targeting reticle. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/smartWeapons.png",
       "post": {
@@ -1924,7 +1998,7 @@
     },
     {
       "id": "tech-robotics",
-      "prompt": "Game icon for a technology: an industrial robot arm. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: an industrial robot arm. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/robotics.png",
       "post": {
@@ -1937,7 +2011,7 @@
     },
     {
       "id": "tech-integratedDefense",
-      "prompt": "Game icon for a technology: a radar network dome over a city. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a radar network dome over a city. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/integratedDefense.png",
       "post": {
@@ -1950,7 +2024,7 @@
     },
     {
       "id": "tech-ironclads",
-      "prompt": "Game icon for a technology: an armoured steam warship. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: an armoured steam warship. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/ironclads.png",
       "post": {
@@ -1963,7 +2037,7 @@
     },
     {
       "id": "tech-fascism",
-      "prompt": "Game icon for a technology: a stern marching column with standards. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game icon for a technology: a stern marching column with standards. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/techs/fascism.png",
       "post": {
@@ -1976,11 +2050,12 @@
     },
     {
       "id": "government-anarchy",
-      "prompt": "Heraldic emblem for a form of government: a broken crown on a cracked shield with flames. A single bold shield-shaped crest centered on a plain dark background. No text. Square image.",
+      "prompt": "Heraldic emblem for a form of government: a broken crown on a cracked shield with flames. A single bold shield-shaped crest centered on a rounded-square tile with a deep navy gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/governments/anarchy.png",
       "post": {
-        "resize": 160
+        "resize": 160,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -1988,11 +2063,12 @@
     },
     {
       "id": "government-despotism",
-      "prompt": "Heraldic emblem for a form of government: a clenched fist holding a whip on a dark shield. A single bold shield-shaped crest centered on a plain dark background. No text. Square image.",
+      "prompt": "Heraldic emblem for a form of government: a clenched fist holding a whip on a dark shield. A single bold shield-shaped crest centered on a rounded-square tile with a deep navy gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/governments/despotism.png",
       "post": {
-        "resize": 160
+        "resize": 160,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -2000,11 +2076,12 @@
     },
     {
       "id": "government-monarchy",
-      "prompt": "Heraldic emblem for a form of government: a royal crown over crossed sceptres on a purple shield. A single bold shield-shaped crest centered on a plain dark background. No text. Square image.",
+      "prompt": "Heraldic emblem for a form of government: a royal crown over crossed sceptres on a purple shield. A single bold shield-shaped crest centered on a rounded-square tile with a deep navy gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/governments/monarchy.png",
       "post": {
-        "resize": 160
+        "resize": 160,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -2012,11 +2089,12 @@
     },
     {
       "id": "government-communism",
-      "prompt": "Heraldic emblem for a form of government: a red star over crossed worker’s tools on a red shield. A single bold shield-shaped crest centered on a plain dark background. No text. Square image.",
+      "prompt": "Heraldic emblem for a form of government: a red star over crossed worker’s tools on a red shield. A single bold shield-shaped crest centered on a rounded-square tile with a deep navy gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/governments/communism.png",
       "post": {
-        "resize": 160
+        "resize": 160,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -2024,11 +2102,12 @@
     },
     {
       "id": "government-republic",
-      "prompt": "Heraldic emblem for a form of government: a laurel wreath around a senate column on a blue shield. A single bold shield-shaped crest centered on a plain dark background. No text. Square image.",
+      "prompt": "Heraldic emblem for a form of government: a laurel wreath around a senate column on a blue shield. A single bold shield-shaped crest centered on a rounded-square tile with a deep navy gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/governments/republic.png",
       "post": {
-        "resize": 160
+        "resize": 160,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -2036,11 +2115,12 @@
     },
     {
       "id": "government-democracy",
-      "prompt": "Heraldic emblem for a form of government: a ballot and an open hand on a sky-blue shield. A single bold shield-shaped crest centered on a plain dark background. No text. Square image.",
+      "prompt": "Heraldic emblem for a form of government: a ballot and an open hand on a sky-blue shield. A single bold shield-shaped crest centered on a rounded-square tile with a deep navy gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/governments/democracy.png",
       "post": {
-        "resize": 160
+        "resize": 160,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -2048,11 +2128,12 @@
     },
     {
       "id": "government-fascism",
-      "prompt": "Heraldic emblem for a form of government: a bundle of rods with an axe on a black shield. A single bold shield-shaped crest centered on a plain dark background. No text. Square image.",
+      "prompt": "Heraldic emblem for a form of government: a bundle of rods with an axe on a black shield. A single bold shield-shaped crest centered on a rounded-square tile with a deep navy gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/governments/fascism.png",
       "post": {
-        "resize": 160
+        "resize": 160,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -2060,11 +2141,12 @@
     },
     {
       "id": "government-feudalism",
-      "prompt": "Heraldic emblem for a form of government: a castle tower over a wheat field on a green shield. A single bold shield-shaped crest centered on a plain dark background. No text. Square image.",
+      "prompt": "Heraldic emblem for a form of government: a castle tower over a wheat field on a green shield. A single bold shield-shaped crest centered on a rounded-square tile with a deep navy gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/governments/feudalism.png",
       "post": {
-        "resize": 160
+        "resize": 160,
+        "roundedMask": 0.14
       },
       "references": [
         "styleBible"
@@ -2072,7 +2154,7 @@
     },
     {
       "id": "people-happy",
-      "prompt": "Small round portrait for a city screen: head and shoulders of a cheerful smiling townsperson in simple clothes, raising a cup. Centered on a round medallion with a warm parchment background, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Small round portrait for a city screen: head and shoulders of a cheerful smiling townsperson in simple clothes, raising a cup. Centered on a round medallion with a warm parchment background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/people/happy.png",
       "post": {
@@ -2085,7 +2167,7 @@
     },
     {
       "id": "people-content",
-      "prompt": "Small round portrait for a city screen: head and shoulders of a calm content townsperson with a gentle neutral expression. Centered on a round medallion with a warm parchment background, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Small round portrait for a city screen: head and shoulders of a calm content townsperson with a gentle neutral expression. Centered on a round medallion with a warm parchment background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/people/content.png",
       "post": {
@@ -2098,7 +2180,7 @@
     },
     {
       "id": "people-unhappy",
-      "prompt": "Small round portrait for a city screen: head and shoulders of an angry frowning townsperson shaking a fist. Centered on a round medallion with a warm parchment background, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Small round portrait for a city screen: head and shoulders of an angry frowning townsperson shaking a fist. Centered on a round medallion with a warm parchment background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/people/unhappy.png",
       "post": {
@@ -2111,7 +2193,7 @@
     },
     {
       "id": "people-laborer",
-      "prompt": "Small round portrait for a city screen: head and shoulders of a sturdy labourer carrying a hoe over the shoulder. Centered on a round medallion with a warm parchment background, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Small round portrait for a city screen: head and shoulders of a sturdy labourer carrying a hoe over the shoulder. Centered on a round medallion with a warm parchment background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/people/laborer.png",
       "post": {
@@ -2124,7 +2206,7 @@
     },
     {
       "id": "people-entertainer",
-      "prompt": "Small round portrait for a city screen: head and shoulders of a jester-like entertainer juggling colourful balls. Centered on a round medallion with a warm parchment background, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Small round portrait for a city screen: head and shoulders of a jester-like entertainer juggling colourful balls. Centered on a round medallion with a warm parchment background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/people/entertainer.png",
       "post": {
@@ -2137,7 +2219,7 @@
     },
     {
       "id": "people-taxCollector",
-      "prompt": "Small round portrait for a city screen: head and shoulders of a tax collector with a ledger and a heavy coin purse. Centered on a round medallion with a warm parchment background, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Small round portrait for a city screen: head and shoulders of a tax collector with a ledger and a heavy coin purse. Centered on a round medallion with a warm parchment background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/people/taxCollector.png",
       "post": {
@@ -2150,7 +2232,7 @@
     },
     {
       "id": "people-scientist",
-      "prompt": "Small round portrait for a city screen: head and shoulders of a scientist in spectacles holding a glowing flask. Centered on a round medallion with a warm parchment background, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Small round portrait for a city screen: head and shoulders of a scientist in spectacles holding a glowing flask. Centered on a round medallion with a warm parchment background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/people/scientist.png",
       "post": {
@@ -2163,7 +2245,7 @@
     },
     {
       "id": "people-policeman",
-      "prompt": "Small round portrait for a city screen: head and shoulders of a policeman in a helmet with a whistle. Centered on a round medallion with a warm parchment background, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Small round portrait for a city screen: head and shoulders of a policeman in a helmet with a whistle. Centered on a round medallion with a warm parchment background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/people/policeman.png",
       "post": {
@@ -2176,7 +2258,7 @@
     },
     {
       "id": "people-civilEngineer",
-      "prompt": "Small round portrait for a city screen: head and shoulders of a civil engineer with a hard hat and blueprints. Centered on a round medallion with a warm parchment background, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Small round portrait for a city screen: head and shoulders of a civil engineer with a hard hat and blueprints. Centered on a round medallion with a warm parchment background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/people/civilEngineer.png",
       "post": {
@@ -2189,7 +2271,7 @@
     },
     {
       "id": "unit-settler",
-      "prompt": "Game portrait of a unit: a pioneer family with a laden ox cart, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a pioneer family with a laden ox cart, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/settler.png",
       "post": {
@@ -2202,7 +2284,7 @@
     },
     {
       "id": "unit-worker",
-      "prompt": "Game portrait of a unit: a labourer with a pickaxe and shovel, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a labourer with a pickaxe and shovel, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/worker.png",
       "post": {
@@ -2215,7 +2297,7 @@
     },
     {
       "id": "unit-explorer",
-      "prompt": "Game portrait of a unit: a explorer with a wide-brimmed hat and a spyglass, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a explorer with a wide-brimmed hat and a spyglass, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/explorer.png",
       "post": {
@@ -2228,7 +2310,7 @@
     },
     {
       "id": "unit-marine",
-      "prompt": "Game portrait of a unit: a modern marine in camouflage with a rifle, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a modern marine in camouflage with a rifle, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/marine.png",
       "post": {
@@ -2241,7 +2323,7 @@
     },
     {
       "id": "unit-modernParatrooper",
-      "prompt": "Game portrait of a unit: a modern paratrooper with a parachute pack and rifle, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a modern paratrooper with a parachute pack and rifle, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/modernParatrooper.png",
       "post": {
@@ -2254,7 +2336,7 @@
     },
     {
       "id": "unit-warrior",
-      "prompt": "Game portrait of a unit: a tribal warrior with a club and hide shield, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a tribal warrior with a club and hide shield, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/warrior.png",
       "post": {
@@ -2267,7 +2349,7 @@
     },
     {
       "id": "unit-archer",
-      "prompt": "Game portrait of a unit: a ancient archer drawing a bow, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a ancient archer drawing a bow, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/archer.png",
       "post": {
@@ -2280,7 +2362,7 @@
     },
     {
       "id": "unit-spearman",
-      "prompt": "Game portrait of a unit: a spearman with a bronze helmet, spear and round shield, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a spearman with a bronze helmet, spear and round shield, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/spearman.png",
       "post": {
@@ -2293,7 +2375,7 @@
     },
     {
       "id": "unit-swordsman",
-      "prompt": "Game portrait of a unit: a legion swordsman with a short sword and rectangular shield, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a legion swordsman with a short sword and rectangular shield, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/swordsman.png",
       "post": {
@@ -2306,7 +2388,7 @@
     },
     {
       "id": "unit-chariot",
-      "prompt": "Game portrait of a unit: a two-horse war chariot with a driver, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a two-horse war chariot with a driver, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/chariot.png",
       "post": {
@@ -2319,7 +2401,7 @@
     },
     {
       "id": "unit-horseman",
-      "prompt": "Game portrait of a unit: a light horseman riding bareback with a javelin, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a light horseman riding bareback with a javelin, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/horseman.png",
       "post": {
@@ -2332,7 +2414,7 @@
     },
     {
       "id": "unit-pikeman",
-      "prompt": "Game portrait of a unit: a medieval pikeman with a long pike and steel helmet, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a medieval pikeman with a long pike and steel helmet, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/pikeman.png",
       "post": {
@@ -2345,7 +2427,7 @@
     },
     {
       "id": "unit-longbowman",
-      "prompt": "Game portrait of a unit: a longbowman in a green hood with a tall bow, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a longbowman in a green hood with a tall bow, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/longbowman.png",
       "post": {
@@ -2358,7 +2440,7 @@
     },
     {
       "id": "unit-musketman",
-      "prompt": "Game portrait of a unit: a musketeer with a matchlock musket and plumed hat, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a musketeer with a matchlock musket and plumed hat, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/musketman.png",
       "post": {
@@ -2371,7 +2453,7 @@
     },
     {
       "id": "unit-knight",
-      "prompt": "Game portrait of a unit: a armoured knight on a barded warhorse with a lance, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a armoured knight on a barded warhorse with a lance, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/knight.png",
       "post": {
@@ -2384,7 +2466,7 @@
     },
     {
       "id": "unit-rifleman",
-      "prompt": "Game portrait of a unit: a rifleman in a nineteenth-century uniform with a bayonet, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a rifleman in a nineteenth-century uniform with a bayonet, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/rifleman.png",
       "post": {
@@ -2397,7 +2479,7 @@
     },
     {
       "id": "unit-cavalry",
-      "prompt": "Game portrait of a unit: a cavalryman with a sabre on a galloping horse, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a cavalryman with a sabre on a galloping horse, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/cavalry.png",
       "post": {
@@ -2410,7 +2492,7 @@
     },
     {
       "id": "unit-infantry",
-      "prompt": "Game portrait of a unit: a early twentieth-century infantryman with a rifle and helmet, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a early twentieth-century infantryman with a rifle and helmet, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/infantry.png",
       "post": {
@@ -2423,7 +2505,7 @@
     },
     {
       "id": "unit-tank",
-      "prompt": "Game portrait of a unit: a mid-century battle tank with a long gun, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a mid-century battle tank with a long gun, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/tank.png",
       "post": {
@@ -2436,7 +2518,7 @@
     },
     {
       "id": "unit-mechInfantry",
-      "prompt": "Game portrait of a unit: a armoured troop carrier with soldiers, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a armoured troop carrier with soldiers, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/mechInfantry.png",
       "post": {
@@ -2449,7 +2531,7 @@
     },
     {
       "id": "unit-modernArmor",
-      "prompt": "Game portrait of a unit: a modern main battle tank, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a modern main battle tank, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/modernArmor.png",
       "post": {
@@ -2462,7 +2544,7 @@
     },
     {
       "id": "unit-catapult",
-      "prompt": "Game portrait of a unit: a wooden torsion catapult, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a wooden torsion catapult, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/catapult.png",
       "post": {
@@ -2475,7 +2557,7 @@
     },
     {
       "id": "unit-cannon",
-      "prompt": "Game portrait of a unit: a bronze field cannon on wooden wheels, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a bronze field cannon on wooden wheels, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/cannon.png",
       "post": {
@@ -2488,7 +2570,7 @@
     },
     {
       "id": "unit-artillery",
-      "prompt": "Game portrait of a unit: a heavy howitzer with a crew, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a heavy howitzer with a crew, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/artillery.png",
       "post": {
@@ -2501,7 +2583,7 @@
     },
     {
       "id": "unit-radarArtillery",
-      "prompt": "Game portrait of a unit: a self-propelled rocket artillery with radar, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a self-propelled rocket artillery with radar, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/radarArtillery.png",
       "post": {
@@ -2514,7 +2596,7 @@
     },
     {
       "id": "unit-cruiseMissile",
-      "prompt": "Game portrait of a unit: a cruise missile in flight, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a cruise missile in flight, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/cruiseMissile.png",
       "post": {
@@ -2527,7 +2609,7 @@
     },
     {
       "id": "unit-tacticalNuke",
-      "prompt": "Game portrait of a unit: a small tactical nuclear missile on a launcher, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a small tactical nuclear missile on a launcher, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/tacticalNuke.png",
       "post": {
@@ -2540,7 +2622,7 @@
     },
     {
       "id": "unit-icbm",
-      "prompt": "Game portrait of a unit: a intercontinental ballistic missile rising from a silo, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a intercontinental ballistic missile rising from a silo, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/icbm.png",
       "post": {
@@ -2553,7 +2635,7 @@
     },
     {
       "id": "unit-galley",
-      "prompt": "Game portrait of a unit: a oared galley with a square sail, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a oared galley with a square sail, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/galley.png",
       "post": {
@@ -2566,7 +2648,7 @@
     },
     {
       "id": "unit-caravel",
-      "prompt": "Game portrait of a unit: a small two-masted caravel with lateen sails, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a small two-masted caravel with lateen sails, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/caravel.png",
       "post": {
@@ -2579,7 +2661,7 @@
     },
     {
       "id": "unit-frigate",
-      "prompt": "Game portrait of a unit: a square-rigged frigate with gun ports, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a square-rigged frigate with gun ports, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/frigate.png",
       "post": {
@@ -2592,7 +2674,7 @@
     },
     {
       "id": "unit-galleon",
-      "prompt": "Game portrait of a unit: a large galleon with high stern and full sails, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a large galleon with high stern and full sails, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/galleon.png",
       "post": {
@@ -2605,7 +2687,7 @@
     },
     {
       "id": "unit-ironclad",
-      "prompt": "Game portrait of a unit: a black armoured steam ironclad, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a black armoured steam ironclad, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/ironclad.png",
       "post": {
@@ -2618,7 +2700,7 @@
     },
     {
       "id": "unit-transport",
-      "prompt": "Game portrait of a unit: a steel troop transport ship, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a steel troop transport ship, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/transport.png",
       "post": {
@@ -2631,7 +2713,7 @@
     },
     {
       "id": "unit-carrier",
-      "prompt": "Game portrait of a unit: a aircraft carrier with jets on deck, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a aircraft carrier with jets on deck, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/carrier.png",
       "post": {
@@ -2644,7 +2726,7 @@
     },
     {
       "id": "unit-submarine",
-      "prompt": "Game portrait of a unit: a diesel submarine at the surface, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a diesel submarine at the surface, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/submarine.png",
       "post": {
@@ -2657,7 +2739,7 @@
     },
     {
       "id": "unit-destroyer",
-      "prompt": "Game portrait of a unit: a fast grey destroyer cutting through waves, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a fast grey destroyer cutting through waves, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/destroyer.png",
       "post": {
@@ -2670,7 +2752,7 @@
     },
     {
       "id": "unit-battleship",
-      "prompt": "Game portrait of a unit: a massive battleship with triple gun turrets, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a massive battleship with triple gun turrets, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/battleship.png",
       "post": {
@@ -2683,7 +2765,7 @@
     },
     {
       "id": "unit-aegisCruiser",
-      "prompt": "Game portrait of a unit: a modern guided missile cruiser with radar arrays, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a modern guided missile cruiser with radar arrays, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/aegisCruiser.png",
       "post": {
@@ -2696,7 +2778,7 @@
     },
     {
       "id": "unit-nuclearSubmarine",
-      "prompt": "Game portrait of a unit: a nuclear submarine with a conning tower, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a nuclear submarine with a conning tower, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/nuclearSubmarine.png",
       "post": {
@@ -2709,7 +2791,7 @@
     },
     {
       "id": "unit-fighter",
-      "prompt": "Game portrait of a unit: a propeller fighter plane, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a propeller fighter plane, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/fighter.png",
       "post": {
@@ -2722,7 +2804,7 @@
     },
     {
       "id": "unit-bomber",
-      "prompt": "Game portrait of a unit: a four-engine propeller bomber, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a four-engine propeller bomber, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/bomber.png",
       "post": {
@@ -2735,7 +2817,7 @@
     },
     {
       "id": "unit-helicopter",
-      "prompt": "Game portrait of a unit: a transport helicopter, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a transport helicopter, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/helicopter.png",
       "post": {
@@ -2748,7 +2830,7 @@
     },
     {
       "id": "unit-jetFighter",
-      "prompt": "Game portrait of a unit: a swept-wing jet fighter, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a swept-wing jet fighter, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/jetFighter.png",
       "post": {
@@ -2761,7 +2843,7 @@
     },
     {
       "id": "unit-stealthFighter",
-      "prompt": "Game portrait of a unit: a angular stealth fighter jet, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a angular stealth fighter jet, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/stealthFighter.png",
       "post": {
@@ -2774,7 +2856,7 @@
     },
     {
       "id": "unit-stealthBomber",
-      "prompt": "Game portrait of a unit: a flying-wing stealth bomber, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a flying-wing stealth bomber, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/stealthBomber.png",
       "post": {
@@ -2787,7 +2869,7 @@
     },
     {
       "id": "unit-privateer",
-      "prompt": "Game portrait of a unit: a privateer ship with a black flag, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a privateer ship with a black flag, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/privateer.png",
       "post": {
@@ -2800,7 +2882,7 @@
     },
     {
       "id": "unit-medievalInfantry",
-      "prompt": "Game portrait of a unit: a medieval foot soldier with a mace and kite shield, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a medieval foot soldier with a mace and kite shield, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/medievalInfantry.png",
       "post": {
@@ -2813,7 +2895,7 @@
     },
     {
       "id": "unit-guerilla",
-      "prompt": "Game portrait of a unit: a guerrilla fighter in a jungle with a rifle, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a guerrilla fighter in a jungle with a rifle, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/guerilla.png",
       "post": {
@@ -2826,7 +2908,7 @@
     },
     {
       "id": "unit-trebuchet",
-      "prompt": "Game portrait of a unit: a wooden counterweight trebuchet, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a wooden counterweight trebuchet, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/trebuchet.png",
       "post": {
@@ -2839,7 +2921,7 @@
     },
     {
       "id": "unit-cruiser",
-      "prompt": "Game portrait of a unit: a armoured cruiser of the dreadnought age, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a armoured cruiser of the dreadnought age, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/cruiser.png",
       "post": {
@@ -2852,7 +2934,7 @@
     },
     {
       "id": "unit-curragh",
-      "prompt": "Game portrait of a unit: a small hide-covered curragh boat with oars, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a small hide-covered curragh boat with oars, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/curragh.png",
       "post": {
@@ -2865,7 +2947,7 @@
     },
     {
       "id": "unit-paratrooper",
-      "prompt": "Game portrait of a unit: a world-war paratrooper descending under a parachute, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a world-war paratrooper descending under a parachute, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/paratrooper.png",
       "post": {
@@ -2878,7 +2960,7 @@
     },
     {
       "id": "unit-towInfantry",
-      "prompt": "Game portrait of a unit: a soldier aiming a wire-guided anti-tank missile, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a soldier aiming a wire-guided anti-tank missile, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/towInfantry.png",
       "post": {
@@ -2891,7 +2973,7 @@
     },
     {
       "id": "unit-flak",
-      "prompt": "Game portrait of a unit: a anti-aircraft gun on a towed mount, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a anti-aircraft gun on a towed mount, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/flak.png",
       "post": {
@@ -2904,7 +2986,7 @@
     },
     {
       "id": "unit-mobileSam",
-      "prompt": "Game portrait of a unit: a truck-mounted surface-to-air missile launcher, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.",
+      "prompt": "Game portrait of a unit: a truck-mounted surface-to-air missile launcher, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/units/mobileSam.png",
       "post": {

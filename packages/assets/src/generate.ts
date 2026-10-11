@@ -24,7 +24,7 @@ const itemSchema = z.strictObject({
   prompt: z.string(),
   aspectRatio: z.string().optional(),
   out: z.string(),
-  post: z.strictObject({ resize: z.number().int().positive().optional(), circleMask: z.boolean().optional() }).optional(),
+  post: z.strictObject({ resize: z.number().int().positive().optional(), circleMask: z.boolean().optional(), roundedMask: z.number().min(0).max(0.5).optional() }).optional(),
   references: z.array(z.string()),
 });
 const manifestSchema = z.strictObject({
@@ -39,12 +39,14 @@ type Item = z.infer<typeof itemSchema>;
 const provenanceSchema = z.record(z.string(), z.object({ model: z.string(), prompt: z.string(), hash: z.string(), date: z.string(), costUsd: z.number().nullable() }));
 
 const { values } = parseArgs({
+  args: process.argv.slice(2).filter((a) => a !== '--'),
   options: {
     manifest: { type: 'string', default: 'manifests/phase1.json' },
     force: { type: 'boolean', default: false },
     only: { type: 'string' },
     'dry-run': { type: 'boolean', default: false },
     model: { type: 'string' },
+    concurrency: { type: 'string', default: '1' },
   },
 });
 
@@ -56,8 +58,16 @@ const provenance = existsSync(provenancePath) ? provenanceSchema.parse(JSON.pars
 
 async function postProcess(bytes: Buffer, item: Item): Promise<Buffer> {
   let img = sharp(bytes);
+  // Models sometimes leave a plain margin around a tile or medallion; trim it so the mask cuts into the art, not the margin.
+  if (item.post?.circleMask || item.post?.roundedMask) img = sharp(await img.trim({ threshold: 40 }).png().toBuffer());
   const size = item.post?.resize;
-  if (size) img = img.resize({ width: size, height: item.post?.circleMask ? size : undefined, fit: 'cover' });
+  if (size) img = img.resize({ width: size, height: item.post?.circleMask || item.post?.roundedMask ? size : undefined, fit: 'cover' });
+  // Rounded-square tiles: cut the corners so stray background outside the tile never shows.
+  if (item.post?.roundedMask && size) {
+    const r = Math.round(size * item.post.roundedMask);
+    const mask = Buffer.from(`<svg width="${size}" height="${size}"><rect x="0" y="0" width="${size}" height="${size}" rx="${r}" fill="#fff"/></svg>`);
+    img = sharp(await img.png().toBuffer()).composite([{ input: mask, blend: 'dest-in' }]);
+  }
   if (item.post?.circleMask && size) {
     const r = size / 2;
     const mask = Buffer.from(`<svg width="${size}" height="${size}"><circle cx="${r}" cy="${r}" r="${r - 1}" fill="#fff"/></svg>`);
@@ -68,7 +78,9 @@ async function postProcess(bytes: Buffer, item: Item): Promise<Buffer> {
 
 async function main(): Promise<void> {
   const only = values.only ? new Set(values.only.split(',')) : null;
-  const queue = [manifest.styleBible, ...manifest.items].filter((i) => !only || only.has(i.id) || i.id === 'styleBible');
+  // An existing style bible is kept (even under another model) unless --only names it, since all other art is drawn against it.
+  const keepBible = !only?.has('styleBible') && existsSync(resolve(repo, manifest.styleBible.out));
+  const queue = [...(keepBible ? [] : [manifest.styleBible]), ...manifest.items].filter((i) => !only || only.has(i.id) || i.id === 'styleBible');
   if (values['dry-run']) {
     for (const i of queue) console.log(`${i.id} -> ${i.out}\n  ${i.prompt}\n`);
     return;
@@ -80,7 +92,8 @@ async function main(): Promise<void> {
   console.log(`Model: ${model} (references up to ${lim.maxReferences}, aspect ratios ${lim.aspectRatios.join(' ') || 'default'})`);
   const done = new Map<string, string>();
   let total = 0;
-  for (const item of queue) {
+  // The style bible goes first since the other items use it as their reference.
+  const run = async (item: Item): Promise<void> => {
     const prompt = item.id === 'styleBible' ? item.prompt : `${item.prompt}\n\nStyle: ${manifest.styleSuffix}`;
     const refPaths = item.references.map((r) => (r === 'styleBible' ? manifest.styleBible.out : r)).filter((p) => existsSync(resolve(repo, p)));
     const refs = lim.maxReferences > 0 ? refPaths.slice(0, lim.maxReferences) : [];
@@ -91,22 +104,38 @@ async function main(): Promise<void> {
     const out = resolve(repo, item.out);
     if (!values.force && existsSync(out) && provenance[item.out]?.hash === hash) {
       console.log(`skip ${item.id} (unchanged)`);
-      continue;
+      return;
     }
     const references = await Promise.all(
       refs.map(async (p) => `data:image/png;base64,${(await sharp(resolve(repo, p)).resize({ width: 1024, withoutEnlargement: true }).png().toBuffer()).toString('base64')}`),
     );
     const aspect = item.aspectRatio && lim.aspectRatios.includes(item.aspectRatio) ? item.aspectRatio : undefined;
-    process.stdout.write(`gen  ${item.id} … `);
-    const { images, costUsd } = await generateImages({ apiKey, model, prompt, n: 1, aspectRatio: aspect, references });
+    let result: Awaited<ReturnType<typeof generateImages>>;
+    try {
+      result = await generateImages({ apiKey, model, prompt, n: 1, aspectRatio: aspect, references });
+    } catch (e) {
+      failed.push(item.id);
+      console.log(`FAIL ${item.id}: ${e instanceof Error ? e.message : String(e)}`);
+      return;
+    }
+    const { images, costUsd } = result;
     mkdirSync(dirname(out), { recursive: true });
     writeFileSync(out, await postProcess(images[0]!.bytes, item));
     provenance[item.out] = { model, prompt, hash, date: new Date().toISOString().slice(0, 10), costUsd };
     writeFileSync(provenancePath, `${JSON.stringify(provenance, null, 2)}\n`);
     total += costUsd ?? 0;
     done.set(item.id, item.out);
-    console.log(`ok${costUsd !== null ? ` ($${costUsd.toFixed(3)})` : ''}`);
-  }
+    console.log(`ok   ${item.id}${costUsd !== null ? ` ($${costUsd.toFixed(3)})` : ''}`);
+  };
+  const failed: string[] = [];
+  const [first, ...rest] = queue;
+  if (first) await run(first);
+  const workers = Math.max(1, Number(values.concurrency));
+  let next = 0;
+  await Promise.all(Array.from({ length: workers }, async () => {
+    while (next < rest.length) await run(rest[next++]!);
+  }));
+  if (failed.length) console.log(`Failed (rerun to retry): ${failed.join(',')}`);
   console.log(`Generated ${done.size} image(s), cost $${total.toFixed(2)}.`);
 }
 

@@ -193,7 +193,7 @@ const UNITS: Record<string, string> = {
   flak: 'anti-aircraft gun on a towed mount', mobileSam: 'truck-mounted surface-to-air missile launcher',
 };
 
-type Item = { id: string; prompt: string; aspectRatio: string; out: string; post: { resize: number; circleMask?: boolean }; references: string[] };
+type Item = { id: string; prompt: string; aspectRatio: string; out: string; post: { resize: number; circleMask?: boolean; roundedMask?: number }; references: string[] };
 const items: Item[] = [];
 const ref = ['styleBible'];
 
@@ -204,10 +204,10 @@ for (const b of rules.set.buildings) {
   const wonder = b.kind === 'wonder' || b.kind === 'smallWonder';
   items.push({
     id: `building-${b.id}`,
-    prompt: `Game icon of ${wonder ? 'a world wonder' : 'a city building'}: ${subject}. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft ${wonder ? 'golden' : 'slate blue'} gradient background and a thin ${wonder ? 'gold' : 'bronze'} border. No text. Square image.`,
+    prompt: `Game icon of ${wonder ? 'a world wonder' : 'a city building'}: ${subject}. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft ${wonder ? 'golden' : 'slate blue'} gradient background and a thin ${wonder ? 'gold' : 'bronze'} border, the tile filling the entire image with its border touching all four edges. No text. Square image.`,
     aspectRatio: '1:1',
     out: `packages/client/public/art/buildings/${b.id}.png`,
-    post: { resize: 192 },
+    post: { resize: 192, roundedMask: 0.14 },
     references: ref,
   });
 }
@@ -216,7 +216,7 @@ for (const t of rules.set.techs) {
   if (!subject) throw new Error(`no subject for tech ${t.id}`);
   items.push({
     id: `tech-${t.id}`,
-    prompt: `Game icon for a technology: ${subject}. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). No text. Square image.`,
+    prompt: `Game icon for a technology: ${subject}. Centered on a round medallion with a deep blue background and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.`,
     aspectRatio: '1:1',
     out: `packages/client/public/art/techs/${t.id}.png`,
     post: { resize: 160, circleMask: true },
@@ -226,17 +226,17 @@ for (const t of rules.set.techs) {
 for (const g of rules.set.governments) {
   items.push({
     id: `government-${g.id}`,
-    prompt: `Heraldic emblem for a form of government: ${GOVERNMENTS[g.id] ?? g.name}. A single bold shield-shaped crest centered on a plain dark background. No text. Square image.`,
+    prompt: `Heraldic emblem for a form of government: ${GOVERNMENTS[g.id] ?? g.name}. A single bold shield-shaped crest centered on a rounded-square tile with a deep navy gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. No text. Square image.`,
     aspectRatio: '1:1',
     out: `packages/client/public/art/governments/${g.id}.png`,
-    post: { resize: 160 },
+    post: { resize: 160, roundedMask: 0.14 },
     references: ref,
   });
 }
 for (const [id, subject] of Object.entries(PEOPLE)) {
   items.push({
     id: `people-${id}`,
-    prompt: `Small round portrait for a city screen: head and shoulders of ${subject}. Centered on a round medallion with a warm parchment background, nothing outside the circle (plain dark background around it). No text. Square image.`,
+    prompt: `Small round portrait for a city screen: head and shoulders of ${subject}. Centered on a round medallion with a warm parchment background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.`,
     aspectRatio: '1:1',
     out: `packages/client/public/art/people/${id}.png`,
     post: { resize: 128, circleMask: true },
@@ -249,7 +249,7 @@ for (const u of rules.set.units) {
   if (!subject) throw new Error(`no subject for unit ${u.id}`);
   items.push({
     id: `unit-${u.id}`,
-    prompt: `Game portrait of a unit: a ${subject}, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, nothing outside the circle (plain dark background around it). No text. Square image.`,
+    prompt: `Game portrait of a unit: a ${subject}, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.`,
     aspectRatio: '1:1',
     out: `packages/client/public/art/units/${u.id}.png`,
     post: { resize: 160, circleMask: true },
@@ -260,9 +260,10 @@ for (const u of rules.set.units) {
 const manifest = {
   $comment:
     'Phase 2 art, written by scripts/phase2-manifest.ts. Generate with: OPEN_ROUTER_KEY=... pnpm --filter @civolution/assets gen -- --manifest manifests/phase2.json. Reuses the Phase 1 style bible as the reference image.',
-  modelPreference: phase1.modelPreference,
+  // meta/muse-image: good quality and cheap, but eager to render text, hence the explicit no-text clause in styleSuffix.
+  modelPreference: ['meta/muse-image', ...phase1.modelPreference.filter((m) => m !== 'meta/muse-image')],
   styleBible: phase1.styleBible,
-  styleSuffix: phase1.styleSuffix,
+  styleSuffix: `${phase1.styleSuffix} Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.`,
   items,
 };
 writeFileSync(resolve(here, '../manifests/phase2.json'), `${JSON.stringify(manifest, null, 2)}\n`);

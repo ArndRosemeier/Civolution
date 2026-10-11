@@ -24,6 +24,8 @@ const itemSchema = z.strictObject({
   id: z.string().regex(/^[a-z][a-zA-Z0-9-]*$/),
   prompt: z.string(),
   variations: z.int().min(1).max(6).default(1),
+  /** The first variation to render, when earlier ones already exist under another prompt. */
+  from: z.int().min(1).max(6).default(1),
 });
 const manifestSchema = z.strictObject({
   $comment: z.string().optional(),
@@ -92,7 +94,7 @@ async function main(): Promise<void> {
   for (const item of manifest.items) {
     if (only && !only.has(item.id)) continue;
     const prompt = soundPrompt(item.prompt);
-    for (let v = 1; v <= item.variations; v++) {
+    for (let v = item.from; v <= item.variations; v++) {
       const file = `${item.id}-${v}.mp3`;
       // The variation number goes into the hash so each variation is its own render.
       const hash = createHash('sha256').update(JSON.stringify({ model: manifest.model, prompt, v })).digest('hex').slice(0, 16);

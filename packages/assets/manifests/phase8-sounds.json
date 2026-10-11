@@ -1,0 +1,28 @@
+{
+  "$comment": "Phase 8 interface sounds and the missing modern-era music (ByteDance Seed Audio on OpenRouter). Run: OPEN_ROUTER_KEY=... pnpm --filter @civolution/assets sounds -- --manifest manifests/phase8-sounds.json. Every prompt starts with 'The sound of' (the tool adds it when missing).",
+  "model": "bytedance-seed/seed-audio-1-0",
+  "outDir": "packages/client/public/audio",
+  "items": [
+    {
+      "id": "hint",
+      "prompt": "The sound of a soft, friendly two-note wooden chime, like a gentle nudge for attention, without voices, under one second",
+      "variations": 2
+    },
+    {
+      "id": "pedia-open",
+      "prompt": "The sound of a heavy leather-bound book being opened on a wooden desk, pages fluttering briefly, without voices, about one second",
+      "variations": 2
+    },
+    {
+      "id": "page-turn",
+      "prompt": "The sound of a single crisp paper page being turned in a large book, without voices, under one second",
+      "variations": 3
+    },
+    {
+      "id": "music-modern",
+      "from": 2,
+      "prompt": "The sound of a slow, peaceful instrumental piece: soft electric piano chords, a warm synthesizer pad and a light pulse of brushed drums, spacious and reflective, no singing, about thirty seconds",
+      "variations": 3
+    }
+  ]
+}

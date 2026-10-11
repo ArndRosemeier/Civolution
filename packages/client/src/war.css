@@ -354,8 +354,9 @@ img.rank {
   align-items: start;
   padding: 12px;
   border-radius: var(--radius);
-  background: linear-gradient(135deg, rgba(233, 185, 73, 0.08), rgba(95, 179, 201, 0.05)), url('/art/diplomacy/chamber.jpg') center / cover;
-  background-blend-mode: normal, soft-light;
+  /* The chamber painting, dimmed so the text over it stays readable. */
+  background: linear-gradient(90deg, rgba(10, 14, 20, 0.94) 0%, rgba(10, 14, 20, 0.82) 55%, rgba(10, 14, 20, 0.9) 100%), url('/art/diplomacy/chamber.jpg') center / cover;
+  border: 1px solid var(--panel-border);
 }
 .leader-head p {
   margin: 4px 0;

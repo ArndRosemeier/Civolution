@@ -239,7 +239,8 @@ export function describeEvent(s: { state: GameState; human: number }, e: GameEve
       return `Agreement with ${other}: we give ${mine.join(', ') || 'nothing'}; we receive ${theirs.join(', ') || 'nothing'}.`;
     }
     case 'dealRejected':
-      return e.target === s.human ? `We decline the offer from ${who(st, e.player)}.` : `${who(st, e.player)} turns down our offer.`;
+      // The one who declines is `player`; `target` made the offer.
+      return e.target === s.human ? `${who(st, e.player)} turns down our offer.` : `We decline the offer from ${who(st, e.target)}.`;
     case 'dealProposed':
       return e.target === s.human ? `${who(st, e.player)} has an offer for us.` : null;
     case 'dealCancelled':

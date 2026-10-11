@@ -51,7 +51,9 @@ export function ScienceAdvisor({ onClose }: { onClose: () => void }) {
   const cols = Math.max(...techs.map((t) => depth.get(t.id) ?? 0)) + 1;
   const required = requiredTechs(rules, rules.set.eras[p.era]!.id);
   const missing = required.filter((t) => !p.techs.includes(t));
-  const choose = (t: string) => void send({ type: 'setResearch', tech: t }).then((ok) => ok && onClose());
+  // A free advance owed is spent on the next choice; the advisor stays open to pick research after it.
+  const free = p.freeAdvances ?? 0;
+  const choose = (t: string) => void send({ type: 'setResearch', tech: t }).then((ok) => ok && free === 0 && onClose());
   const current = p.research.tech;
   const goal = p.automation.researchGoal;
   const setGoal = (t: string | null) =>
@@ -62,6 +64,11 @@ export function ScienceAdvisor({ onClose }: { onClose: () => void }) {
   return (
     <Dialog title="Science advisor" onClose={onClose} wide>
       <div className="advisor science">
+        {free > 0 && (
+          <div className="card warn">
+            <strong>Free advance{free > 1 ? ` (${free})` : ''}:</strong> choose any advance you can research below; you learn it at once.
+          </div>
+        )}
         <div className="advisor-top">
           <section className="card">
             <h3>Researching</h3>
@@ -137,7 +144,7 @@ export function ScienceAdvisor({ onClose }: { onClose: () => void }) {
                       onContextMenu={(e) => {
                         e.preventDefault();
                         useGame.getState().openPedia(`techs/${t.id}`);
-                      }} onClick={() => (state_ === 'open' ? choose(t.id) : state_ === 'locked' ? setGoal(t.id) : undefined)}>
+                      }} onClick={() => (state_ === 'open' || (free > 0 && state_ === 'current') ? choose(t.id) : state_ === 'locked' ? setGoal(t.id) : undefined)}>
                       <img src={`${import.meta.env.BASE_URL}art/techs/${t.id}.png`} alt="" onError={(e) => (e.currentTarget.style.visibility = 'hidden')} />
                       <span className="tech-name">{t.name}</span>
                       <span className="tech-cost">{known ? 'known' : `${cost}`}</span>

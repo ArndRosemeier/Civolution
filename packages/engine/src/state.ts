@@ -119,6 +119,11 @@ export interface Player {
   /** Tax, science and luxury shares in tens of percent; they add up to 10. */
   rates: Rates;
   research: Research;
+  /**
+   * Free advances owed to the player, each a free pick of any advance it can research
+   * (docs/rules/science.md): the next setResearch learns its tech at once. Absent means none.
+   */
+  freeAdvances?: number;
   /** Index into rules.set.eras of the era the player is in. */
   era: number;
   /** Set while in anarchy: the government that follows and the turn it takes over. */

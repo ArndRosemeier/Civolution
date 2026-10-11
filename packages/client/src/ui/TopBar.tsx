@@ -18,6 +18,7 @@ export function TopBar({ onSave, onLoad, onSettings }: { onSave: () => void; onL
   const sum = empireSummary(snap);
   const gov = rules.government(p.government);
   const research = p.research.tech ? rules.tech(p.research.tech).name : null;
+  const free = p.freeAdvances ?? 0;
   const pct = sum.researchCost ? Math.min(100, Math.round((p.research.beakers * 100) / sum.researchCost)) : 0;
   return (
     <div className="top-bar panel">
@@ -32,8 +33,8 @@ export function TopBar({ onSave, onLoad, onSettings }: { onSave: () => void; onL
           {p.gold} <small className={sum.net < 0 ? 'warn' : 'muted'}>{signed(sum.net)}</small>
         </strong>
       </div>
-      <button className={`stat research ${research ? '' : 'attention'}`} onClick={() => open({ kind: 'science' })} title="Science advisor (F6)">
-        <span className="label">Research</span>
+      <button className={`stat research ${research && free === 0 ? '' : 'attention'}`} onClick={() => open({ kind: 'science' })} title="Science advisor (F6)">
+        <span className="label">{free > 0 ? `Research · ${free} free advance${free === 1 ? '' : 's'} to choose` : 'Research'}</span>
         <strong>{research ? `${research} · ${sum.researchTurns ?? '–'}` : 'Choose research'}</strong>
         {research && (
           <span className="bar">

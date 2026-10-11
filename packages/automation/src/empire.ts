@@ -313,7 +313,9 @@ export function planEmpire(rules: Rules, state: GameState, player: number): Comm
   const out: Command[] = [];
   const p = state.players[player]!;
   const tech = planResearch(rules, state, player);
-  if (tech && p.research.tech === null) out.push({ type: 'setResearch', player, tech, reason: 'Steady progress toward the next era' });
+  // A free advance owed (docs/rules/science.md): the advance research would pick, learned at once.
+  if (tech && (p.freeAdvances ?? 0) > 0) out.push({ type: 'setResearch', player, tech, reason: 'Free advance: the next advance research would pick' });
+  else if (tech && p.research.tech === null) out.push({ type: 'setResearch', player, tech, reason: 'Steady progress toward the next era' });
   const gov = planGovernment(rules, state, player);
   const revolt = gov !== null && !p.revolution && !rules.government(p.government).transitional;
   if (revolt) out.push({ type: 'revolution', player, government: gov, reason: `A better government is known: ${rules.government(gov).name}` });

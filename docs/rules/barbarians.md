@@ -21,9 +21,9 @@ Code: `packages/engine/src/barbarians.ts`, `raidCity` (war.ts), tribal villages 
   win or retreat is at least 25 %, and otherwise wander.
 - Entering an empty camp destroys it for 25 gold.
 - Human players fight barbarians with the difficulty's bonus ([combat.md](combat.md)).
-- **Tribal villages** may now hold 1 or 2 barbarians (after turn 5, not within 3 tiles of
-  your cities, and never while you have only one city: our default, so a village cannot
-  end a game in its first turns) or teach an advance.
+- **Tribal villages** hold 1 or 2 barbarians about 70 % of the time (after turn 5, not
+  within 3 tiles of your cities, never while you have only one city, never for
+  expansionist civilizations; otherwise a gift instead): see [turns.md](turns.md#tribal-villages).
 
 - **Landings:** from turn 40, with a chance per turn of 2, 3 or 5 % (roaming, restless,
   raging), a barbarian ship appears off a random coastal city and puts 1 to 3 raiders

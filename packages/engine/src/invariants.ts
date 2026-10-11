@@ -123,6 +123,7 @@ export const invariants: Invariant[] = [
         const r = p.rates;
         if (r.tax + r.science + r.luxury !== 10 || r.tax < 0 || r.science < 0 || r.luxury < 0) out.push(`player ${i}: rates ${r.tax}/${r.science}/${r.luxury} do not add up to 10`);
         if (p.research.beakers < 0) out.push(`player ${i}: negative beakers`);
+        if ((p.freeAdvances ?? 0) < 0) out.push(`player ${i}: negative free advances`);
         if (p.era !== eraFor(rules, p.techs)) out.push(`player ${i}: era ${p.era} does not match known techs`);
         if (new Set(p.techs).size !== p.techs.length) out.push(`player ${i}: a tech is listed twice`);
         for (const [k, v] of Object.entries(p.weariness)) {

@@ -37,7 +37,7 @@ export {
   type SizeClass,
   type TileOutput,
 } from './city.ts';
-export { foundBlocker, placeableTiles, unitSupportCost, TECH_BONUS_ADVANCE, TECH_REVEALS_MAP } from './cities.ts';
+export { foundBlocker, siteBlocker, placeableTiles, unitSupportCost, TECH_BONUS_ADVANCE, TECH_REVEALS_MAP } from './cities.ts';
 export { availableResources, cityResources, connectedToCapital, empireInfo, landMasses, tradeRoute, type EmpireInfo } from './empire.ts';
 export { avoidDisorder, defaultSpecialist, placeCitizens, type Placement } from './governor.ts';
 export { buildBlocker, buildCategory, buildCost, buildName, buildOptions, draftBlocker, draftedThisTurn, draftUnit, hurryQuote, isCommonUnit, type BuildCategory, type BuildOption, type HurryQuote } from './production.ts';
@@ -58,6 +58,7 @@ export {
   INDUSTRIOUS_CITY_SIZE,
   INDUSTRIOUS_WORK_PERCENT,
   SCIENTIFIC_LEADER_PERCENT,
+  WONDER_GOLDEN_AGE_PERCENT,
   TRAITS,
   TRAIT_CHARACTERISTIC,
   type Trait,
@@ -78,7 +79,7 @@ export { armyCount, armyLimit, attackBlocker, cityBombardDefence, previewAttack,
 export { cargoOf, cargoSpace, currentHp, isArmy, levelHp, maxHp, unitMaxMoves, canCarry, transportFor } from './units.ts';
 export { barbarianPlayer, campTiles, BARBARIAN_START_TURN } from './barbarians.ts';
 export { boardingTransport } from './movement.ts';
-export { CAMP_GOLD } from './move.ts';
+export { CAMP_GOLD, HUT_ODDS } from './move.ts';
 export {
   attitude,
   attitudeLevel,

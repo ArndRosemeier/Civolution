@@ -98,6 +98,7 @@ export type HutOutcome =
   | { kind: 'unit'; unitType: string; unit: number }
   | { kind: 'tech'; tech: string }
   | { kind: 'barbarians'; units: number }
+  | { kind: 'city'; city: number }
   | { kind: 'empty' };
 
 export type GameEvent = { reason?: string } & (
@@ -132,6 +133,7 @@ export type GameEvent = { reason?: string } & (
   | { type: 'buildingSold'; city: number; player: number; tile: number; building: string; why: string }
   | { type: 'techDiscovered'; player: number; tech: string }
   | { type: 'researchChanged'; player: number; tech: string }
+  | { type: 'freeAdvanceOwed'; player: number }
   | { type: 'eraEntered'; player: number; era: string }
   | { type: 'ratesChanged'; player: number }
   | { type: 'anarchyStarted'; player: number; target: string; turns: number }

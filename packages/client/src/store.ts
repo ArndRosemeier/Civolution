@@ -150,9 +150,10 @@ export function idleCities(s: Snapshot): number[] {
     .map((c) => c.id);
 }
 
-/** True when the human player should pick a research target. */
+/** True when the human player should pick a research target or a free advance. */
 export function needsResearch(s: Snapshot): boolean {
   const p = s.state.players[s.human]!;
+  if ((p.freeAdvances ?? 0) > 0) return true;
   return p.research.tech === null && playerCities(s.state, s.human).length > 0 && researchableTechs(rules, p).length > 0;
 }
 

@@ -29,7 +29,9 @@ then from a shared list of historical places; a name is never used twice in one 
 **Traits.** Every building carries characteristics; an improvement whose characteristic
 matches one of the builder's traits costs half (temples for religious civilizations,
 libraries for scientific ones). Wonders never get the discount; their characteristics
-count toward golden ages instead ([golden-ages.md](golden-ages.md)).
+count toward golden ages instead: a great wonder matching one trait starts the golden age
+half the time, wonders covering both traits always do ([golden-ages.md](golden-ages.md);
+owner's ruling 2026-10-11).
 
 | Trait | Characteristic | Effect (ours where Civ3's is not in the rule file) |
 |---|---|---|
@@ -37,8 +39,8 @@ count toward golden ages instead ([golden-ages.md](golden-ages.md)).
 | Religious | place of worship | Anarchy lasts one turn |
 | Commercial | trade installation | +1 commerce on tiles already making 2; 25 % more optimal cities (less corruption) |
 | Industrious | construction installation | Workers 50 % faster; +1 shield on the city tile from size 7 |
-| Expansionist | exploration installation | Starts with a scout; builds scouts |
-| Scientific | research installation | A free advance with each new era; scientific great leaders ([leaders.md](leaders.md)) |
+| Expansionist | exploration installation | Starts with a scout; builds scouts; tribal villages never hold barbarians for them ([turns.md](turns.md#tribal-villages); owner's ruling 2026-10-11) |
+| Scientific | research installation | A free advance with each new era ([science.md](science.md#free-advances): the advance being researched, else a free pick; owner's ruling 2026-10-11); scientific great leaders ([leaders.md](leaders.md)) |
 | Agricultural | agricultural installation | +1 food on the city tile (land cities) |
 | Seafaring | seafaring installation | Ships move one tile farther |
 

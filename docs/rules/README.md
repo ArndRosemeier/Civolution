@@ -11,6 +11,11 @@ interpreted.
 | Page | Topic | Status |
 |---|---|---|
 | [importing.md](importing.md) | What the importer reads and how raw values are encoded | written |
+| [map.md](map.md) | Map geometry, terrain, rivers, lakes, resources, the map generator | draft (Phase 1) |
+| [movement.md](movement.md) | Movement costs, roads, rails, rivers, goto, zones of control | draft (Phase 1) |
+| [vision.md](vision.md) | Sight radius and fog of war | draft (Phase 1) |
+| [workers.md](workers.md) | Worker job timing and effects | draft (Phase 1) |
+| [turns.md](turns.md) | Turn pipeline, orders, tribal villages | draft (Phase 1) |
 | combat.md | Round-based combat, hit points, retreat, bombard, defensive bonuses | to do (Phase 3) |
 | corruption.md | Corruption and waste: distance, rank, optimal city number, government | to do (Phase 2) |
 | culture.md | Culture points, border growth, culture flips | to do (Phase 2/6) |

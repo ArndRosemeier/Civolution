@@ -29,14 +29,14 @@ import {
   type Rules,
 } from '@civolution/engine';
 import { aiBuild, fieldCount, garrisonFor, unitChoices, wantedField, defendersIn, type AiBuild, type BuildNeeds } from './build.ts';
-import { offerHumans, planWar, respond, runTrade } from './diplomacy.ts';
+import { makeDemands, offerHumans, planWar, respond, runTrade } from './diplomacy.ts';
 import { chooseTarget, counterAttack, fieldUnits, gather, manageGarrisons, runAir, runCampaign, runLeaders, runUpgrades, strikeExposed, type Ctx } from './military.ts';
 import { canSail, chooseInvasion, colonySite, explorerShip, musterForInvasion, reach, runColonists, runTransports, transportCount, wantsSeaExplorer, type Invasion } from './naval.ts';
 import { buildView, roleOf, type View } from './view.ts';
 
 export { accepts, balance, dealGain, peaceValue } from './value.ts';
 export { personality, roleOf, buildView, type Personality, type View } from './view.ts';
-export { respond } from './diplomacy.ts';
+export { makeDemands, respond, yieldsTo, TRIBUTE_CHANCE } from './diplomacy.ts';
 
 const why = (text: string) => `AI: ${text}`;
 
@@ -44,6 +44,12 @@ const why = (text: string) => `AI: ${text}`;
 function runEmpire(ctx: Ctx): void {
   const { view } = ctx;
   const rules = view.rules;
+  // Free advances owed (docs/rules/science.md): each is the advance research would pick, learned at once.
+  for (let guard = 0; guard < 10 && (ctx.state().players[view.player]!.freeAdvances ?? 0) > 0; guard++) {
+    const tech = planResearch(rules, ctx.state(), view.player);
+    if (!tech) break;
+    ctx.act({ type: 'setResearch', player: view.player, tech, reason: why(`free advance: ${rules.tech(tech).name}`) });
+  }
   const s = ctx.state();
   const p = s.players[view.player]!;
   if (p.research.tech === null) {
@@ -284,7 +290,8 @@ export function takeTurn(rules: Rules, state: GameState, player: number, act: (c
   runEmpire(ctx);
   const field = fieldCount(ctx.view, current);
   const plan = planWar(ctx, field >= wantedField(ctx.view, true) * 0.8);
-  // A declaration changes who the enemies are.
+  makeDemands(ctx);
+  // A declaration (or a demand refused) changes who the enemies are.
   if (current.players[player]!.atWarWith.length !== ctx.view.me.atWarWith.length) ctx.view = buildView(rules, current, player);
   runTrade(ctx);
   offerHumans(ctx);

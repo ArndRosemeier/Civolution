@@ -64,17 +64,16 @@ export function playerCities(state: GameState, player: number): City[] {
 }
 
 /**
- * Recomputes who owns every tile. Each tile within a city's border ring goes to the
- * closest such city; ties go to the city with more culture, then the older city. A
- * city's own tile always belongs to it.
+ * Recomputes who owns every tile (docs/rules/culture.md). Each tile within a city's border
+ * ring goes to the city with the most influence on it: city culture ÷ distance in tiles
+ * (at least 1). Ties go to the older city. A city's own tile always belongs to it.
  */
 export function computeTerritory(rules: Rules, state: GameState): number[] {
   const n = state.map.territory.length;
   const owner = new Array<number>(n).fill(-1);
-  const best = new Array<number>(n).fill(Infinity);
-  const bestCulture = new Array<number>(n).fill(-1);
-  const bestId = new Array<number>(n).fill(Infinity);
-  const cities = Object.values(state.cities).sort((a, b) => a.id - b.id);
+  const best = new Array<City | null>(n).fill(null);
+  const bestDist = new Array<number>(n).fill(1);
+  const cities = Object.values(state.cities).sort((a, b) => a.founded - b.founded || a.id - b.id);
   const g = state.map;
   for (const c of cities) {
     const r = borderRadius(rules, c.culture);
@@ -83,16 +82,16 @@ export function computeTerritory(rules: Rules, state: GameState): number[] {
     const limit = r * (r + 1);
     for (let du = -r; du <= r; du++) {
       for (let dv = -r; dv <= r; dv++) {
-        const d = du * du + dv * dv;
-        if (d > limit) continue;
+        if (du * du + dv * dv > limit) continue;
         const t = wrapTile(g, x0 + du - dv, y0 + du + dv);
         if (t < 0) continue;
-        const better =
-          d < best[t]! || (d === best[t]! && (c.culture > bestCulture[t]! || (c.culture === bestCulture[t]! && c.id < bestId[t]!)));
-        if (!better) continue;
-        best[t] = d;
-        bestCulture[t] = c.culture;
-        bestId[t] = c.id;
+        const dist = Math.max(1, Math.abs(du), Math.abs(dv));
+        const rival = best[t];
+        // culture ÷ dist > rival culture ÷ rival dist, cross-multiplied; cities come oldest
+        // first, so a tie keeps the older city.
+        if (rival && c.culture * bestDist[t]! <= rival.culture * dist) continue;
+        best[t] = c;
+        bestDist[t] = dist;
         owner[t] = c.owner;
       }
     }

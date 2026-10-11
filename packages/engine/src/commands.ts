@@ -6,7 +6,7 @@
  */
 
 import type { AutomationSettings } from './automation.ts';
-import type { Build, DealItem, Rates, TreatyKind } from './state.ts';
+import type { Build, DealItem, Demand, Rates, TreatyKind } from './state.ts';
 
 interface Base {
   player: number;
@@ -41,7 +41,7 @@ export type Command =
   | (Base & { type: 'razeCity'; city: number })
   | (Base & { type: 'declareWar'; target: number })
   /** Offers a deal: `give` goes to the target, `take` comes back (docs/rules/diplomacy.md). */
-  | (Base & { type: 'proposeDeal'; target: number; give: DealItem[]; take: DealItem[] })
+  | (Base & { type: 'proposeDeal'; target: number; give: DealItem[]; take: DealItem[]; demand?: Demand })
   /** The recipient of an offer accepts or declines it (allowed after the recipient ended its turn). */
   | (Base & { type: 'answerDeal'; proposal: number; accept: boolean })
   /** An espionage mission against `target` (docs/rules/espionage.md). */
@@ -98,6 +98,7 @@ export type HutOutcome =
   | { kind: 'unit'; unitType: string; unit: number }
   | { kind: 'tech'; tech: string }
   | { kind: 'barbarians'; units: number }
+  | { kind: 'city'; city: number }
   | { kind: 'empty' };
 
 export type GameEvent = { reason?: string } & (
@@ -132,6 +133,7 @@ export type GameEvent = { reason?: string } & (
   | { type: 'buildingSold'; city: number; player: number; tile: number; building: string; why: string }
   | { type: 'techDiscovered'; player: number; tech: string }
   | { type: 'researchChanged'; player: number; tech: string }
+  | { type: 'freeAdvanceOwed'; player: number }
   | { type: 'eraEntered'; player: number; era: string }
   | { type: 'ratesChanged'; player: number }
   | { type: 'anarchyStarted'; player: number; target: string; turns: number }
@@ -174,14 +176,16 @@ export type GameEvent = { reason?: string } & (
   | { type: 'airMission'; unit: number; player: number; mission: AirMission; from: number; target: number }
   | { type: 'intercepted'; unit: number; player: number; by: number; byPlayer: number; survived: boolean }
   | { type: 'nuclearStrike'; unit: number; player: number; tile: number; stopped: boolean }
-  | { type: 'warDeclared'; player: number; target: number }
+  /** `cause`: the target refused a demand backed by a threat of war. */
+  | { type: 'warDeclared'; player: number; target: number; cause?: 'withdrawRefused' | 'tributeRefused' }
   | { type: 'peaceMade'; player: number; target: number }
   | { type: 'contactMade'; player: number; other: number }
-  | { type: 'treatyBroken'; player: number; target: number; treaty: TreatyKind }
+  /** `trade`: running deals (payments, resources) were cancelled by the war or a default. */
+  | { type: 'treatyBroken'; player: number; target: number; treaty: TreatyKind | 'trade' }
   | { type: 'unitsExpelled'; player: number; from: number; units: number }
   | { type: 'ceasefireAgreed'; player: number; target: number; until: number }
   | { type: 'ceasefireEnded'; player: number; target: number }
-  | { type: 'dealProposed'; proposal: number; player: number; target: number }
+  | { type: 'dealProposed'; proposal: number; player: number; target: number; demand?: Demand['kind'] }
   | { type: 'dealRejected'; proposal: number; player: number; target: number }
   | { type: 'dealMade'; player: number; target: number; give: string[]; take: string[] }
   | { type: 'dealCancelled'; player: number; target: number; why: string }

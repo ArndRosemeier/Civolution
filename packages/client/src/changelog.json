@@ -1,5 +1,19 @@
 [
   {
+    "version": "0.012",
+    "date": "2026-10-11",
+    "title": "Rules closer to Civ 3",
+    "items": [
+      "Tribal villages: barbarians come out most of the time, but Expansionist civilizations only find good things. Villages can now give Settlers or even turn into a city, both rarely.",
+      "Free advances: you get the advance you are researching, and Theory of Evolution's second advance is your free pick.",
+      "Golden ages: a great wonder that matches one of your traits has a 50% chance to start one.",
+      "Switching production costs nothing, extra shields after finishing something are lost, and rivers no longer link cities or resources (only roads do).",
+      "Corruption uses a city's real distance even without a road. A tile between two cities goes to the city with the strongest culture pull, weaker further away.",
+      "Capture: a size 1 city survives if its food box is at least half full, a captured Settler becomes two Workers, and barbarians never destroy a city.",
+      "Diplomacy: rivals may demand that your troops leave their land or pay tribute, refusing can mean war, breaking any treaty hurts your standing with everyone, and you can trade away your last copy of a resource."
+    ]
+  },
+  {
     "version": "0.011",
     "date": "2026-10-11",
     "title": "Workers at work",

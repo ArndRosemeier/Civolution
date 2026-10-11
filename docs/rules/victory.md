@@ -20,8 +20,11 @@ recorded for the histograph.
 **United Nations.** While someone holds the United Nations, an election is held at the end
 of the turn it is built and then every 10 turns. The candidates are the owner and the most
 populous other civilization. Every civilization votes with its citizens: for itself if it
-stands, otherwise for the candidate it likes better and is not at war with, abstaining if
-it dislikes both (attitude below −15). More than half of all citizens' votes wins.
+stands, otherwise for the candidate it likes better and is not at war with. A civilization
+may **abstain**: it does when it dislikes both candidates (attitude below −15 toward the one
+it likes better) or is at war with both. Abstainers' citizens still count in the total, so
+abstentions make a majority harder to reach. More than half of all citizens' votes wins.
+Source: owner's ruling 2026-10-11 (abstention).
 
 ## Game modes
 
@@ -44,6 +47,7 @@ election rules and the cities surrendering in regicide and elimination are ours.
 ## Test vectors
 
 `packages/engine/test/endgame.test.ts`: domination shares, a 20 000-point city, a UN
-election won with 10 of 17 votes, the score winner at the last turn, conquest, regicide,
+election won with 10 of 17 votes, an election nobody wins because two civilizations
+abstain (one dislikes both candidates, one is at war with both), the score winner at the last turn, conquest, regicide,
 elimination, victory points for a kill, loading 0.003 saves.
 `packages/sim/test/sim.test.ts`: three AI civilizations play until the game is decided.

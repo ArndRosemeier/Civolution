@@ -11,19 +11,23 @@ import {
   checkJob,
   cityReport,
   createGame,
+  eraFor,
   inGoldenAge,
   invalidateCaches,
   leaderName,
   nextUpgrade,
   PLAYER_COLORS,
+  researchableTechs,
   shipMoveBonus,
   treasuryInterest,
   unitAvailable,
   unitMaxMoves,
   workableTiles,
+  WONDER_GOLDEN_AGE_PERCENT,
   type City,
   type GameState,
 } from '../src/index.ts';
+import { seedRng } from '../src/rng.ts';
 import { at, endTurnAll, flatGame, place, rules, run, setTerrain } from './helpers.ts';
 
 function found(s: GameState, owner: number, x: number, y: number): { s: GameState; c: City } {
@@ -171,8 +175,73 @@ describe('traits', () => {
     const before = s.players[0]!.techs.length;
     s = endTurnAll(s);
     expect(s.players[0]!.era).toBe(1);
-    // The researched advance plus the free one.
-    expect(s.players[0]!.techs.length).toBe(before + 2);
+    // The researched advance; nothing is being researched after it, so the free one is a free pick owed.
+    expect(s.players[0]!.techs.length).toBe(before + 1);
+    expect(s.players[0]!.freeAdvances).toBe(1);
+  });
+
+  it('gives the advance being researched as a free advance, keeping its beakers; the Theory of Evolution’s second is a free pick', () => {
+    let s = flatGame(1, 2);
+    const f = found(s, 0, 20, 20);
+    s = f.s;
+    const into = new Set<string>();
+    const add = (t: string) => {
+      if (into.has(t)) return;
+      into.add(t);
+      rules.tech(t).prerequisites.forEach(add);
+    };
+    add('scientificMethod');
+    for (const t of rules.set.techs) if (t.era === 'ancient') add(t.id);
+    const techs = [...into];
+    s.players[0] = { ...s.players[0]!, techs, era: eraFor(rules, techs) };
+    const [x, y, z] = researchableTechs(rules, s.players[0]);
+    s.players[0].research = { tech: x!, beakers: 7, turns: 1 };
+    s.cities[f.c.id] = { ...s.cities[f.c.id]!, build: { kind: 'building', id: 'theoryOfEvolution' }, shields: rules.building('theoryOfEvolution').cost };
+    invalidateCaches(s);
+    s = endTurnAll(s);
+    expect(s.wonders.theoryOfEvolution).toBe(f.c.id);
+    const p = s.players[0]!;
+    expect(p.techs).toContain(x);
+    expect(p.techs.length).toBe(techs.length + 1);
+    expect(p.research.tech).toBeNull();
+    expect(p.research.beakers).toBeGreaterThanOrEqual(7);
+    expect(p.freeAdvances).toBe(1);
+    // The free pick: any advance the player can research, learned at once.
+    s = run(s, { type: 'setResearch', player: 0, tech: z! });
+    expect(s.players[0]!.techs).toContain(z);
+    expect(s.players[0]!.freeAdvances).toBe(0);
+    // The next choice is ordinary research, with the carried-over beakers.
+    s = run(s, { type: 'setResearch', player: 0, tech: y! });
+    expect(s.players[0]!.techs).not.toContain(y);
+    expect(s.players[0]!.research).toMatchObject({ tech: y, beakers: p.research.beakers });
+  });
+});
+
+describe('golden ages from a single wonder', () => {
+  // Egypt is religious and industrious: the Oracle (a place of worship) matches one trait, the Great Library none.
+  const trial = (wonder: string, seed: number): boolean => {
+    let s = flatGame(1, 2, { civs: ['egyptians', 'romans'] });
+    const f = found(s, 0, 20, 20);
+    s = f.s;
+    s.players[0]!.techs.push(...rules.set.techs.filter((t) => t.era === 'ancient').map((t) => t.id));
+    s.cities[f.c.id] = { ...s.cities[f.c.id]!, build: { kind: 'building', id: wonder }, shields: rules.building(wonder).cost };
+    s.rng = seedRng(seed);
+    invalidateCaches(s);
+    s = endTurnAll(s);
+    expect(s.wonders[wonder]).toBe(f.c.id);
+    return s.players[0]!.hadGoldenAge;
+  };
+
+  it('start half the time with a great wonder matching one of the civilization’s traits', () => {
+    expect(WONDER_GOLDEN_AGE_PERCENT).toBe(50);
+    const n = 40;
+    const started = Array.from({ length: n }, (_, i) => trial('oracle', i + 1)).filter(Boolean).length;
+    expect(started).toBeGreaterThan(n * 0.25);
+    expect(started).toBeLessThan(n * 0.75);
+  });
+
+  it('never start with a wonder matching neither trait', () => {
+    for (let i = 1; i <= 10; i++) expect(trial('greatLibrary', i)).toBe(false);
   });
 });
 

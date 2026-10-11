@@ -119,6 +119,11 @@ export interface Player {
   /** Tax, science and luxury shares in tens of percent; they add up to 10. */
   rates: Rates;
   research: Research;
+  /**
+   * Free advances owed to the player, each a free pick of any advance it can research
+   * (docs/rules/science.md): the next setResearch learns its tech at once. Absent means none.
+   */
+  freeAdvances?: number;
   /** Index into rules.set.eras of the era the player is in. */
   era: number;
   /** Set while in anarchy: the government that follows and the turn it takes over. */
@@ -203,7 +208,7 @@ export interface City {
   build: Build | null;
   /** Builds that follow the current one. */
   queue: Build[];
-  /** Category the shields were collected for; switching category loses half (docs/rules/production.md). */
+  /** Category the shields were collected for; switching category costs nothing (docs/rules/production.md). */
   shieldsFor: 'unit' | 'improvement' | 'wonder' | null;
   /** Buildings present, mapped to the turn they were completed. */
   buildings: Record<string, number>;
@@ -277,7 +282,19 @@ export type DealItem =
   | { kind: 'rightOfPassage' }
   | { kind: 'mutualProtection' }
   | { kind: 'alliance'; against: number }
-  | { kind: 'embargo'; against: number };
+  | { kind: 'embargo'; against: number }
+  /** The giver's units leave the receiver's territory at once (only in a withdrawal demand). */
+  | { kind: 'withdraw' };
+
+/**
+ * A demand backed by a threat (docs/rules/diplomacy.md): `withdraw` asks the recipient to
+ * pull its troops out of the demander's territory, `tribute` asks for gold or an advance.
+ * `war`: the demander declares war if the recipient refuses (or lets the demand lapse).
+ */
+export interface Demand {
+  kind: 'withdraw' | 'tribute';
+  war: boolean;
+}
 
 /** A trade offer: `give` goes from `from` to `to`, `take` from `to` to `from`. */
 export interface Deal {
@@ -285,6 +302,8 @@ export interface Deal {
   to: number;
   give: DealItem[];
   take: DealItem[];
+  /** Set when the offer is a demand: nothing is given, and refusing it may mean war. */
+  demand?: Demand;
 }
 
 /** An offer waiting for its recipient's answer. */
@@ -308,6 +327,8 @@ export interface Diplomacy {
   ongoing: OngoingDeal[];
   proposals: Proposal[];
   nextId: number;
+  /** Turn of the last demand per `from:to:kind`, for the cooldown between demands. */
+  demands?: Record<string, number>;
 }
 
 export type VictoryKind = 'conquest' | 'domination' | 'space' | 'cultural' | 'diplomatic' | 'score' | 'regicide' | 'victoryPoints';

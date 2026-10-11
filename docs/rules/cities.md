@@ -20,7 +20,10 @@
 The work area is the 21-tile "fat cross": the 5 × 5 block on the rotated grid without its
 four corners (`territory.ts`, `cityRadiusTiles`). A city can work a tile in its work area
 only when the tile is inside its owner's borders (Civilopedia, *City Radius*), not worked
-by another city, not a city tile and not held by foreign units.
+by another city, not a city tile and not held by foreign units. Where two cities' borders
+compete over a tile, it goes to the city with the most influence on it, culture points ÷
+distance to the tile (at least 1), ties to the older city; a city tile always belongs to
+its owner ([culture.md](culture.md)). *Source: owner's ruling 2026-10-11.*
 
 The city tile is always worked and yields:
 - the terrain, resource, river and road as for any tile;

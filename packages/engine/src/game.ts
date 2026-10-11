@@ -281,7 +281,7 @@ export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult
   if (cmd.type === 'proposeDeal' || cmd.type === 'answerDeal' || cmd.type === 'espionage') {
     const error =
       cmd.type === 'proposeDeal'
-        ? proposeDeal(rules, tx, { from: cmd.player, to: cmd.target, give: cmd.give, take: cmd.take }, cmd.reason)
+        ? proposeDeal(rules, tx, { from: cmd.player, to: cmd.target, give: cmd.give, take: cmd.take, ...(cmd.demand ? { demand: cmd.demand } : {}) }, cmd.reason)
         : cmd.type === 'answerDeal'
           ? answerDeal(rules, tx, cmd.player, cmd.proposal, cmd.accept)
           : runMission(rules, tx, cmd.player, cmd.target, cmd.mission, cmd.city);

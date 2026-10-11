@@ -14,6 +14,7 @@ import {
   draftUnit,
   empireInfo,
   invalidateCaches,
+  researchableTechs,
   SAM_DEFENCE_PERCENT,
   TECH_BONUS_ADVANCE,
   TECH_REVEALS_MAP,
@@ -137,10 +138,18 @@ describe('Conquests tech flags', () => {
     invalidateCaches(s);
     s = endTurnAll(s);
     expect(s.players[0]!.techs).toContain('philosophy');
-    expect(s.players[0]!.techs.length).toBe(prereqs.length + 2);
+    // Nothing is being researched once Philosophy arrives: the free advance is a free pick, owed until chosen.
+    expect(s.players[0]!.techs.length).toBe(prereqs.length + 1);
+    expect(s.players[0]!.freeAdvances).toBe(1);
+    const pick = researchableTechs(rules, s.players[0]!)[0]!;
+    s = run(s, { type: 'setResearch', player: 0, tech: pick });
+    expect(s.players[0]!.techs).toContain(pick);
+    expect(s.players[0]!.freeAdvances).toBe(0);
+    expect(s.players[0]!.research.tech).toBeNull();
     s.players[1] = { ...s.players[1]!, research: { tech: 'philosophy', beakers: 100000, turns: 50 } };
     s = endTurnAll(s);
     expect(s.players[1]!.techs.length).toBe(prereqs.length + 1);
+    expect(s.players[1]!.freeAdvances ?? 0).toBe(0);
   });
 
   it('Satellites reveal the whole map to its discoverer', () => {

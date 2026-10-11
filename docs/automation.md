@@ -14,7 +14,7 @@ engine only checks their shape and limits; their meaning is all in this package.
 
 | Step | Code | What it does |
 |---|---|---|
-| Offers | `policies.ts` `dealAnswer` | accepts gifts, declines demands, accepts peace, by the deal policy (diplomacy delegated) |
+| Offers | `policies.ts` `dealAnswer` | accepts gifts, declines demands, accepts peace, by the deal policy (diplomacy delegated); a demand backed by a threat of war (withdrawal, tribute) is always left to the player |
 | Research | `policyResearch` | the next step toward the research goal, else the cheapest advance toward the next era |
 | Treasury | `policyRates`, `planGovernment` | rates by policy (most science that keeps +X gold a turn, most gold, celebrate), the best government known |
 | Templates | `templates.ts` | gives new and captured cities their template (inland, coastal, captured) |

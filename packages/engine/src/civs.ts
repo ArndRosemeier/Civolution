@@ -169,11 +169,16 @@ export function uniqueUnitVictory(rules: Rules, tx: Tx, player: number, unitType
   startGoldenAge(rules, tx, player, 'uniqueUnit', `${rules.unit(unitType).name} won a battle`);
 }
 
+/** Chance in percent that a great wonder matching one of its builder's traits starts its golden age. */
+export const WONDER_GOLDEN_AGE_PERCENT = 50;
+
 /**
- * The civilization's great wonders cover both of its traits' characteristics (one wonder
- * may cover both): its golden age starts.
+ * Golden ages from great wonders (docs/rules/golden-ages.md): certain once the
+ * civilization's wonders cover both of its traits' characteristics (one wonder may cover
+ * both); otherwise a WONDER_GOLDEN_AGE_PERCENT chance when the wonder just `built` matches
+ * one of its traits.
  */
-export function checkWonderGoldenAge(rules: Rules, tx: Tx, player: number): void {
+export function checkWonderGoldenAge(rules: Rules, tx: Tx, player: number, built?: string): void {
   const p = tx.state.players[player]!;
   const civ = civOf(rules, p);
   if (!civ || p.hadGoldenAge) return;
@@ -181,7 +186,12 @@ export function checkWonderGoldenAge(rules: Rules, tx: Tx, player: number): void
   const tags = new Set(owned.flatMap((w) => rules.building(w).tags));
   if (civ.traits.length > 0 && civ.traits.every((t) => tags.has(TRAIT_CHARACTERISTIC[t as Trait]))) {
     startGoldenAge(rules, tx, player, 'wonders', `wonders matching the ${civ.traits.join(' and ')} traits`);
+    return;
   }
+  const wonder = built ? rules.building(built) : null;
+  if (wonder?.kind !== 'wonder') return;
+  const trait = civ.traits.find((t) => wonder.tags.includes(TRAIT_CHARACTERISTIC[t as Trait]));
+  if (trait && tx.random(100) < WONDER_GOLDEN_AGE_PERCENT) startGoldenAge(rules, tx, player, 'wonders', `${wonder.name} suits the ${trait} trait`);
 }
 
 /** Ends golden ages whose time is up (start of turn). */

@@ -25,16 +25,17 @@ function who(state: GameState, p: number): string {
   return state.players[p]?.name ?? 'Someone';
 }
 
-const TREATY_NAMES: Record<TreatyKind, string> = {
+const TREATY_NAMES: Record<TreatyKind | 'trade', string> = {
   peace: 'peace treaty',
   ceasefire: 'ceasefire',
   rightOfPassage: 'right of passage',
   mutualProtection: 'mutual protection pact',
   alliance: 'alliance',
   embargo: 'embargo',
+  trade: 'trade agreements',
 };
 
-export function treatyName(t: TreatyKind): string {
+export function treatyName(t: TreatyKind | 'trade'): string {
   return TREATY_NAMES[t];
 }
 
@@ -134,6 +135,8 @@ export function describeEvent(s: { state: GameState; human: number }, e: GameEve
       return `${rules.building(e.building).name} in ${cityName(st, e.city)} was sold: ${e.why}`;
     case 'techDiscovered':
       return `Your scholars discover ${rules.tech(e.tech).name}.`;
+    case 'freeAdvanceOwed':
+      return 'A free advance! Choose any advance you can research in the science advisor.';
     case 'eraEntered':
       return `Your civilization enters the ${rules.set.eras.find((x) => x.id === e.era)?.name ?? e.era}.`;
     case 'anarchyStarted':
@@ -147,7 +150,8 @@ export function describeEvent(s: { state: GameState; human: number }, e: GameEve
       const who = unitName(st, e.unit);
       if (o.kind === 'gold') return `${who} found ${o.amount} gold in a tribal village.`;
       if (o.kind === 'map') return `The villagers shared their maps: ${o.tiles} tiles revealed.`;
-      if (o.kind === 'unit') return `A band of warriors from the village joins you.`;
+      if (o.kind === 'unit') return o.unitType === 'settler' ? 'Settlers from the village join you.' : 'A band of warriors from the village joins you.';
+      if (o.kind === 'city') return `The villagers join your civilization: the village becomes ${cityName(st, o.city)}.`;
       if (o.kind === 'tech') return `The villagers teach you ${rules.tech(o.tech).name}.`;
       if (o.kind === 'barbarians') return 'The village was a barbarian lair! Hostile tribesmen attack.';
       return 'The village was abandoned.';
@@ -213,7 +217,7 @@ export function describeEvent(s: { state: GameState; human: number }, e: GameEve
     case 'cityDestroyed':
       return e.player === s.human ? `${e.name} has been destroyed.` : `${e.name} is razed.`;
     case 'cityRaided':
-      return e.size > 0 ? `Barbarians sack ${cityName(st, e.city)}: ${e.gold} gold taken.` : `Barbarians burn ${cityName(st, e.city)} to the ground.`;
+      return `Barbarians sack ${cityName(st, e.city)}: ${e.gold} gold taken.`;
     case 'airMission':
       return e.mission === 'rebase' ? `${unitName(st, e.unit)} rebased.` : e.mission === 'recon' ? 'Reconnaissance flight under way.' : null;
     case 'intercepted':
@@ -221,6 +225,10 @@ export function describeEvent(s: { state: GameState; human: number }, e: GameEve
     case 'nuclearStrike':
       return e.stopped ? 'A nuclear missile was destroyed in flight by missile defence.' : `A nuclear weapon has been detonated by ${who(st, e.player)}!`;
     case 'warDeclared':
+      if (e.cause === 'withdrawRefused')
+        return e.player === s.human ? `${who(st, e.target)} would not withdraw its troops: we are at war.` : `We refused to withdraw our troops: ${who(st, e.player)} declares war on us!`;
+      if (e.cause === 'tributeRefused')
+        return e.player === s.human ? `${who(st, e.target)} would not pay tribute: we are at war.` : `We refused to pay tribute: ${who(st, e.player)} declares war on us!`;
       return e.player === s.human ? `We are at war with ${who(st, e.target)}.` : `${who(st, e.player)} declares war on us!`;
     case 'peaceMade':
       if (e.player !== s.human && e.target !== s.human) return null;
@@ -250,7 +258,10 @@ export function describeEvent(s: { state: GameState; human: number }, e: GameEve
       // The one who declines is `player`; `target` made the offer.
       return e.target === s.human ? `${who(st, e.player)} turns down our offer.` : `We decline the offer from ${who(st, e.target)}.`;
     case 'dealProposed':
-      return e.target === s.human ? `${who(st, e.player)} has an offer for us.` : null;
+      if (e.target !== s.human) return null;
+      if (e.demand === 'withdraw') return `${who(st, e.player)} demands that we withdraw our troops from their lands, or it means war!`;
+      if (e.demand === 'tribute') return `${who(st, e.player)} demands tribute from us!`;
+      return `${who(st, e.player)} has an offer for us.`;
     case 'dealCancelled':
       return `The agreement between ${who(st, e.player)} and ${who(st, e.target)} has fallen through: ${e.why}`;
     case 'dealExpired':

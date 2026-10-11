@@ -11,6 +11,7 @@ import {
   DEAL_TURNS,
   militaryPower,
   playerCities,
+  resourceSurplus,
   techCost,
   type Deal,
   type DealItem,
@@ -63,7 +64,10 @@ function itemValue(rules: Rules, state: GameState, me: number, other: number, it
       return receiving ? 30 : 10;
     case 'resource': {
       const r = rules.resources[rules.resourceIndex(item.resource)]!;
-      return r.kind === 'strategic' ? (receiving ? 150 : 120) : receiving ? 90 : 40;
+      if (receiving) return r.kind === 'strategic' ? 150 : 90;
+      // The last copy leaves the giver without the resource while the deal runs (owner's ruling 2026-10-11).
+      const last = resourceSurplus(rules, state, me, item.resource) === 0;
+      return r.kind === 'strategic' ? (last ? 600 : 120) : last ? 200 : 40;
     }
     case 'city': {
       const c = state.cities[item.city];
@@ -98,6 +102,9 @@ function itemValue(rules: Rules, state: GameState, me: number, other: number, it
       const hate = attitude(rules, state, me, item.against).value;
       return hate <= -15 ? 30 : -100;
     }
+    case 'withdraw':
+      // Only ever demanded: see `yieldsTo` in diplomacy.ts.
+      return 0;
   }
 }
 

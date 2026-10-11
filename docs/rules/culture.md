@@ -17,8 +17,10 @@ culture threshold: 10, 100, 1000, 10000, 20000, 40000, 80000 points. Ring *r* ho
 tiles with du² + dv² ≤ r(r + 1) on the rotated grid, so ring 2 is exactly the 21-tile work
 area and later rings grow roughly as circles.
 
-A tile in several rings goes to the closest city, then to the city with more culture, then
-to the older city. A city's own tile is always its owner's. Borders decide which tiles a
+A tile in several rings is a culture contest: each competing city's influence on it is
+its culture points ÷ its distance to the tile in tiles (at least 1), the highest influence
+wins, and a tie goes to the older city (`territory.ts`, `computeTerritory`). A city's own
+tile is always its owner's. *Source: owner's ruling 2026-10-11.* Borders decide which tiles a
 city may work ([cities.md](cities.md)) and where resources count
 ([trade.md](trade.md)); a player always sees their own territory.
 

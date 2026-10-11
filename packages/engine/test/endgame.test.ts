@@ -231,6 +231,36 @@ describe('victory', () => {
     expect(s.victory).toMatchObject({ kind: 'diplomatic', winner: 0 });
   });
 
+  it('lets a civilization abstain from a UN vote (owner’s ruling 2026-10-11)', () => {
+    const setup = () => {
+      let s = flatGame(1, 4);
+      const a = found(s, 0, 10, 10);
+      const b = found(a.s, 1, 20, 20);
+      const c = found(b.s, 2, 30, 30);
+      const d = found(c.s, 3, 40, 10);
+      s = d.s;
+      patch(s, a.c, { size: 6, buildings: { ...s.cities[a.c.id]!.buildings, unitedNations: 1 } });
+      s.wonders = { unitedNations: a.c.id };
+      patch(s, b.c, { size: 5 });
+      patch(s, c.c, { size: 4 });
+      patch(s, d.c, { size: 3 });
+      return s;
+    };
+    // Player 2 dislikes both candidates; player 3 is at war with both: neither votes.
+    const s = setup();
+    s.players[2] = { ...s.players[2]!, memory: { 0: -100, 1: -100 } };
+    s.players[3] = { ...s.players[3]!, atWarWith: [0, 1] };
+    s.players[0] = { ...s.players[0]!, atWarWith: [3] };
+    s.players[1] = { ...s.players[1]!, atWarWith: [3] };
+    const vote = unVote(rules, s);
+    expect(vote.total).toBe(18);
+    // The candidates vote for themselves; the abstainers' citizens still count in the total.
+    expect(vote.votes).toEqual({ 0: 6, 1: 5 });
+    expect(vote.winner).toBeNull();
+    // Had they voted, someone would have had a majority.
+    expect(unVote(rules, setup()).winner).not.toBeNull();
+  });
+
   it('ends at the last turn with the highest score', () => {
     let s = flatGame(1, 2);
     const a = found(s, 0, 10, 10);

@@ -34,6 +34,7 @@ import { Dialog } from './Dialog.tsx';
 import { Explain, explainText } from './Explain.tsx';
 import { pauseGovernorFor, pauseTemplateFor } from './automation.ts';
 import { CityAutomation } from './CityAutomation.tsx';
+import { unitArt } from './art.ts';
 import { governorFor } from '@civolution/automation';
 
 const sameBuild = (a: Build | null, b: Build | null) => !!a && !!b && a.kind === b.kind && a.id === b.id;
@@ -44,7 +45,7 @@ function art(path: string) {
 
 /** Small picture for a build (generated icons, docs/assets.md); hidden until the file exists. */
 export function BuildIcon({ build }: { build: Build }) {
-  const src = build.kind === 'unit' ? art(`units/${build.id}.png`) : art(`buildings/${build.id}.png`);
+  const src = build.kind === 'unit' ? unitArt(build.id) : art(`buildings/${build.id}.png`);
   return <img className="build-icon" src={src} alt="" onError={(e) => (e.currentTarget.style.visibility = 'hidden')} />;
 }
 

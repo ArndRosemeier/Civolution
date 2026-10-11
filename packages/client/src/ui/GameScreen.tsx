@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { cityAt, distance, findPath, neighbour, pathTurns, stealthTargets, stepCost, type GameState, type Unit } from '@civolution/engine';
-import { play, setUnitFamily } from '../audio.ts';
+import { play, setAmbience, setMusic, setSoundContext } from '../audio.ts';
+import { AMBIENCE } from '../sounds.ts';
 import { host } from '../host/client.ts';
 import { loadModels, type ModelSet } from '../map/three/models.ts';
 import { ThreeMapView } from '../map/three/ThreeMapView.ts';
@@ -29,7 +30,22 @@ import { unitFamily } from './family.ts';
 
 let modelsPromise: Promise<ModelSet> | null = null;
 
-setUnitFamily((type) => unitFamily(rules, type));
+setSoundContext({
+  family: (type) => (rules.hasUnit(type) ? unitFamily(rules, type) : 'melee'),
+  unitType: (id) => {
+    const units = useGame.getState().snapshot?.state.units;
+    return units && id in units ? units[id]!.type : undefined;
+  },
+});
+
+/** The ambience for what the camera looks at: a city nearby, else the terrain, else none. */
+function ambienceAt(state: GameState, human: number, tile: number): string | null {
+  if (tile < 0) return null;
+  const p = state.players[human];
+  if (!p || !((p.explored[tile >> 5]! >>> (tile & 31)) & 1)) return null;
+  if (Object.values(state.cities).some((c) => distance(state.map, c.tile, tile) <= 1)) return AMBIENCE['city']!;
+  return AMBIENCE[rules.terrains[state.map.terrain[tile]!]!.id] ?? null;
+}
 
 /** Whether stepping from `u` onto `tile` would be an attack or a capture. */
 function hostileStep(state: GameState, u: Unit, tile: number): boolean {
@@ -142,6 +158,27 @@ export function GameScreen() {
       view.update(snapshot, lastEvents);
     }
   }, [view, snapshot, lastEvents]);
+
+  // Music follows the player's era; the ambience follows the camera.
+  const era = snapshot.state.players[snapshot.human]?.era ?? 0;
+  useEffect(() => setMusic(era), [era]);
+  useEffect(() => {
+    if (!view) return;
+    const tick = () => {
+      const s = useGame.getState().snapshot;
+      if (!s || !canvas.current) return;
+      const r = canvas.current.getBoundingClientRect();
+      // Far out over the whole map there is no single place to listen to.
+      const far = view.view().distance > 42;
+      setAmbience(far ? null : ambienceAt(s.state, s.human, view.pick(r.left + r.width / 2, r.top + r.height / 2)));
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => {
+      clearInterval(id);
+      setAmbience(null);
+    };
+  }, [view]);
 
   useEffect(() => view?.setSelectedUnit(selected), [view, selected]);
   useEffect(() => view?.setGrid(settings.grid), [view, settings.grid]);

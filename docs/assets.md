@@ -27,11 +27,13 @@ then copy `assets/out/civ_*.glb` to `packages/client/public/models/`.
 | civ_unit_swordsman, pikeman, longbowman, medieval_infantry, musketman, rifleman, infantry, marine, paratrooper | foot soldiers from the Bronze Age to today (`civ.figure`) |
 | civ_unit_leader, army | great leader with banner; army of three round a standard (`civ.figure`) |
 | civ_unit_horseman, chariot, knight, cavalry | mounted units (`civ.mounted`) |
+| civ_unit_war_elephant, camel_rider | the Indian war elephant and the Arab ansar warrior (`civ.mounted` kinds `elephant`, `camel`) |
 | civ_unit_catapult, trebuchet, cannon, artillery | siege and artillery (`civ.siege`) |
 | civ_unit_tank, modern_armor, mech_infantry, mobile_sam | vehicles (`civ.vehicle`) |
 | civ_unit_galley, caravel, galleon, frigate, ironclad, transport, destroyer, battleship, carrier, submarine | ships (`civ.ship`) |
 | civ_unit_fighter, jet_fighter, bomber, stealth_bomber, helicopter, cruise_missile, nuclear_missile | aircraft and missiles (`civ.aircraft`) |
 | civ_barbarian_camp, civ_fx_crater | barbarian camps, nuclear craters (`civ.settlement`, `civ.fx`) |
+| civ_fortress, civ_barricade | fortresses and barricades on the map (`civ.settlement` styles `fortress`, `barricade`) |
 
 `tools/models/unit-models.json` maps every unit type of the rule set to its model (unique
 units borrow the closest one) and gives each model its in-game size (`_fit`); the client

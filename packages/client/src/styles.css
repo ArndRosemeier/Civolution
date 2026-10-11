@@ -632,3 +632,46 @@ kbd {
     height: 160px;
   }
 }
+
+.sound-menu {
+  position: relative;
+}
+.sound-pop {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 40;
+  width: 240px;
+  padding: 10px 12px;
+  display: grid;
+  gap: 8px;
+  background: var(--panel-solid);
+}
+.sound-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.sound-row span {
+  flex: 0 0 auto;
+  min-width: 64px;
+}
+.sound-row input[type='range'] {
+  flex: 1;
+  accent-color: var(--accent);
+}
+.sound-row small {
+  width: 24px;
+  text-align: right;
+  color: var(--muted);
+}
+
+.unit-head .unit-portrait {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: 50%;
+  border: 2px solid;
+  object-fit: cover;
+}

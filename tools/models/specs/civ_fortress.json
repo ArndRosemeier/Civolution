@@ -1,0 +1,91 @@
+{
+  "spec_version": 1,
+  "id": "civ_fortress",
+  "generator": "civ.settlement",
+  "params": {
+    "style": "fortress",
+    "radius": 0.8,
+    "buildings": 4,
+    "walls": true,
+    "seed": 7
+  },
+  "materials": {
+    "wall": {
+      "base_color": [
+        0.36,
+        0.26,
+        0.17,
+        1
+      ],
+      "roughness": 0.85,
+      "metallic": 0
+    },
+    "roof": {
+      "base_color": [
+        0.55,
+        0.27,
+        0.18,
+        1
+      ],
+      "roughness": 0.85,
+      "metallic": 0
+    },
+    "stone": {
+      "base_color": [
+        0.66,
+        0.62,
+        0.54,
+        1
+      ],
+      "roughness": 0.95,
+      "metallic": 0
+    },
+    "wood": {
+      "base_color": [
+        0.34,
+        0.23,
+        0.13,
+        1
+      ],
+      "roughness": 0.85,
+      "metallic": 0
+    },
+    "team": {
+      "base_color": [
+        0.85,
+        0.85,
+        0.85,
+        1
+      ],
+      "roughness": 0.75,
+      "metallic": 0
+    },
+    "thatch": {
+      "base_color": [
+        0.5,
+        0.36,
+        0.22,
+        1
+      ],
+      "roughness": 0.9,
+      "metallic": 0
+    },
+    "fire": {
+      "base_color": [
+        1,
+        0.5,
+        0.1,
+        1
+      ],
+      "roughness": 0.6,
+      "metallic": 0
+    }
+  },
+  "qa": {
+    "max_triangles": 8000,
+    "require_uvs": true,
+    "require_manifold": true,
+    "require_origin_at_base": true,
+    "max_dimension_m": 4
+  }
+}

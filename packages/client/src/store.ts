@@ -241,6 +241,7 @@ export const useGame = create<Store>((set, get) => {
       set({ tilePick: pick, gotoMode: false, aim: null });
     },
     open(panel) {
+      if ((panel === null) !== (get().panel === null)) play(panel ? 'ui-open' : 'ui-close');
       set({ panel, gotoMode: false, aim: null });
     },
     async newGame(options) {
@@ -295,6 +296,7 @@ export const useGame = create<Store>((set, get) => {
       }
     },
     select(id) {
+      if (id !== null && id !== get().selected) play('ui-select');
       set({ selected: id, gotoMode: false, aim: null });
     },
     selectNext() {

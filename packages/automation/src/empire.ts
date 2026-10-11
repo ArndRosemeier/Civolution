@@ -45,7 +45,7 @@ const scoreCache = new WeakMap<GameState, Map<number, number>>();
 /** How good a city site `tile` is for `player` (0 when it cannot be settled). */
 export function siteScore(rules: Rules, state: GameState, player: number, tile: number): number {
   let scores = scoreCache.get(state);
-  if (!scores) scoreCache.set(state, (scores = new Map()));
+  if (!scores) scoreCache.set(state, (scores = new Map<number, number>()));
   const key = player * state.map.terrain.length + tile;
   let score = scores.get(key);
   if (score === undefined) scores.set(key, (score = computeSiteScore(rules, state, player, tile)));

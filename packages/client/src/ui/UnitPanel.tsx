@@ -23,6 +23,7 @@ import { rules } from '../rules.ts';
 import { useGame, type AimAction } from '../store.ts';
 import { formatMoves } from './describe.ts';
 import { play } from '../audio.ts';
+import { unitArt } from './art.ts';
 
 export interface UnitAction {
   id: string;
@@ -268,7 +269,7 @@ export function UnitPanel() {
   return (
     <div className="unit-panel panel">
       <div className="unit-head">
-        <span className="swatch" style={{ background: owner.color }} />
+        <img className="unit-portrait" style={{ borderColor: owner.color }} src={unitArt(u.type)} alt="" onError={(e) => (e.currentTarget.style.visibility = 'hidden')} />
         <div>
           <h3>{u.name ? `${u.name} · ${u.scientific ? 'Great scientist' : rule.name}` : rule.name}</h3>
           <span className="muted">

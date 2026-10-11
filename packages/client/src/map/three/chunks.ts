@@ -11,6 +11,8 @@ import {
   FLAG_HUT,
   IMP_CRATER,
   IMP_MINE,
+  IMP_FORTRESS,
+  IMP_BARRICADE,
   IMP_RAIL,
   IMP_ROAD,
   isExplored,
@@ -192,6 +194,9 @@ export class Chunk {
         if (map.flags[tile]! & FLAG_HUT) put('village', x, z, 1, r() * 6.28);
         if (map.flags[tile]! & FLAG_CAMP) put('civ_barbarian_camp', x, z, 1, r() * 6.28);
         if (imp & IMP_CRATER && !city) put('civ_fx_crater', x, z, 1, r() * 6.28);
+        // A barricade is built on a fortress and replaces its look.
+        if (imp & IMP_BARRICADE && !city) put('barricade', x, z, 1, r() * 6.28);
+        else if (imp & IMP_FORTRESS && !city) put('fortress', x, z, 1, Math.floor(r() * 4) * (Math.PI / 2));
         const res = map.resource[tile]!;
         if (res >= 0 && !city) {
           const rule = rules.resources[res]!;

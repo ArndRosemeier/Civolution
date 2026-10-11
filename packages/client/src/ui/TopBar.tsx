@@ -3,6 +3,7 @@ import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
 import { empireSummary, signed } from './empire.ts';
 import { VERSION } from '../version.ts';
+import { SoundMenu } from './SoundMenu.tsx';
 
 export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => void }) {
   const snap = useGame((s) => s.snapshot)!;
@@ -85,6 +86,7 @@ export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => v
       <button className={settings.perf ? 'on' : ''} onClick={() => setSettings({ perf: !settings.perf })} title="Performance overlay (`)">
         FPS
       </button>
+      <SoundMenu />
       <button onClick={onSave} title="Save (Ctrl+S)">
         Save
       </button>

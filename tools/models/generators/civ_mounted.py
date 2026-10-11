@@ -1,5 +1,8 @@
 """Civolution mounted units: a low-poly horse with a seated rider, or a chariot.
 
+Kinds horseman, knight, cavalry, chariot, and the war elephant (spearman in a howdah)
+and the camel rider of the unique units.
+
 Faces -Y, origin at the footprint centre, base on Z=0. The rider reuses the foot
 figure's body and arms (``civ_figure``), seated on the saddle.
 
@@ -20,7 +23,7 @@ from blender.generators.civ_figure import arm, body, flag, hair, kite_shield
 from blender.lib.spec import AssetSpec, SpecError, as_int, as_str, reject_unknown, require_key, require_materials
 
 MATERIAL_SLOTS: tuple[str, ...] = ("skin", "hair", "cloth", "team", "leather", "wood", "metal", "horse", "mane")
-KINDS = ("horseman", "knight", "cavalry", "chariot")
+KINDS = ("horseman", "knight", "cavalry", "chariot", "elephant", "camel")
 
 SADDLE_Z = 1.6
 
@@ -95,6 +98,65 @@ def drape(b: ShapeBuilder, stations: list[tuple[float, list[tuple[float, float]]
         b.loft(rings, slot)
 
 
+def elephant(b: ShapeBuilder) -> None:
+    """A war elephant, ~2.6 m at the shoulder, facing -Y, with metal-capped tusks."""
+    b.sphere((0.0, 0.1, 2.0), (0.62, 1.05, 0.7), "horse", detail=2)
+    b.sphere((0.0, -0.75, 2.25), (0.45, 0.42, 0.48), "horse", detail=2)  # head
+    for sx in (-1.0, 1.0):
+        # Ears: flat discs to the sides of the head.
+        b.cylinder((0.42 * sx, -0.62, 2.3), 0.38, 0.05, "horse", rotation=(0.0, math.pi / 2, 0.25 * sx), segments=10)
+        b.sphere((0.24 * sx, -1.08, 2.36), 0.035, "mane", detail=1)  # eyes
+        # Tusks curving forward and up, with metal caps.
+        b.between((0.18 * sx, -1.05, 1.95), (0.24 * sx, -1.45, 1.75), 0.05, "mane", segments=6, radius_end=0.035)
+        b.between((0.24 * sx, -1.45, 1.75), (0.22 * sx, -1.62, 1.92), 0.035, "metal", segments=6, radius_end=0.012)
+    # Trunk hanging and curling forward.
+    b.between((0.0, -1.1, 2.1), (0.0, -1.3, 1.4), 0.15, "horse", segments=8, radius_end=0.1)
+    b.between((0.0, -1.3, 1.4), (0.0, -1.22, 0.75), 0.1, "horse", segments=8, radius_end=0.07)
+    b.between((0.0, -1.22, 0.75), (0.0, -1.42, 0.6), 0.07, "horse", segments=6, radius_end=0.05)
+    # Legs: thick pillars, one fore leg stepping.
+    for (x, y), step in (((-0.32, -0.55), -0.12), ((0.32, -0.55), 0.0), ((-0.32, 0.72), 0.0), ((0.32, 0.72), 0.1)):
+        b.between((x, y, 1.65), (x, y + step, 0.12), 0.24, "horse", segments=10, radius_end=0.2)
+        b.cylinder((x, y + step, 0.07), 0.22, 0.14, "mane", segments=10)
+    b.between((0.0, 1.1, 1.95), (0.0, 1.25, 1.1), 0.04, "horse", segments=5, radius_end=0.02)  # tail
+    # Team blanket with a metal forehead plate.
+    prof = [(-0.66, 1.55), (-0.66, 2.1), (-0.38, 2.62), (0.38, 2.62), (0.66, 2.1), (0.66, 1.55)]
+    drape(b, [(-0.5, prof), (0.65, prof)], "team")
+    b.box((0.0, -1.05, 2.5), (0.36, 0.06, 0.3), "metal", rotation=(0.35, 0.0, 0.0))
+    # Howdah: a wooden platform with a railing and a canopy pole.
+    b.box((0.0, 0.1, 2.72), (0.95, 1.0, 0.1), "wood")
+    for sx in (-1.0, 1.0):
+        b.box((0.46 * sx, 0.1, 2.92), (0.05, 1.0, 0.3), "wood")
+    for sy in (-1.0, 1.0):
+        b.box((0.0, 0.1 + 0.48 * sy, 2.92), (0.95, 0.05, 0.3), "wood")
+
+
+def camel(b: ShapeBuilder) -> None:
+    """A riding camel, ~2 m at the hump, facing -Y."""
+    b.sphere((0.0, 0.05, 1.5), (0.3, 0.75, 0.36), "horse", detail=2)
+    b.sphere((0.0, 0.1, 1.85), (0.24, 0.32, 0.3), "horse", detail=2)  # hump
+    # Long curved neck and a narrow head.
+    b.between((0.0, -0.6, 1.55), (0.0, -0.95, 1.25), 0.15, "horse", segments=8, radius_end=0.11)
+    b.between((0.0, -0.95, 1.25), (0.0, -1.15, 2.05), 0.11, "horse", segments=8, radius_end=0.09)
+    b.sphere((0.0, -1.18, 2.1), (0.1, 0.13, 0.11), "horse", detail=1)
+    b.between((0.0, -1.22, 2.08), (0.0, -1.48, 2.0), 0.08, "horse", segments=8, radius_end=0.06)
+    for sx in (-1.0, 1.0):
+        b.sphere((0.08 * sx, -1.24, 2.16), 0.02, "mane", detail=1)
+        b.between((0.06 * sx, -1.12, 2.2), (0.08 * sx, -1.08, 2.28), 0.02, "horse", segments=4, radius_end=0.005)
+    b.between((0.0, 0.78, 1.6), (0.0, 0.9, 1.0), 0.04, "mane", segments=5, radius_end=0.02)  # tail
+    # Long thin legs with knobbly knees and wide feet.
+    legs = (((-0.14, -0.48), (-0.14, -0.62, 0.72)), ((0.14, -0.48), (0.14, -0.44, 0.72)), ((-0.14, 0.55), (-0.14, 0.6, 0.72)), ((0.14, 0.55), (0.14, 0.7, 0.72)))
+    for (x, y), knee in legs:
+        b.between((x, y, 1.42), knee, 0.09, "horse", segments=8, radius_end=0.055)
+        b.sphere(knee, 0.07, "horse", detail=1)
+        b.between(knee, (knee[0], knee[1] - 0.02, 0.06), 0.05, "horse", segments=6, radius_end=0.045)
+        b.cylinder((knee[0], knee[1] - 0.04, 0.03), 0.09, 0.06, "mane", segments=8)
+    # Saddle cloth on the hump and a bridle.
+    prof = [(-0.33, 1.4), (-0.33, 1.75), (-0.2, 2.1), (0.2, 2.1), (0.33, 1.75), (0.33, 1.4)]
+    drape(b, [(-0.25, prof), (0.35, prof)], "team")
+    for sx in (-1.0, 1.0):
+        b.between((0.08 * sx, -1.4, 2.02), (0.17 * sx, -0.3, 2.06), 0.008, "leather", segments=4)
+
+
 def caparison(b: ShapeBuilder) -> None:
     """A team cloth draped over the horse, hanging to mid leg."""
     stations = []
@@ -152,6 +214,24 @@ def _rider(b: ShapeBuilder, kind: str) -> None:
             arm(b, -1.0, (-0.14, -0.36, 1.05), sleeve="team", elbow=(-0.3, -0.14, 1.06))
             b.between((-0.28, -0.05, 0.92), (-0.36, 0.55, 0.6), 0.03, "metal", segments=6)  # scabbard
             b.between((0.27, 0.1, 0.95), (0.3, 0.55, 0.62), 0.04, "wood", segments=6)  # carbine
+        elif kind == "elephant":
+            # A spearman in the howdah, in a turban, spear held high.
+            hair(b)
+            b.sphere((0.0, 0.0, 1.66), (0.15, 0.15, 0.1), "cloth", detail=1)
+            arm(b, 1.0, (0.3, -0.1, 1.5), elbow=(0.4, 0.05, 1.3))
+            b.between((0.3, 0.5, 1.1), (0.3, -1.1, 2.1), 0.022, "wood", segments=6)
+            b.between((0.3, -1.1, 2.1), (0.3, -1.25, 2.2), 0.035, "metal", segments=4, radius_end=0.002)
+            arm(b, -1.0, (-0.25, -0.2, 1.15), elbow=(-0.32, -0.02, 1.1))
+            b.cylinder((-0.36, -0.12, 1.15), 0.2, 0.04, "team", rotation=(0.0, math.pi / 2, 0.0), segments=12)
+        elif kind == "camel":
+            # Robed rider with a head cloth, curved sword raised, round shield.
+            b.sphere((0.0, 0.0, 1.66), (0.15, 0.15, 0.12), "cloth", detail=1)
+            b.between((0.0, 0.08, 1.62), (0.0, 0.2, 1.2), 0.08, "cloth", segments=6, radius_end=0.12)
+            arm(b, 1.0, (0.3, -0.12, 1.66), sleeve="cloth", elbow=(0.42, 0.02, 1.42))
+            b.between((0.3, -0.12, 1.73), (0.26, -0.45, 2.4), 0.03, "metal", segments=4, radius_end=0.01)
+            arm(b, -1.0, (-0.24, -0.25, 1.1), sleeve="cloth", elbow=(-0.32, -0.04, 1.1))
+            b.cylinder((-0.36, -0.15, 1.12), 0.2, 0.04, "team", rotation=(0.0, math.pi / 2, 0.0), segments=12)
+            b.sphere((-0.39, -0.15, 1.12), 0.05, "metal", detail=1)
         else:
             raise SpecError(f"no rider for {kind!r}")
 
@@ -196,6 +276,14 @@ def build(spec: AssetSpec) -> list[bpy.types.Object]:
     b = ShapeBuilder(MATERIAL_SLOTS)
     if p.kind == "chariot":
         _chariot(b)
+    elif p.kind == "elephant":
+        elephant(b)
+        with b.placed((0.0, 0.1, 1.15)):
+            _rider(b, "elephant")
+    elif p.kind == "camel":
+        camel(b)
+        with b.placed((0.0, 0.1, 0.45)):
+            _rider(b, "camel")
     else:
         horse(b, plume=p.kind == "knight")
         if p.kind == "knight":

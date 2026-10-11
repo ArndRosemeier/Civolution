@@ -351,7 +351,7 @@ Defaults picked where the plan left a choice ([assets.md](assets.md),
 - Sound: `sounds.ts` gives every engine event a sound (or names the one that covers it,
   like the end-turn button for `playerEndedTurn`), one per batch by tier; move sounds per
   unit class; UI click, open, close and select. Music: an era bed (three variations each)
-  and a title theme; ambience follows the terrain under the camera (cities override it)
+  and a title theme (the modern era has one: Seed Audio rejected the other two prompts); ambience follows the terrain under the camera (cities override it)
   and goes quiet at strategic zoom. Music and ambiences come from Seed Audio, not Sound
   Studio, so the whole set is generated one way. Volumes per channel live in the browser.
 - Calendar: the rule file's seven spans cover 440 turns to AD 1951; after them the

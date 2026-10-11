@@ -15,7 +15,7 @@ recorded for the histograph.
 | Space race | Your spaceship arrives ([spaceship.md](spaceship.md)) |
 | Cultural | 100 000 culture points and at least twice any rival's, or 20 000 in one city |
 | Diplomatic | Elected by the United Nations |
-| Histograph | When the last turn (540, AD 2050) ends, the highest score wins; always on |
+| Histograph | When the last turn (540, `turnTimeLimit`) ends, the highest score wins; always on |
 
 **United Nations.** While someone holds the United Nations, an election is held the turn
 after it is built and then every 10 turns. The candidates are the owner and the most

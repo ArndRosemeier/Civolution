@@ -104,7 +104,7 @@ async function loadOne(loader: GLTFLoader, spec: ModelSpec): Promise<THREE.Buffe
 
 export async function loadModels(): Promise<ModelSet> {
   const loader = new GLTFLoader();
-  const ids = Object.keys(MODELS) as ModelId[];
+  const ids = Object.keys(MODELS);
   const geos = await Promise.all(ids.map((id) => loadOne(loader, MODELS[id]!)));
   return Object.fromEntries(ids.map((id, i) => [id, geos[i]!])) as ModelSet;
 }

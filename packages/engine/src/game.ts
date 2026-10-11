@@ -5,6 +5,7 @@ import { runBarbarians } from './barbarians.ts';
 import { applyCityCommand, runCityTurn } from './cities.ts';
 import type { Command, CommandError, GameEvent } from './commands.ts';
 import { tileCount } from './grid.ts';
+import { cityAt } from './territory.ts';
 import { generateMap } from './map/generate.ts';
 import { continueGoto } from './move.ts';
 import { findPath } from './pathfind.ts';
@@ -24,8 +25,8 @@ import {
 import { beginTx, type Tx } from './tx.ts';
 import { answerDeal, dropProposalsTo, proposeDeal, runDiplomacyTurn } from './diplomacy.ts';
 import { runMission } from './espionage.ts';
-import { isCommonUnit } from './production.ts';
-import { endGoldenAges } from './civs.ts';
+import { buildCategory, isCommonUnit } from './production.ts';
+import { civVersionOf, endGoldenAges } from './civs.ts';
 import { runCultureFlips, runResistance } from './culture.ts';
 import { runGlobalWarming } from './pollution.ts';
 import { emptySpaceship, launchSpaceship } from './space.ts';
@@ -207,7 +208,9 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
       for (let j = 0; j < diff.aiDefensiveStartUnits && guard; j++) units.push(guard);
       for (let j = 0; j < diff.aiOffensiveStartUnits && raider; j++) units.push(raider);
     }
-    for (const type of units) {
+    for (const common of units) {
+      // A unique unit takes the place of its common counterpart (the Inca start with a Chasqui Scout).
+      const type = common === king ? common : civVersionOf(rules, tx.state, p.id, common);
       const u = tx.addUnit(newUnit(rules, p.id, type, tile));
       reveal(tx, p.id, unitSight(rules, tx.state, u));
     }
@@ -367,6 +370,15 @@ export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult
         else removeUnitDeep(tx, c.id, false, 'sunk');
       }
       tx.removeUnit(cmd.unit);
+      // Disbanded in one of the player's cities, half the unit's cost goes to the city's
+      // current build (docs/rules/production.md); never toward Wealth.
+      const home = cityAt(state, existing.tile);
+      const salvage = Math.floor(rules.unit(existing.type).shieldCost / 2);
+      if (home && home.owner === cmd.player && home.build && salvage > 0 && !(home.build.kind === 'building' && rules.building(home.build.id).kind === 'wealth')) {
+        const c = tx.city(home.id);
+        c.shields = home.shields + salvage;
+        if (c.shieldsFor === null) c.shieldsFor = buildCategory(rules, home.build);
+      }
       tx.emit({ type: 'unitDisbanded', unit: cmd.unit, player: cmd.player });
       break;
     }

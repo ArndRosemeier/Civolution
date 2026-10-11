@@ -17,7 +17,10 @@ so its unique unit replaces the common one (Rome builds the Legionary, never the
 Swordsman); scouts are available only to the expansionist civilizations. Players without
 a civilization (tests, scenarios) build the units available to at least half of the
 civilizations. Upgrade lines skip other civilizations' unique units (a Roman Warrior
-upgrades to a Legionary, anyone else's to a Swordsman). Leaders, armies, kings and the
+upgrades to a Legionary, anyone else's to a Swordsman). Starting units go through the
+same replacement (`civVersionOf`): a start unit the civilization does not build becomes its
+unique unit of the same domain, advance and upgrade, so the Inca start with a Chasqui
+Scout instead of a Scout. Leaders, armies, kings and the
 second entries of repeated names (variants the game makes itself) are never built.
 
 **City names** come from the civilization's list in order (the first is the capital),

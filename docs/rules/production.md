@@ -30,7 +30,12 @@ text; how Civ3 stacks plants with the Manufacturing Plant is our reading.
 - Switching between categories (unit, improvement, wonder) halves the shields in the box.
   Switching within a category is free.
 - Units are veteran from a city with Barracks (land), Harbor (sea) or Airport (air).
-- Wealth turns shields into gold: one gold per 4 shields, per 2 once Economics is known.
+- Wealth (the `wealth` build kind, flag `capitalization`) turns shields into gold: one gold
+  per 4 shields (`shieldValueInGold`), per 2 once an advance flagged `doublesWealth`
+  (Economics) is known.
+- **Disbanding** a unit inside one of the player's cities adds half its shield cost
+  (rounded down) to the city's current build (not to Wealth, nor without a build);
+  elsewhere nothing comes back. *Confidence: medium.*
 
 ## What a city can build (`production.ts`, `buildBlocker`)
 

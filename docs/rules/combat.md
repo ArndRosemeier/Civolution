@@ -68,7 +68,8 @@ to both the start and the end of a move fires one round at the mover; a hit cost
 point but never the last one.
 
 **After the battle**
-- The winner may be promoted one level: 1 in 8 (`PROMOTION_ODDS`). Victories over
+- The winner may be promoted one level: 1 in 8 (`PROMOTION_ODDS`), 1 in 4 for
+  militaristic civilizations ([civilizations.md](civilizations.md)). Victories over
   barbarians promote no further than Veteran; barbarians are never promoted.
 - An **Elite** winner may bring a **great leader**: 1 in 16 (1 in 8 with the Heroic Epic),
   not against barbarians, and only while the civilization has no living leader
@@ -111,7 +112,7 @@ Ships heal only in port; cargo at sea does not heal.
 
 - Whether bonuses add or multiply. Some 2002 posts multiply them; most later analyses
   add them. We add.
-- Promotion odds (we use 1 in 8 for every level) and whether militaristic civilizations
-  double them (Phase 6 traits).
+- Promotion odds (we use 1 in 8 for every level, doubled to 1 in 4 for militaristic
+  civilizations).
 - Exact defender choice: Civ3 is said to weigh hit points; we use strength × hit points.
 - Whether defenders retreat in C3C, and to where; ours withdraw in place.

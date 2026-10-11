@@ -10,7 +10,9 @@ Waste is halved while a city celebrates.
 
 **Seats of government:** the capital (Palace) has no corruption. Cities with a Forbidden
 Palace, or a Secret Police HQ under Communism, are secondary seats: distance is measured to
-the nearest seat.
+the nearest seat. The engine finds them by their rule data (small wonders with
+`reducesCorruption`, only under their `requiredGovernment` if they have one); the capital
+is the city with the Palace (`centerOfEmpire`), looked up by its id.
 
 **Optimal city number (OCN):** the world size's optimal cities × the difficulty's
 percentage (Regent 90 %, so 18 on a Standard map, 12 on a Tiny one).

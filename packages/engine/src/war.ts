@@ -4,7 +4,7 @@
  * war weariness (docs/rules/combat.md, bombard.md, air.md, naval.md, armies.md,
  * capture.md, war-weariness.md, nukes.md).
  */
-import { cityReport } from './city.ts';
+import { cityReport, effectiveBuildings } from './city.ts';
 import { replaceCitizens, updateTerritory } from './cities.ts';
 import {
   attackSide,
@@ -14,6 +14,7 @@ import {
   fight,
   isCombatant,
   pickDefender,
+  SAM_DEFENCE_PERCENT,
   type CombatKind,
   type Odds,
 } from './combat.ts';
@@ -558,6 +559,9 @@ function bombardTile(rules: Rules, tx: Tx, shooter: Unit, strength: number, rof:
     if (pick === 'unit' || targets.length > 0) {
       for (const t of targets) d = Math.max(d, defenceStrength(rules, tx.state, t, tile, { kind, opponent: shooter.owner }).value);
     }
+    // Walls and the Coastal Fortress shield the city's people and buildings with their own
+    // bombard defence (against land and naval bombardment respectively; not air strikes).
+    if (pick !== 'unit' && kind !== 'air') d = Math.max(d, cityBombardDefence(rules, tx.state, city!, rule.domain === 'sea') * 100);
     if (tx.random(b + d) >= b) {
       hits.push({ kind: 'miss' });
       continue;
@@ -585,6 +589,26 @@ function bombardTile(rules: Rules, tx: Tx, shooter: Unit, strength: number, rof:
     }
   }
   return hits;
+}
+
+/**
+ * A city's own defence against bombardment of its citizens and buildings (docs/rules/bombard.md):
+ * the best `bombardDefence` (against land units) or `navalBombardDefence` (against ships)
+ * among the buildings it has or that act in it (the Great Wall acts as walls).
+ */
+export function cityBombardDefence(rules: Rules, state: GameState, city: City, naval: boolean): number {
+  let best = 0;
+  for (const b of effectiveBuildings(rules, state, city)) {
+    const r = rules.building(b);
+    best = Math.max(best, naval ? r.navalBombardDefence : r.bombardDefence);
+  }
+  return best;
+}
+
+/** Whether the city on `tile` belongs to `owner` and has (or has acting in it) a SAM Missile Battery. */
+function samCover(rules: Rules, state: GameState, tile: number, owner: number): boolean {
+  const city = cityAt(state, tile);
+  return !!city && city.owner === owner && rules.hasBuilding('samMissileBattery') && effectiveBuildings(rules, state, city).has('samMissileBattery');
 }
 
 /** Owner of what a strike on `tile` would hit (units first, then the city), or null. */
@@ -659,7 +683,9 @@ function airDefence(rules: Rules, tx: Tx, planeId: number, tile: number): boolea
     .sort((a, b) => rules.unit(b.type).airDefence - rules.unit(a.type).airDefence || a.id - b.id);
   const gun = guns[0];
   if (!gun) return true;
-  const a = rules.unit(gun.type).airDefence * 100;
+  // A SAM Missile Battery in the gun's city doubles its fire (SAM_DEFENCE_PERCENT, our default).
+  const sam = samCover(rules, tx.state, tile, gun.owner) ? SAM_DEFENCE_PERCENT : 0;
+  const a = rules.unit(gun.type).airDefence * (100 + sam);
   const d = Math.max(1, rules.unit(plane.type).defence) * 100;
   if (tx.random(a + d) >= a) return true;
   if (plane.hp > 1) {

@@ -84,6 +84,23 @@ export function unitAvailable(rules: Rules, state: GameState, player: number, id
   return ((rules.unit(id).availableToMask >>> civ.unitBit) & 1) === 1;
 }
 
+/**
+ * The unit `player` fields in place of `id`: `id` itself when the civilization builds it,
+ * else its unique unit taking that place (same domain, same advance, same upgrade; the Inca
+ * Chasqui Scout for the Scout), else `id` unchanged (docs/rules/civilizations.md).
+ */
+export function civVersionOf(rules: Rules, state: GameState, player: number, id: string): string {
+  const civ = civOf(rules, state.players[player]);
+  if (!civ || unitAvailable(rules, state, player, id)) return id;
+  const base = rules.unit(id);
+  const match = civ.uniqueUnits.find((uu) => {
+    if (!rules.hasUnit(uu)) return false;
+    const u = rules.unit(uu);
+    return u.domain === base.domain && u.requiredTech === base.requiredTech && u.upgradeTo === base.upgradeTo;
+  });
+  return match ?? id;
+}
+
 /** The next unit up `id`'s upgrade line that `player` builds (lines skip other civilizations' unique units). */
 export function nextUpgrade(rules: Rules, state: GameState, player: number, id: string): string | undefined {
   let next = rules.unit(id).upgradeTo;

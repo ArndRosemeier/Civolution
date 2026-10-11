@@ -3,9 +3,9 @@
  */
 import { cityReport, effectiveBuildings, isCoastal, sizeClass } from './city.ts';
 import { isCommonUnit, nextUpgrade, traitDiscount, unitAvailable } from './civs.ts';
-import { cityResources, empireInfo } from './empire.ts';
+import { availableResources, cityResources, empireInfo } from './empire.ts';
 import { spaceshipPartBlocker } from './space.ts';
-import { knowsTech } from './queries.ts';
+import { hasTechFlag, knowsTech } from './queries.ts';
 import { armyCount, armyLimit, nukesEnabled } from './war.ts';
 import type { Rules } from './rules.ts';
 import type { Build, City, GameState } from './state.ts';
@@ -146,4 +146,49 @@ export function hurryQuote(rules: Rules, state: GameState, city: City): HurryQuo
     return { kind: 'forcedLabor', citizens, remaining };
   }
   return { kind: 'none', reason: `${gov.name} cannot hurry production.` };
+}
+
+// ---------------------------------------------------------------------------
+// The draft (docs/rules/governments.md)
+// ---------------------------------------------------------------------------
+
+/** Units drafted in `city` this turn. */
+export function draftedThisTurn(state: GameState, city: City): number {
+  return city.draftedOn === state.turn ? (city.drafted ?? 0) : 0;
+}
+
+/**
+ * The best unit `player` can draft: among the units with the `draft` ability that the
+ * civilization builds and knows the advance for, the strongest defender (then attacker).
+ * With `city`, the city must be able to build it (its resources, nothing better replacing
+ * it); without, the empire's resources count.
+ */
+export function draftUnit(rules: Rules, state: GameState, player: number, city?: City): string | null {
+  const p = state.players[player]!;
+  const resources = city ? null : availableResources(rules, state, player);
+  const options = rules.set.units.filter((u) => {
+    if (!u.abilities.includes('draft') || u.domain !== 'land' || !unitAvailable(rules, state, player, u.id)) return false;
+    if (u.requiredTech && !knowsTech(p, u.requiredTech)) return false;
+    if (city) return buildBlocker(rules, state, city, { kind: 'unit', id: u.id }) === null;
+    return u.requiredResources.every((r) => resources!.has(r));
+  });
+  options.sort((a, b) => b.defence - a.defence || b.attack - a.attack || b.shieldCost - a.shieldCost || a.id.localeCompare(b.id));
+  return options[0]?.id ?? null;
+}
+
+/** Why `city` cannot draft a unit now, or null when it can. */
+export function draftBlocker(rules: Rules, state: GameState, city: City): string | null {
+  const p = state.players[city.owner]!;
+  const gov = rules.government(p.government);
+  if (gov.draftLimit <= 0) return `${gov.name} does not allow the draft.`;
+  if (!hasTechFlag(rules, p, 'enablesConscription')) {
+    const tech = rules.set.techs.find((t) => t.flags.includes('enablesConscription'));
+    return `The draft needs ${tech ? tech.name : 'conscription'}.`;
+  }
+  if (city.resisters > 0) return 'Not while the city resists.';
+  if (city.size <= 1) return 'The city must keep at least one citizen.';
+  const done = draftedThisTurn(state, city);
+  if (done >= gov.draftLimit) return `${gov.name} allows ${gov.draftLimit} draft${gov.draftLimit === 1 ? '' : 's'} per city each turn.`;
+  if (!draftUnit(rules, state, city.owner, city)) return 'No unit can be drafted here.';
+  return null;
 }

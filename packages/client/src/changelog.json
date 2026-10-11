@@ -1,5 +1,13 @@
 [
   {
+    "version": "0.010",
+    "date": "2026-10-11",
+    "title": "Click a tile to move there",
+    "items": [
+      "With a unit selected, a left click on an empty tile sends the unit there, the same as Go to. Clicking your own units or cities still selects them, and right-click still moves or attacks as before."
+    ]
+  },
+  {
     "version": "0.009",
     "date": "2026-10-11",
     "title": "Irrigation next to cities",

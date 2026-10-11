@@ -123,9 +123,17 @@
     "city-starved-1.mp3",
     "city-starved-2.mp3"
   ],
+  "culture-flip": [
+    "culture-flip-1.mp3",
+    "culture-flip-2.mp3"
+  ],
   "deal-declined": [
     "deal-declined-1.mp3",
     "deal-declined-2.mp3"
+  ],
+  "defeat": [
+    "defeat-1.mp3",
+    "defeat-2.mp3"
   ],
   "digest-clear": [
     "digest-clear-1.mp3",
@@ -166,10 +174,18 @@
     "garrison-1.mp3",
     "garrison-2.mp3"
   ],
+  "global-warming": [
+    "global-warming-1.mp3",
+    "global-warming-2.mp3"
+  ],
   "gold-coins": [
     "gold-coins-1.mp3",
     "gold-coins-2.mp3",
     "gold-coins-3.mp3"
+  ],
+  "golden-age": [
+    "golden-age-1.mp3",
+    "golden-age-2.mp3"
   ],
   "government-changed": [
     "government-changed-1.mp3"
@@ -180,6 +196,10 @@
   ],
   "leader-born": [
     "leader-born-1.mp3"
+  ],
+  "meltdown": [
+    "meltdown-1.mp3",
+    "meltdown-2.mp3"
   ],
   "missile-intercepted": [
     "missile-intercepted-1.mp3"
@@ -202,6 +222,10 @@
     "pillage-1.mp3",
     "pillage-2.mp3"
   ],
+  "pollution": [
+    "pollution-1.mp3",
+    "pollution-2.mp3"
+  ],
   "promotion": [
     "promotion-1.mp3",
     "promotion-2.mp3"
@@ -210,12 +234,20 @@
     "rally-call-1.mp3",
     "rally-call-2.mp3"
   ],
+  "resistance": [
+    "resistance-1.mp3",
+    "resistance-2.mp3"
+  ],
   "revolution": [
     "revolution-1.mp3"
   ],
   "rule-fired": [
     "rule-fired-1.mp3",
     "rule-fired-2.mp3"
+  ],
+  "spaceship-launch": [
+    "spaceship-launch-1.mp3",
+    "spaceship-launch-2.mp3"
   ],
   "spy-caught": [
     "spy-caught-1.mp3",
@@ -252,10 +284,18 @@
     "ui-open-1.mp3",
     "ui-open-2.mp3"
   ],
+  "un-vote": [
+    "un-vote-1.mp3",
+    "un-vote-2.mp3"
+  ],
   "unit-trained": [
     "unit-trained-1.mp3",
     "unit-trained-2.mp3",
     "unit-trained-3.mp3"
+  ],
+  "victory": [
+    "victory-1.mp3",
+    "victory-2.mp3"
   ],
   "war-declared": [
     "war-declared-1.mp3",

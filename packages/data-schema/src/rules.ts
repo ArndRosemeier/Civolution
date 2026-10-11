@@ -237,9 +237,15 @@ export const BuildingRuleSchema = z.strictObject({
   /** Produces a free unit every `unitEvery` turns. */
   unitProduced: id.optional(),
   unitEvery: nonNeg,
+  /** Copies of this spaceship part a ship needs; 0 when it is not a part (docs/rules/spaceship.md). */
+  spaceshipParts: nonNeg,
   /** Effect flags (tax50, research50, reducesCorruption, allowsCitySize2, …). */
   effects: z.array(z.string()),
-  /** Categories (militaryInstallation, tradeInstallation, coastalInstallation, …). */
+  /**
+   * Categories (militaryInstallation, tradeInstallation, coastalInstallation, …). They are the
+   * building's characteristics: matching civilization traits halve improvement costs and let
+   * wonders start golden ages (docs/rules/civilizations.md).
+   */
   tags: z.array(z.string()),
   notes,
 });
@@ -259,13 +265,26 @@ export const CivRuleSchema = z.strictObject({
   aggression: z.int().min(-2).max(2),
   favoriteGovernment: id.optional(),
   shunnedGovernment: id.optional(),
-  /** Civilization traits (effects arrive in Phase 6). */
+  /** Civilization traits (docs/rules/civilizations.md). */
   traits: z.array(id),
   /** What the AI builds often or never (offensiveLandUnits, growth, wonders, …). */
   buildOften: z.array(id),
   buildNever: z.array(id),
   /** Index of the civilization's default colour in the rule file's palette. */
   color: nonNeg,
+  /** Bit of the civilization in units' availableToMask. */
+  unitBit: z.int().min(0).max(31),
+  /** Units only this civilization builds; each takes the place of a common unit. */
+  uniqueUnits: z.array(id),
+  /** The leader as a unit (regicide game modes). */
+  kingUnit: id.optional(),
+  /** Advances the civilization starts with. */
+  freeTechs: z.array(id),
+  /** Names for new cities, in order (real places; the first is the capital). */
+  cityNames: z.array(z.string()),
+  /** Names for military and scientific great leaders (historical people). */
+  militaryLeaders: z.array(z.string()),
+  scientificLeaders: z.array(z.string()),
   notes,
 });
 
@@ -369,6 +388,22 @@ export const CuratedGeneralSchema = z.strictObject({
   goldenAgeDuration: nonNeg,
   /** City culture totals at which borders grow by one ring. */
   borderThresholds: z.array(nonNeg),
+  /** The game ends after this turn (histograph victory; docs/rules/victory.md). */
+  lastTurn: z.int().positive(),
+  victory: z.strictObject({
+    /** Culture points one city, or the whole civilization, needs for a cultural victory. */
+    cityCulture: nonNeg,
+    civCulture: nonNeg,
+    /** Shares of the world's land and people a domination victory needs. */
+    dominationLandPercent: percent,
+    dominationPopulationPercent: percent,
+    /** Victory points that end a victory-point game, and what earns them. */
+    pointLimit: nonNeg,
+    wonderPoints: nonNeg,
+    defeatUnitPoints: nonNeg,
+    advancePoints: nonNeg,
+    cityConquestPoints: nonNeg,
+  }),
   notes,
 });
 

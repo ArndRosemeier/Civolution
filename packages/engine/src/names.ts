@@ -1,6 +1,6 @@
 /**
- * City names until civilizations bring their own (Phase 6): historical places from many
- * cultures, used in order and skipping names the player already uses.
+ * City names for players without a civilization, and for civilizations that ran out of
+ * their own: historical places from many cultures, used in order (civs.ts nextCityName).
  */
 export const CITY_NAMES = [
   'Ur', 'Memphis', 'Mohenjo-daro', 'Knossos', 'Jericho', 'Anyang', 'Byblos', 'Mycenae', 'Nineveh', 'Thebes',
@@ -13,8 +13,3 @@ export const CITY_NAMES = [
   'Nara', 'Kyoto', 'Gyeongju', 'Angkor', 'Pagan', 'Ayutthaya', 'Malacca', 'Zanzibar', 'Kilwa', 'Timbuktu',
   'Djenne', 'Gao', 'Great Zimbabwe', 'Mapungubwe', 'Ife', 'Benin', 'Kano', 'Sijilmasa', 'Fez', 'Kairouan',
 ];
-
-export function nextCityName(used: ReadonlySet<string>, count: number): string {
-  for (const n of CITY_NAMES) if (!used.has(n)) return n;
-  return `New Town ${count + 1}`;
-}

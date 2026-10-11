@@ -15,7 +15,9 @@ test('new game, found a city, run it, end turns, save and load', async ({ page }
   // The first unit awaiting orders is selected: found a city, automate the worker, explore.
   const panel = page.locator('.unit-panel');
   await expect(panel.locator('h3')).toBeVisible();
+  // Two units (settler, worker), three for expansionist civilizations with their scout.
   for (let i = 0; i < 3; i++) {
+    if ((await panel.locator('h3').count()) === 0) break;
     const name = await panel.locator('h3').textContent();
     if (name === 'Settler') await page.keyboard.press('KeyB');
     else if (name === 'Worker') await page.keyboard.press('KeyA');
@@ -45,6 +47,12 @@ test('new game, found a city, run it, end turns, save and load', async ({ page }
   // The domestic advisor lists the city.
   await page.keyboard.press('F1');
   await expect(page.locator('.city-table tbody tr')).toHaveCount(1);
+  await page.keyboard.press('Escape');
+
+  // The victory screen: the histograph and the ways to win.
+  await page.keyboard.press('F8');
+  await expect(page.locator('.histograph')).toBeVisible();
+  await expect(page.locator('.victory-grid')).toContainText('Space race');
   await page.keyboard.press('Escape');
 
   // Save, play on, load back.

@@ -2,6 +2,7 @@
  * Movement rules (docs/rules/movement.md). Costs are in thirds of a movement point
  * (`rules.moveScale`): a road step costs 1, flat terrain 3, hills 6.
  */
+import { safeSeaTravel } from './civs.ts';
 import type { CommandError } from './commands.ts';
 import { directionTo, tileX, tileY } from './grid.ts';
 import { atWar, crossesRiver, hasTechFlag, tileOwners } from './queries.ts';
@@ -31,7 +32,8 @@ export function canStandOn(rules: Rules, state: GameState, u: Unit, tile: number
       return `Wheeled units need a road to enter ${terrain.name}.`;
   } else if (rule.domain === 'sea') {
     if (!terrain.water) return city && city.owner === u.owner ? null : 'Ships can only enter your own coastal cities on land.';
-    if (rule.abilities.includes('sinksInSea') && terrain.id !== 'coast') return `${rule.name} must stay in coastal waters.`;
+    if (rule.abilities.includes('sinksInSea') && terrain.id !== 'coast' && (terrain.id === 'ocean' || !safeSeaTravel(rules, state, u.owner)))
+      return `${rule.name} must stay in coastal waters.`;
     if (rule.abilities.includes('sinksInOcean') && terrain.id === 'ocean') return `${rule.name} cannot enter the ocean.`;
   } else {
     if (carried) return null;

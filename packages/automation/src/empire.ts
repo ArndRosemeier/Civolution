@@ -150,6 +150,11 @@ export interface PlanBuildOptions {
   noSettlers?: boolean;
   /** Leave great wonders out. */
   noWonders?: boolean;
+  /**
+   * Let cities grow before they give up settlers, and build a temple once entertainers are
+   * needed (the AI's choice; docs/ai.md).
+   */
+  growFirst?: boolean;
 }
 
 /** What a city should build next (simple priorities; the full governors come in Phase 5). */
@@ -164,8 +169,11 @@ export function planBuild(rules: Rules, state: GameState, city: City, opts: Plan
     if (best) return { build: { kind: 'unit', id: best.id }, reason: 'No defender in the city' };
   }
   const settler = rules.set.units.find((u) => u.specialActions.includes('buildCity'));
-  // Shields wait in the box until the city is big enough to give up the settlers.
-  if (settler && !opts.noSettlers && report.foodSurplus >= 1 && wantsMoreCities(rules, state, city.owner) && ok({ kind: 'unit', id: settler.id })) {
+  // With `growFirst`, settlers (two citizens) come only from cities of size 4 or more (3 while
+  // the empire has two cities or fewer), so cities keep growing while the empire expands.
+  const cities0 = playerCities(state, city.owner).length;
+  const bigEnough = !opts.growFirst || city.size >= 4 || (cities0 <= 2 && city.size >= 3);
+  if (settler && !opts.noSettlers && bigEnough && report.foodSurplus >= 1 && wantsMoreCities(rules, state, city.owner) && ok({ kind: 'unit', id: settler.id })) {
     const settling = bestSite(rules, state, city.owner, city.tile, 12);
     if (settling >= 0) return { build: { kind: 'unit', id: settler.id }, reason: 'Room for another city nearby' };
     // No known site: send someone to look, unless someone already is.
@@ -179,6 +187,16 @@ export function planBuild(rules: Rules, state: GameState, city: City, opts: Plan
   const workers = playerUnits(state, city.owner).filter((u) => rules.unit(u.type).jobs.length > 0).length;
   const worker = rules.set.units.find((u) => u.jobs.includes('road') && u.shieldCost > 0 && ok({ kind: 'unit', id: u.id }));
   if (worker && workers < Math.ceil(cities * 1.5)) return { build: { kind: 'unit', id: worker.id }, reason: 'Fewer workers than cities need' };
+  // The space race: the Apollo Program, then the parts in productive cities (docs/rules/spaceship.md).
+  const space = rules.set.buildings.filter((b) => b.spaceshipParts > 0 || b.effects.includes('buildSpaceshipParts'));
+  for (const b of space) {
+    if (!ok({ kind: 'building', id: b.id })) continue;
+    if (report.shields.value < (b.spaceshipParts > 0 ? 12 : 8)) break;
+    const building = Object.values(state.cities).some((c) => c.owner === city.owner && c.id !== city.id && c.build?.kind === 'building' && c.build.id === b.id);
+    if (building) continue;
+    return { build: { kind: 'building', id: b.id }, reason: `${b.name}: the space race` };
+  }
+  if (opts.growFirst && report.specialists > 0 && rules.hasBuilding('temple') && ok({ kind: 'building', id: 'temple' })) return { build: { kind: 'building', id: 'temple' }, reason: 'Temple: entertainers keep the peace' };
   for (const b of BUILDING_PRIORITY) {
     if (!rules.hasBuilding(b.id) || !ok({ kind: 'building', id: b.id })) continue;
     if (!b.when(report, city)) continue;

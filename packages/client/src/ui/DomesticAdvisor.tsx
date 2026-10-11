@@ -161,7 +161,7 @@ export function DomesticAdvisor({ onClose }: { onClose: () => void }) {
           </thead>
           <tbody>
             {rows.map(({ city, report }) => {
-              const cost = city.build ? buildCost(rules, city.build) : 0;
+              const cost = city.build ? buildCost(rules, city.build, state, city.owner) : 0;
               const turns = city.build && report.shields.value > 0 ? Math.ceil(Math.max(0, cost - city.shields) / report.shields.value) : null;
               return (
                 <tr key={city.id} onClick={() => open({ kind: 'city', id: city.id })} className={report.disorder ? 'disorder' : ''}>

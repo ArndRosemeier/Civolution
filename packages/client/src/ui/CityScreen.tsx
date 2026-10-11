@@ -5,6 +5,9 @@
  */
 import { useMemo, useState } from 'react';
 import {
+  flipOdds,
+  PERCENT_PER_POINT,
+  inGoldenAge,
   borderRadius,
   buildCategory,
   buildCost,
@@ -63,9 +66,10 @@ export function CityScreen({ cityId, onClose }: { cityId: number; onClose: () =>
   const city = state.cities[cityId];
   const report = useMemo(() => (city ? cityReport(rules, state, city) : null), [state, city]);
   if (!city || !report) return null;
+  const flip = flipOdds(rules, state, city, report.disorder);
   const mine = city.owner === human;
   const p = state.players[city.owner]!;
-  const cost = city.build ? buildCost(rules, city.build) : 0;
+  const cost = city.build ? buildCost(rules, city.build, state, city.owner) : 0;
   const perTurn = report.shields.value;
   const turns = city.build && perTurn > 0 ? Math.max(1, Math.ceil(Math.max(0, cost - city.shields) / perTurn)) : null;
 
@@ -118,6 +122,23 @@ export function CityScreen({ cityId, onClose }: { cityId: number; onClose: () =>
           </span>
           {report.disorder && <span className="badge warn">Civil disorder</span>}
           {report.celebrating && <span className="badge ok">We Love the King Day</span>}
+          {report.resisters > 0 && (
+            <span className="badge warn" title="Resisters neither work nor obey; the city produces nothing until a garrison quells them (two units quell one resister a turn).">
+              {report.resisters} resisting
+            </span>
+          )}
+          {inGoldenAge(state, city.owner) && <span className="badge ok">Golden age</span>}
+          {report.pollution.value > 0 && (
+            <span className="badge warn" title={`${report.pollution.parts.map((x) => `${x.label} ${x.amount > 0 ? '+' : ''}${x.amount}`).join('\n')}\nEach point is a ${PERCENT_PER_POINT} % chance a turn of a polluted tile.`}>
+              Pollution {report.pollution.value}
+            </span>
+          )}
+          {flip.chance > 0 && flip.toward !== null && (
+            <span className="badge warn" title={flip.reasons.join('\n')}>
+              {flip.chance} % a turn to join {state.players[flip.toward]!.name}
+            </span>
+          )}
+          {city.nationality !== city.owner && state.players[city.nationality] && <span className="muted">{state.players[city.nationality]!.name} people</span>}
           <span className="spacer" />
           {mine && (
             <>

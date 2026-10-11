@@ -28,6 +28,8 @@ export type Panel =
   | { kind: 'foreign' }
   | { kind: 'diplomacy'; with?: number }
   | { kind: 'automation'; tab?: AutomationTab }
+  /** Victory progress, the spaceship and the histograph (F8); `gameOver` when the game was just decided. */
+  | { kind: 'victory'; gameOver?: boolean }
   | null;
 
 export type AutomationTab = 'delegation' | 'governors' | 'templates' | 'workers' | 'policies' | 'rules';
@@ -55,7 +57,15 @@ export interface News {
     | 'treatyBroken'
     | 'cityRevolted'
     | 'barbarianLanding'
-    | 'spyCaught';
+    | 'spyCaught'
+    | 'goldenAge'
+    | 'scientistBorn'
+    | 'cultureFlip'
+    | 'spaceshipLaunched'
+    | 'spaceshipLost'
+    | 'globalWarming'
+    | 'meltdown'
+    | 'unitedNations';
   /** The civilization the news is about (its leader's portrait is shown). */
   civ?: number;
   text: string;
@@ -148,7 +158,13 @@ function headlines(snapshot: Snapshot, events: readonly GameEvent[]): News[] {
     else if (e.type === 'contactMade' && (e.player === h || e.other === h)) out.push({ kind: 'contactMade', text, civ: e.player === h ? e.other : e.player });
     else if (e.type === 'ceasefireEnded' && (e.player === h || e.target === h)) out.push({ kind: 'ceasefireEnded', text, civ: e.player === h ? e.target : e.player });
     else if (e.type === 'treatyBroken' && e.target === h) out.push({ kind: 'treatyBroken', text, civ: e.player });
-    else if (e.type === 'cityRevolted' && (e.player === h || e.from === h)) out.push({ kind: 'cityRevolted', text, tile: e.tile, civ: e.player === h ? e.from : e.player });
+    else if (e.type === 'cityRevolted' && (e.player === h || e.from === h)) out.push({ kind: e.cause === 'culture' ? 'cultureFlip' : 'cityRevolted', text, tile: e.tile, civ: e.player === h ? e.from : e.player });
+    else if (e.type === 'goldenAgeStarted' && e.player === h) out.push({ kind: 'goldenAge', text });
+    else if (e.type === 'spaceshipLaunched') out.push({ kind: 'spaceshipLaunched', text, ...(e.player === h ? {} : { civ: e.player }) });
+    else if (e.type === 'spaceshipLost' && (e.player === h || e.by === h)) out.push({ kind: 'spaceshipLost', text });
+    else if (e.type === 'globalWarming') out.push({ kind: 'globalWarming', text });
+    else if (e.type === 'meltdown' && e.player === h) out.push({ kind: 'meltdown', text, tile: e.tile });
+    else if (e.type === 'unitedNationsVote') out.push({ kind: 'unitedNations', text });
     else if (e.type === 'barbarianLanding' && snapshot.state.cities[e.near]?.owner === h) out.push({ kind: 'barbarianLanding', text, tile: e.tile });
     else if (e.type === 'espionage' && e.target === h && !e.success) out.push({ kind: 'spyCaught', text, civ: e.player });
     else if (e.type === 'cityCaptured' && e.player === h) out.push({ kind: 'cityCaptured', text, tile: e.tile });
@@ -156,7 +172,7 @@ function headlines(snapshot: Snapshot, events: readonly GameEvent[]): News[] {
     else if (e.type === 'cityDestroyed' && e.player === h) out.push({ kind: 'cityDestroyed', text, tile: e.tile });
     else if (e.type === 'cityRaided' && e.player === h) out.push({ kind: 'cityRaided', text, tile: e.tile });
     else if (e.type === 'nuclearStrike' && !e.stopped) out.push({ kind: 'nuclearStrike', text, tile: e.tile });
-    else if (e.type === 'leaderBorn' && e.player === h) out.push({ kind: 'leaderBorn', text, tile: e.tile });
+    else if (e.type === 'leaderBorn' && e.player === h) out.push({ kind: e.scientific ? 'scientistBorn' : 'leaderBorn', text, tile: e.tile });
     else if (e.type === 'playerEliminated') out.push({ kind: 'playerEliminated', text });
   }
   return out.slice(0, 4);
@@ -196,6 +212,8 @@ export const useGame = create<Store>((set, get) => {
       ...(captured?.type === 'cityCaptured' && snapshot.state.cities[captured.city]?.owner === snapshot.human ? { razePrompt: captured.city } : {}),
     }));
     playEvents(events, snapshot.human);
+    // The game was just decided: the victory screen opens.
+    if (events.some((e) => e.type === 'gameWon')) set({ panel: { kind: 'victory', gameOver: true } });
     const sel = get().selected;
     if (sel !== null && !snapshot.state.units[sel]) set({ selected: null });
   };

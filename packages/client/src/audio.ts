@@ -71,8 +71,20 @@ const WAR_SOUNDS: Partial<Record<GameEvent['type'], string>> = {
   playerEliminated: 'city-destroyed',
   treatyBroken: 'war-declared',
   ceasefireEnded: 'war-declared',
-  cityRevolted: 'city-captured',
+  cityRevolted: 'culture-flip',
   barbarianLanding: 'barbarian-landing',
+  spaceshipLost: 'city-destroyed',
+  meltdown: 'meltdown',
+};
+
+/** The great moments of Phase 6: these outrank everything but war. */
+const EPOCH_SOUNDS: Partial<Record<GameEvent['type'], string>> = {
+  goldenAgeStarted: 'golden-age',
+  spaceshipLaunched: 'spaceship-launch',
+  globalWarming: 'global-warming',
+  unitedNationsVote: 'un-vote',
+  pollutionAppeared: 'pollution',
+  resistanceStarted: 'resistance',
 };
 
 const DIPLOMACY_SOUNDS: Partial<Record<GameEvent['type'], string>> = {
@@ -107,9 +119,19 @@ export function playEvents(events: readonly GameEvent[], human: number): void {
     play(nuke.stopped ? 'missile-intercepted' : 'nuclear-blast');
     return;
   }
+  const won = mine.find((e) => e.type === 'gameWon');
+  if (won?.type === 'gameWon') {
+    play(won.player === human ? 'victory' : 'defeat');
+    return;
+  }
   const war = mine.find((e) => WAR_SOUNDS[e.type]);
   if (war) {
     play(WAR_SOUNDS[war.type]!);
+    return;
+  }
+  const epoch = mine.find((e) => EPOCH_SOUNDS[e.type]);
+  if (epoch) {
+    play(EPOCH_SOUNDS[epoch.type]!);
     return;
   }
   const last = mine.filter((e) => e.type === 'combat').at(-1);

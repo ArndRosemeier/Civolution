@@ -14,6 +14,7 @@ import type { Rules } from './rules.ts';
 import {
   type Barbarians,
   type Climate,
+  type GameOptions,
   type GameState,
   type LandForm,
   type MapSettings,
@@ -24,12 +25,17 @@ import { beginTx, type Tx } from './tx.ts';
 import { answerDeal, dropProposalsTo, proposeDeal, runDiplomacyTurn } from './diplomacy.ts';
 import { runMission } from './espionage.ts';
 import { isCommonUnit } from './production.ts';
+import { endGoldenAges } from './civs.ts';
+import { runCultureFlips, runResistance } from './culture.ts';
+import { runGlobalWarming } from './pollution.ts';
+import { emptySpaceship, launchSpaceship } from './space.ts';
+import { checkRegicide, defaultOptions, runVictory } from './victory.ts';
 import { invalidateCaches } from './caches.ts';
 import { automationBlocker, defaultAutomation } from './automation.ts';
 import { eraFor } from './science.ts';
 import { cargoOf, isArmy, newUnit, removeUnitDeep, unitMaxMoves } from './units.ts';
 import { reveal, unitSight } from './vision.ts';
-import { applyWarCommand, decayWeariness, healUnits, moveOrAttack } from './war.ts';
+import { applyWarCommand, checkElimination, decayWeariness, healUnits, moveOrAttack } from './war.ts';
 import { advanceWork, checkJob, turnsLeft } from './workers.ts';
 
 type OrRandom<T> = T | 'random';
@@ -53,6 +59,8 @@ export interface NewGameOptions {
   startTechs?: string[];
   /** Difficulty level id; defaults to the rule set's default. */
   difficulty?: string;
+  /** Game mode, victory conditions and culture flips (docs/rules/victory.md); defaults to the standard game. */
+  options?: Partial<GameOptions>;
 }
 
 export const PLAYER_COLORS = [
@@ -112,7 +120,14 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
     revolution: null,
     culture: 0,
     automation: defaultAutomation(),
+    ...phase6Fields(),
   }));
+  // Civilizations start with their free advances (docs/rules/civilizations.md).
+  for (const p of players) {
+    if (!p.civ) continue;
+    p.techs = [...new Set([...p.techs, ...rules.civ(p.civ).freeTechs])];
+    p.era = eraFor(rules, p.techs);
+  }
   if (settings.barbarians !== 'none') {
     players.push({
       id: players.length,
@@ -144,11 +159,12 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
       revolution: null,
       culture: 0,
       automation: defaultAutomation(),
+      ...phase6Fields(),
     });
   }
   const base: GameState = {
     format: 'civolution-state',
-    version: 5,
+    version: 6,
     rulesHash: rules.hash,
     seed: options.seed >>> 0,
     rng: seedRng(options.seed ^ 0x67616d65),
@@ -164,6 +180,10 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
     nextCityId: 1,
     wonders: {},
     diplomacy: { treaties: [], ongoing: [], proposals: [], nextId: 1 },
+    options: { ...defaultOptions(), ...options.options, victories: { ...defaultOptions().victories, ...options.options?.victories } },
+    victory: null,
+    climate: { warming: 0, strikes: 0 },
+    un: null,
   };
   const tx = beginTx(base);
   const diff = rules.difficulty(difficulty);
@@ -171,6 +191,11 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
     if (p.barbarian) return;
     const tile = map.starts[i]!;
     const units = [...startUnits];
+    // Expansionist civilizations bring a scout; regicide games bring the king (two in mass regicide).
+    if (p.civ && rules.civ(p.civ).traits.includes('expansionist') && rules.hasUnit(rules.set.general.scoutUnit)) units.push(rules.set.general.scoutUnit);
+    const king = p.civ ? rules.civ(p.civ).kingUnit : undefined;
+    const mode = base.options.mode;
+    if (king && (mode === 'regicide' || mode === 'massRegicide')) for (let k = 0; k < (mode === 'massRegicide' ? 2 : 1); k++) units.push(king);
     // AI players get the difficulty's extra start units (docs/rules/ai-handicaps.md).
     if (!p.human) {
       diff.aiExtraStartUnits.forEach((n, k) => {
@@ -188,6 +213,11 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
     }
   });
   return tx.state;
+}
+
+/** Player fields added in format 6 (Phase 6), at their starting values. */
+export function phase6Fields(): Pick<Player, 'goldenAge' | 'hadGoldenAge' | 'leadersBorn' | 'spaceship' | 'victoryPoints' | 'scores'> {
+  return { goldenAge: null, hadGoldenAge: false, leadersBorn: 0, spaceship: emptySpaceship(), victoryPoints: 0, scores: [] };
 }
 
 /** The best land unit for `role` buildable with no advances beyond `techs` (AI start units). */
@@ -224,20 +254,26 @@ export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult
     dropProposalsTo(tx, cmd.player);
     tx.emit({ type: 'playerEndedTurn', player: cmd.player });
     if (tx.state.players.every((p) => !p.alive || p.endedTurn || p.barbarian)) runEndOfTurn(rules, tx);
-    return done(tx);
+    return done(rules, tx);
   }
 
   if (cmd.type === 'setAutomation') {
     const why = automationBlocker(cmd.settings);
     if (why) return err(state, 'invalid', why);
     tx.player(cmd.player).automation = structuredClone(cmd.settings);
-    return done(tx);
+    return done(rules, tx);
+  }
+
+  if (cmd.type === 'launchSpaceship') {
+    const error = launchSpaceship(rules, tx, cmd.player);
+    if (error) return { state, events: [], error };
+    return done(rules, tx);
   }
 
   if (cmd.type === 'declareWar' || cmd.type === 'razeCity') {
     const error = applyWarCommand(rules, tx, cmd);
     if (error) return { state, events: [], error };
-    return done(tx);
+    return done(rules, tx);
   }
   if (cmd.type === 'proposeDeal' || cmd.type === 'answerDeal' || cmd.type === 'espionage') {
     const error =
@@ -247,13 +283,13 @@ export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult
           ? answerDeal(rules, tx, cmd.player, cmd.proposal, cmd.accept)
           : runMission(rules, tx, cmd.player, cmd.target, cmd.mission, cmd.city);
     if (error) return { state, events: [], error };
-    return done(tx);
+    return done(rules, tx);
   }
 
   if (!('unit' in cmd) || cmd.type === 'foundCity' || cmd.type === 'joinCity') {
     const error = applyCityCommand(rules, tx, cmd);
     if (error) return { state, events: [], error };
-    return done(tx);
+    return done(rules, tx);
   }
 
   const existing = state.units[cmd.unit];
@@ -363,11 +399,12 @@ export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult
       break;
     }
   }
-  return done(tx);
+  return done(rules, tx);
 }
 
-/** Finishes a command: derived-data caches built during it are dropped. */
-function done(tx: Tx): ApplyResult {
+/** Finishes a command: regicide is checked, and derived-data caches built during it are dropped. */
+function done(rules: Rules, tx: Tx): ApplyResult {
+  checkRegicide(rules, tx);
   invalidateCaches(tx.state);
   return { state: tx.state, events: tx.events };
 }
@@ -377,10 +414,18 @@ function runEndOfTurn(rules: Rules, tx: Tx): void {
   runBarbarians(rules, tx);
   advanceWork(rules, tx);
   runCityTurn(rules, tx);
+  runResistance(rules, tx);
+  runCultureFlips(rules, tx, new Set(Object.values(tx.state.cities).filter((c) => c.disorder > 0).map((c) => c.id)));
+  // A culture flip can take a civilization's last city.
+  for (const e of tx.events) if (e.type === 'cityRevolted' && e.cause === 'culture') checkElimination(rules, tx, e.from, e.player);
+  runGlobalWarming(rules, tx);
   healUnits(rules, tx);
   decayWeariness(tx);
   runDiplomacyTurn(rules, tx);
+  checkRegicide(rules, tx);
+  runVictory(rules, tx);
   tx.state.turn = tx.state.turn + 1;
+  endGoldenAges(tx);
   for (const p of tx.state.players) if (p.alive && !p.barbarian) tx.player(p.id).endedTurn = false;
   const units = Object.values(tx.state.units).sort((a, b) => a.id - b.id);
   for (const u of units) {

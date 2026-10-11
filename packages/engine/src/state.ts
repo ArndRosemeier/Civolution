@@ -92,6 +92,10 @@ export interface Unit {
   order: Order | null;
   /** Automation routine assigned by the player (run by @civolution/automation), or null. */
   routine: string | null;
+  /** A great leader's name (docs/rules/leaders.md); absent for other units. */
+  name?: string;
+  /** A scientific great leader: hurries buildings and wonders, cannot lead an army. */
+  scientific?: boolean;
 }
 
 export interface Player {
@@ -145,6 +149,26 @@ export interface Player {
   memory: Record<string, number>;
   /** What the player hands to automation and how (PLAN.md §8; run by @civolution/automation). */
   automation: AutomationSettings;
+  /** The running golden age (docs/rules/golden-ages.md), or null. */
+  goldenAge: { since: number; until: number } | null;
+  /** A civilization has one golden age per game. */
+  hadGoldenAge: boolean;
+  /** Great leaders born so far, for their names. */
+  leadersBorn: number;
+  /** The spaceship (docs/rules/spaceship.md). */
+  spaceship: Spaceship;
+  /** Points in a victory-point game (docs/rules/victory.md). */
+  victoryPoints: number;
+  /** Score at the end of each turn so far (the histograph). */
+  scores: number[];
+}
+
+export interface Spaceship {
+  /** Parts built, by spaceship building id. */
+  parts: Record<string, number>;
+  /** Turn the ship was launched and the turn it arrives, or null. */
+  launched: number | null;
+  arrives: number | null;
 }
 
 export interface Rates {
@@ -204,6 +228,10 @@ export interface City {
   capturedOn: number | null;
   /** Last turn a unit was airlifted out of the city (one airlift per airport and turn). */
   airliftedOn: number;
+  /** The civilization whose people live here (the founder; docs/rules/culture.md). */
+  nationality: number;
+  /** Citizens resisting a new owner; they neither work nor obey (docs/rules/culture.md). */
+  resisters: number;
 }
 
 export interface WorkProgress {
@@ -275,9 +303,38 @@ export interface Diplomacy {
   nextId: number;
 }
 
+export type VictoryKind = 'conquest' | 'domination' | 'space' | 'cultural' | 'diplomatic' | 'score' | 'regicide' | 'victoryPoints';
+
+/** How the game is won (docs/rules/victory.md). */
+export type GameMode = 'standard' | 'regicide' | 'massRegicide' | 'elimination' | 'victoryPoints';
+
+export interface GameOptions {
+  mode: GameMode;
+  /** Victory conditions that end the game; the score victory at the last turn always applies. */
+  victories: Record<Exclude<VictoryKind, 'score' | 'regicide' | 'victoryPoints'>, boolean>;
+  /** Cities may change sides through culture (docs/rules/culture.md). */
+  cultureFlips: boolean;
+}
+
+export interface Victory {
+  kind: VictoryKind;
+  /** The winner, or null when nobody won (every civilization destroyed). */
+  winner: number | null;
+  turn: number;
+  detail: string;
+}
+
+/** The United Nations' elections (docs/rules/victory.md). */
+export interface UnitedNations {
+  /** Turn of the next vote. */
+  nextVote: number;
+  /** The last result: votes per candidate. */
+  last: { turn: number; votes: Record<string, number>; total: number } | null;
+}
+
 export interface GameState {
   format: 'civolution-state';
-  version: 5;
+  version: 6;
   rulesHash: string;
   seed: number;
   rng: RngState;
@@ -296,4 +353,10 @@ export interface GameState {
   /** Great wonders built anywhere, mapped to the city that holds them (-1: destroyed with its city). */
   wonders: Record<string, number>;
   diplomacy: Diplomacy;
+  options: GameOptions;
+  /** Set once the game is decided; play may go on but nobody else can win. */
+  victory: Victory | null;
+  /** Climate damage: points from polluted tiles, and how often warming has struck (docs/rules/pollution.md). */
+  climate: { warming: number; strikes: number };
+  un: UnitedNations | null;
 }

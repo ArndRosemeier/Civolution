@@ -1,0 +1,462 @@
+{
+  "$comment": "Phase 6 art, written by scripts/phase6-manifest.ts. Generate with: OPEN_ROUTER_KEY=... pnpm --filter @civolution/assets gen -- --manifest manifests/phase6.json. Reuses the Phase 1 style bible as the reference image.",
+  "modelPreference": [
+    "meta/muse-image",
+    "openai/gpt-image-2",
+    "google/gemini-2.5-flash-image",
+    "google/gemini-3-pro-image-preview",
+    "openai/gpt-image-1",
+    "black-forest-labs/flux-1.1-pro"
+  ],
+  "styleBible": {
+    "id": "styleBible",
+    "prompt": "A style reference sheet (no text) for a game's art direction. Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Show, arranged on one sheet: a small coastal landscape vignette with grassland, forest, hills and a snowy mountain; three round game icons (a wheat sheaf, a horse head, a gemstone) on medallions with bronze rims; a colour swatch row of the palette.",
+    "aspectRatio": "16:9",
+    "out": "packages/client/public/art/style-bible.png",
+    "post": {
+      "resize": 1600
+    },
+    "references": []
+  },
+  "styleSuffix": "Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+  "items": [
+    {
+      "id": "trait-militaristic",
+      "prompt": "Small round game icon: a bronze helmet with a red crest above two crossed short swords, centered on a round deep crimson enamel medallion with a smooth unbroken bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/traits/militaristic.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "trait-religious",
+      "prompt": "Small round game icon: a small stone temple with a glowing flame on its altar, centered on a round deep crimson enamel medallion with a smooth unbroken bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/traits/religious.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "trait-commercial",
+      "prompt": "Small round game icon: a pair of brass merchant scales with a gold coin on one pan, centered on a round deep crimson enamel medallion with a smooth unbroken bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/traits/commercial.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "trait-industrious",
+      "prompt": "Small round game icon: a hammer and a pickaxe crossed over a stack of cut stone blocks, centered on a round deep crimson enamel medallion with a smooth unbroken bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/traits/industrious.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "trait-expansionist",
+      "prompt": "Small round game icon: a covered wagon wheel beside a planted flag on a green hill, centered on a round deep crimson enamel medallion with a smooth unbroken bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/traits/expansionist.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "trait-scientific",
+      "prompt": "Small round game icon: a brass telescope on a tripod beside a glowing star, centered on a round deep crimson enamel medallion with a smooth unbroken bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/traits/scientific.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "trait-agricultural",
+      "prompt": "Small round game icon: a golden wheat sheaf tied with a ribbon beside a wooden plough, centered on a round deep crimson enamel medallion with a smooth unbroken bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/traits/agricultural.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "trait-seafaring",
+      "prompt": "Small round game icon: a ship steering wheel with a coiled rope and a small anchor, centered on a round deep crimson enamel medallion with a smooth unbroken bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/traits/seafaring.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "building-ssThrusters",
+      "prompt": "Game icon of a spaceship part: a cluster of four small rocket thrusters with blue exhaust glow, mounted on a white frame. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/buildings/ssThrusters.png",
+      "post": {
+        "resize": 192,
+        "roundedMask": 0.14
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "building-ssEngine",
+      "prompt": "Game icon of a spaceship part: a large bell-shaped rocket engine nozzle with pipes and a glowing blue core. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/buildings/ssEngine.png",
+      "post": {
+        "resize": 192,
+        "roundedMask": 0.14
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "building-ssDockingBay",
+      "prompt": "Game icon of a spaceship part: a round docking ring with a hatch and guide lights on a spacecraft hull. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/buildings/ssDockingBay.png",
+      "post": {
+        "resize": 192,
+        "roundedMask": 0.14
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "building-ssCockpit",
+      "prompt": "Game icon of a spaceship part: a spacecraft cockpit pod with wide curved windows and a single pilot seat inside. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/buildings/ssCockpit.png",
+      "post": {
+        "resize": 192,
+        "roundedMask": 0.14
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "building-ssFuelCells",
+      "prompt": "Game icon of a spaceship part: a row of cylindrical fuel cell tanks connected by glowing tubes. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/buildings/ssFuelCells.png",
+      "post": {
+        "resize": 192,
+        "roundedMask": 0.14
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "building-ssLifeSupportSystem",
+      "prompt": "Game icon of a spaceship part: a sealed greenhouse module with small green plants under a glass dome and air tanks. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/buildings/ssLifeSupportSystem.png",
+      "post": {
+        "resize": 192,
+        "roundedMask": 0.14
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "building-ssStasisChamber",
+      "prompt": "Game icon of a spaceship part: a row of upright glass sleep pods with soft blue frost inside. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/buildings/ssStasisChamber.png",
+      "post": {
+        "resize": 192,
+        "roundedMask": 0.14
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "building-ssStorageSupply",
+      "prompt": "Game icon of a spaceship part: a cargo module with stacked supply crates held by straps in a white frame. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/buildings/ssStorageSupply.png",
+      "post": {
+        "resize": 192,
+        "roundedMask": 0.14
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "building-ssPlanetaryPartyLounge",
+      "prompt": "Game icon of a spaceship part: a round spacecraft lounge module with warm lights, a small round table and a view of stars. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/buildings/ssPlanetaryPartyLounge.png",
+      "post": {
+        "resize": 192,
+        "roundedMask": 0.14
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "building-ssExteriorCasing",
+      "prompt": "Game icon of a spaceship part: curved white hull plates with rivets and a heat shield panel, assembled into a sleek casing. Seen at a slight three-quarter angle, filling a rounded-square tile with a soft slate blue gradient background and a thin bronze border, the tile filling the entire image with its border touching all four edges. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/buildings/ssExteriorCasing.png",
+      "post": {
+        "resize": 192,
+        "roundedMask": 0.14
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-goldenAge",
+      "prompt": "Painted illustration for a headline in a strategy game: a prosperous ancient city at golden sunset, festival banners without emblems, crowds in a busy market, new temples and workshops rising, warm glowing light over everything. Wide cinematic composition, dramatic but not gory, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/goldenAge.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-scientistBorn",
+      "prompt": "Painted illustration for a headline in a strategy game: a scholar in a long robe standing in a candle-lit study full of instruments, globes, star charts and open books, looking up at a model of the planets. Wide cinematic composition, dramatic but not gory, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/scientistBorn.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-cultureFlip",
+      "prompt": "Painted illustration for a headline in a strategy game: townspeople opening the gates of their walled city to welcome a procession of musicians and artists from a neighbouring land, while the old garrison marches away. Wide cinematic composition, dramatic but not gory, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/cultureFlip.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-spaceshipLaunched",
+      "prompt": "Painted illustration for a headline in a strategy game: a large white spaceship lifting off from a launch tower on a column of fire and smoke at dawn, crowds watching from far away. Wide cinematic composition, dramatic but not gory, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/spaceshipLaunched.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-spaceshipLost",
+      "prompt": "Painted illustration for a headline in a strategy game: a half-assembled spaceship toppled on its launch pad, smoke drifting over the scaffolding, a captured capital city in the distance. Wide cinematic composition, dramatic but not gory, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/spaceshipLost.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-globalWarming",
+      "prompt": "Painted illustration for a headline in a strategy game: a cracked dry riverbed with dying trees under a hazy orange sky, smokestacks of distant factories on the horizon. Wide cinematic composition, dramatic but not gory, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/globalWarming.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-meltdown",
+      "prompt": "Painted illustration for a headline in a strategy game: a nuclear power plant with a cracked cooling tower releasing a sickly green glow and dark smoke over an evacuated town at dusk. Wide cinematic composition, dramatic but not gory, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/meltdown.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-unitedNations",
+      "prompt": "Painted illustration for a headline in a strategy game: a great round assembly hall with delegates seated in a ring of desks, a raised speaker's podium under a domed skylight, flags without emblems along the walls. Wide cinematic composition, dramatic but not gory, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/unitedNations.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "victory-conquest",
+      "prompt": "Painted illustration for the end of a strategy game: a victorious army raising its banners on the walls of the last enemy capital at sunrise, smoke clearing over a vast conquered land. Wide cinematic composition, epic and hopeful, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/victory/conquest.jpg",
+      "post": {
+        "resize": 960
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "victory-domination",
+      "prompt": "Painted illustration for the end of a strategy game: a towering imperial capital at the heart of a vast continent, roads and railways reaching out to countless cities under one ruler, seen from a high balcony. Wide cinematic composition, epic and hopeful, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/victory/domination.jpg",
+      "post": {
+        "resize": 960
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "victory-space",
+      "prompt": "Painted illustration for the end of a strategy game: a spaceship with glowing engines arriving at a blue and green planet orbiting twin suns, stars all around. Wide cinematic composition, epic and hopeful, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/victory/space.jpg",
+      "post": {
+        "resize": 960
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "victory-cultural",
+      "prompt": "Painted illustration for the end of a strategy game: a radiant city of grand theatres, libraries and museums at dusk, crowds from many lands streaming in to see its festivals and art. Wide cinematic composition, epic and hopeful, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/victory/cultural.jpg",
+      "post": {
+        "resize": 960
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "victory-diplomatic",
+      "prompt": "Painted illustration for the end of a strategy game: a leader standing at the podium of a great world assembly as delegates of every nation rise to applaud. Wide cinematic composition, epic and hopeful, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/victory/diplomatic.jpg",
+      "post": {
+        "resize": 960
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "victory-score",
+      "prompt": "Painted illustration for the end of a strategy game: a stately hall with a long tapestry woven with scenes of a civilization's whole history, from huts and pyramids to skyscrapers and rockets. Wide cinematic composition, epic and hopeful, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/victory/score.jpg",
+      "post": {
+        "resize": 960
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "victory-regicide",
+      "prompt": "Painted illustration for the end of a strategy game: a fallen enemy king's crown lying on the steps of an empty throne while victorious soldiers lower their spears. Wide cinematic composition, epic and hopeful, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/victory/regicide.jpg",
+      "post": {
+        "resize": 960
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "victory-victoryPoints",
+      "prompt": "Painted illustration for the end of a strategy game: a triumphal arch hung with laurel wreaths, trophies and wonders depicted in its carved reliefs, a parade passing beneath. Wide cinematic composition, epic and hopeful, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/victory/victoryPoints.jpg",
+      "post": {
+        "resize": 960
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "victory-defeat",
+      "prompt": "Painted illustration for the end of a strategy game: the ruins of a once-great city under a grey sky, broken columns and a fallen statue overgrown with weeds, a lone traveller looking on. Wide cinematic composition, epic and hopeful, quiet and melancholy, no close-up faces. Absolutely no text: no letters, no numbers, no writing anywhere, including on banners, books, signs and screens. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/victory/defeat.jpg",
+      "post": {
+        "resize": 960
+      },
+      "references": [
+        "styleBible"
+      ]
+    }
+  ]
+}

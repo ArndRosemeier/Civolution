@@ -5,6 +5,7 @@ import './styles.css';
 import './cities.css';
 import './war.css';
 import './automation.css';
+import './victory.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

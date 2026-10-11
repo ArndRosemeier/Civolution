@@ -41,6 +41,33 @@ export { foundBlocker, placeableTiles, unitSupportCost } from './cities.ts';
 export { availableResources, cityResources, connectedToCapital, empireInfo, landMasses, tradeRoute, type EmpireInfo } from './empire.ts';
 export { avoidDisorder, defaultSpecialist, placeCitizens, type Placement } from './governor.ts';
 export { buildBlocker, buildCategory, buildCost, buildName, buildOptions, hurryQuote, isCommonUnit, type BuildCategory, type BuildOption, type HurryQuote } from './production.ts';
+export {
+  civOf,
+  hasTrait,
+  inGoldenAge,
+  isUnitVariant,
+  leaderName,
+  nextCityName,
+  nextUpgrade,
+  safeSeaTravel,
+  shipMoveBonus,
+  traitDiscount,
+  unitAvailable,
+  COMMERCIAL_OCN_PERCENT,
+  INDUSTRIOUS_CITY_SIZE,
+  INDUSTRIOUS_WORK_PERCENT,
+  SCIENTIFIC_LEADER_PERCENT,
+  TRAITS,
+  TRAIT_CHARACTERISTIC,
+  type Trait,
+} from './civs.ts';
+export { cultureInfluence, flipOdds, FLIP_MAX_PERCENT, FLIP_RADIUS, FLIP_THRESHOLD_PERCENT, GARRISON_PERCENT, UNITS_PER_QUELLED, type FlipOdds } from './culture.ts';
+export { pollutionPoints, warmingThreshold, MELTDOWN_PERCENT, PERCENT_PER_POINT, POPULATION_FREE_SIZE, SHIELDS_PER_POINT } from './pollution.ts';
+export { emptySpaceship, launchBlocker, spaceshipComplete, spaceshipPartBlocker, spaceshipParts, FLIGHT_TURNS } from './space.ts';
+export { culturalWinner, defaultOptions, dominationShares, unCandidates, unVote, UN_VOTE_TURNS, VICTORY_NAMES } from './victory.ts';
+export { treasuryInterest, INTEREST_CAP, INTEREST_PERCENT } from './cities.ts';
+export { phase6Fields } from './game.ts';
+export { TOURIST_YEARS } from './city.ts';
 export { eraFor, requiredTechs, researchableTechs, researchBlocker, techCost } from './science.ts';
 export { borderRadius, cityAt, cityRadiusTiles, computeTerritory, playerCities, ringTiles, CITY_RADIUS } from './territory.ts';
 export { CITY_NAMES } from './names.ts';

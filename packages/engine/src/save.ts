@@ -3,6 +3,8 @@
  * version and that the save was made with the same rule set.
  */
 import { defaultAutomation } from './automation.ts';
+import { phase6Fields } from './game.ts';
+import { defaultOptions } from './victory.ts';
 import { tileCount } from './grid.ts';
 import { hashValue } from './hash.ts';
 import type { Rules } from './rules.ts';
@@ -10,7 +12,7 @@ import type { GameState } from './state.ts';
 
 export interface SaveHeader {
   format: 'civolution-save';
-  version: 5;
+  version: 6;
   rulesHash: string;
   turn: number;
   players: string[];
@@ -19,7 +21,7 @@ export interface SaveHeader {
 export function saveGame(state: GameState): string {
   const header: SaveHeader = {
     format: 'civolution-save',
-    version: 5,
+    version: 6,
     rulesHash: state.rulesHash,
     turn: state.turn,
     players: state.players.map((p) => p.name),
@@ -54,9 +56,22 @@ export function loadGame(rules: Rules, text: string): GameState {
 function upgrade(state: GameState, version: number | undefined): GameState | null {
   const v = state.version as number;
   if (version !== v) return null;
-  if (v === 5) return state;
+  if (v === 6) return state;
   // Format 4 (alpha 0.002) had no automation settings.
-  if (v === 4) return { ...state, version: 5, players: state.players.map((p) => ({ ...p, automation: defaultAutomation() })) };
+  if (v === 4) return upgrade({ ...state, version: 5 as 6, players: state.players.map((p) => ({ ...p, automation: defaultAutomation() })) }, 5);
+  // Format 5 (alpha 0.003) predates Phase 6: civilization extras, game options and victory.
+  if (v === 5) {
+    return {
+      ...state,
+      version: 6,
+      players: state.players.map((p) => ({ ...p, ...phase6Fields() })),
+      cities: Object.fromEntries(Object.entries(state.cities).map(([k, c]) => [k, { ...c, nationality: c.owner, resisters: 0 }])),
+      options: defaultOptions(),
+      victory: null,
+      climate: { warming: 0, strikes: 0 },
+      un: null,
+    };
+  }
   return null;
 }
 

@@ -390,6 +390,9 @@ export function runLeaders(ctx: Ctx): void {
       if (here?.owner === view.player) {
         const building = here.build?.kind === 'building' ? rules.building(here.build.id) : null;
         if (building && (building.kind === 'wonder' || building.kind === 'smallWonder') && here.shields < building.cost && ctx.act({ type: 'leaderHurry', player: view.player, unit: u.id, reason: why('finishing a wonder') })) continue;
+        // A scientific leader does not wait long for a wonder: any costly building will do.
+        if (u.scientific && building && building.kind !== 'wealth' && building.cost - here.shields >= 150 && ctx.act({ type: 'leaderHurry', player: view.player, unit: u.id, reason: why('a scientist finishing a building') })) continue;
+        if (u.scientific) continue;
         if (armyCount(rules, s, view.player) < armyLimit(rules, s, view.player) && ctx.act({ type: 'buildArmy', player: view.player, unit: u.id, reason: why('forming an army') })) continue;
       }
       const capital = view.capital;

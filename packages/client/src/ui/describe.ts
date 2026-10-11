@@ -82,7 +82,13 @@ export function concernsHuman(e: GameEvent, human: number): boolean {
       // A mission against us is only noticed when the spy is caught.
       return e.player === human || (e.target === human && !e.success);
     case 'barbarianLanding':
+    case 'globalWarming':
+    case 'unitedNationsVote':
+    case 'gameWon':
+    case 'spaceshipLaunched':
       return true;
+    case 'spaceshipLost':
+      return e.player === human || e.by === human;
     case 'playerEliminated':
     case 'nuclearStrike':
     case 'campAppeared':
@@ -189,7 +195,9 @@ export function describeEvent(s: { state: GameState; human: number }, e: GameEve
     case 'unitPromoted':
       return `${unitName(st, e.unit)} is promoted to ${e.experience}.`;
     case 'leaderBorn':
-      return 'A great leader rises from the ranks! Form an army or hurry a wonder with them.';
+      return e.scientific
+        ? `${e.name ?? 'A great scientist'} joins our civilization! A scientific leader finishes a building or wonder at once.`
+        : `${e.name ?? 'A great leader'} rises from the ranks! Form an army or hurry a wonder with them.`;
     case 'armyFormed':
       return 'A new army is formed. Move up to three units into it.';
     case 'unitJoinedArmy':
@@ -252,7 +260,42 @@ export function describeEvent(s: { state: GameState; human: number }, e: GameEve
     case 'cityTraded':
       return e.player === s.human ? `${e.name} joins our civilization by treaty.` : `${e.name} is handed over to ${who(st, e.player)}.`;
     case 'cityRevolted':
+      if (e.cause === 'culture')
+        return e.player === s.human ? `Drawn by our culture, the people of ${e.name} join us!` : `The people of ${e.name} admire ${who(st, e.player)} more than us: the city defects, and its garrison is lost.`;
       return e.player === s.human ? `Our propaganda wins over ${e.name}: the city joins us!` : `${e.name} has been turned against us by ${who(st, e.player)} propaganda and defects!`;
+    case 'resistanceStarted':
+      return `${e.resisters} citizen${e.resisters === 1 ? '' : 's'} of ${cityName(st, e.city)} resist our rule; the city produces nothing until they are quelled.`;
+    case 'resistanceEnded':
+      return `The resistance in ${cityName(st, e.city)} is over.`;
+    case 'goldenAgeStarted':
+      return `A golden age begins (${e.detail})! For ${rules.set.general.goldenAgeDuration} turns every tile that yields shields or commerce yields one more.`;
+    case 'goldenAgeEnded':
+      return 'Our golden age has ended.';
+    case 'pollutionAppeared':
+      return `Pollution near ${cityName(st, e.city)}: workers can clean it up.`;
+    case 'meltdown':
+      return `The nuclear plant in ${cityName(st, e.city)} has melted down! Half the people died and the land around is poisoned.`;
+    case 'globalWarming':
+      return `Global warming strikes: ${e.tiles.length} tiles across the world have turned drier or wetter. Clean up pollution to slow it.`;
+    case 'spaceshipLaunched':
+      return e.player === s.human
+        ? `Our spaceship has launched! It reaches Alpha Centauri on turn ${e.arrives}; guard the capital.`
+        : `${who(st, e.player)} has launched a spaceship; it arrives on turn ${e.arrives} unless their capital falls.`;
+    case 'spaceshipLost':
+      return e.player === s.human ? 'Our capital has fallen and our spaceship is lost.' : `${who(st, e.player)} lost their capital, and their spaceship with it.`;
+    case 'unitedNationsVote': {
+      const parts = Object.entries(e.votes)
+        .map(([p, n]) => `${who(st, Number(p))} ${n}`)
+        .join(', ');
+      return e.winner !== null
+        ? `The United Nations elects ${who(st, e.winner)} with ${e.votes[e.winner]} of ${e.total} votes (${parts}).`
+        : `The United Nations vote is undecided (${parts || 'no votes'}, of ${e.total}).`;
+    }
+    case 'victoryPoints':
+      return `+${e.points} victory points: ${e.why}.`;
+    case 'gameWon':
+      if (e.player === null) return 'The game is over: no civilization survived.';
+      return e.player === s.human ? `Victory! We have won: ${e.detail}.` : `${who(st, e.player)} has won the game: ${e.detail}.`;
     case 'espionage':
       if (e.target === s.human) return `A ${who(st, e.player)} spy was caught in our lands.`;
       return e.success
@@ -265,7 +308,7 @@ export function describeEvent(s: { state: GameState; human: number }, e: GameEve
     case 'barbarianLanding':
       return st.cities[e.near]?.owner === s.human ? `Barbarians have landed near ${cityName(st, e.near)}!` : null;
     case 'playerEliminated':
-      return e.player === s.human ? 'Your civilization has been destroyed.' : `The ${who(st, e.player)} civilization has been destroyed.`;
+      return e.player === s.human ? `Your civilization has been destroyed${e.why ? ` (it ${e.why})` : ''}.` : `The ${who(st, e.player)} civilization has been destroyed${e.why ? ` (it ${e.why})` : ''}.`;
     case 'campDestroyed':
       return `Barbarian camp destroyed: ${e.gold} gold.`;
     case 'campAppeared':

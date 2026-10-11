@@ -9,7 +9,7 @@
 import { parseArgs } from 'node:util';
 import { indexRules, type Rules } from '@civolution/engine';
 import { conquests } from '@civolution/rules';
-import { ai, builder, defaultPlayers, runGame, type SimReport } from './runner.ts';
+import { ai, builder, civsForSeed, defaultPlayers, runGame, type SimReport } from './runner.ts';
 
 export interface TournamentGame {
   seed: number;
@@ -35,7 +35,7 @@ export interface TournamentOptions {
 export function runTournament(o: TournamentOptions): TournamentGame[] {
   const out: TournamentGame[] = [];
   for (const seed of o.seeds) {
-    const players = defaultPlayers(o.players).map((p, i) => (o.passive && i === 0 ? { ...p, human: true } : p));
+    const players = defaultPlayers(o.players, civsForSeed(o.rules, seed, o.players)).map((p, i) => (o.passive && i === 0 ? { ...p, human: true } : p));
     const { report } = runGame(
       {
         rules: o.rules,
@@ -106,6 +106,9 @@ if (isMain) {
           `alive ${civs.filter((p) => p.alive).length}/${civs.length}`,
           `cities ${civs.map((p) => p.cities).join('/')}`,
           `eras ${civs.map((p) => p.era.slice(0, 3)).join('/')}`,
+          `pop ${civs.map((p) => p.population).join('/')}`,
+          `golden ${r.goldenAges}`,
+          r.victory ? `won: ${r.victory.kind} by ${r.victory.winner === null ? 'nobody' : r.players[r.victory.winner]!.name} on turn ${r.victory.turn}` : 'no winner',
           `wars ${r.diplomacy.wars} peaces ${r.diplomacy.peaces} deals ${r.diplomacy.deals}`,
           `battles ${r.war.battles} captured ${r.war.citiesCaptured} razed ${r.war.citiesDestroyed}`,
           `refused ${r.refused}`,

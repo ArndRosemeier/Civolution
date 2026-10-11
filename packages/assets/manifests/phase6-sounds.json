@@ -1,0 +1,57 @@
+{
+  "$comment": "Phase 6 sound effects (ByteDance Seed Audio on OpenRouter). Run: OPEN_ROUTER_KEY=... pnpm --filter @civolution/assets sounds -- --manifest manifests/phase6-sounds.json. Every prompt starts with 'The sound of' (the tool adds it when missing).",
+  "model": "bytedance-seed/seed-audio-1-0",
+  "outDir": "packages/client/public/audio",
+  "items": [
+    {
+      "id": "golden-age",
+      "prompt": "The sound of a bright brass fanfare rising over a festive crowd cheering and bells ringing, triumphant and warm, without voices singing words, about three seconds",
+      "variations": 2
+    },
+    {
+      "id": "culture-flip",
+      "prompt": "The sound of a city gate creaking open while a distant crowd cheers and a drum beats a slow welcome, without voices speaking words, about two and a half seconds",
+      "variations": 2
+    },
+    {
+      "id": "spaceship-launch",
+      "prompt": "The sound of a huge rocket engine igniting with a deep rumbling roar that builds and fades into the sky, without voices, about four seconds",
+      "variations": 2
+    },
+    {
+      "id": "global-warming",
+      "prompt": "The sound of a hot dry wind sweeping over cracked earth with a low ominous drone underneath, without voices, about three seconds",
+      "variations": 2
+    },
+    {
+      "id": "un-vote",
+      "prompt": "The sound of a wooden gavel striking twice in a large echoing hall, followed by polite applause from a crowd, without voices speaking words, about two and a half seconds",
+      "variations": 2
+    },
+    {
+      "id": "pollution",
+      "prompt": "The sound of a factory steam whistle followed by a low hiss of smoke from chimneys, without voices, about two seconds",
+      "variations": 2
+    },
+    {
+      "id": "resistance",
+      "prompt": "The sound of an angry crowd murmuring and stamping in a stone square, with a few shouts that are not words, about two seconds",
+      "variations": 2
+    },
+    {
+      "id": "meltdown",
+      "prompt": "The sound of a deep electrical hum rising into a warning siren and a heavy muffled boom, without voices, about three seconds",
+      "variations": 2
+    },
+    {
+      "id": "victory",
+      "prompt": "The sound of a grand orchestral fanfare with trumpets and timpani building to a triumphant final chord, without voices, about five seconds",
+      "variations": 2
+    },
+    {
+      "id": "defeat",
+      "prompt": "The sound of a slow mournful horn over a low drum roll fading into silence, without voices, about four seconds",
+      "variations": 2
+    }
+  ]
+}

@@ -24,6 +24,7 @@ import { SavesDialog } from './SavesDialog.tsx';
 import { TilePanel } from './TilePanel.tsx';
 import { TopBar } from './TopBar.tsx';
 import { UnitPanel, unitActions } from './UnitPanel.tsx';
+import { VictoryScreen } from './VictoryScreen.tsx';
 import { unitFamily } from './family.ts';
 
 let modelsPromise: Promise<ModelSet> | null = null;
@@ -214,6 +215,10 @@ export function GameScreen() {
       }
       if (code === 'F7') {
         s.open({ kind: 'automation' });
+        return true;
+      }
+      if (code === 'F8') {
+        s.open({ kind: 'victory' });
         return true;
       }
       if (code === 'F9') {
@@ -464,6 +469,7 @@ export function GameScreen() {
       {panel?.kind === 'science' && <ScienceAdvisor onClose={() => useGame.getState().open(null)} />}
       {panel?.kind === 'automation' && <AutomationScreen {...(panel.tab ? { tab: panel.tab } : {})} onClose={() => useGame.getState().open(null)} />}
       {panel?.kind === 'foreign' && <ForeignAdvisor onClose={() => useGame.getState().open(null)} />}
+      {panel?.kind === 'victory' && <VictoryScreen {...(panel.gameOver ? { gameOver: true } : {})} onClose={() => useGame.getState().open(null)} />}
       {panel?.kind === 'diplomacy' && <DiplomacyScreen {...(panel.with === undefined ? {} : { initial: panel.with })} onClose={() => useGame.getState().open(null)} />}
       {!panel && <OfferDialog />}
     </div>

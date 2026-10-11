@@ -431,6 +431,16 @@ export const GameSettingsSchema = z
     startYear: int,
     turnsPerTimescalePart: z.array(nonNeg).length(7),
     timeUnitsPerTurn: z.array(nonNeg).length(7),
+    turnTimeLimit: int,
+    victoryPointLimit: int,
+    oneCityCultureWin: int,
+    allCitiesCultureWin: int,
+    dominationTerrainPercent: int,
+    dominationPopulationPercent: int,
+    wonderVictoryPoints: int,
+    defeatUnitVictoryPoints: int,
+    advanceVictoryPoints: int,
+    cityConquestVictoryPoints: int,
     traits: flags,
   })
   .loose();

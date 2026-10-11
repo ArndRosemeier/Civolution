@@ -3,6 +3,7 @@
  * carriers and armies), creating and removing units (docs/rules/combat.md,
  * docs/rules/naval.md, docs/rules/armies.md).
  */
+import { shipMoveBonus } from './civs.ts';
 import type { UnitRule } from '@civolution/data-schema';
 import type { GameEvent } from './commands.ts';
 import type { Rules } from './rules.ts';
@@ -79,7 +80,8 @@ export function unitMaxMoves(rules: Rules, state: GameState, u: Unit): number {
     const members = cargoOf(state, u.id);
     if (members.length > 0) return Math.min(...members.map((m) => rules.unit(m.type).movement)) * rules.moveScale;
   }
-  return rules.unit(u.type).movement * rules.moveScale;
+  const rule = rules.unit(u.type);
+  return (rule.movement + (rule.domain === 'sea' ? shipMoveBonus(rules, state, u.owner) : 0)) * rules.moveScale;
 }
 
 export function newUnit(rules: Rules, owner: number, type: string, tile: number, experience = 'regular'): Omit<Unit, 'id'> {

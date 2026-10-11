@@ -114,7 +114,7 @@ export function unitActions(snap: Snapshot, u: Unit): UnitAction[] {
       out.push({ id: 'joinArmy', label: 'Join the army', key: 'KeyJ', shift: true, advances: true, run: () => send({ type: 'joinArmy', unit: u.id, army: army.id }), ...(full ? { disabled: 'The army is full.' } : {}) });
     }
   }
-  if (rule.specialActions.includes('buildArmy')) {
+  if (rule.specialActions.includes('buildArmy') && !u.scientific) {
     const limit = armyLimit(rules, snap.state, u.owner);
     const why = here0?.owner !== u.owner ? 'Leaders form armies in your cities.' : armyCount(rules, snap.state, u.owner) >= limit ? `You may field ${limit} arm${limit === 1 ? 'y' : 'ies'}.` : undefined;
     out.push({ id: 'buildArmy', label: 'Form an army', key: 'KeyA', shift: true, advances: true, run: () => send({ type: 'buildArmy', unit: u.id }), ...(why ? { disabled: why } : {}) });
@@ -270,7 +270,7 @@ export function UnitPanel() {
       <div className="unit-head">
         <span className="swatch" style={{ background: owner.color }} />
         <div>
-          <h3>{rule.name}</h3>
+          <h3>{u.name ? `${u.name} · ${u.scientific ? 'Great scientist' : rule.name}` : rule.name}</h3>
           <span className="muted">
             {owner.name} ·{' '}
             <img className="rank" src={`${import.meta.env.BASE_URL}art/experience/${u.experience}.png`} alt="" onError={(e) => (e.currentTarget.style.display = 'none')} />

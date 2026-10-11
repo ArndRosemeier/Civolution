@@ -74,16 +74,29 @@ const WEARINESS = ['none', 'low', 'high'] as const;
 const BUILDING_BIT_NAMES: Record<string, string> = {
   'improvement:bit25': 'increasesCommerceInWater',
   'wonder:bit17': 'touristAttraction',
+  // The two Conquests building characteristics after placeOfWorship and constructionInstallation.
+  'other:bit10': 'agriculturalInstallation',
+  'other:bit11': 'seafaringInstallation',
 };
 
 /** Building flags that say what kind of building it is rather than what it does. */
 const BUILDING_TAGS = new Set([
   'militaryInstallation', 'tradeInstallation', 'researchInstallation', 'explorationInstallation',
-  'constructionInstallation', 'coastalInstallation', 'placeOfWorship',
+  'constructionInstallation', 'coastalInstallation', 'placeOfWorship', 'agriculturalInstallation', 'seafaringInstallation',
 ]);
 
 /** Border growth thresholds in city culture points (not stored in the rule file; docs/rules/culture.md). */
 const BORDER_THRESHOLDS = [10, 100, 1000, 10000, 20000, 40000, 80000];
+
+function popcount(x: number): number {
+  let v = x >>> 0;
+  let c = 0;
+  while (v) {
+    v &= v - 1;
+    c++;
+  }
+  return c;
+}
 
 export function curate(raw: ImportedRules): RuleSet {
   const terrainIds = idList(raw.terrains.map((t) => t.name));
@@ -143,6 +156,18 @@ export function curate(raw: ImportedRules): RuleSet {
       futureTechCost: g.futureTechCost,
       goldenAgeDuration: g.goldenAgeDuration,
       borderThresholds: BORDER_THRESHOLDS,
+      lastTurn: raw.game.turnTimeLimit,
+      victory: {
+        cityCulture: raw.game.oneCityCultureWin,
+        civCulture: raw.game.allCitiesCultureWin,
+        dominationLandPercent: raw.game.dominationTerrainPercent,
+        dominationPopulationPercent: raw.game.dominationPopulationPercent,
+        pointLimit: raw.game.victoryPointLimit,
+        wonderPoints: raw.game.wonderVictoryPoints,
+        defeatUnitPoints: raw.game.defeatUnitVictoryPoints,
+        advancePoints: raw.game.advanceVictoryPoints,
+        cityConquestPoints: raw.game.cityConquestVictoryPoints,
+      },
     },
     eras: raw.eras.map((e, i) => ({ id: eraIds[i]!, name: e.name })),
     terrains: raw.terrains.map((t, i) => {
@@ -279,7 +304,7 @@ export function curate(raw: ImportedRules): RuleSet {
       const effects = (['improvement', 'smallWonder', 'wonder'] as const).flatMap((k) =>
         b.traits[k].flatMap((f) => (/^bit\d+$/.test(f) ? (BUILDING_BIT_NAMES[`${k}:${f}`] ?? []) : [f])),
       );
-      const other = b.traits.other.filter((f) => !/^bit\d+$/.test(f));
+      const other = b.traits.other.flatMap((f) => (/^bit\d+$/.test(f) ? (BUILDING_BIT_NAMES[`other:${f}`] ?? []) : [f]));
       const kind = other.includes('wonder')
         ? 'wonder'
         : other.includes('smallWonder')
@@ -316,6 +341,7 @@ export function curate(raw: ImportedRules): RuleSet {
         ...opt('actsAsEverywhere', ref(buildingIds, b.gainInEveryCity)),
         ...opt('unitProduced', ref(unitIds, b.unitProduced)),
         unitEvery: b.unitProduced >= 0 ? b.unitFrequency : 0,
+        spaceshipParts: b.spaceshipPart >= 0 ? (g.spaceshipPartCounts[b.spaceshipPart] ?? 1) : 0,
         effects,
         tags: other.filter((f) => BUILDING_TAGS.has(f)),
       };
@@ -349,8 +375,9 @@ export function curate(raw: ImportedRules): RuleSet {
       attackBonusVsBarbarians: d.attackBonusVsBarbarians,
     })),
     civs: raw.civs
-      .filter((c) => c.cultureGroup >= 0)
-      .map((c) => ({
+      .map((c, index) => ({ c, index }))
+      .filter(({ c }) => c.cultureGroup >= 0)
+      .map(({ c, index }) => ({
         id: toId(c.noun),
         name: c.name,
         adjective: c.adjective,
@@ -366,6 +393,19 @@ export function curate(raw: ImportedRules): RuleSet {
         buildOften: c.traits.buildOften,
         buildNever: c.traits.buildNever,
         color: c.defaultColor,
+        unitBit: index,
+        uniqueUnits: raw.units.flatMap((u, i) => {
+          const m = u.availableTo >>> 0;
+          const civs = popcount(m & ~1);
+          // A repeated name (Impi, Legionary, …) is a variant the game makes itself, not a unit to build.
+          const variant = unitIds[i] !== toId(u.name);
+          return civs === 1 && m & (1 << index) && u.shieldCost > 0 && !variant ? [unitIds[i]!] : [];
+        }),
+        ...opt('kingUnit', ref(unitIds, c.kingUnit)),
+        freeTechs: refs(techIds, c.freeTechs),
+        cityNames: c.cityNames.map((n) => n.trim()).filter(Boolean),
+        militaryLeaders: c.militaryLeaders.map((n) => n.trim()).filter(Boolean),
+        scientificLeaders: c.scientificLeaders.map((n) => n.trim()).filter(Boolean),
       })),
     espionageMissions: raw.espionageMissions.map((m) => ({
       id: toId(m.name.replace(/^(Build an|Initiate) /, '')),

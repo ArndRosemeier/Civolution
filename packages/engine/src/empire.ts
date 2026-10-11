@@ -109,7 +109,9 @@ function computeEmpire(rules: Rules, state: GameState, player: number): EmpireIn
 
   const ws = rules.set.worldSizes.find((w) => w.id === state.settings.worldSize);
   const diff = rules.difficulty(state.difficulty);
-  const ocn = Math.max(1, Math.floor(((ws?.optimalCities ?? 16) * diff.optimalCitiesPercent) / 100));
+  // Commercial civilizations run more cities before corruption bites (docs/rules/civilizations.md).
+  const commercial = p.civ && rules.civ(p.civ).traits.includes('commercial') ? 125 : 100;
+  const ocn = Math.max(1, Math.floor(((ws?.optimalCities ?? 16) * diff.optimalCitiesPercent * commercial) / 10000));
 
   const seatDistance = new Map<number, number>();
   for (const c of cities) {

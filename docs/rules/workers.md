@@ -17,7 +17,7 @@ tile to another job abandons the old one. A job that becomes impossible stops.
 |---|---|---|
 | Road | land without a road | road (+1 commerce on most terrain, faster movement) |
 | Railroad | tile with a road; needs the rule set's tech and resources | railroad (free movement, +1 shield where the tile already yields shields) |
-| Irrigation | terrain with an irrigation bonus, next to fresh water (a river on the tile, or a lake or irrigated tile sharing an edge); any tile after a tech that allows irrigation without fresh water (Electricity) | +food; replaces a mine |
+| Irrigation | terrain with an irrigation bonus, next to fresh water: a river on the tile or a neighbour, or a lake, irrigated tile or city next to it, diagonals included (Arnd, 2026-10-11). A city counts as irrigated only when it has fresh water itself (a river on its tile, or a lake or irrigated tile next to it); any tile after a tech that allows irrigation without fresh water (Electricity) | +food; replaces a mine |
 | Mine | terrain with a mining bonus | +shields; replaces irrigation |
 | Fortress / barricade | where allowed; needs Construction | defence bonus (combat in Phase 3) |
 | Clear forest | forest | restores the terrain underneath; 10 shields go to the nearest city once cities exist (the engine emits `forestCleared`) |

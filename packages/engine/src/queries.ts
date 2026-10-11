@@ -4,6 +4,7 @@
 import type { UnitRule } from '@civolution/data-schema';
 import { DIR_EDGE, neighbour, tileCount, type Grid } from './grid.ts';
 import type { Rules } from './rules.ts';
+import { cityAt } from './territory.ts';
 import { FLAG_LAKE, type GameState, type Player, type Unit } from './state.ts';
 
 export function grid(state: GameState): Grid {
@@ -104,15 +105,34 @@ export function crossesRiver(state: GameState, from: number, dir: number): boole
   return riverEdgeBetween(m, from, r, right) || riverEdgeBetween(m, r, to, left);
 }
 
-/** Fresh water next to a tile: a river on its edges, or a lake or irrigated tile sharing an edge. */
-export function hasFreshWaterAccess(state: GameState, tile: number, irrigatedBit: number): boolean {
+const ALL_DIRS = [0, 1, 2, 3, 4, 5, 6, 7];
+
+/** A river on the tile, or a lake or irrigated tile next to it (diagonals included). */
+function touchesWater(state: GameState, tile: number, irrigatedBit: number): boolean {
   const m = state.map;
   if (m.rivers[tile] !== 0) return true;
-  for (const dir of [1, 3, 5, 7]) {
+  for (const dir of ALL_DIRS) {
     const j = neighbour(m, tile, dir);
     if (j < 0) continue;
     if (m.flags[j]! & FLAG_LAKE) return true;
     if (m.improvements[j]! & irrigatedBit) return true;
+  }
+  return false;
+}
+
+/**
+ * Fresh water for irrigating a tile: a river on the tile or on any neighbour, or a lake,
+ * irrigated tile or watered city next to it, diagonals included. A city tile counts as
+ * irrigated when it has fresh water itself (docs/rules/workers.md).
+ */
+export function hasFreshWaterAccess(state: GameState, tile: number, irrigatedBit: number): boolean {
+  if (touchesWater(state, tile, irrigatedBit)) return true;
+  const m = state.map;
+  for (const dir of ALL_DIRS) {
+    const j = neighbour(m, tile, dir);
+    if (j < 0) continue;
+    if (m.rivers[j] !== 0) return true;
+    if (cityAt(state, j) && touchesWater(state, j, irrigatedBit)) return true;
   }
   return false;
 }

@@ -7,6 +7,7 @@
 import * as THREE from 'three';
 import {
   cityAt,
+  FLAG_BONUS_GRASSLAND,
   FLAG_CAMP,
   FLAG_HUT,
   IMP_CRATER,
@@ -21,6 +22,7 @@ import {
   type Rules,
 } from '@civolution/engine';
 import { HeightField } from './heights.ts';
+import { BONUS_GRASSLAND_ICON } from './icons.ts';
 import type { ModelId, ModelSet } from './models.ts';
 
 export const CHUNK = 32;
@@ -197,6 +199,8 @@ export class Chunk {
         // A barricade is built on a fortress and replaces its look.
         if (imp & IMP_BARRICADE && !city) put('barricade', x, z, 1, r() * 6.28);
         else if (imp & IMP_FORTRESS && !city) put('fortress', x, z, 1, Math.floor(r() * 4) * (Math.PI / 2));
+        // Shield grassland: a small shield badge on the opposite corner from resources.
+        if (map.flags[tile]! & FLAG_BONUS_GRASSLAND && !city) tokens.push({ x: x + 0.32, z: z + 0.32, color: new THREE.Color('#b07a3c'), id: BONUS_GRASSLAND_ICON });
         const res = map.resource[tile]!;
         if (res >= 0 && !city) {
           const rule = rules.resources[res]!;

@@ -1,10 +1,13 @@
 /**
  * Resource icons on the map: camera-facing instanced billboards using the generated
  * medallion art (public/art/resources/<id>.png, see docs/assets.md). Resources whose
- * icon has not been generated yet fall back to a coloured token.
+ * icon has not been generated yet fall back to a coloured token. Shield grassland gets a
+ * smaller shield badge from the same folder.
  */
 import * as THREE from 'three';
 import type { FogUniforms } from './fog.ts';
+
+export const BONUS_GRASSLAND_ICON = 'bonus-grassland';
 
 export async function loadResourceIcons(ids: readonly string[]): Promise<Map<string, THREE.Texture>> {
   const loader = new THREE.TextureLoader();
@@ -24,9 +27,9 @@ export async function loadResourceIcons(ids: readonly string[]): Promise<Map<str
   return out;
 }
 
-export function makeIconMaterial(map: THREE.Texture, fog: FogUniforms): THREE.ShaderMaterial {
+export function makeIconMaterial(map: THREE.Texture, fog: FogUniforms, size = 0.34): THREE.ShaderMaterial {
   return new THREE.ShaderMaterial({
-    uniforms: { map: { value: map }, uSize: { value: 0.34 }, ...fog } as unknown as Record<string, THREE.IUniform>,
+    uniforms: { map: { value: map }, uSize: { value: size }, ...fog } as unknown as Record<string, THREE.IUniform>,
     transparent: true,
     depthWrite: false,
     vertexShader: /* glsl */ `

@@ -1,5 +1,13 @@
 [
   {
+    "version": "0.013",
+    "date": "2026-10-11",
+    "title": "Shield grassland you can see",
+    "items": [
+      "Grassland that gives a bonus shield now shows a small shield badge in the corner of the tile, so you can tell it apart from plain grassland at a glance."
+    ]
+  },
+  {
     "version": "0.012",
     "date": "2026-10-11",
     "title": "Rules closer to Civ 3",

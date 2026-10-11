@@ -1,0 +1,37 @@
+{
+  "$comment": "Map marker for shield grassland (grassland that yields a bonus shield). Generate with: OPEN_ROUTER_KEY=... pnpm --filter @civolution/assets gen -- --manifest manifests/grassland.json. Reuses the Phase 1 style bible as the reference image.",
+  "modelPreference": [
+    "meta/muse-image",
+    "openai/gpt-image-2",
+    "google/gemini-2.5-flash-image",
+    "google/gemini-3-pro-image-preview",
+    "openai/gpt-image-1",
+    "black-forest-labs/flux-1.1-pro"
+  ],
+  "styleBible": {
+    "id": "styleBible",
+    "prompt": "A style reference sheet (no text) for a game's art direction. Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Show, arranged on one sheet: a small coastal landscape vignette with grassland, forest, hills and a snowy mountain; three round game icons (a wheat sheaf, a horse head, a gemstone) on medallions with bronze rims; a colour swatch row of the palette.",
+    "aspectRatio": "16:9",
+    "out": "packages/client/public/art/style-bible.png",
+    "post": {
+      "resize": 1600
+    },
+    "references": []
+  },
+  "styleSuffix": "Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+  "items": [
+    {
+      "id": "bonus-grassland",
+      "prompt": "Game icon: a small sturdy round-topped wooden shield with a bronze boss and bronze edge, standing upright on a tuft of bright green grass. Centered on a round medallion with a soft circular background in light sunlit grass green and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image. Absolutely no text, no letters, no numbers, no writing, no symbols or emblems painted on the shield.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/bonus-grassland.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    }
+  ]
+}

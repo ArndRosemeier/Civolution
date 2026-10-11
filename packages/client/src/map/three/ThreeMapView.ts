@@ -10,7 +10,7 @@ import { MarkerLayer, type MapMarker } from './markers.ts';
 import { Chunk, makeChunks, type DressingMaterials } from './chunks.ts';
 import { applyFog, type FogUniforms } from './fog.ts';
 import { HeightField } from './heights.ts';
-import { loadResourceIcons, makeIconMaterial } from './icons.ts';
+import { BONUS_GRASSLAND_ICON, loadResourceIcons, makeIconMaterial } from './icons.ts';
 import { makeInstancedMaterial, type ModelSet } from './models.ts';
 import { makeTerrainMaterial, type TerrainUniforms } from './terrainMaterial.ts';
 import { EffectLayer } from './effects.ts';
@@ -187,9 +187,9 @@ export class ThreeMapView implements MapView {
     river.polygonOffsetFactor = -1;
     this.mats = { terrain: makeTerrainMaterial(this.rules.terrains.map((t) => t.id), this.terrainUniforms), dressing, road, river, token, icons: new Map() };
     const mats = this.mats;
-    void loadResourceIcons(this.rules.resources.map((r) => r.id)).then((textures) => {
+    void loadResourceIcons([...this.rules.resources.map((r) => r.id), BONUS_GRASSLAND_ICON]).then((textures) => {
       if (textures.size === 0 || this.mats !== mats) return;
-      for (const [id, tex] of textures) mats.icons.set(id, makeIconMaterial(tex, fog));
+      for (const [id, tex] of textures) mats.icons.set(id, makeIconMaterial(tex, fog, id === BONUS_GRASSLAND_ICON ? 0.24 : 0.34));
       this.previous = null;
       if (this.snapshot) this.refresh(this.snapshot);
     });

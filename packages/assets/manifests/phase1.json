@@ -1,0 +1,372 @@
+{
+  "$comment": "Phase 1 art. Generate with: OPEN_ROUTER_KEY=... pnpm --filter @civolution/assets gen -- --manifest manifests/phase1.json. Model per class is the first entry of modelPreference that the live /images/models list offers.",
+  "modelPreference": [
+    "google/gemini-2.5-flash-image",
+    "google/gemini-3-pro-image-preview",
+    "openai/gpt-image-1",
+    "black-forest-labs/flux-1.1-pro"
+  ],
+  "styleBible": {
+    "id": "styleBible",
+    "prompt": "A style reference sheet (no text) for a game's art direction. Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Show, arranged on one sheet: a small coastal landscape vignette with grassland, forest, hills and a snowy mountain; three round game icons (a wheat sheaf, a horse head, a gemstone) on medallions with bronze rims; a colour swatch row of the palette.",
+    "aspectRatio": "16:9",
+    "out": "packages/client/public/art/style-bible.png",
+    "post": {
+      "resize": 1600
+    },
+    "references": []
+  },
+  "styleSuffix": "Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+  "items": [
+    {
+      "id": "resource-horses",
+      "prompt": "Game icon: a proud brown horse head in profile with a flowing mane. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/horses.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-iron",
+      "prompt": "Game icon: a stack of dark grey iron ingots with a rough ore lump. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/iron.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-saltpeter",
+      "prompt": "Game icon: white saltpeter crystals heaped in a small clay bowl. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/saltpeter.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-coal",
+      "prompt": "Game icon: glossy black coal lumps. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/coal.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-oil",
+      "prompt": "Game icon: a dark oil barrel with a glistening black drop. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/oil.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-rubber",
+      "prompt": "Game icon: a rubber tree trunk with a cut dripping white latex into a cup. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/rubber.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-aluminum",
+      "prompt": "Game icon: a stack of bright silver aluminium bars. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/aluminum.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-uranium",
+      "prompt": "Game icon: a glowing green uranium ore chunk. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/uranium.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-wines",
+      "prompt": "Game icon: a cluster of purple grapes with a vine leaf beside a clay amphora. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/wines.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-furs",
+      "prompt": "Game icon: a folded soft brown fur pelt. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/furs.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-dyes",
+      "prompt": "Game icon: three small pots of vivid red, blue and yellow dye. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/dyes.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-incense",
+      "prompt": "Game icon: a bronze censer with curling fragrant smoke. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/incense.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-spices",
+      "prompt": "Game icon: a pile of colourful spices: cinnamon sticks, peppercorns, star anise. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/spices.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-ivory",
+      "prompt": "Game icon: a pair of curved ivory tusks. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/ivory.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-silks",
+      "prompt": "Game icon: a shimmering bolt of folded crimson silk. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/silks.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-gems",
+      "prompt": "Game icon: a cluster of cut sparkling gemstones in red, blue and green. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/gems.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-whales",
+      "prompt": "Game icon: a blue whale breaching from ocean waves. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/whales.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-game",
+      "prompt": "Game icon: a deer with antlers in a forest clearing. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/game.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-fish",
+      "prompt": "Game icon: two silver fish leaping over a wave. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/fish.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-cattle",
+      "prompt": "Game icon: a sturdy brown and white cow head. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/cattle.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-wheat",
+      "prompt": "Game icon: golden bundled wheat sheaf. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/wheat.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-gold",
+      "prompt": "Game icon: shining gold nuggets. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/gold.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-sugar",
+      "prompt": "Game icon: green sugar cane stalks with sugar cubes. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/sugar.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-tropicalFruit",
+      "prompt": "Game icon: a bunch of bananas with a pineapple and mango. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/tropicalFruit.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-oasis",
+      "prompt": "Game icon: a small desert oasis pool with two palm trees. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/oasis.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "resource-tobacco",
+      "prompt": "Game icon: broad green tobacco leaves drying on a cord. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/resources/tobacco.png",
+      "post": {
+        "resize": 256,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "title-background",
+      "prompt": "Wide establishing painting for the game's title screen: at dawn, a river valley with an early settlement of clay houses and a stone temple, fields, a coast with galleys in the distance, mountains behind under a vast glowing sky; generous calm empty sky on the upper half for the title text. No text, no logos.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/title.jpg",
+      "post": {
+        "resize": 1920
+      },
+      "references": [
+        "styleBible"
+      ]
+    }
+  ]
+}

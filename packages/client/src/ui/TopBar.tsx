@@ -42,6 +42,10 @@ export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => v
           {gov.name} <small className="muted">{p.rates.tax * 10}/{p.rates.science * 10}/{p.rates.luxury * 10}</small>
         </strong>
       </button>
+      <button className={`stat ${p.atWarWith.some((x) => state.players[x]?.alive) ? 'at-war' : ''}`} onClick={() => open({ kind: 'foreign' })} title="War room (F4)">
+        <span className="label">Foreign affairs</span>
+        <strong>{p.atWarWith.filter((x) => state.players[x]?.alive).length > 0 ? `At war with ${p.atWarWith.filter((x) => state.players[x]?.alive).map((x) => state.players[x]!.name).join(', ')}` : 'At peace'}</strong>
+      </button>
       <div className="stat" title={`${sum.cities.length} cities, ${playerUnits(state, human).length} units`}>
         <span className="label">Empire</span>
         <strong>

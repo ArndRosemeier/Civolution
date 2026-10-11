@@ -1,12 +1,15 @@
 import {
+  FLAG_CAMP,
   FLAG_HUT,
   FLAG_LAKE,
   IMP_FORTRESS,
   IMP_IRRIGATION,
   IMP_MINE,
+  IMP_POLLUTION,
   IMP_RAIL,
   IMP_ROAD,
   directionTo,
+  distance,
   isExplored,
   resourceVisibleTo,
   stepCost,
@@ -15,6 +18,7 @@ import {
 } from '@civolution/engine';
 import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
+import { AttackPreview } from './AttackPreview.tsx';
 import { formatMoves } from './describe.ts';
 
 function Yield({ label, value, className }: { label: string; value: Explained; className: string }) {
@@ -47,11 +51,16 @@ export function TilePanel({ tile, unitId, pathTurns }: { tile: number | null; un
     imp & IMP_MINE ? 'Mine' : null,
     imp & IMP_FORTRESS ? 'Fortress' : null,
     m.flags[tile]! & FLAG_HUT ? 'Tribal village' : null,
+    m.flags[tile]! & FLAG_CAMP ? 'Barbarian camp' : null,
+    m.improvements[tile]! & IMP_POLLUTION ? 'Pollution' : null,
     visible[tile] ? null : 'Not in sight',
   ].filter(Boolean);
   const u = unitId !== null ? state.units[unitId] : undefined;
   const step = u && directionTo(m, u.tile, tile) >= 0 ? stepCost(rules, state, u, u.tile, tile) : null;
   const work = state.work[tile];
+  const aim = useGame.getState().aim;
+  const foes = Object.values(state.units).filter((x) => x.tile === tile && x.owner !== human && x.carriedBy === null && visible[tile]);
+  const hostile = u && u.owner === human && distance(m, u.tile, tile) === 1 && (foes.length > 0 || Object.values(state.cities).some((c) => c.tile === tile && c.owner !== human));
   return (
     <div className="tile-panel panel">
       <div className="tile-title">
@@ -73,7 +82,15 @@ export function TilePanel({ tile, unitId, pathTurns }: { tile: number | null; un
       </div>
       {features.length > 0 && <div className="features">{features.join(' · ')}</div>}
       {work && <div className="muted">Workers: {rules.job(work.job).name} under way</div>}
-      {step && (step.ok ? <div className="muted">Move cost {formatMoves(step.cost)} ({step.explain})</div> : <div className="warn">{step.error.message}</div>)}
+      {foes.length > 0 && (
+        <div className="muted small">
+          {state.players[foes[0]!.owner]!.name}: {foes.slice(0, 4).map((f) => `${rules.unit(f.type).name} (${f.hp} hp)`).join(', ')}
+          {foes.length > 4 ? ` and ${foes.length - 4} more` : ''}
+        </div>
+      )}
+      {aim && u && <div className="muted">{distance(m, u.tile, tile)} tile{distance(m, u.tile, tile) === 1 ? '' : 's'} from {rules.unit(u.type).name}</div>}
+      {hostile && <AttackPreview state={state} unit={u} tile={tile} />}
+      {!hostile && step && (step.ok ? <div className="muted">Move cost {formatMoves(step.cost)} ({step.explain})</div> : <div className="warn">{step.error.message}</div>)}
       {pathTurns !== null && !step && <div className="muted">Route: {pathTurns} turn{pathTurns === 1 ? '' : 's'}</div>}
     </div>
   );

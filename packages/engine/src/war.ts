@@ -413,6 +413,7 @@ export function captureCity(rules: Rules, tx: Tx, cityId: number, captor: number
   c.forcedLabor = [];
   c.hurried = false;
   c.wonderUnitTimer = 0;
+  c.capturedOn = tx.state.turn;
   for (const b of Object.keys(c0.buildings).sort()) {
     const r = rules.building(b);
     if (r.kind === 'wonder') continue;
@@ -901,6 +902,13 @@ function loadCommand(rules: Rules, tx: Tx, u: Unit): CommandError | null {
 /** Handles the war commands; returns an error, or null after applying. */
 export function applyWarCommand(rules: Rules, tx: Tx, cmd: Command): CommandError | null {
   const state = tx.state;
+  if (cmd.type === 'razeCity') {
+    const c = state.cities[cmd.city];
+    if (!c || c.owner !== cmd.player) return err('notYourCity', 'Pick one of your cities.');
+    if (c.capturedOn !== state.turn) return err('invalid', 'Only a city taken this turn can be razed.');
+    destroyCity(rules, tx, c.id, cmd.player);
+    return null;
+  }
   if (cmd.type === 'declareWar' || cmd.type === 'makePeace') {
     const t = state.players[cmd.target];
     if (!t?.alive || cmd.target === cmd.player) return err('invalid', 'Pick another living civilization.');

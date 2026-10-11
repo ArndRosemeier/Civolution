@@ -183,6 +183,8 @@ export interface City {
   hurried: boolean;
   /** Turns until the next free unit from a wonder such as the Statue of Zeus. */
   wonderUnitTimer: number;
+  /** Turn the current owner took the city by force, or null; it may be razed that turn. */
+  capturedOn: number | null;
 }
 
 export interface WorkProgress {

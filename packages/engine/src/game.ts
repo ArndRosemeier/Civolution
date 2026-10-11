@@ -179,7 +179,7 @@ export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult
     return done(tx);
   }
 
-  if (cmd.type === 'declareWar' || cmd.type === 'makePeace') {
+  if (cmd.type === 'declareWar' || cmd.type === 'makePeace' || cmd.type === 'razeCity') {
     const error = applyWarCommand(rules, tx, cmd);
     if (error) return { state, events: [], error };
     return done(tx);

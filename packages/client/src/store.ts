@@ -6,7 +6,7 @@ import { create } from 'zustand';
 import { playerCities, playerUnits, researchableTechs, type Command, type GameEvent, type NewGameOptions } from '@civolution/engine';
 import { rules } from './rules.ts';
 import { host, type Snapshot } from './host/client.ts';
-import { describeEvent } from './ui/describe.ts';
+import { concernsHuman, describeEvent } from './ui/describe.ts';
 import { play, playEvents } from './audio.ts';
 
 /** A command without its player; the store fills in the human player. */
@@ -20,7 +20,17 @@ export interface LogEntry {
 }
 
 /** The open screen over the map, if any. */
-export type Panel = { kind: 'city'; id: number } | { kind: 'domestic' } | { kind: 'science' } | null;
+export type Panel = { kind: 'city'; id: number } | { kind: 'domestic' } | { kind: 'science' } | { kind: 'foreign' } | null;
+
+/** A unit action waiting for its target tile. */
+export type AimAction = 'bombard' | 'bomb' | 'precisionBomb' | 'recon' | 'rebase' | 'nuke';
+
+/** A headline event shown as a card over the map. */
+export interface News {
+  kind: 'warDeclared' | 'peaceMade' | 'cityCaptured' | 'cityLost' | 'cityDestroyed' | 'cityRaided' | 'nuclearStrike' | 'leaderBorn' | 'playerEliminated';
+  text: string;
+  tile?: number;
+}
 
 export interface Settings {
   grid: boolean;
@@ -39,6 +49,10 @@ interface Store {
   toast: string | null;
   settings: Settings;
   gotoMode: boolean;
+  aim: { unit: number; action: AimAction } | null;
+  /** A city taken this turn that the player may keep or raze. */
+  razePrompt: number | null;
+  news: News[];
   panel: Panel;
   open: (panel: Panel) => void;
   newGame: (options: NewGameOptions) => Promise<void>;
@@ -50,6 +64,9 @@ interface Store {
   setHover: (tile: number | null) => void;
   setSettings: (s: Partial<Settings>) => void;
   setGotoMode: (on: boolean) => void;
+  setAim: (aim: { unit: number; action: AimAction } | null) => void;
+  dismissNews: () => void;
+  answerRaze: (raze: boolean) => Promise<void>;
   showToast: (text: string | null) => void;
 }
 
@@ -83,15 +100,43 @@ export function idleUnits(s: Snapshot): number[] {
     .map((u) => u.id);
 }
 
+/** Headline cards for the big events of a batch. */
+function headlines(snapshot: Snapshot, events: readonly GameEvent[]): News[] {
+  const h = snapshot.human;
+  const out: News[] = [];
+  for (const e of events) {
+    const text = describeEvent(snapshot, e);
+    if (!text) continue;
+    if (e.type === 'warDeclared' && e.target === h) out.push({ kind: 'warDeclared', text });
+    else if (e.type === 'peaceMade' && e.target === h) out.push({ kind: 'peaceMade', text });
+    else if (e.type === 'cityCaptured' && e.player === h) out.push({ kind: 'cityCaptured', text, tile: e.tile });
+    else if (e.type === 'cityCaptured' && e.from === h) out.push({ kind: 'cityLost', text, tile: e.tile });
+    else if (e.type === 'cityDestroyed' && e.player === h) out.push({ kind: 'cityDestroyed', text, tile: e.tile });
+    else if (e.type === 'cityRaided' && e.player === h) out.push({ kind: 'cityRaided', text, tile: e.tile });
+    else if (e.type === 'nuclearStrike' && !e.stopped) out.push({ kind: 'nuclearStrike', text, tile: e.tile });
+    else if (e.type === 'leaderBorn' && e.player === h) out.push({ kind: 'leaderBorn', text, tile: e.tile });
+    else if (e.type === 'playerEliminated') out.push({ kind: 'playerEliminated', text });
+  }
+  return out.slice(0, 4);
+}
+
 export const useGame = create<Store>((set, get) => {
   const absorb = (snapshot: Snapshot, events: GameEvent[]) => {
     const entries = events
-      .filter((e) => !('player' in e) || e.player === snapshot.human)
+      .filter((e) => concernsHuman(e, snapshot.human))
       .flatMap((e) => {
         const text = describeEvent(snapshot, e);
         return text ? [{ turn: snapshot.state.turn, text, ...(e.reason ? { reason: e.reason } : {}), ...('tile' in e ? { tile: e.tile } : {}) }] : [];
       });
-    set((st) => ({ snapshot, lastEvents: events, log: [...st.log, ...entries].slice(-200) }));
+    const captured = events.find((e) => e.type === 'cityCaptured' && e.player === snapshot.human);
+    const fresh = headlines(snapshot, events);
+    set((st) => ({
+      snapshot,
+      lastEvents: events,
+      log: [...st.log, ...entries].slice(-200),
+      news: [...st.news, ...fresh].slice(-6),
+      ...(captured?.type === 'cityCaptured' && snapshot.state.cities[captured.city]?.owner === snapshot.human ? { razePrompt: captured.city } : {}),
+    }));
     playEvents(events, snapshot.human);
     const sel = get().selected;
     if (sel !== null && !snapshot.state.units[sel]) set({ selected: null });
@@ -106,13 +151,18 @@ export const useGame = create<Store>((set, get) => {
     toast: null,
     settings: readSettings(),
     gotoMode: false,
+    aim: null,
+    razePrompt: null,
+    news: [],
     panel: null,
     open(panel) {
-      set({ panel, gotoMode: false });
+      set({ panel, gotoMode: false, aim: null });
     },
     async newGame(options) {
-      set({ busy: true, log: [], selected: null, panel: null });
-      const snapshot = await host().newGame(options, 0);
+      set({ busy: true, log: [], selected: null, panel: null, news: [], razePrompt: null, aim: null });
+      let snapshot = await host().newGame(options, 0);
+      // Test scenarios (e2e and visual checks): ?scenario=skirmish.
+      if (new URLSearchParams(location.search).get('scenario') === 'skirmish') snapshot = await host().skirmish();
       set({ snapshot, busy: false, lastEvents: [] });
       get().selectNext();
     },
@@ -130,7 +180,7 @@ export const useGame = create<Store>((set, get) => {
     async endTurn() {
       if (get().busy) return;
       play('end-turn');
-      set({ busy: true, selected: null });
+      set({ busy: true, selected: null, aim: null, razePrompt: null });
       const r = await host().endTurn();
       absorb(r.snapshot, r.events);
       set({ busy: false });
@@ -152,7 +202,7 @@ export const useGame = create<Store>((set, get) => {
       }
     },
     select(id) {
-      set({ selected: id, gotoMode: false });
+      set({ selected: id, gotoMode: false, aim: null });
     },
     selectNext() {
       const s = get().snapshot;
@@ -179,7 +229,18 @@ export const useGame = create<Store>((set, get) => {
       }
     },
     setGotoMode(on) {
-      set({ gotoMode: on });
+      set({ gotoMode: on, aim: null });
+    },
+    setAim(aim) {
+      set({ aim, gotoMode: false });
+    },
+    dismissNews() {
+      set((st) => ({ news: st.news.slice(1) }));
+    },
+    async answerRaze(raze) {
+      const city = get().razePrompt;
+      set({ razePrompt: null });
+      if (raze && city !== null) await get().send({ type: 'razeCity', city });
     },
     showToast(text) {
       set({ toast: text });

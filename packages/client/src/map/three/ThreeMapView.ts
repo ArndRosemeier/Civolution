@@ -12,6 +12,7 @@ import { HeightField } from './heights.ts';
 import { loadResourceIcons, makeIconMaterial } from './icons.ts';
 import { makeInstancedMaterial, type ModelSet } from './models.ts';
 import { makeTerrainMaterial, type TerrainUniforms } from './terrainMaterial.ts';
+import { EffectLayer } from './effects.ts';
 import { UnitLayer } from './units.ts';
 import { makeRiverMaterial, makeWaterMaterial, type WaterUniforms } from './waterMaterial.ts';
 
@@ -33,6 +34,7 @@ export class ThreeMapView implements MapView {
   private hf: HeightField | null = null;
   private snapshot: MapSnapshot | null = null;
   private units: UnitLayer | null = null;
+  private effects = new EffectLayer(1);
   private cities: CityLayer | null = null;
   private readonly labelLayer: HTMLElement | null;
   private readonly onCityClick: (city: number) => void;
@@ -118,6 +120,10 @@ export class ThreeMapView implements MapView {
     }
     for (const w of this.water) this.world.remove(w);
     if (this.units) this.world.remove(this.units.group);
+    this.world.remove(this.effects.group);
+    this.effects.dispose();
+    this.effects = new EffectLayer(W);
+    this.world.add(this.effects.group);
     if (this.cities) {
       this.world.remove(this.cities.group);
       this.cities.dispose();
@@ -207,13 +213,56 @@ export class ThreeMapView implements MapView {
     this.cam.setDistance(16, true);
   }
 
-  update(snapshot: MapSnapshot, _events: readonly GameEvent[]): void {
+  update(snapshot: MapSnapshot, events: readonly GameEvent[]): void {
     if (!this.hf || snapshot.state.map.width !== this.snapshot?.state.map.width) {
       this.setGame(snapshot);
       return;
     }
+    this.battleEffects(snapshot, events);
+    this.units?.onEvents(events.filter((e) => this.seen(snapshot, e)), snapshot.state);
     this.snapshot = snapshot;
     this.refresh(snapshot);
+  }
+
+  /** Whether the human player could see where an event happened. */
+  private seen(snapshot: MapSnapshot, e: GameEvent): boolean {
+    const raw = 'tile' in e ? e.tile : 'from' in e ? e.from : -1;
+    const tile = typeof raw === 'number' ? raw : -1;
+    if (tile < 0) return true;
+    return snapshot.visible[tile] === 1 || (this.snapshot?.visible[tile] ?? 0) === 1;
+  }
+
+  private tileCentre(snapshot: MapSnapshot, tile: number): [number, number] {
+    const half = snapshot.state.map.width >> 1;
+    const z = Math.floor(tile / half);
+    return [2 * (tile % half) + (z & 1), z];
+  }
+
+  /** Flashes, shells and fireballs for the battles of a batch the player can see. */
+  private battleEffects(snapshot: MapSnapshot, events: readonly GameEvent[]): void {
+    const hf = this.hf;
+    if (!hf) return;
+    for (const e of events) {
+      if (!this.seen(snapshot, e)) continue;
+      if (e.type === 'combat') {
+        const [x, z] = this.tileCentre(snapshot, e.tile);
+        const heavy = this.rules.unit(e.attackerType).attack >= 8;
+        this.effects.clash(hf, x, z, heavy);
+      } else if (e.type === 'bombarded') {
+        const [fx, fz] = this.tileCentre(snapshot, e.from);
+        const [x, z] = this.tileCentre(snapshot, e.tile);
+        this.effects.shell(hf, fx, fz, x, z);
+      } else if (e.type === 'nuclearStrike' && !e.stopped) {
+        const [x, z] = this.tileCentre(snapshot, e.tile);
+        this.effects.nuke(hf, x, z);
+      } else if (e.type === 'defensiveBombard' || e.type === 'zoneOfControlAttack') {
+        const u = snapshot.state.units[e.unit] ?? this.snapshot?.state.units[e.unit];
+        if (u) {
+          const [x, z] = this.tileCentre(snapshot, u.tile);
+          this.effects.clash(hf, x, z, false);
+        }
+      }
+    }
   }
 
   private refresh(snapshot: MapSnapshot): void {
@@ -381,6 +430,16 @@ export class ThreeMapView implements MapView {
     this.cam.lookAt(this.nearX(x), y, instant);
   }
 
+  /** Screen position of a tile's centre (client pixels), for tests and overlays. */
+  screenOf(tile: number): { x: number; y: number } | null {
+    if (!this.hf || !this.snapshot) return null;
+    const [tx, tz] = this.tileCentre(this.snapshot, tile);
+    const x = this.nearX(tx);
+    const p = new THREE.Vector3(x, Math.max(0, this.hf.heightAt(x, tz)), tz).project(this.cam.camera);
+    const rect = this.canvas.getBoundingClientRect();
+    return { x: rect.left + ((p.x + 1) / 2) * rect.width, y: rect.top + ((1 - p.y) / 2) * rect.height };
+  }
+
   pick(clientX: number, clientY: number): number {
     if (!this.hf || !this.snapshot) return -1;
     const rect = this.canvas.getBoundingClientRect();
@@ -509,7 +568,9 @@ export class ThreeMapView implements MapView {
     const base = Math.floor(tx / W) * W;
     this.water.forEach((w, i) => (w.position.x = base + (i - 1) * W));
     this.showcase.position.x = Math.round((tx - W / 2) / W) * W;
+    this.units!.setCameraQuaternion(this.cam.camera.quaternion);
     this.units!.update(dt, this.hf, tx, this.cam.distance, this.time);
+    this.effects.update(dt, tx);
     this.cities!.update(this.hf, this.cam.camera, tx, this.cam.distance, this.canvas);
     this.placeHover();
     // Shadows follow the view and switch off at strategic zoom.
@@ -540,6 +601,7 @@ export class ThreeMapView implements MapView {
     cancelAnimationFrame(this.raf);
     for (const c of this.chunks) c.dispose();
     this.cities?.dispose();
+    this.effects.dispose();
     this.renderer.dispose();
   }
 }

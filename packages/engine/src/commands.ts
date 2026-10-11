@@ -24,6 +24,8 @@ export type Command =
   | (Base & { type: 'buildArmy'; unit: number })
   | (Base & { type: 'joinArmy'; unit: number; army: number })
   | (Base & { type: 'leaderHurry'; unit: number })
+  /** Burns a city taken this turn to the ground. */
+  | (Base & { type: 'razeCity'; city: number })
   | (Base & { type: 'declareWar'; target: number })
   | (Base & { type: 'makePeace'; target: number })
   | (Base & { type: 'goto'; unit: number; to: number })

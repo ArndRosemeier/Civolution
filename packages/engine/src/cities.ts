@@ -58,6 +58,7 @@ export function newCity(rules: Rules, state: GameState, owner: number, tile: num
     forcedLabor: [],
     hurried: false,
     wonderUnitTimer: 0,
+    capturedOn: null,
   };
 }
 

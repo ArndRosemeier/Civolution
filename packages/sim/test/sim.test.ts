@@ -1,3 +1,4 @@
+import { Worker } from 'node:worker_threads';
 import { describe, expect, it } from 'vitest';
 import { indexRules, stateHash } from '@civolution/engine';
 import { conquests } from '@civolution/rules';
@@ -90,16 +91,23 @@ describe('headless games', () => {
     expect(stateHash(replay(rules, game, log))).toBe(stateHash(state));
   }, 240_000);
 
-  it('plays a full game on a Standard map from start to finish (Phase 8 exit criterion)', () => {
+  it('plays a full game on a Standard map from start to finish (Phase 8 exit criterion)', async () => {
     // Eight AI civilizations, every rule on, invariants checked every turn, until the game is decided (by turn 540 at the latest).
-    const game = { seed: 8, map: { worldSize: 'standard' }, players: defaultPlayers(8, civsForSeed(rules, 8, 8)), difficulty: 'monarch' };
-    const { state, report } = runGame({ rules, game, controllers: Array.from({ length: 8 }, () => ai), turns: rules.set.general.lastTurn + 1, until: (s) => s.victory !== null });
-    expect(report.invariantFailures).toEqual([]);
-    expect(state.victory).not.toBeNull();
-    expect(state.turn).toBeLessThanOrEqual(rules.set.general.lastTurn + 1);
+    // The game runs in a worker thread so the test runner is not starved for a minute.
+    const r = await new Promise<{ victory: unknown; turn: number; lastTurn: number; invariantFailures: unknown[]; refusals: Record<string, number>; commands: number }>((done, fail) => {
+      const w = new Worker(new URL('./fullgame.worker.ts', import.meta.url), { execArgv: ['--import', 'tsx'] });
+      w.once('message', (m) => {
+        done(m);
+        void w.terminate();
+      });
+      w.once('error', fail);
+    });
+    expect(r.invariantFailures).toEqual([]);
+    expect(r.victory).not.toBeNull();
+    expect(r.turn).toBeLessThanOrEqual(r.lastTurn + 1);
     // Gotos towards land the unit cannot reach are refused and cost nothing; anything else refused would point at an AI that misreads the rules.
-    const misread = Object.entries(report.refusals).filter(([k]) => !k.startsWith('goto: No known route'));
-    expect(misread.reduce((a, [, n]) => a + n, 0)).toBeLessThan(report.commands / 500);
+    const misread = Object.entries(r.refusals).filter(([k]) => !k.startsWith('goto: No known route'));
+    expect(misread.reduce((a, [, n]) => a + n, 0)).toBeLessThan(r.commands / 500);
   }, 600_000);
 
   it('beats a passive player at Monarch (Phase 4 exit criterion)', () => {

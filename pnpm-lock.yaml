@@ -39,6 +39,16 @@ importers:
         specifier: ^4.1.0
         version: 4.6.5
 
+  packages/engine:
+    dependencies:
+      '@civolution/data-schema':
+        specifier: workspace:*
+        version: link:../data-schema
+    devDependencies:
+      '@civolution/rules':
+        specifier: workspace:*
+        version: link:../rules
+
   packages/importer:
     dependencies:
       '@civolution/data-schema':

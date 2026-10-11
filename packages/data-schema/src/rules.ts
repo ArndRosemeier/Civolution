@@ -147,7 +147,7 @@ export const ExperienceLevelRuleSchema = z.strictObject({
   retreatChance: percent,
 });
 
-export const GeneralRulesSchema = z.strictObject({
+export const CuratedGeneralSchema = z.strictObject({
   /** Movement thirds: a road move costs 1 / roadMovementRate movement points. */
   roadMovementRate: z.int().positive(),
   foodPerCitizen: nonNeg,
@@ -164,7 +164,7 @@ export const GeneralRulesSchema = z.strictObject({
 
 export const RuleSetSchema = z.strictObject({
   meta: z.strictObject({ id, name: z.string(), basedOn: z.string(), version: nonNeg }),
-  general: GeneralRulesSchema,
+  general: CuratedGeneralSchema,
   eras: z.array(EraRuleSchema),
   terrains: z.array(TerrainRuleSchema),
   resources: z.array(ResourceRuleSchema),
@@ -184,4 +184,4 @@ export type UnitRule = z.infer<typeof UnitRuleSchema>;
 export type TechRule = z.infer<typeof TechRuleSchema>;
 export type GovernmentRule = z.infer<typeof GovernmentRuleSchema>;
 export type WorldSizeRule = z.infer<typeof WorldSizeRuleSchema>;
-export type GeneralRules = z.infer<typeof GeneralRulesSchema>;
+export type GeneralRules = z.infer<typeof CuratedGeneralSchema>;

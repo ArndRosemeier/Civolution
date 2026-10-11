@@ -4,6 +4,7 @@
  * parts it touches: the state object once, each touched unit, player or map array once.
  */
 import type { GameEvent } from './commands.ts';
+import { invalidateTileOwners } from './queries.ts';
 import { nextInt } from './rng.ts';
 import type { GameState, MapState, Player, Unit, WorkProgress } from './state.ts';
 
@@ -89,12 +90,15 @@ export function beginTx(input: GameState, reason?: string): Tx {
       const unit: Unit = { id, ...u };
       units()[id] = unit;
       touchedUnits.add(id);
+      invalidateTileOwners(state);
       return unit;
     },
     removeUnit(id) {
       const us = units();
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete -- records keyed by id
       delete us[id];
       touchedUnits.delete(id);
+      invalidateTileOwners(state);
     },
     setWork(tile, w) {
       if (!workCopied) {
@@ -102,6 +106,7 @@ export function beginTx(input: GameState, reason?: string): Tx {
         workCopied = true;
       }
       if (w) state.work[tile] = w;
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete -- records keyed by tile
       else delete state.work[tile];
     },
     random(n) {

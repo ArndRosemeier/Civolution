@@ -2,7 +2,7 @@
  * Test vectors for tribal villages (docs/rules/turns.md; owner's ruling 2026-10-11).
  */
 import { describe, expect, it } from 'vitest';
-import { apply, FLAG_HUT, HUT_ODDS, invalidateCaches, type GameState, type HutOutcome } from '../src/index.ts';
+import { apply, eraFor, FLAG_HUT, HUT_ODDS, invalidateCaches, requiredTechs, type GameState, type HutOutcome } from '../src/index.ts';
 import { seedRng } from '../src/rng.ts';
 import { at, flatGame, place, rules, run } from './helpers.ts';
 
@@ -57,6 +57,18 @@ describe('tribal villages', () => {
     // Only the table's own 1 % may be nothing.
     expect(share(xs, 'empty')).toBeLessThan(0.05);
     expect(share(xs, 'gold')).toBeGreaterThan(0.2);
+  });
+
+  it('give 25 gold in the first era and at most 50 later', () => {
+    const gold = (xs: { outcome: HutOutcome }[]) => xs.flatMap((x) => (x.outcome.kind === 'gold' ? [x.outcome.amount] : []));
+    const early = gold(outcomes(setup(undefined, 3), 200));
+    expect(early.length).toBeGreaterThan(0);
+    expect(new Set(early)).toEqual(new Set([25]));
+    const later = setup(undefined, 3);
+    later.players[0]!.techs = [...requiredTechs(rules, rules.set.eras[0]!.id)];
+    expect(eraFor(rules, later.players[0]!.techs)).toBe(1);
+    const amounts = new Set(gold(outcomes(later, 300)));
+    expect(amounts).toEqual(new Set([25, 50]));
   });
 
   it('never hold barbarians for an expansionist civilization', () => {

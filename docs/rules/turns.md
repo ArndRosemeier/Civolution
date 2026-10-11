@@ -37,7 +37,7 @@ Entering a village with a land unit opens it once (`enterHut` in
 | Weight | Outcome |
 |---|---|
 | 70 | 1–2 barbarian warriors next to the village |
-| 10 | gold: 25, 50 or 75 |
+| 10 | gold: 25 in the first era, 25 or 50 later, never more (source: owner's ruling 2026-10-11) |
 | 6 | a free advance: one of the three cheapest the player can research (not a starting one) |
 | 5 | a free unit: the civilization's Warrior (or its unique unit in that place) |
 | 4 | a map of the tiles within 6 |

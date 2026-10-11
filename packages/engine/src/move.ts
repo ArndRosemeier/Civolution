@@ -12,7 +12,7 @@ import { checkMove, zocUnits } from './movement.ts';
 import { findPath } from './pathfind.ts';
 import { invalidateTileOwners } from './queries.ts';
 import type { Rules } from './rules.ts';
-import { researchBlocker } from './science.ts';
+import { eraFor, researchBlocker } from './science.ts';
 import { FLAG_CAMP, FLAG_HUT, IMP_FORTRESS, type Unit } from './state.ts';
 import { cityAt } from './territory.ts';
 import type { Tx } from './tx.ts';
@@ -151,7 +151,8 @@ function enterHut(rules: Rules, tx: Tx, unitId: number, tile: number): void {
     }
     outcome = { kind: 'barbarians', units: count };
   } else if (kind === 'gold') {
-    const amount = 25 * (1 + tx.random(3));
+    // 25 gold in the first era, 25 or 50 later, never more (owner's ruling 2026-10-11).
+    const amount = eraFor(rules, p.techs) === 0 ? 25 : 25 * (1 + tx.random(2));
     tx.player(u.owner).gold = p.gold + amount;
     outcome = { kind: 'gold', amount };
   } else if (kind === 'tech') {

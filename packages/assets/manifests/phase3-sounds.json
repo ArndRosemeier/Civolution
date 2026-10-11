@@ -1,0 +1,33 @@
+{
+  "$comment": "Phase 3 sound effects (ByteDance Seed Audio on OpenRouter). Run: OPEN_ROUTER_KEY=... pnpm --filter @civolution/assets sounds -- --manifest manifests/phase3-sounds.json. Prompts get a 'The sound of' prefix automatically.",
+  "model": "bytedance-seed/seed-audio-1-0",
+  "outDir": "packages/client/public/audio",
+  "items": [
+    { "id": "attack-melee", "prompt": "a short clash of bronze swords and wooden shields, two or three heavy blows and a battle shout without words, about two seconds", "variations": 3 },
+    { "id": "attack-archery", "prompt": "a volley of arrows released from several bows, strings twanging and arrows whistling through the air before thudding into wood, about two seconds", "variations": 3 },
+    { "id": "attack-mounted", "prompt": "a cavalry charge: galloping hooves on hard ground, a horse neighing and a clash of lances, about two seconds", "variations": 3 },
+    { "id": "attack-gunpowder", "prompt": "a ragged musket volley with black powder cracks and echoing smoke, about two seconds", "variations": 3 },
+    { "id": "attack-rifle", "prompt": "a burst of rifle and machine gun fire across a battlefield, distant and punchy, about two seconds", "variations": 3 },
+    { "id": "attack-armour", "prompt": "a tank's main gun firing with a deep boom, followed by clanking tracks and a diesel engine roaring, about two seconds", "variations": 3 },
+    { "id": "attack-artillery", "prompt": "a heavy siege weapon or cannon firing: a deep thump, a whistle and a distant explosion, about two seconds", "variations": 3 },
+    { "id": "attack-naval", "prompt": "a broadside of ship cannons over open water, booming shots and splashes, with creaking timber, about two seconds", "variations": 3 },
+    { "id": "attack-air", "prompt": "a combat aircraft diving past at speed with a jet roar and a burst of cannon fire, about two seconds", "variations": 3 },
+    { "id": "battle-won", "prompt": "a short triumphant brass fanfare of three rising notes with a snare roll, about two seconds", "variations": 2 },
+    { "id": "battle-lost", "prompt": "a low mournful horn note over a slow muffled drum, about two seconds", "variations": 2 },
+    { "id": "bombard", "prompt": "a distant artillery barrage: several deep booms, whistling shells and crumbling stone, about three seconds", "variations": 3 },
+    { "id": "aircraft", "prompt": "a propeller bomber formation droning overhead and fading into the distance, about three seconds", "variations": 2 },
+    { "id": "dogfight", "prompt": "two fighter planes in a dogfight, engines screaming, short machine gun bursts and a plane spiralling down, about three seconds", "variations": 2 },
+    { "id": "nuclear-blast", "prompt": "a colossal nuclear explosion: a blinding crack, a long rolling thunderous roar and a rushing shock wave of wind, about five seconds", "variations": 1 },
+    { "id": "missile-intercepted", "prompt": "a missile streaking upward and a sharp mid-air explosion high in the sky, followed by debris whistling away, about three seconds", "variations": 1 },
+    { "id": "war-declared", "prompt": "deep war drums pounding with a long ominous horn call and a crowd of soldiers roaring without words, about three seconds", "variations": 2 },
+    { "id": "peace", "prompt": "gentle church bells ringing over a quiet town with birdsong, calm and relieved, about three seconds", "variations": 2 },
+    { "id": "city-captured", "prompt": "a city gate being forced open with a heavy crash, then marching boots and a victorious horn call, about three seconds", "variations": 2 },
+    { "id": "city-destroyed", "prompt": "a great fire crackling and roaring as wooden buildings collapse and stone walls crumble, about three seconds", "variations": 2 },
+    { "id": "leader-born", "prompt": "a heroic brass fanfare rising over a cheering army without words, about three seconds", "variations": 1 },
+    { "id": "promotion", "prompt": "a short bright bugle call with a metal medal clinking, about one second", "variations": 2 },
+    { "id": "pillage", "prompt": "soldiers smashing wooden fences and tearing up a stone road with axes and crowbars, about two seconds", "variations": 2 },
+    { "id": "capture", "prompt": "heavy iron chains rattling and a prisoner cart creaking away, about two seconds", "variations": 2 },
+    { "id": "board-ship", "prompt": "soldiers' boots on a wooden gangplank, creaking ship timbers and lapping water, about two seconds", "variations": 2 },
+    { "id": "barbarian-horn", "prompt": "a rough barbarian war horn blowing from distant hills with faint wild drumming, about three seconds", "variations": 2 }
+  ]
+}

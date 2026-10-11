@@ -92,7 +92,10 @@ export function ForeignAdvisor({ onClose }: { onClose: () => void }) {
                   </td>
                   <td>{knownCamps} known camp{knownCamps === 1 ? '' : 's'}</td>
                   <td>
-                    <span className="badge war">Always hostile</span>
+                    <span className="badge war">
+                      <img src={`${import.meta.env.BASE_URL}art/war/barbarians.png`} alt="" onError={(e) => (e.currentTarget.style.display = 'none')} />
+                      Always hostile
+                    </span>
                   </td>
                   <td>—</td>
                   <td className="muted small">Activity: {state.settings.barbarians}</td>

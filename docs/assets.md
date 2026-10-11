@@ -23,8 +23,19 @@ then copy `assets/out/civ_*.glb` to `packages/client/public/models/`.
 
 | Model | Used for |
 |---|---|
-| civ_unit_warrior, spearman, archer, settler, worker, scout, explorer | foot units (other land units borrow the warrior until their own models exist) |
-| civ_unit_galley | ships |
+| civ_unit_warrior, spearman, archer, settler, worker, scout, explorer | early foot units (`civ.figure`) |
+| civ_unit_swordsman, pikeman, longbowman, medieval_infantry, musketman, rifleman, infantry, marine, paratrooper | foot soldiers from the Bronze Age to today (`civ.figure`) |
+| civ_unit_leader, army | great leader with banner; army of three round a standard (`civ.figure`) |
+| civ_unit_horseman, chariot, knight, cavalry | mounted units (`civ.mounted`) |
+| civ_unit_catapult, trebuchet, cannon, artillery | siege and artillery (`civ.siege`) |
+| civ_unit_tank, modern_armor, mech_infantry, mobile_sam | vehicles (`civ.vehicle`) |
+| civ_unit_galley, caravel, galleon, frigate, ironclad, transport, destroyer, battleship, carrier, submarine | ships (`civ.ship`) |
+| civ_unit_fighter, jet_fighter, bomber, stealth_bomber, helicopter, cruise_missile, nuclear_missile | aircraft and missiles (`civ.aircraft`) |
+| civ_barbarian_camp, civ_fx_crater | barbarian camps, nuclear craters (`civ.settlement`, `civ.fx`) |
+
+`tools/models/unit-models.json` maps every unit type of the rule set to its model (unique
+units borrow the closest one) and gives each model its in-game size (`_fit`); the client
+reads it directly.
 | civ_city_ancient | benchmark showcase |
 | civ_city_{ancient,medieval,industrial,modern}_{town,city,metro} | cities on the map, by the owner's era and the city's size class (generator `civ.city`) |
 | civ_tribal_village | tribal villages |
@@ -67,6 +78,17 @@ without it the model reads the words aloud.
 ```bash
 OPEN_ROUTER_KEY=… pnpm --filter @civolution/assets sounds -- --manifest manifests/phase2-sounds.json
 ```
+
+`manifests/phase3.json` (19 items, written by `pnpm --filter @civolution/assets manifest:phase3`):
+portraits for the scout, great leader and army, experience badges (`art/experience`), war,
+peace and barbarian emblems (`art/war`), and headline illustrations for war news
+(`art/news/*.jpg`, 16:9).
+
+`manifests/phase3-sounds.json`: 26 sounds, 59 clips: an attack sound per unit family
+(melee, archery, mounted, gunpowder, rifle, armour, artillery, naval, air), battle won and
+lost, bombardment, aircraft, dogfight, nuclear blast and missile interception, war declared,
+peace, city captured and destroyed, great leader, promotion, pillage, capture, boarding,
+barbarian horn.
 
 `manifests/phase2-sounds.json`: 20 sounds, 42 clips (city founded and grown, building,
 unit and wonder complete, tech and era, disorder and celebration, revolution, borders,

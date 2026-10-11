@@ -224,7 +224,9 @@ export function UnitPanel() {
         <div>
           <h3>{rule.name}</h3>
           <span className="muted">
-            {owner.name} · {u.experience[0]!.toUpperCase() + u.experience.slice(1)}
+            {owner.name} ·{' '}
+            <img className="rank" src={`${import.meta.env.BASE_URL}art/experience/${u.experience}.png`} alt="" onError={(e) => (e.currentTarget.style.display = 'none')} />
+            {u.experience[0]!.toUpperCase() + u.experience.slice(1)}
           </span>
         </div>
         <div className="stats" title="Attack / Defence / Movement">

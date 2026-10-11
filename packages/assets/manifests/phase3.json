@@ -1,0 +1,262 @@
+{
+  "$comment": "Phase 3 art, written by scripts/phase3-manifest.ts. Generate with: OPEN_ROUTER_KEY=... pnpm --filter @civolution/assets gen -- --manifest manifests/phase3.json. Reuses the Phase 1 style bible as the reference image.",
+  "modelPreference": [
+    "meta/muse-image",
+    "openai/gpt-image-2",
+    "google/gemini-2.5-flash-image",
+    "google/gemini-3-pro-image-preview",
+    "openai/gpt-image-1",
+    "black-forest-labs/flux-1.1-pro"
+  ],
+  "styleBible": {
+    "id": "styleBible",
+    "prompt": "A style reference sheet (no text) for a game's art direction. Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Show, arranged on one sheet: a small coastal landscape vignette with grassland, forest, hills and a snowy mountain; three round game icons (a wheat sheaf, a horse head, a gemstone) on medallions with bronze rims; a colour swatch row of the palette.",
+    "aspectRatio": "16:9",
+    "out": "packages/client/public/art/style-bible.png",
+    "post": {
+      "resize": 1600
+    },
+    "references": []
+  },
+  "styleSuffix": "Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+  "items": [
+    {
+      "id": "unit-scout",
+      "prompt": "Game portrait of a unit: a lightly equipped scout in a hooded travelling cloak with a walking staff and a horn at the belt, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/units/scout.png",
+      "post": {
+        "resize": 160,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "unit-leader",
+      "prompt": "Game portrait of a unit: a great general in a plumed helmet and flowing cape, raising a sword beside a tall banner, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/units/leader.png",
+      "post": {
+        "resize": 160,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "unit-army",
+      "prompt": "Game portrait of a unit: a tight formation of three soldiers, a swordsman, a spearman and an archer, gathered round a tall standard, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and a thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. No text. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/units/army.png",
+      "post": {
+        "resize": 160,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "experience-conscript",
+      "prompt": "Small military rank badge: a single plain bronze chevron, centered on a round dark navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Simple, bold, readable at very small size. No text, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/experience/conscript.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "experience-regular",
+      "prompt": "Small military rank badge: two polished bronze chevrons, centered on a round dark navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Simple, bold, readable at very small size. No text, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/experience/regular.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "experience-veteran",
+      "prompt": "Small military rank badge: three silver chevrons with a small laurel sprig, centered on a round dark navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Simple, bold, readable at very small size. No text, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/experience/veteran.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "experience-elite",
+      "prompt": "Small military rank badge: three golden chevrons under a golden star, framed by a laurel wreath, centered on a round dark navy enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Simple, bold, readable at very small size. No text, no numbers. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/experience/elite.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "emblem-war",
+      "prompt": "Heraldic emblem: two crossed swords over a red shield, centered on a round medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold and readable at small size. No text. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/war/war.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "emblem-peace",
+      "prompt": "Heraldic emblem: a white dove carrying an olive branch over a blue shield, centered on a round medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold and readable at small size. No text. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/war/peace.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "emblem-barbarians",
+      "prompt": "Heraldic emblem: a crude horned helmet over two crossed axes on a dark red hide, centered on a round medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold and readable at small size. No text. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/war/barbarians.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-warDeclared",
+      "prompt": "Painted illustration for a headline in a strategy game: a war council at dusk: a commander pointing at a map table while banners are raised and horns are blown outside the tent. Wide cinematic composition, dramatic but not gory, no close-up faces. No text, no letters, no lettering on banners. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/warDeclared.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-peaceMade",
+      "prompt": "Painted illustration for a headline in a strategy game: two envoys clasping hands in a sunlit courtyard while soldiers lower their spears and a dove flies overhead. Wide cinematic composition, dramatic but not gory, no close-up faces. No text, no letters, no lettering on banners. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/peaceMade.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-cityCaptured",
+      "prompt": "Painted illustration for a headline in a strategy game: victorious soldiers marching through the open gate of a conquered walled city, their banners raised on the towers. Wide cinematic composition, dramatic but not gory, no close-up faces. No text, no letters, no lettering on banners. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/cityCaptured.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-cityLost",
+      "prompt": "Painted illustration for a headline in a strategy game: a walled city at dusk with foreign banners rising over its towers while its defenders retreat across the fields. Wide cinematic composition, dramatic but not gory, no close-up faces. No text, no letters, no lettering on banners. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/cityLost.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-cityDestroyed",
+      "prompt": "Painted illustration for a headline in a strategy game: the smoking ruins of a razed city, broken walls and charred beams under a grey sky. Wide cinematic composition, dramatic but not gory, no close-up faces. No text, no letters, no lettering on banners. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/cityDestroyed.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-cityRaided",
+      "prompt": "Painted illustration for a headline in a strategy game: barbarian horsemen galloping away from a burning town gate with sacks of loot. Wide cinematic composition, dramatic but not gory, no close-up faces. No text, no letters, no lettering on banners. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/cityRaided.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-nuclearStrike",
+      "prompt": "Painted illustration for a headline in a strategy game: a distant mushroom cloud rising over a city skyline seen from far-off hills at dawn. Wide cinematic composition, dramatic but not gory, no close-up faces. No text, no letters, no lettering on banners. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/nuclearStrike.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-leaderBorn",
+      "prompt": "Painted illustration for a headline in a strategy game: a battle-scarred general raised on the shields of cheering soldiers on a misty battlefield. Wide cinematic composition, dramatic but not gory, no close-up faces. No text, no letters, no lettering on banners. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/leaderBorn.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "news-playerEliminated",
+      "prompt": "Painted illustration for a headline in a strategy game: a fallen royal banner lying torn in the mud of a deserted battlefield at sunset. Wide cinematic composition, dramatic but not gory, no close-up faces. No text, no letters, no lettering on banners. Landscape image.",
+      "aspectRatio": "16:9",
+      "out": "packages/client/public/art/news/playerEliminated.jpg",
+      "post": {
+        "resize": 640
+      },
+      "references": [
+        "styleBible"
+      ]
+    }
+  ]
+}

@@ -274,3 +274,10 @@ img.thumb {
 .whats-new li + li {
   margin-top: 3px;
 }
+
+img.rank {
+  width: 16px;
+  height: 16px;
+  vertical-align: -3px;
+  margin-right: 3px;
+}

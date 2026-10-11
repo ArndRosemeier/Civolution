@@ -42,6 +42,9 @@ export function isCommonUnit(rules: Rules, id: string): boolean {
   const u = rules.unit(id);
   if (u.shieldCost <= 0) return false;
   if (u.aiRoles.includes('leader') || u.aiRoles.includes('army')) return false;
+  // A second entry with an already-used name (Rifleman, Infantry, …) is a variant the game
+  // creates itself (drafted units), not something cities build.
+  if (/\d$/.test(id)) return false;
   return popcount(u.availableToMask & ~1) >= 16;
 }
 

@@ -38,6 +38,12 @@ importers:
 
   packages/assets:
     dependencies:
+      '@civolution/engine':
+        specifier: workspace:*
+        version: link:../engine
+      '@civolution/rules':
+        specifier: workspace:*
+        version: link:../rules
       sharp:
         specifier: ^0.34.5
         version: 0.34.5

@@ -137,13 +137,17 @@ export function CityScreen({ cityId, onClose }: { cityId: number; onClose: () =>
             <h3>Work area</h3>
             <TileMap city={city} onTile={toggleTile} />
             <div className="citizens">
-              {Array.from({ length: report.happy }, (_, i) => <span key={`h${i}`} className="citizen happy" title="Happy" />)}
-              {Array.from({ length: report.content }, (_, i) => <span key={`c${i}`} className="citizen content" title="Content" />)}
-              {Array.from({ length: report.unhappy }, (_, i) => <span key={`u${i}`} className="citizen unhappy" title="Unhappy" />)}
+              {(['happy', 'content', 'unhappy'] as const).flatMap((mood) =>
+                Array.from({ length: report[mood] }, (_, i) => (
+                  <span key={`${mood}${i}`} className={`citizen ${mood}`} title={mood[0]!.toUpperCase() + mood.slice(1)}>
+                    <img src={art(`people/${mood}.png`)} alt="" onError={(e) => (e.currentTarget.style.display = 'none')} />
+                  </span>
+                )),
+              )}
               {Object.entries(city.specialists).flatMap(([s, n]) =>
                 Array.from({ length: n }, (_, i) => (
                   <button key={`${s}${i}`} className={`citizen specialist ${s}`} title={`${rules.specialist(s).name}: click to change`} onClick={() => cycleSpecialist(s)}>
-                    {rules.specialist(s).name[0]}
+                    <img src={art(`people/${s}.png`)} alt={rules.specialist(s).name[0]} onError={(e) => (e.currentTarget.replaceWith(rules.specialist(s).name[0]!))} />
                   </button>
                 )),
               )}

@@ -7,6 +7,7 @@ import { playerCities, playerUnits, researchableTechs, type Command, type GameEv
 import { rules } from './rules.ts';
 import { host, type Snapshot } from './host/client.ts';
 import { describeEvent } from './ui/describe.ts';
+import { play, playEvents } from './audio.ts';
 
 /** A command without its player; the store fills in the human player. */
 export type CommandInput = Command extends infer C ? (C extends Command ? Omit<C, 'player'> : never) : never;
@@ -91,6 +92,7 @@ export const useGame = create<Store>((set, get) => {
         return text ? [{ turn: snapshot.state.turn, text, ...(e.reason ? { reason: e.reason } : {}), ...('tile' in e ? { tile: e.tile } : {}) }] : [];
       });
     set((st) => ({ snapshot, lastEvents: events, log: [...st.log, ...entries].slice(-200) }));
+    playEvents(events, snapshot.human);
     const sel = get().selected;
     if (sel !== null && !snapshot.state.units[sel]) set({ selected: null });
   };
@@ -127,6 +129,7 @@ export const useGame = create<Store>((set, get) => {
     },
     async endTurn() {
       if (get().busy) return;
+      play('end-turn');
       set({ busy: true, selected: null });
       const r = await host().endTurn();
       absorb(r.snapshot, r.events);

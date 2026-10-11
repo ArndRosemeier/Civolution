@@ -8,7 +8,7 @@
  */
 import { registerCache } from './caches.ts';
 import { yearsBetween } from './calendar.ts';
-import { connectedToCapital, empireInfo, cityResources, type EmpireInfo } from './empire.ts';
+import { empireInfo, cityResources, type EmpireInfo } from './empire.ts';
 import { neighbours } from './grid.ts';
 import { hasFreshWaterAccess, unitsAt } from './queries.ts';
 import type { Rules } from './rules.ts';
@@ -212,15 +212,15 @@ export function corruptionRate(rules: Rules, state: GameState, city: City, info:
   else if (level === 'communal') parts.push({ label: `${gov.name}: the same everywhere`, amount: 30 });
   else {
     const maxDist = Math.max(1, (state.map.width + state.map.height) >> 2);
-    const connected = connectedToCapital(info, city);
+    // Distance counts as it is whether or not the city is linked to the capital (owner's ruling).
     const rawDist = info.seatDistance.get(city.id) ?? Infinity;
-    const dist = !connected || !Number.isFinite(rawDist) ? maxDist : Math.min(maxDist, rawDist);
+    const dist = !Number.isFinite(rawDist) ? maxDist : Math.min(maxDist, rawDist);
     const rank = info.rank.get(city.id) ?? 0;
     const distPart = level === 'minimal' ? 0 : Math.floor((50 * dist) / maxDist);
     const rankPart = Math.floor((50 * Math.min(rank, info.ocn)) / info.ocn) + (rank > info.ocn ? Math.floor((50 * (rank - info.ocn)) / info.ocn) : 0);
     const base = Math.min(100, distPart + rankPart);
     const scale = { minimal: 40, nuisance: 60, problematic: 75, rampant: 90 }[level];
-    const distLabel = connected ? `Distance ${Number.isFinite(rawDist) ? rawDist : '—'} to the seat of government` : 'Not connected to the capital';
+    const distLabel = `Distance ${Number.isFinite(rawDist) ? rawDist : '—'} to the seat of government`;
     if (distPart > 0) parts.push({ label: distLabel, amount: Math.floor((distPart * scale) / 100) });
     if (rankPart > 0) parts.push({ label: `Rank ${rank} of ${info.ocn} optimal cities`, amount: Math.floor((rankPart * scale) / 100) });
     if (base === 0) parts.push({ label: 'Close to the seat of government', amount: 0 });

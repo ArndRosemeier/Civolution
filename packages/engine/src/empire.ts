@@ -219,9 +219,9 @@ const routeCache = new WeakMap<GameState, Map<string, boolean>>();
 registerCache((s) => routeCache.delete(s));
 
 /**
- * Whether a trade route joins the capitals of `a` and `b` (docs/rules/trade.md): roads,
- * railroads and rivers through either civilization's territory or unclaimed land, and
- * the sea between harbour cities of either side. Resources only change hands along one.
+ * Whether a trade route joins the capitals of `a` and `b` (docs/rules/trade.md): roads
+ * and railroads (not rivers) through either civilization's territory or unclaimed land,
+ * and the sea between harbour cities of either side. Resources only change hands along one.
  */
 export function tradeRoute(rules: Rules, state: GameState, a: number, b: number): boolean {
   let perState = routeCache.get(state);
@@ -265,7 +265,7 @@ function computeRoute(rules: Rules, state: GameState, a: number, b: number): boo
   const harbour = (c: City) => waterTrade(rules, Object.keys(c.buildings));
   const land = (t: number) => {
     const o = m.territory[t]!;
-    return cityTile.has(t) || ((o === a || o === b || o === -1) && ((m.improvements[t]! & (IMP_ROAD | IMP_RAIL)) !== 0 || m.rivers[t] !== 0));
+    return cityTile.has(t) || ((o === a || o === b || o === -1) && (m.improvements[t]! & (IMP_ROAD | IMP_RAIL)) !== 0);
   };
   const seen = new Uint8Array(m.terrain.length);
   const waterSeen = new Uint8Array(m.terrain.length);
@@ -301,8 +301,7 @@ function computeRoute(rules: Rules, state: GameState, a: number, b: number): boo
       const j = neighbour(m, t, dir);
       if (j < 0 || seen[j] || !land(j)) continue;
       const roadLink = (m.improvements[t]! | (cityTile.has(t) ? IMP_ROAD : 0)) & (m.improvements[j]! | (cityTile.has(j) ? IMP_ROAD : 0)) & (IMP_ROAD | IMP_RAIL);
-      const riverLink = m.rivers[t] !== 0 && m.rivers[j] !== 0;
-      if (!roadLink && !riverLink) continue;
+      if (!roadLink) continue;
       seen[j] = 1;
       stack.push(j);
     }
@@ -311,9 +310,9 @@ function computeRoute(rules: Rules, state: GameState, a: number, b: number): boo
 }
 
 /**
- * The trade network (docs/rules/trade.md): cities are connected by roads, railroads and
- * rivers through tiles that are not foreign territory, and harbour cities by water they
- * can sail (coast always, sea with a sea-trade tech, ocean with an ocean-trade tech).
+ * The trade network (docs/rules/trade.md): cities are connected by roads and railroads
+ * (not rivers) through tiles that are not foreign territory, and harbour cities by water
+ * they can sail (coast always, sea with a sea-trade tech, ocean with an ocean-trade tech).
  * A strategic or luxury resource in the player's territory joins the network of the road
  * or city work area it lies in.
  */
@@ -333,7 +332,7 @@ function tradeNetwork(
   for (const c of cities) cityTile.set(c.tile, c);
   const isNode = (t: number) =>
     cityTile.has(t) ||
-    ((m.territory[t] === player || m.territory[t] === -1) && ((m.improvements[t]! & (IMP_ROAD | IMP_RAIL)) !== 0 || m.rivers[t] !== 0));
+    ((m.territory[t] === player || m.territory[t] === -1) && (m.improvements[t]! & (IMP_ROAD | IMP_RAIL)) !== 0);
   const seaOk = hasTechFlag(rules, p, 'enablesSeaTrade');
   const oceanOk = hasTechFlag(rules, p, 'enablesOceanTrade');
   const sailable = (t: number) => {
@@ -379,8 +378,7 @@ function tradeNetwork(
         const j = neighbour(m, t, dir);
         if (j < 0 || comp[j] !== -1 || !isNode(j)) continue;
         const roadLink = (m.improvements[t]! | (cityTile.has(t) ? IMP_ROAD : 0)) & (m.improvements[j]! | (cityTile.has(j) ? IMP_ROAD : 0)) & (IMP_ROAD | IMP_RAIL);
-        const riverLink = m.rivers[t] !== 0 && m.rivers[j] !== 0;
-        if (!roadLink && !riverLink) continue;
+        if (!roadLink) continue;
         comp[j] = id;
         stack.push(j);
       }

@@ -145,14 +145,12 @@ function ownCity(state: GameState, cmd: { player: number; city: number }): City 
 
 const isFail = (x: unknown): x is Fail => typeof x === 'object' && x !== null && 'error' in x;
 
-/** Switches the build, applying the category-change penalty (docs/rules/production.md). */
+/** Switches the build; the shields in the box are kept whatever the new build (docs/rules/production.md). */
 function switchBuild(rules: Rules, tx: Tx, cityId: number, build: Build | null): void {
   const c = tx.city(cityId);
   c.build = build;
   if (!build) return;
-  const cat = buildCategory(rules, build);
-  if (c.shields > 0 && c.shieldsFor !== null && c.shieldsFor !== cat) c.shields = Math.floor(c.shields / 2);
-  c.shieldsFor = c.shields > 0 ? cat : null;
+  c.shieldsFor = c.shields > 0 ? buildCategory(rules, build) : null;
 }
 
 /** Handles the city and empire commands; returns an error, or null after applying. */
@@ -609,7 +607,8 @@ function produce(rules: Rules, tx: Tx, cityId: number, shields: number): void {
     }
     const unit = addUnit(rules, tx, before.owner, build.id, before.tile, cityId);
     c = tx.city(cityId);
-    c.shields -= cost;
+    // Shields beyond the cost are lost (docs/rules/production.md).
+    c.shields = 0;
     if (u.populationCost > 0) {
       c.size = before.size - u.populationCost;
       c.food = Math.min(c.food, foodBox(rules, c.size));
@@ -618,15 +617,14 @@ function produce(rules: Rules, tx: Tx, cityId: number, shields: number): void {
     tx.emit({ type: 'cityBuilt', ...where, build, unit: unit.id });
   } else {
     const rule = rules.building(build.id);
-    c.shields -= cost;
+    c.shields = 0;
     if (rule.spaceshipParts > 0) {
       // Spaceship parts join the ship at the capital rather than standing in the city.
       addSpaceshipPart(tx, before.owner, build.id);
       tx.emit({ type: 'cityBuilt', ...where, build });
       c = tx.city(cityId);
       c.build = c.queue.shift() ?? null;
-      if (c.build && c.shields > 0 && buildCategory(rules, c.build) !== cat) c.shields = Math.floor(c.shields / 2);
-      c.shieldsFor = c.shields > 0 && c.build ? buildCategory(rules, c.build) : null;
+      c.shieldsFor = null;
       return;
     }
     if (rule.effects.includes('replacesOtherBuildings')) {
@@ -659,9 +657,8 @@ function produce(rules: Rules, tx: Tx, cityId: number, shields: number): void {
   const next = c.queue.shift();
   if (next) c.build = next;
   else if (build.kind === 'building') c.build = null;
-  // A repeated unit keeps its build; a new category keeps the overflow only for the same category.
-  if (c.build && c.shields > 0 && buildCategory(rules, c.build) !== cat) c.shields = Math.floor(c.shields / 2);
-  c.shieldsFor = c.shields > 0 && c.build ? buildCategory(rules, c.build) : null;
+  // A repeated unit keeps its build; the next item starts from an empty box.
+  c.shieldsFor = null;
 }
 
 /** Tech flag bits the importer has no name for (docs/rules/science.md): the free advance and the revealed map. */

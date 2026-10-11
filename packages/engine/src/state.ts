@@ -203,7 +203,7 @@ export interface City {
   build: Build | null;
   /** Builds that follow the current one. */
   queue: Build[];
-  /** Category the shields were collected for; switching category loses half (docs/rules/production.md). */
+  /** Category the shields were collected for; switching category costs nothing (docs/rules/production.md). */
   shieldsFor: 'unit' | 'improvement' | 'wonder' | null;
   /** Buildings present, mapped to the turn they were completed. */
   buildings: Record<string, number>;

@@ -94,9 +94,10 @@ describe('headless games', () => {
   it('plays a full game on a Standard map from start to finish (Phase 8 exit criterion)', async () => {
     // Eight AI civilizations, every rule on, invariants checked every turn, until the game is decided (by turn 540 at the latest).
     // The game runs in a worker thread so the test runner is not starved for a minute.
-    const r = await new Promise<{ victory: unknown; turn: number; lastTurn: number; invariantFailures: unknown[]; refusals: Record<string, number>; commands: number }>((done, fail) => {
+    type Result = { victory: unknown; turn: number; lastTurn: number; invariantFailures: unknown[]; refusals: Record<string, number>; commands: number };
+    const r = await new Promise<Result>((done, fail) => {
       const w = new Worker(new URL('./fullgame.worker.ts', import.meta.url), { execArgv: ['--import', 'tsx'] });
-      w.once('message', (m) => {
+      w.once('message', (m: Result) => {
         done(m);
         void w.terminate();
       });

@@ -24,6 +24,8 @@ import { useGame, type AimAction } from '../store.ts';
 import { formatMoves } from './describe.ts';
 import { play } from '../audio.ts';
 import { unitArt } from './art.ts';
+import { PediaLink } from './Civilopedia.tsx';
+import { pediaKey } from '../pedia/index.ts';
 
 export interface UnitAction {
   id: string;
@@ -303,7 +305,10 @@ export function UnitPanel() {
       <div className="unit-head">
         <img className="unit-portrait" style={{ borderColor: owner.color }} src={unitArt(u.type)} alt="" onError={(e) => (e.currentTarget.style.visibility = 'hidden')} />
         <div>
-          <h3>{u.name ? `${u.name} · ${u.scientific ? 'Great scientist' : rule.name}` : rule.name}</h3>
+          <h3>
+            {u.name ? `${u.name} · ${u.scientific ? 'Great scientist' : rule.name}` : rule.name}
+            <PediaLink to={pediaKey.unit(u.type)} />
+          </h3>
           <span className="muted">
             {owner.name} ·{' '}
             <img className="rank" src={`${import.meta.env.BASE_URL}art/experience/${u.experience}.png`} alt="" onError={(e) => (e.currentTarget.style.display = 'none')} />

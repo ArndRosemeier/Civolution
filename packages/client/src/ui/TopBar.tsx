@@ -5,7 +5,7 @@ import { empireSummary, signed } from './empire.ts';
 import { VERSION } from '../version.ts';
 import { SoundMenu } from './SoundMenu.tsx';
 
-export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => void }) {
+export function TopBar({ onSave, onLoad, onSettings }: { onSave: () => void; onLoad: () => void; onSettings: () => void }) {
   const snap = useGame((s) => s.snapshot)!;
   const settings = useGame((s) => s.settings);
   const setSettings = useGame((s) => s.setSettings);
@@ -74,6 +74,9 @@ export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => v
         <strong>{state.victory ? (state.victory.winner === human ? 'Won' : 'Decided') : p.spaceship.launched !== null ? `Ship · turn ${p.spaceship.arrives}` : `Score ${p.scores.at(-1) ?? 0}`}</strong>
       </button>
       <div className="spacer" />
+      <button onClick={() => useGame.getState().openPedia('')} title="Civilopedia: every unit, building, advance and rule (F10)">
+        Civilopedia
+      </button>
       <button className={Object.values(p.automation.delegate).some(Boolean) ? 'on' : ''} onClick={() => open({ kind: 'automation' })} title="Automation: governors, templates, workers, policies, rules (F7)">
         Automation
       </button>
@@ -90,6 +93,9 @@ export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => v
         FPS
       </button>
       <SoundMenu />
+      <button onClick={onSettings} title="Settings: interface size, theme, colours, motion, hints">
+        Settings
+      </button>
       <button onClick={onSave} title="Save (Ctrl+S)">
         Save
       </button>

@@ -13,7 +13,7 @@ export default defineConfig({
     baseURL: 'http://localhost:4173',
     viewport: { width: 1600, height: 900 },
     ...(process.env['PW_CHANNEL'] ? { channel: process.env['PW_CHANNEL'] } : {}),
-    launchOptions: { args: ['--ignore-gpu-blocklist', '--enable-unsafe-swiftshader'] },
+    launchOptions: { args: ['--ignore-gpu-blocklist', '--enable-unsafe-swiftshader', '--mute-audio'] },
   },
   webServer: {
     command: 'pnpm exec vite build && pnpm exec vite preview --port 4173 --strictPort',

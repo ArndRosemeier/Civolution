@@ -20,7 +20,7 @@ const { values } = parseArgs({
 const browser = await chromium.launch({
   channel: values.channel,
   headless: false,
-  args: ['--disable-frame-rate-limit=false', '--ignore-gpu-blocklist', `--window-size=${values.width},${Number(values.height) + 120}`],
+  args: ['--disable-frame-rate-limit=false', '--ignore-gpu-blocklist', '--mute-audio', `--window-size=${values.width},${Number(values.height) + 120}`],
 });
 const page = await browser.newPage({ viewport: { width: Number(values.width), height: Number(values.height) } });
 page.on('console', (m) => m.type() === 'error' && console.error('[page]', m.text()));

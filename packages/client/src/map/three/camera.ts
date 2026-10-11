@@ -8,6 +8,8 @@ import * as THREE from 'three';
 export const MIN_DISTANCE = 5;
 
 export class StrategyCamera {
+  /** Glide towards the goal; off when the player asks for less motion. */
+  static smooth = true;
   readonly camera: THREE.PerspectiveCamera;
   /** Ground point the camera looks at (map coordinates, x unwrapped). */
   readonly target = new THREE.Vector3(10, 0, 10);
@@ -88,7 +90,7 @@ export class StrategyCamera {
       this.goal.z += (-kx * n + kz * c) * speed;
     }
     this.goal.z = THREE.MathUtils.clamp(this.goal.z, -2, this.mapHeight + 2);
-    const k = 1 - Math.exp(-dt * 10);
+    const k = StrategyCamera.smooth ? 1 - Math.exp(-dt * 10) : 1;
     this.target.lerp(this.goal, k);
     this.distance += (this.goalDistance - this.distance) * k;
     this.yaw += (this.goalYaw - this.yaw) * k;

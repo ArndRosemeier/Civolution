@@ -7,6 +7,7 @@ import { requiredTechs, researchBlocker, techCost, unitAvailable, type GameState
 import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
 import { Dialog } from './Dialog.tsx';
+import { PediaLink } from './Civilopedia.tsx';
 import { editAutomation } from './automation.ts';
 import { empireSummary } from './empire.ts';
 
@@ -66,7 +67,10 @@ export function ScienceAdvisor({ onClose }: { onClose: () => void }) {
             <h3>Researching</h3>
             {current ? (
               <>
-                <div className="big">{rules.tech(current).name}</div>
+                <div className="big">
+                  {rules.tech(current).name}
+                  <PediaLink to={`techs/${current}`} />
+                </div>
                 <span className="bar science">
                   <i style={{ width: `${Math.min(100, (p.research.beakers * 100) / Math.max(1, sum.researchCost ?? 1))}%` }} />
                 </span>
@@ -129,7 +133,11 @@ export function ScienceAdvisor({ onClose }: { onClose: () => void }) {
                     .filter(Boolean)
                     .join('\n');
                   return (
-                    <button key={t.id} className={`tech ${state_}`} title={state_ === 'locked' ? `${tip}\nClick to make it your research goal` : tip} onClick={() => (state_ === 'open' ? choose(t.id) : state_ === 'locked' ? setGoal(t.id) : undefined)}>
+                    <button key={t.id} className={`tech ${state_}`} title={`${state_ === 'locked' ? `${tip}\nClick to make it your research goal` : tip}\nRight-click: Civilopedia`}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        useGame.getState().openPedia(`techs/${t.id}`);
+                      }} onClick={() => (state_ === 'open' ? choose(t.id) : state_ === 'locked' ? setGoal(t.id) : undefined)}>
                       <img src={`${import.meta.env.BASE_URL}art/techs/${t.id}.png`} alt="" onError={(e) => (e.currentTarget.style.visibility = 'hidden')} />
                       <span className="tech-name">{t.name}</span>
                       <span className="tech-cost">{known ? 'known' : `${cost}`}</span>

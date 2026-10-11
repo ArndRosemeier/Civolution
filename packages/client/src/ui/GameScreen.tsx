@@ -27,6 +27,9 @@ import { TilePanel } from './TilePanel.tsx';
 import { TopBar } from './TopBar.tsx';
 import { UnitPanel, unitActions } from './UnitPanel.tsx';
 import { VictoryScreen } from './VictoryScreen.tsx';
+import { Civilopedia } from './Civilopedia.tsx';
+import { HintCard } from './HintCard.tsx';
+import { SettingsDialog } from './SettingsDialog.tsx';
 import { unitFamily } from './family.ts';
 
 let modelsPromise: Promise<ModelSet> | null = null;
@@ -124,7 +127,8 @@ export function GameScreen() {
   const labels = useRef<HTMLDivElement>(null);
   const panel = useGame((s) => s.panel);
   const [view, setView] = useState<ThreeMapView | null>(null);
-  const [dialog, setDialog] = useState<'save' | 'load' | null>(null);
+  const [dialog, setDialog] = useState<'save' | 'load' | 'settings' | null>(null);
+  const pedia = useGame((s) => s.pedia);
   const snapshot = useGame((s) => s.snapshot)!;
   const selected = useGame((s) => s.selected);
   const hover = useGame((s) => s.hover);
@@ -269,6 +273,10 @@ export function GameScreen() {
         s.open({ kind: 'victory' });
         return true;
       }
+      if (code === 'F10') {
+        s.openPedia(s.pedia ?? '');
+        return true;
+      }
       if (code === 'F9') {
         s.setDigestOpen(!s.digestOpen);
         return true;
@@ -303,14 +311,6 @@ export function GameScreen() {
         s.setSettings({ perf: !s.settings.perf });
         return true;
       }
-      if (code === 'KeyQ') {
-        view?.camera.rotate(-1);
-        return true;
-      }
-      if (code === 'KeyE') {
-        view?.camera.rotate(1);
-        return true;
-      }
       if (code === 'Equal' || code === 'NumpadAdd') {
         view?.camera.zoomBy(0.8);
         return true;
@@ -328,7 +328,13 @@ export function GameScreen() {
         s.selectNext();
         return true;
       }
-      if (!u || u.owner !== snap.human) return false;
+      // Q and E turn the camera unless the selected unit has an order on that key (Reinforce front, Escort).
+      const rotate = () => {
+        if (code !== 'KeyQ' && code !== 'KeyE') return false;
+        view?.camera.rotate(code === 'KeyQ' ? -1 : 1);
+        return true;
+      };
+      if (!u || u.owner !== snap.human) return rotate();
       if (code in NUMPAD) {
         const yawSteps = Math.round((view?.camera.yaw ?? 0) / (Math.PI / 2));
         const dir = (((NUMPAD[code]! - yawSteps * 2) % 8) + 8) % 8;
@@ -348,14 +354,23 @@ export function GameScreen() {
           return true;
         }
       }
-      return false;
+      return rotate();
     },
     [view, store],
   );
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || dialog || useGame.getState().panel) return;
+      const st = useGame.getState();
+      if (e.target instanceof HTMLInputElement || dialog || st.pedia !== null) return;
+      // F10 opens the Civilopedia over any screen.
+      if (st.panel) {
+        if (e.code === 'F10') {
+          e.preventDefault();
+          st.openPedia('');
+        }
+        return;
+      }
       if (e.code.startsWith('Arrow')) {
         view?.camera.keyDown(e.code);
         e.preventDefault();
@@ -470,7 +485,7 @@ export function GameScreen() {
       />
       <div ref={labels} className="city-labels" />
       {!view && <div className="loading">Preparing the world…</div>}
-      <TopBar onSave={() => setDialog('save')} onLoad={() => setDialog('load')} />
+      <TopBar onSave={() => setDialog('save')} onLoad={() => setDialog('load')} onSettings={() => setDialog('settings')} />
       <LogPanel onJump={(tile) => view?.centerOn(tile)} />
       <TilePanel tile={hover} unitId={selected} pathTurns={pathInfo} />
       <UnitPanel />
@@ -515,7 +530,8 @@ export function GameScreen() {
       <NewsCards onJump={(tile) => view?.centerOn(tile)} />
       <RazeDialog />
       {toast && <div className="toast">{toast}</div>}
-      {dialog && <SavesDialog mode={dialog} onClose={() => setDialog(null)} />}
+      {(dialog === 'save' || dialog === 'load') && <SavesDialog mode={dialog} onClose={() => setDialog(null)} />}
+      {dialog === 'settings' && <SettingsDialog onClose={() => setDialog(null)} />}
       {panel?.kind === 'city' && <CityScreen cityId={panel.id} onClose={() => useGame.getState().open(null)} />}
       {panel?.kind === 'domestic' && <DomesticAdvisor onClose={() => useGame.getState().open(null)} />}
       {panel?.kind === 'science' && <ScienceAdvisor onClose={() => useGame.getState().open(null)} />}
@@ -524,6 +540,8 @@ export function GameScreen() {
       {panel?.kind === 'victory' && <VictoryScreen {...(panel.gameOver ? { gameOver: true } : {})} onClose={() => useGame.getState().open(null)} />}
       {panel?.kind === 'diplomacy' && <DiplomacyScreen {...(panel.with === undefined ? {} : { initial: panel.with })} onClose={() => useGame.getState().open(null)} />}
       {!panel && <OfferDialog />}
+      {!dialog && <HintCard />}
+      {pedia !== null && <Civilopedia />}
     </div>
   );
 }

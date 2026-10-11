@@ -5,8 +5,12 @@
  */
 import { describe, expect, it } from 'vitest';
 import {
+  availableResources,
   cityReport,
+  computeTerritory,
+  connectedToCapital,
   corruptionRate,
+  empireInfo,
   foodBox,
   formatYear,
   invalidateCaches,
@@ -15,6 +19,7 @@ import {
   IMP_ROAD,
   playerCities,
   techCost,
+  tradeRoute,
   unitSupportCost,
   yearOf,
   type City,
@@ -168,17 +173,20 @@ describe('corruption and waste', () => {
     expect(rate.value).toBe(12);
   });
 
-  it('counts an unconnected city as far away', () => {
+  it('uses the real distance for an unconnected city (owner ruling 2026-10-11)', () => {
     const { s, other } = twoCities(false);
-    // Distance part at its maximum: 50 → 45, plus rank 3: 48 %.
-    expect(corruptionRate(rules, s, other).value).toBe(48);
+    // No maximum-distance penalty: the same 9 + 3 = 12 % as when connected.
+    const rate = corruptionRate(rules, s, other);
+    expect(rate.value).toBe(12);
+    expect(rate.parts.some((p) => /Not connected/.test(p.label))).toBe(false);
   });
 
   it('is halved by a courthouse', () => {
     const { s, other } = twoCities(false);
     s.cities[other.id] = { ...other, buildings: { courthouse: 1 } };
     invalidateCaches(s);
-    expect(corruptionRate(rules, s, s.cities[other.id]!).value).toBe(24);
+    // 12 − 12 × 50 % = 6 %.
+    expect(corruptionRate(rules, s, s.cities[other.id]!).value).toBe(6);
   });
 
   it('is flat 30 % under Communism', () => {
@@ -250,14 +258,28 @@ describe('production', () => {
     expect(s.cities[c.id]!.build).toEqual({ kind: 'unit', id: 'warrior' });
   });
 
-  it('loses half the shields when switching between units and buildings', () => {
+  it('loses the shields beyond the cost (owner ruling 2026-10-11)', () => {
     let { s, c } = found(flatGame(), 0, 20, 20);
-    s.players[0] = { ...s.players[0]!, techs: ['ceremonialBurial'] };
+    // 15 stored + this turn's shields overshoot the warrior's 10; the extra is lost.
+    s.cities[c.id] = { ...c, shields: 15 };
+    invalidateCaches(s);
+    s = endTurnAll(s);
+    expect(Object.values(s.units).filter((u) => u.type === 'warrior').length).toBe(1);
+    expect(s.cities[c.id]!.shields).toBe(0);
+  });
+
+  it('keeps every shield when switching between units, buildings and wonders (owner ruling 2026-10-11)', () => {
+    let { s, c } = found(flatGame(), 0, 20, 20);
+    s.players[0] = { ...s.players[0]!, techs: ['ceremonialBurial', 'bronzeWorking', 'masonry'] };
     invalidateCaches(s);
     s.cities[c.id] = { ...c, shields: 9, shieldsFor: 'unit' };
     invalidateCaches(s);
     s = run(s, { type: 'setBuild', player: 0, city: c.id, build: { kind: 'building', id: 'temple' } });
-    expect(s.cities[c.id]!.shields).toBe(4);
+    expect(s.cities[c.id]!.shields).toBe(9);
+    s = run(s, { type: 'setBuild', player: 0, city: c.id, build: { kind: 'building', id: 'pyramids' } });
+    expect(s.cities[c.id]!.shields).toBe(9);
+    s = run(s, { type: 'setBuild', player: 0, city: c.id, build: { kind: 'unit', id: 'warrior' } });
+    expect(s.cities[c.id]!.shields).toBe(9);
   });
 
   it('waits for size before giving up settlers', () => {
@@ -414,5 +436,66 @@ describe('forest clearing', () => {
     expect(s.map.terrain[t]).toBe(rules.terrainIndex('grassland'));
     // 10 shields of timber on top of the city's own production that turn.
     expect(c.shields + (Object.values(s.units).filter((u) => u.type === 'warrior').length * 10)).toBeGreaterThanOrEqual(before + 10);
+  });
+});
+
+describe('trade network (owner ruling 2026-10-11)', () => {
+  it('does not count rivers as links between cities or for resources; roads do', () => {
+    let { s } = found(flatGame(), 0, 20, 20);
+    const second = found(s, 0, 32, 20);
+    s = second.s;
+    const third = found(s, 1, 44, 20);
+    s = third.s;
+    // A river runs along the whole row through all three cities.
+    for (let x = 20; x <= 44; x += 2) s.map.rivers[at(s, x, 20)] = 1;
+    // Wines next to the second city, inside its border and work area.
+    s.map.resource[at(s, 31, 21)] = rules.resourceIndex('wines');
+    invalidateCaches(s);
+    const other = s.cities[second.c.id]!;
+    expect(connectedToCapital(empireInfo(rules, s, 0), other)).toBe(false);
+    expect(availableResources(rules, s, 0).has('wines')).toBe(false);
+    expect(tradeRoute(rules, s, 0, 1)).toBe(false);
+    // Roads along the same row join them.
+    for (let x = 20; x <= 44; x += 2) s.map.improvements[at(s, x, 20)]! |= IMP_ROAD;
+    invalidateCaches(s);
+    expect(connectedToCapital(empireInfo(rules, s, 0), other)).toBe(true);
+    expect(availableResources(rules, s, 0).has('wines')).toBe(true);
+    expect(tradeRoute(rules, s, 0, 1)).toBe(true);
+  });
+});
+
+describe('contested tiles (owner ruling 2026-10-11)', () => {
+  // Two cities three tiles apart; the tile next to A is two tiles from B.
+  function rivals(cultureA: number, cultureB: number) {
+    const first = found(flatGame(), 0, 20, 20);
+    const { s, c: b } = found(first.s, 1, 26, 20);
+    const a = first.c;
+    s.cities[a.id] = { ...s.cities[a.id]!, culture: cultureA };
+    s.cities[b.id] = { ...b, culture: cultureB };
+    invalidateCaches(s);
+    return { s, a: s.cities[a.id]!, b: s.cities[b.id]!, tile: at(s, 22, 20) };
+  }
+
+  it('goes to the higher culture ÷ distance, not to the closer city', () => {
+    // A: 20 culture (ring 2) ÷ 1 = 20; B: 100 culture (ring 3) ÷ 2 = 50. B wins.
+    let { s, tile } = rivals(20, 100);
+    expect(computeTerritory(rules, s)[tile]).toBe(1);
+    // A with 60 culture: 60 ÷ 1 = 60 > 50, so A keeps it.
+    ({ s, tile } = rivals(60, 100));
+    expect(computeTerritory(rules, s)[tile]).toBe(0);
+  });
+
+  it('breaks ties in favour of the older city, and city tiles stay with their owner', () => {
+    // A: 50 ÷ 1 = 50; B: 100 ÷ 2 = 50. A was founded first.
+    const { s, a, b, tile } = rivals(50, 100);
+    expect(computeTerritory(rules, s)[tile]).toBe(0);
+    // Make B the older city: the tie now goes to B.
+    s.cities[a.id] = { ...a, founded: 5 };
+    s.cities[b.id] = { ...b, founded: 1 };
+    invalidateCaches(s);
+    const owner = computeTerritory(rules, s);
+    expect(owner[tile]).toBe(1);
+    expect(owner[a.tile]).toBe(0);
+    expect(owner[b.tile]).toBe(1);
   });
 });

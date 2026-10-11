@@ -21,8 +21,9 @@ percentage (Regent 90 %, so 18 on a Standard map, 12 on a Tiny one).
 the capital, then cities by distance to a seat):
 
 1. Distance part = 50 × min(d, D) / D, where D = (map width + map height) / 4 tiles (30 on
-   Tiny, 50 on Standard). A city not connected to the capital by the trade network
-   ([trade.md](trade.md)) counts as d = D.
+   Tiny, 50 on Standard). A city not connected to the capital by road or harbour uses its
+   real distance like any other city; there is no extra penalty for being unconnected.
+   *Source: owner's ruling 2026-10-11.*
 2. Rank part = 50 × min(r, OCN) / OCN, plus 50 × (r − OCN) / OCN beyond the OCN.
 3. The government's level scales both parts:
 
@@ -46,8 +47,9 @@ Corruption = commerce × rate / 100 (rounded down); waste = shields × rate / 10
   size optimal cities, the Courthouse and Police Station flags, the Policeman's corruption
   value.
 - Civilopedia *Corruption*: distance from the capital, number of cities, government,
-  courthouses, police, Forbidden Palace and Secret Police HQ, connection to the capital,
-  We Love the King Day.
+  courthouses, police, Forbidden Palace and Secret Police HQ, We Love the King Day.
+- Owner's ruling 2026-10-11: no maximum-distance penalty for cities not connected to the
+  capital.
 - The constants (50/50 split, D, the level percentages, the size of the reductions) are
   ours. Community analyses of Civ3's formula exist; recording per-city corruption from the
   original game and fitting these constants is open work.
@@ -56,7 +58,7 @@ Corruption = commerce × rate / 100 (rounded down); waste = shields × rate / 10
 
 `packages/engine/test/cities.test.ts` on a Tiny map (D = 30, OCN = 12), Despotism:
 - a city 6 tiles from the capital, connected, rank 1: 9 + 3 = **12 %**;
-- the same city unconnected: 45 + 3 = **48 %**; with a Courthouse **24 %**;
+- the same city unconnected: still **12 %** (real distance); with a Courthouse **6 %**;
 - under Communism **30 %**; the capital **0 %**.
 
 ## Open questions

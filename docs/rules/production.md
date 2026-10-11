@@ -21,14 +21,15 @@ text; how Civ3 stacks plants with the Manufacturing Plant is our reading.
 ## Building things
 
 - Costs: units as stored, buildings stored in tens (Temple 6 → 60 shields).
-- When the box reaches the cost, the item completes at the end of the turn. Overflow
-  carries into the next item.
+- When the box reaches the cost, the item completes at the end of the turn. Shields beyond
+  the cost are lost: the next item starts from an empty box. *Source: owner's ruling
+  2026-10-11.*
 - A unit with a population cost (Settler 2, Worker 1) waits, box full, until the city is
   larger than that cost; completing it shrinks the city.
 - After a unit, the city repeats it unless a queue entry follows; after a building, the
   queue continues or the city waits for orders.
-- Switching between categories (unit, improvement, wonder) halves the shields in the box.
-  Switching within a category is free.
+- Switching the build between units, improvements and wonders costs nothing: every shield
+  in the box is kept. *Source: owner's ruling 2026-10-11.*
 - Units are veteran from a city with Barracks (land), Harbor (sea) or Airport (air).
 - Wealth (the `wealth` build kind, flag `capitalization`) turns shields into gold: one gold
   per 4 shields (`shieldValueInGold`), per 2 once an advance flagged `doublesWealth`

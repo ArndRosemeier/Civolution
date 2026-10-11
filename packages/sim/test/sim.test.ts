@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { indexRules, stateHash } from '@civolution/engine';
 import { conquests } from '@civolution/rules';
-import { builder, defaultPlayers, explorer, idle, replay, runGame } from '../src/index.ts';
+import { builder, conqueror, defaultPlayers, explorer, idle, replay, runGame } from '../src/index.ts';
 
 const rules = indexRules(conquests);
 const withScouts = [...rules.set.general.startUnits, rules.set.general.scoutUnit];
@@ -20,7 +20,7 @@ describe('headless games', () => {
     const game = { seed: 11, map: { worldSize: 'tiny' }, players: defaultPlayers(2), startUnits: withScouts };
     const { report } = runGame({ rules, game, controllers: [explorer, explorer], turns: 15 });
     // Changing this hash needs a stated reason in the commit (PLAN.md §11).
-    expect(report.finalHash).toMatchInlineSnapshot(`"351e2b303a2d5c57"`);
+    expect(report.finalHash).toMatchInlineSnapshot(`"2bada2326d1521d5"`);
   });
 
   it('explores a Huge map with 16 players and builds roads (Phase 1 exit criterion)', () => {
@@ -41,5 +41,15 @@ describe('headless games', () => {
     expect(state.players[0]!.era).toBe(modern);
     expect(report.players[0]!.cities).toBeGreaterThanOrEqual(8);
     expect(report.turns).toBeLessThan(540);
+  }, 120_000);
+
+  it('fights wars between four conquerors with barbarians about (Phase 3)', () => {
+    const game = { seed: 1, map: { worldSize: 'small' }, players: defaultPlayers(4) };
+    const { state, log, report } = runGame({ rules, game, controllers: [conqueror, conqueror, conqueror, conqueror], turns: 150 });
+    expect(report.invariantFailures).toEqual([]);
+    expect(report.war.battles).toBeGreaterThan(20);
+    expect(report.war.citiesCaptured + report.war.citiesDestroyed).toBeGreaterThan(0);
+    expect(report.war.barbarianCamps).toBeGreaterThan(0);
+    expect(stateHash(replay(rules, game, log))).toBe(stateHash(state));
   }, 120_000);
 });

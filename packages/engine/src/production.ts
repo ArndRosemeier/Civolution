@@ -49,6 +49,16 @@ export function isCommonUnit(rules: Rules, id: string): boolean {
   return popcount(u.availableToMask & ~1) >= 16;
 }
 
+/** The next unit up the upgrade line that civilizations build (unique units in between are skipped). */
+export function nextCommonUpgrade(rules: Rules, id: string): string | undefined {
+  let next = rules.unit(id).upgradeTo;
+  for (let guard = 0; next && guard < 20; guard++) {
+    if (isCommonUnit(rules, next)) return next;
+    next = rules.unit(next).upgradeTo;
+  }
+  return undefined;
+}
+
 /** Why `city` cannot build `b`, or null when it can. */
 export function buildBlocker(rules: Rules, state: GameState, city: City, b: Build): string | null {
   const p = state.players[city.owner]!;
@@ -64,8 +74,9 @@ export function buildBlocker(rules: Rules, state: GameState, city: City, b: Buil
     if (missing.length > 0) return `Requires ${missing.map((r) => rules.resources[rules.resourceIndex(r)]!.name).join(' and ')}.`;
     if (u.domain === 'sea' && !isCoastal(rules, state, city.tile)) return 'Ships need a coastal city.';
     if (u.abilities.includes('nuclearWeapon') && !nukesEnabled(rules, state)) return 'Nuclear weapons need the Manhattan Project to be built somewhere.';
-    if (u.upgradeTo && isCommonUnit(rules, u.upgradeTo)) {
-      const up = rules.unit(u.upgradeTo);
+    const upId = nextCommonUpgrade(rules, b.id);
+    if (upId) {
+      const up = rules.unit(upId);
       if ((!up.requiredTech || knowsTech(p, up.requiredTech)) && up.requiredResources.every((r) => resources.has(r)))
         return `Replaced by ${up.name}.`;
     }

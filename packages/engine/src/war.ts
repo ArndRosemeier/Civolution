@@ -22,6 +22,7 @@ import { cityResources, empireInfo } from './empire.ts';
 import { distance, neighbours, tilesInRadius } from './grid.ts';
 import { canStandOn, checkMove } from './movement.ts';
 import { moveUnitTo } from './move.ts';
+import { nextCommonUpgrade } from './production.ts';
 import { atWar, hasTechFlag } from './queries.ts';
 import type { Rules } from './rules.ts';
 import {
@@ -246,7 +247,7 @@ function applySide(rules: Rules, tx: Tx, unitId: number, members: number[], hp: 
   members.forEach((m, i) => {
     if (!tx.state.units[m]) return;
     if (hp[i]! <= 0) removeUnitDeep(tx, m, false, why);
-    else if (tx.state.units[m]!.hp !== hp[i]) tx.unit(m).hp = hp[i]!;
+    else if (tx.state.units[m].hp !== hp[i]) tx.unit(m).hp = hp[i]!;
   });
   if (cargoOf(tx.state, unitId).length === 0) {
     removeUnitDeep(tx, unitId, false, why);
@@ -790,13 +791,13 @@ export function upgradeQuote(rules: Rules, state: GameState, u: Unit): { to: str
     return (!r.requiredTech || p.techs.includes(r.requiredTech)) && r.requiredResources.every((x) => resources.has(x));
   };
   let to: string | null = null;
-  let next: string | undefined = rule.upgradeTo;
-  for (let guard = 0; next && guard < 20; guard++) {
+  const first = nextCommonUpgrade(rules, u.type);
+  if (!first) return { reason: `${rule.name} has no upgrade.` };
+  for (let next: string | undefined = first, guard = 0; next && guard < 20; next = nextCommonUpgrade(rules, next), guard++) {
     if (!ready(next)) break;
     to = next;
-    next = rules.unit(next).upgradeTo;
   }
-  if (!to) return { reason: `${rules.unit(rule.upgradeTo).name} is not available yet.` };
+  if (!to) return { reason: `${rules.unit(first).name} is not available yet.` };
   let gold = Math.max(0, rules.unit(to).shieldCost - rule.shieldCost) * rules.set.general.upgradeCostPerShield;
   if (hasEffect(rules, state, u.owner, 'halvesUpgradeCost')) gold = Math.floor(gold / 2);
   return { to, gold };

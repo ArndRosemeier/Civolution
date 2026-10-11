@@ -51,7 +51,7 @@ test('new game, found a city, run it, end turns, save and load', async ({ page }
   await page.keyboard.press('Control+KeyS');
   await page.getByLabel('Save name').fill('smoke');
   await page.getByRole('dialog').getByRole('button', { name: 'Save', exact: true }).click();
-  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByRole('dialog')).toHaveCount(0, { timeout: 30_000 });
   await page.keyboard.press('Enter');
   await expect(turn).toHaveText('Turn 4');
   await page.keyboard.press('Control+KeyL');

@@ -7,6 +7,8 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: 'e2e',
   timeout: 240_000,
+  // Software WebGL on a CI runner: one browser at a time keeps the timings steady.
+  ...(process.env['CI'] ? { workers: 1 } : {}),
   use: {
     baseURL: 'http://localhost:4173',
     viewport: { width: 1600, height: 900 },

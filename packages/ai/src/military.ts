@@ -24,6 +24,7 @@ import {
   type GameState,
   type Unit,
 } from '@civolution/engine';
+import { knownLand } from '@civolution/automation';
 import { garrisonFor, type BuildNeeds } from './build.ts';
 import { roleOf, type View } from './view.ts';
 
@@ -32,6 +33,8 @@ export interface Ctx {
   state: () => GameState;
   /** Issues a command; returns whether the engine accepted it. */
   act: (cmd: Command) => boolean;
+  /** Routes found missing this turn ("from-land:to"), so other units do not search again. */
+  noRoute?: Set<string>;
 }
 
 const why = (text: string) => `AI: ${text}`;
@@ -79,7 +82,17 @@ function bombardTarget(ctx: Ctx, unit: Unit, target: number): boolean {
 function goto(ctx: Ctx, u: Unit, to: number, reason: string): boolean {
   if (u.tile === to || u.movesLeft <= 0) return false;
   if (u.order?.type === 'goto' && u.order.target === to) return false;
-  return ctx.act({ type: 'goto', player: u.owner, unit: u.id, to, reason: why(reason) });
+  // No known land route: do not ask the engine to search for one.
+  let key: string | null = null;
+  if (ctx.view.rules.unit(u.type).domain === 'land' && u.carriedBy === null) {
+    const known = knownLand(ctx.view.rules, ctx.state(), u.owner);
+    if (known[u.tile]! >= 0 && known[to] !== known[u.tile]) return false;
+    key = `${known[u.tile]}:${to}`;
+    if (ctx.noRoute?.has(key)) return false;
+  }
+  const ok = ctx.act({ type: 'goto', player: u.owner, unit: u.id, to, reason: why(reason) });
+  if (!ok && key) (ctx.noRoute ??= new Set()).add(key);
+  return ok;
 }
 
 function fortify(ctx: Ctx, u: Unit, reason: string): void {
@@ -248,7 +261,9 @@ function approaches(ctx: Ctx, target: number, from: number): number[] {
   return neighbours(s.map, target)
     .filter((t) => {
       const terr = rules.terrains[s.map.terrain[t]!]!;
-      return !terr.water && !terr.impassable && !enemyAt(s, ctx.view.player, t) && ctx.view.masses[t] === ctx.view.masses[target];
+      // Nobody else may stand there (foreign units block a route even in peace).
+      const occupied = Object.values(s.units).some((u) => u.tile === t && u.owner !== ctx.view.player);
+      return !terr.water && !terr.impassable && !occupied && !cityAt(s, t) && ctx.view.masses[t] === ctx.view.masses[target];
     })
     .sort((a, b) => {
       const da = distance(s.map, a, from) - rules.terrains[s.map.terrain[a]!]!.defenceBonus / 50;

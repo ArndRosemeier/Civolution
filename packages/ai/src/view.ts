@@ -72,6 +72,8 @@ export interface View {
   power: number;
   /** Military power of every other living civilization, as far as this one can judge. */
   powerOf: Map<number, number>;
+  /** No free city site within reach of any own city (computed once a turn, on demand). */
+  landFull?: boolean;
 }
 
 export function buildView(rules: Rules, state: GameState, player: number): View {

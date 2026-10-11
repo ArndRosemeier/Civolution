@@ -73,6 +73,12 @@ function runEmpire(ctx: Ctx): void {
   if (rates.tax !== now.tax || rates.science !== now.science || rates.luxury !== now.luxury) ctx.act({ type: 'setRates', player: view.player, rates, reason: why('balancing the treasury') });
 }
 
+/** Whether no own city has a free city site within reach (once per turn). */
+function isLandFull(view: View, state: GameState): boolean {
+  view.landFull ??= view.cities.every((c) => bestSite(view.rules, state, view.player, c.tile, 12) < 0);
+  return view.landFull;
+}
+
 /** The first advance on the way to `goal` that can be researched now (the goal itself if it can), or null. */
 function towards(rules: Rules, p: GameState['players'][number], goal: string): string | null {
   const seen = new Set<string>();
@@ -96,7 +102,7 @@ function seaGoal(view: View, state: GameState): string | null {
   const rules = view.rules;
   const p = state.players[view.player]!;
   if (state.turn < 30 || !view.cities.some((c) => isCoastal(rules, state, c.tile))) return null;
-  const landFull = view.cities.every((c) => bestSite(rules, state, view.player, c.tile, 12) < 0);
+  const landFull = isLandFull(view, state);
   if (view.me.contacts.length > 0 && !landFull) return null;
   const known = rules.set.units.filter((u) => u.domain === 'sea' && u.capacity > 0 && isCommonUnit(rules, u.id) && (!u.requiredTech || p.techs.includes(u.requiredTech)));
   const have = Math.max(-1, ...known.map(reach));
@@ -286,7 +292,7 @@ export function takeTurn(rules: Rules, state: GameState, player: number, act: (c
   needs.seaExplorer = wantsSeaExplorer(view, current) && (farthest < 0 || (best !== null && reach(best) > farthest));
   // Colonies over the water once the home land is full.
   const optimal = rules.set.worldSizes.find((w) => w.id === current.settings.worldSize)?.optimalCities ?? 16;
-  const homeFull = view.cities.length < optimal && view.cities.every((c) => bestSite(rules, current, player, c.tile, 12) < 0);
+  const homeFull = view.cities.length < optimal && isLandFull(view, current);
   const colony = homeFull && canSail(view, current) ? colonySite(view, current) : -1;
   if (colony >= 0) {
     const settlers = playerUnits(current, player).filter((u) => roleOf(rules.unit(u.type)) === 'settler').length;

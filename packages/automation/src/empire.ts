@@ -9,7 +9,8 @@ import {
   cityReport,
   distance,
   hasFreshWater,
-  landMasses,
+  neighbours,
+  tileOwners,
   isCoastal,
   playerCities,
   playerUnits,
@@ -48,17 +49,54 @@ export function siteScore(rules: Rules, state: GameState, player: number, tile: 
   return score;
 }
 
+const landCache = new WeakMap<number[], Int32Array>();
+
+/**
+ * Pieces of land a player's units can walk between over tiles it has explored (units
+ * and borders aside): two tiles with different labels have no known route. -1 for water,
+ * impassable and unexplored tiles. Cached per explored map.
+ */
+export function knownLand(rules: Rules, state: GameState, player: number): Int32Array {
+  const p = state.players[player]!;
+  let ids = landCache.get(p.explored);
+  if (ids) return ids;
+  const m = state.map;
+  ids = new Int32Array(m.terrain.length).fill(-1);
+  const open = (t: number) => ((p.explored[t >> 5]! >>> (t & 31)) & 1) === 1 && !rules.terrains[m.terrain[t]!]!.water && !rules.terrains[m.terrain[t]!]!.impassable;
+  let next = 0;
+  const stack: number[] = [];
+  for (let i = 0; i < ids.length; i++) {
+    if (ids[i] !== -1 || !open(i)) continue;
+    ids[i] = next;
+    stack.push(i);
+    while (stack.length > 0) {
+      const t = stack.pop()!;
+      for (const j of neighbours(m, t)) {
+        if (ids[j] !== -1 || !open(j)) continue;
+        ids[j] = next;
+        stack.push(j);
+      }
+    }
+    next++;
+  }
+  landCache.set(p.explored, ids);
+  return ids;
+}
+
 /** Best site within `range` tiles of `from` on the same land (settlers walk there), weighing travel. */
 export function bestSite(rules: Rules, state: GameState, player: number, from: number, range = 10): number {
   const p = state.players[player]!;
   let best = -1;
   let bestScore = 0;
   const own = playerCities(state, player);
-  const masses = landMasses(rules, state);
-  const home = masses[from]!;
+  const known = knownLand(rules, state, player);
+  const owners = tileOwners(state);
+  const home = known[from]!;
+  const water = rules.terrains[state.map.terrain[from]!]!.water;
   for (const tile of tilesInRadius(state.map, from, range)) {
     const d = distance(state.map, from, tile);
-    if (home >= 0 && masses[tile] !== home) continue;
+    if (!water && known[tile] !== home) continue;
+    if ((owners.get(tile) ?? []).some((o) => o !== player)) continue;
     if (!((p.explored[tile >> 5]! >>> (tile & 31)) & 1)) continue;
     const base = siteScore(rules, state, player, tile);
     if (base <= 0) continue;

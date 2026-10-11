@@ -3,6 +3,7 @@ import {
   apply,
   createGame,
   indexRules,
+  levelHp,
   PLAYER_COLORS,
   tileIndex,
   type Command,
@@ -53,7 +54,11 @@ export function place(s: GameState, owner: number, type: string, tile: number, e
     tile,
     movesLeft: rules.unit(type).movement * rules.moveScale,
     experience: 'regular',
+    hp: levelHp(rules, type, extra.experience ?? 'regular'),
     fortified: false,
+    acted: false,
+    attacked: false,
+    carriedBy: null,
     order: null,
     routine: null,
     ...extra,
@@ -70,6 +75,6 @@ export function run(s: GameState, cmd: Command): GameState {
 }
 
 export function endTurnAll(s: GameState): GameState {
-  for (const p of s.players) s = run(s, { type: 'endTurn', player: p.id });
+  for (const p of s.players) if (p.alive && !p.barbarian && !s.players[p.id]!.endedTurn) s = run(s, { type: 'endTurn', player: p.id });
   return s;
 }

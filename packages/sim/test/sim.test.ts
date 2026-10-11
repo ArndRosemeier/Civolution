@@ -33,7 +33,8 @@ describe('headless games', () => {
   }, 120_000);
 
   it('plays a single civilization to the modern era (Phase 2 exit criterion)', () => {
-    const game = { seed: 2, map: { worldSize: 'tiny' }, players: defaultPlayers(1) };
+    // The economy test runs without barbarians; the builder does not defend itself.
+    const game = { seed: 2, map: { worldSize: 'tiny', barbarians: 'none' as const }, players: defaultPlayers(1) };
     const modern = rules.eraIndex('modern');
     const { state, report } = runGame({ rules, game, controllers: [builder], turns: 540, until: (s) => s.players[0]!.era >= modern });
     expect(report.invariantFailures).toEqual([]);

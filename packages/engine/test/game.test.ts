@@ -32,7 +32,7 @@ describe('commands and turns', () => {
     expect(apply(rules, s, { type: 'skip', player: 0, unit: w.id }).error?.code).toBe('turnEnded');
     s = run(s, { type: 'endTurn', player: 1 });
     expect(s.turn).toBe(2);
-    expect(s.players.every((p) => !p.endedTurn)).toBe(true);
+    expect(s.players.filter((p) => !p.barbarian).every((p) => !p.endedTurn)).toBe(true);
   });
 
   it('restores movement each turn and keeps fortify and sentry orders', () => {
@@ -82,7 +82,7 @@ describe('new game, save and load', () => {
 
   it('gives every player the start units on their start tile', () => {
     const s = createGame(rules, options);
-    for (const p of s.players) {
+    for (const p of s.players.filter((x) => !x.barbarian)) {
       const units = playerUnits(s, p.id);
       expect(units.map((u) => u.type)).toEqual(['settler', 'worker']);
       expect(units.every((u) => u.tile === s.map.starts[p.id])).toBe(true);

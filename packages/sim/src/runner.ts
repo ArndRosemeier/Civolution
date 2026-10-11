@@ -141,7 +141,8 @@ export function runGame(opts: SimOptions, clock: () => number = () => 0): SimRes
   for (let t = 0; t < opts.turns; t++) {
     played++;
     state.players.forEach((p, i) => {
-      if (!p.alive) return;
+      // Barbarians are moved by the engine at the end of the turn.
+      if (!state.players[i]!.alive || p.barbarian) return;
       const controller = opts.controllers[i] ?? idle;
       // Routines replay their commands through `act`; feed them the current state.
       controller.takeTurn(rules, state, i, (cmd) => act(cmd));
@@ -163,7 +164,7 @@ export function runGame(opts: SimOptions, clock: () => number = () => 0): SimRes
       turns: played,
       players: state.players.map((p, i) => ({
         name: p.name,
-        controller: (opts.controllers[i] ?? idle).id,
+        controller: p.barbarian ? 'barbarians' : (opts.controllers[i] ?? idle).id,
         explored: exploredCount(p),
         exploredPercent: Math.round((exploredCount(p) * 1000) / n) / 10,
         units: playerUnits(state, i).length,

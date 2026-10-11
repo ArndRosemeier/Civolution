@@ -8,7 +8,8 @@ export const PRTO_ABILITIES = [
   'wheeled', 'footSoldier', 'blitz', 'cruiseMissile', 'allTerrainAsRoads', 'radar', 'amphibious', 'submarine',
   'aircraftCarrier', 'draft', 'immobile', 'sinksInSea', 'sinksInOcean', 'unusedMounted', 'carriesFootUnitsOnly', 'startsGoldenAge',
   'nuclearWeapon', 'hiddenNationality', 'army', 'leader', 'icbm', 'stealth', 'canSeeSubmarines', 'tacticalMissile',
-  'canCarryTacticalMissiles', 'rangedAttackAnimations', 'turnToAttack',
+  'canCarryTacticalMissiles', 'rangedAttackAnimations', 'turnToAttack', 'lethalLandBombard', 'lethalSeaBombard', 'king',
+  'requiresEscort',
 ] as const;
 
 export const PRTO_AI_STRATEGY = [
@@ -21,7 +22,8 @@ export const PRTO_STANDARD_ORDERS = ['skipTurn', 'wait', 'fortify', 'disband', '
 
 export const PRTO_SPECIAL_ACTIONS = [
   'load', 'unload', 'airlift', 'pillage', 'bombard', 'airdrop', 'buildArmy', 'finishImprovements',
-  'upgrade', 'capture',
+  'upgrade', 'capture', 'bit10', 'bit11', 'bit12', 'bit13', 'bit14', 'bit15',
+  'stealthAttack', 'bit17', 'enslave',
 ] as const;
 
 export const PRTO_WORKER_ACTIONS = [

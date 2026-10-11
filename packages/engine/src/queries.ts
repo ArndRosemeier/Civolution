@@ -50,8 +50,14 @@ export function hasTechFlag(rules: Rules, p: Player, flag: string): boolean {
   return p.techs.some((t) => rules.tech(t).flags.includes(flag));
 }
 
+/** Whether a and b are at war; everyone is always at war with the barbarians. */
 export function atWar(state: GameState, a: number, b: number): boolean {
-  return a !== b && (state.players[a]?.atWarWith.includes(b) ?? false);
+  if (a === b) return false;
+  const pa = state.players[a];
+  const pb = state.players[b];
+  if (!pa || !pb) return false;
+  if (pa.barbarian || pb.barbarian) return true;
+  return pa.atWarWith.includes(b);
 }
 
 export function isWaterTile(rules: Rules, state: GameState, tile: number): boolean {

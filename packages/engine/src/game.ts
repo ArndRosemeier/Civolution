@@ -1,18 +1,17 @@
 /**
  * New games, the command dispatcher and the turn pipeline.
  */
+import { runBarbarians } from './barbarians.ts';
 import { applyCityCommand, runCityTurn } from './cities.ts';
-import type { Command, CommandError, GameEvent, HutOutcome } from './commands.ts';
-import { tileCount, tilesInRadius } from './grid.ts';
+import type { Command, CommandError, GameEvent } from './commands.ts';
+import { tileCount } from './grid.ts';
 import { generateMap } from './map/generate.ts';
-import { checkMove, zocUnits } from './movement.ts';
+import { continueGoto } from './move.ts';
 import { findPath } from './pathfind.ts';
-import { emptyBitset, invalidateTileOwners, maxMoves, tileOwners } from './queries.ts';
+import { emptyBitset, tileOwners } from './queries.ts';
 import { makeRng, seedRng } from './rng.ts';
 import type { Rules } from './rules.ts';
 import {
-  FLAG_HUT,
-  IMP_FORTRESS,
   type Barbarians,
   type Climate,
   type GameState,
@@ -20,12 +19,13 @@ import {
   type MapSettings,
   type Player,
   type Temperature,
-  type Unit,
 } from './state.ts';
 import { beginTx, type Tx } from './tx.ts';
 import { invalidateCaches } from './caches.ts';
 import { eraFor } from './science.ts';
+import { cargoOf, isArmy, newUnit, removeUnitDeep, unitMaxMoves } from './units.ts';
 import { reveal, unitSight } from './vision.ts';
+import { applyWarCommand, decayWeariness, healUnits, moveOrAttack } from './war.ts';
 import { advanceWork, checkJob, turnsLeft } from './workers.ts';
 
 type OrRandom<T> = T | 'random';
@@ -82,6 +82,7 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
     name: p.name,
     color: p.color,
     human: p.human,
+    barbarian: false,
     alive: true,
     gold: rules.set.general.startingGold,
     government: rules.set.general.defaultGovernment,
@@ -89,6 +90,8 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
     resources: [],
     explored: emptyBitset(map),
     atWarWith: [],
+    weariness: {},
+    armyVictory: false,
     endedTurn: false,
     rates: { tax: 4, science: 6, luxury: 0 },
     research: { tech: null, beakers: 0, turns: 0 },
@@ -96,9 +99,34 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
     revolution: null,
     culture: 0,
   }));
+  if (settings.barbarians !== 'none') {
+    players.push({
+      id: players.length,
+      name: 'Barbarians',
+      color: '#6b2a22',
+      human: false,
+      barbarian: true,
+      alive: true,
+      gold: 0,
+      government: rules.set.general.defaultGovernment,
+      techs: [],
+      resources: [],
+      // Barbarians know the whole map.
+      explored: emptyBitset(map).map(() => 0xffffffff),
+      atWarWith: [],
+      weariness: {},
+      armyVictory: false,
+      endedTurn: true,
+      rates: { tax: 4, science: 6, luxury: 0 },
+      research: { tech: null, beakers: 0, turns: 0 },
+      era: eraFor(rules, []),
+      revolution: null,
+      culture: 0,
+    });
+  }
   const base: GameState = {
     format: 'civolution-state',
-    version: 2,
+    version: 3,
     rulesHash: rules.hash,
     seed: options.seed >>> 0,
     rng: seedRng(options.seed ^ 0x67616d65),
@@ -116,6 +144,7 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
   };
   const tx = beginTx(base);
   players.forEach((p, i) => {
+    if (p.barbarian) return;
     const tile = map.starts[i]!;
     for (const type of startUnits) {
       const u = tx.addUnit(newUnit(rules, p.id, type, tile));
@@ -123,19 +152,6 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
     }
   });
   return tx.state;
-}
-
-function newUnit(rules: Rules, owner: number, type: string, tile: number): Omit<Unit, 'id'> {
-  return {
-    owner,
-    type,
-    tile,
-    movesLeft: rules.unit(type).movement * rules.moveScale,
-    experience: 'regular',
-    fortified: false,
-    order: null,
-    routine: null,
-  };
 }
 
 export interface ApplyResult {
@@ -159,7 +175,13 @@ export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult
   if (cmd.type === 'endTurn') {
     tx.player(cmd.player).endedTurn = true;
     tx.emit({ type: 'playerEndedTurn', player: cmd.player });
-    if (tx.state.players.every((p) => !p.alive || p.endedTurn)) runEndOfTurn(rules, tx);
+    if (tx.state.players.every((p) => !p.alive || p.endedTurn || p.barbarian)) runEndOfTurn(rules, tx);
+    return done(tx);
+  }
+
+  if (cmd.type === 'declareWar' || cmd.type === 'makePeace') {
+    const error = applyWarCommand(rules, tx, cmd);
+    if (error) return { state, events: [], error };
     return done(tx);
   }
 
@@ -172,14 +194,26 @@ export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult
   const existing = state.units[cmd.unit];
   if (!existing) return err(state, 'unknownUnit', `No unit ${cmd.unit}.`);
   if (existing.owner !== cmd.player) return err(state, 'notYourUnit', 'That unit belongs to another player.');
+  const holder = existing.carriedBy === null ? undefined : state.units[existing.carriedBy];
+  if (holder && isArmy(rules, holder)) return err(state, 'invalid', 'This unit fights inside an army; give orders to the army.');
 
   switch (cmd.type) {
     case 'moveUnit': {
-      const check = checkMove(rules, state, existing, cmd.to);
-      if (!check.ok) return { state, events: [], error: check.error };
-      const u = tx.unit(cmd.unit);
-      u.order = null;
-      doMove(rules, tx, u, cmd.to, check.cost);
+      const error = moveOrAttack(rules, tx, cmd.unit, cmd.to, cmd.raze ?? false);
+      if (error) return { state, events: [], error };
+      break;
+    }
+    case 'bombard':
+    case 'airMission':
+    case 'nuke':
+    case 'pillage':
+    case 'upgrade':
+    case 'load':
+    case 'buildArmy':
+    case 'joinArmy':
+    case 'leaderHurry': {
+      const error = applyWarCommand(rules, tx, cmd);
+      if (error) return { state, events: [], error };
       break;
     }
     case 'goto': {
@@ -221,6 +255,12 @@ export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult
       break;
     }
     case 'disband': {
+      // Cargo in port and army members are set down; cargo at sea goes down with the ship.
+      const onLand = !rules.terrains[state.map.terrain[existing.tile]!]!.water;
+      for (const c of cargoOf(state, cmd.unit)) {
+        if (onLand) tx.unit(c.id).carriedBy = null;
+        else removeUnitDeep(tx, c.id, false, 'sunk');
+      }
       tx.removeUnit(cmd.unit);
       tx.emit({ type: 'unitDisbanded', unit: cmd.unit, player: cmd.player });
       break;
@@ -264,92 +304,37 @@ function done(tx: Tx): ApplyResult {
   return { state: tx.state, events: tx.events };
 }
 
-function doMove(rules: Rules, tx: Tx, u: Unit, to: number, cost: number): void {
-  const from = u.tile;
-  const zoc = zocUnits(rules, tx.state, u, from, to, IMP_FORTRESS);
-  u.tile = to;
-  u.movesLeft = Math.max(0, u.movesLeft - cost);
-  u.fortified = false;
-  invalidateTileOwners(tx.state);
-  tx.emit({ type: 'unitMoved', unit: u.id, player: u.owner, from, to, cost });
-  if (zoc.length > 0) tx.emit({ type: 'zoneOfControl', unit: u.id, player: u.owner, from, to, by: zoc });
-  reveal(tx, u.owner, unitSight(rules, tx.state, u));
-  if (tx.state.map.flags[to]! & FLAG_HUT && rules.unit(u.type).domain === 'land') enterHut(rules, tx, u, to);
-}
-
-/**
- * Tribal villages. Phase 1 has gold, maps, a free unit or nothing; techs, barbarians and
- * settlers join when research and combat exist (docs/rules/huts.md).
- */
-function enterHut(rules: Rules, tx: Tx, u: Unit, tile: number): void {
-  const flags = tx.mapArray('flags');
-  flags[tile] = flags[tile]! & ~FLAG_HUT;
-  const roll = tx.random(100);
-  let outcome: HutOutcome;
-  if (roll < 35) {
-    const amount = 25 * (1 + tx.random(3));
-    tx.player(u.owner).gold += amount;
-    outcome = { kind: 'gold', amount };
-  } else if (roll < 55) {
-    const tiles = reveal(tx, u.owner, tilesInRadius(tx.state.map, tile, 6), 'Map from a tribal village');
-    outcome = { kind: 'map', tiles: tiles.length };
-  } else if (roll < 75 && rules.hasUnit('warrior')) {
-    const unit = tx.addUnit(newUnit(rules, u.owner, 'warrior', tile));
-    tx.emit({ type: 'unitCreated', unit: unit.id, player: u.owner, unitType: 'warrior', tile });
-    outcome = { kind: 'unit', unitType: 'warrior', unit: unit.id };
-  } else {
-    outcome = { kind: 'empty' };
-  }
-  tx.emit({ type: 'hutEntered', unit: u.id, player: u.owner, tile, outcome });
-}
-
-/** Moves a unit along its goto order as far as its movement allows. */
-function continueGoto(rules: Rules, tx: Tx, unitId: number): void {
-  for (let guard = 0; guard < 1000; guard++) {
-    const u = tx.state.units[unitId];
-    if (!u || u.order?.type !== 'goto') return;
-    const target = u.order.target;
-    if (u.tile === target) {
-      tx.unit(unitId).order = null;
-      tx.emit({ type: 'gotoFinished', unit: unitId, player: u.owner, arrived: true });
-      return;
-    }
-    if (u.movesLeft <= 0) return;
-    const path = findPath(rules, tx.state, u, target);
-    const next = path?.tiles[0];
-    const check = next === undefined ? null : checkMove(rules, tx.state, u, next);
-    if (next === undefined || !check?.ok) {
-      tx.unit(unitId).order = null;
-      tx.emit({ type: 'gotoFinished', unit: unitId, player: u.owner, arrived: false });
-      return;
-    }
-    doMove(rules, tx, tx.unit(unitId), next, check.cost);
-  }
-}
-
 /** Runs once every player has ended the turn (docs/rules/turns.md). */
 function runEndOfTurn(rules: Rules, tx: Tx): void {
+  runBarbarians(rules, tx);
   advanceWork(rules, tx);
   runCityTurn(rules, tx);
+  healUnits(rules, tx);
+  decayWeariness(tx);
   tx.state.turn = tx.state.turn + 1;
-  for (const p of tx.state.players) if (p.alive) tx.player(p.id).endedTurn = false;
+  for (const p of tx.state.players) if (p.alive && !p.barbarian) tx.player(p.id).endedTurn = false;
   const units = Object.values(tx.state.units).sort((a, b) => a.id - b.id);
   for (const u of units) {
-    const full = maxMoves(rules, u);
-    if (u.movesLeft !== full) tx.unit(u.id).movesLeft = full;
+    const full = unitMaxMoves(rules, tx.state, u);
+    if (u.movesLeft !== full || u.acted || u.attacked) {
+      const w = tx.unit(u.id);
+      w.movesLeft = full;
+      w.acted = false;
+      w.attacked = false;
+    }
   }
   tx.emit({ type: 'turnStarted', turn: tx.state.turn });
   // Sentries wake when a foreign unit comes into view.
   const owners = tileOwners(tx.state);
   for (const u of units) {
-    if (u.order?.type !== 'sentry') continue;
+    if (u.order?.type !== 'sentry' || !tx.state.units[u.id] || u.carriedBy !== null) continue;
     const sees = unitSight(rules, tx.state, u).some((t) => (owners.get(t) ?? []).some((o) => o !== u.owner));
     if (sees) {
       tx.unit(u.id).order = null;
       tx.emit({ type: 'unitWoke', unit: u.id, player: u.owner, tile: u.tile });
     }
   }
-  for (const u of units) if (u.order?.type === 'goto') continueGoto(rules, tx, u.id);
+  for (const u of units) if (u.order?.type === 'goto' && tx.state.units[u.id]) continueGoto(rules, tx, u.id);
 }
 
 export function tileTotal(state: GameState): number {

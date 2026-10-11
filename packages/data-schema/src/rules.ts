@@ -87,7 +87,13 @@ export const UnitRuleSchema = z.strictObject({
   rateOfFire: nonNeg,
   operationalRange: nonNeg,
   capacity: nonNeg,
+  /** Strength against air missions over the unit's tile (Flak, SAM, warships). */
+  airDefence: nonNeg,
   zoneOfControl: z.boolean(),
+  /** Counts toward the government's unit support (leaders and kings do not). */
+  requiresSupport: z.boolean(),
+  /** Unit created by enslaving (or capturing) a defeated enemy. */
+  enslavesTo: id.optional(),
   requiredTech: id.optional(),
   upgradeTo: id.optional(),
   requiredResources: z.array(id),
@@ -274,6 +280,26 @@ export const CuratedGeneralSchema = z.strictObject({
   fortressDefenceBonus: percent,
   fortifiedDefenceBonus: percent,
   riverDefenceBonus: percent,
+  /** Defence bonus of units in a town, city and metropolis against land attacks. */
+  townDefenceBonus: percent,
+  cityDefenceBonus: percent,
+  metropolisDefenceBonus: percent,
+  /** Barbarian units: the early foot unit, the later mounted unit, and their ship. */
+  basicBarbarian: id,
+  advancedBarbarian: id,
+  barbarianSeaUnit: id,
+  /** Military great leader born from victories, and the army a leader forms. */
+  leaderUnit: id,
+  armyUnit: id,
+  /** Cities per army a civilization may field (docs/rules/armies.md). */
+  citiesPerArmy: z.int().positive(),
+  /** Unit that captured workers and settlers become. */
+  slaveUnit: id,
+  /** Chance in percent that an interceptor engages an air mission, and a stealth one. */
+  interceptChance: percent,
+  stealthInterceptChance: percent,
+  /** Gold per shield of difference when upgrading a unit. */
+  upgradeCostPerShield: nonNeg,
   defaultGovernment: id,
   defaultDifficulty: id,
   /** Largest size of a town and of a city; above that a city is a metropolis. */

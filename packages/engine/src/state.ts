@@ -18,6 +18,8 @@ export const IMP_CRATER = 128;
 export const FLAG_BONUS_GRASSLAND = 1;
 export const FLAG_LAKE = 2;
 export const FLAG_HUT = 4;
+/** A barbarian camp (docs/rules/barbarians.md). */
+export const FLAG_CAMP = 8;
 
 export type LandForm = 'archipelago' | 'continents' | 'pangaea';
 export type Climate = 'arid' | 'normal' | 'wet';
@@ -65,7 +67,9 @@ export type Order =
   | { type: 'fortify' }
   | { type: 'sentry' }
   | { type: 'goto'; target: number }
-  | { type: 'work'; job: string };
+  | { type: 'work'; job: string }
+  /** Aircraft on interception duty (docs/rules/air.md). */
+  | { type: 'intercept' };
 
 export interface Unit {
   id: number;
@@ -75,7 +79,15 @@ export interface Unit {
   /** Movement left this turn, in thirds of a movement point. */
   movesLeft: number;
   experience: string;
+  /** Hit points left (docs/rules/combat.md); an army's is the sum of its members'. */
+  hp: number;
   fortified: boolean;
+  /** Moved, attacked or bombarded this turn (units that did not heal). */
+  acted: boolean;
+  /** Made its attack or bombardment this turn (only blitz units attack again). */
+  attacked: boolean;
+  /** The transport, carrier or army holding this unit, or null. Carried units share its tile. */
+  carriedBy: number | null;
   order: Order | null;
   /** Automation routine assigned by the player (run by @civolution/automation), or null. */
   routine: string | null;
@@ -87,6 +99,8 @@ export interface Player {
   /** CSS colour. */
   color: string;
   human: boolean;
+  /** The barbarian tribes: always at war with everyone, moved by the engine (docs/rules/barbarians.md). */
+  barbarian: boolean;
   alive: boolean;
   gold: number;
   government: string;
@@ -109,6 +123,10 @@ export interface Player {
   explored: number[];
   /** Players this player is at war with. */
   atWarWith: number[];
+  /** War weariness points per enemy player id (docs/rules/war-weariness.md). */
+  weariness: Record<string, number>;
+  /** One of the player's armies has won a battle (unlocks the Military Academy and Heroic Epic). */
+  armyVictory: boolean;
   endedTurn: boolean;
 }
 
@@ -175,7 +193,7 @@ export interface WorkProgress {
 
 export interface GameState {
   format: 'civolution-state';
-  version: 2;
+  version: 3;
   rulesHash: string;
   seed: number;
   rng: RngState;
@@ -191,6 +209,6 @@ export interface GameState {
   difficulty: string;
   cities: Record<string, City>;
   nextCityId: number;
-  /** Great wonders built anywhere, mapped to the city that holds them. */
+  /** Great wonders built anywhere, mapped to the city that holds them (-1: destroyed with its city). */
   wonders: Record<string, number>;
 }

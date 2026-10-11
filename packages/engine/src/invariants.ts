@@ -5,9 +5,10 @@
  */
 import { neighbour, tileCount } from './grid.ts';
 import { canStandOn } from './movement.ts';
-import { isExplored, maxMoves } from './queries.ts';
+import { isExplored } from './queries.ts';
+import { canCarry, cargoOf, cargoSpace, isArmy, levelHp, unitMaxMoves } from './units.ts';
 import type { Rules } from './rules.ts';
-import type { GameState } from './state.ts';
+import { FLAG_CAMP, type GameState } from './state.ts';
 import { foodBox } from './city.ts';
 import { eraFor } from './science.ts';
 import { cityRadiusTiles } from './territory.ts';
@@ -67,12 +68,32 @@ export const invariants: Invariant[] = [
         if (!p?.alive) out.push(`unit ${u.id}: owner ${u.owner} is not an active player`);
         else if (!isExplored(p, u.tile)) out.push(`unit ${u.id}: owner has not explored its tile`);
         const blocked = canStandOn(rules, s, u, u.tile);
-        if (blocked && rules.unit(u.type).domain !== 'air') out.push(`unit ${u.id} (${u.type}) stands where it cannot: ${blocked}`);
-        if (u.movesLeft < 0 || u.movesLeft > maxMoves(rules, u)) out.push(`unit ${u.id}: movesLeft ${u.movesLeft} out of range`);
+        if (blocked) out.push(`unit ${u.id} (${u.type}) stands where it cannot: ${blocked}`);
+        if (u.movesLeft < 0 || u.movesLeft > unitMaxMoves(rules, s, u)) out.push(`unit ${u.id}: movesLeft ${u.movesLeft} out of range`);
+        if (isArmy(rules, u)) {
+          const sum = cargoOf(s, u.id).reduce((a, m) => a + m.hp, 0);
+          if (u.hp !== sum) out.push(`army ${u.id}: hp ${u.hp} is not its members' ${sum}`);
+        } else if (u.hp < 1 || u.hp > levelHp(rules, u.type, u.experience)) out.push(`unit ${u.id}: hp ${u.hp} out of range`);
+        if (!rules.set.experienceLevels.some((l) => l.id === u.experience)) out.push(`unit ${u.id}: unknown experience ${u.experience}`);
+        if (u.carriedBy !== null) {
+          const h = s.units[u.carriedBy];
+          if (!h) out.push(`unit ${u.id}: carried by missing unit ${u.carriedBy}`);
+          else {
+            if (h.tile !== u.tile) out.push(`unit ${u.id}: not on its carrier's tile`);
+            if (h.owner !== u.owner) out.push(`unit ${u.id}: carried by another player's unit`);
+            if (!isArmy(rules, h) && !canCarry(rules.unit(h.type), rules.unit(u.type))) out.push(`unit ${u.id}: ${h.type} cannot carry ${u.type}`);
+          }
+        }
         const other = owners.get(u.tile);
         if (other !== undefined && other !== u.owner) out.push(`tile ${u.tile} holds units of players ${other} and ${u.owner}`);
         owners.set(u.tile, u.owner);
         if (u.order?.type === 'goto' && (u.order.target < 0 || u.order.target >= n)) out.push(`unit ${u.id}: goto target off the map`);
+      }
+      const loads = new Map<number, number>();
+      for (const u of Object.values(s.units)) if (u.carriedBy !== null) loads.set(u.carriedBy, (loads.get(u.carriedBy) ?? 0) + 1);
+      for (const [id, load] of loads) {
+        const h = s.units[id];
+        if (h && load > cargoSpace(rules, s, h)) out.push(`unit ${id} carries ${load}, more than its ${cargoSpace(rules, s, h)}`);
       }
       return out;
     },
@@ -94,6 +115,7 @@ export const invariants: Invariant[] = [
     check(rules, s) {
       const out: string[] = [];
       const words = Math.ceil(tileCount(s.map) / 32);
+      if (s.players.filter((p) => p.barbarian).length > 1) out.push('more than one barbarian player');
       s.players.forEach((p, i) => {
         if (p.id !== i) out.push(`player at ${i} has id ${p.id}`);
         if (p.explored.length !== words) out.push(`player ${i}: explored bitset has ${p.explored.length} words, expected ${words}`);
@@ -103,6 +125,11 @@ export const invariants: Invariant[] = [
         if (p.research.beakers < 0) out.push(`player ${i}: negative beakers`);
         if (p.era !== eraFor(rules, p.techs)) out.push(`player ${i}: era ${p.era} does not match known techs`);
         if (new Set(p.techs).size !== p.techs.length) out.push(`player ${i}: a tech is listed twice`);
+        for (const [k, v] of Object.entries(p.weariness)) {
+          if (!s.players[Number(k)] || Number(k) === i) out.push(`player ${i}: weariness against bad player ${k}`);
+          if (!(v > 0)) out.push(`player ${i}: weariness ${v} against ${k}`);
+        }
+        for (const e of p.atWarWith) if (!s.players[e]?.atWarWith.includes(i) && s.players[e]?.alive && p.alive) out.push(`player ${i} is at war with ${e} but not the other way round`);
       });
       return out;
     },
@@ -139,12 +166,26 @@ export const invariants: Invariant[] = [
       }
       for (const [p, count] of palaces) if (count > 1) out.push(`player ${p} has ${count} palaces`);
       for (const [w, id] of Object.entries(s.wonders)) {
+        if (id === -1) continue;
         if (!s.cities[id] || !(w in s.cities[id].buildings)) out.push(`wonder ${w} is recorded in city ${id}, which does not have it`);
       }
       return out;
     },
   },
 ];
+
+invariants.push({
+  id: 'camps',
+  check(rules, s) {
+    const out: string[] = [];
+    s.map.flags.forEach((f, t) => {
+      if (!(f & FLAG_CAMP)) return;
+      if (rules.terrains[s.map.terrain[t]!]!.water) out.push(`camp on water tile ${t}`);
+      if (Object.values(s.cities).some((c) => c.tile === t)) out.push(`camp on city tile ${t}`);
+    });
+    return out;
+  },
+});
 
 export function checkInvariants(rules: Rules, state: GameState): string[] {
   return invariants.flatMap((inv) => inv.check(rules, state).map((msg) => `[${inv.id}] ${msg}`));

@@ -3,6 +3,7 @@ import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
 import { empireSummary, signed } from './empire.ts';
 import { VERSION } from '../version.ts';
+import { SoundMenu } from './SoundMenu.tsx';
 
 export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => void }) {
   const snap = useGame((s) => s.snapshot)!;
@@ -79,12 +80,16 @@ export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => v
       <button className={digestOpen ? 'on' : ''} onClick={() => setDigestOpen(!digestOpen)} title="Turn digest (F9)">
         Digest{needs > 0 ? ` · ${needs}` : ''}
       </button>
+      <button className={settings.lens ? 'on' : ''} onClick={() => setSettings({ lens: !settings.lens })} title="Automation lens: what every automated unit and city is doing (Ctrl+K)">
+        Lens
+      </button>
       <button className={settings.grid ? 'on' : ''} onClick={() => setSettings({ grid: !settings.grid })} title="Tile grid (Ctrl+G)">
         Grid
       </button>
       <button className={settings.perf ? 'on' : ''} onClick={() => setSettings({ perf: !settings.perf })} title="Performance overlay (`)">
         FPS
       </button>
+      <SoundMenu />
       <button onClick={onSave} title="Save (Ctrl+S)">
         Save
       </button>

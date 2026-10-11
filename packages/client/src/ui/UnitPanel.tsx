@@ -23,6 +23,7 @@ import { rules } from '../rules.ts';
 import { useGame, type AimAction } from '../store.ts';
 import { formatMoves } from './describe.ts';
 import { play } from '../audio.ts';
+import { unitArt } from './art.ts';
 
 export interface UnitAction {
   id: string;
@@ -76,8 +77,18 @@ export function unitActions(snap: Snapshot, u: Unit): UnitAction[] {
       if (!rule.airMissions.includes(id)) continue;
       out.push({ id, label, key, ...(shift ? { shift } : {}), run: aim(id as AimAction), ...(noMoves ?? fired ? { disabled: noMoves ?? fired! } : {}), detail: id === 'rebase' || id === 'recon' ? `${rule.operationalRange * 2} tiles` : `${rule.operationalRange} tiles` });
     }
-    if (rule.airMissions.includes('intercept'))
+    if (rule.airMissions.includes('intercept')) {
       out.push({ id: 'intercept', label: 'Intercept', key: 'KeyI', advances: true, run: () => send({ type: 'airMission', unit: u.id, mission: 'intercept' }), ...(noMoves ? { disabled: noMoves } : {}) });
+      out.push({
+        id: 'airDefence',
+        label: u.routine === 'airDefence' ? 'Stop interception duty' : 'Interception duty',
+        key: 'KeyI',
+        shift: true,
+        detail: 'every turn while at war',
+        advances: u.routine !== 'airDefence',
+        run: () => send({ type: 'setRoutine', unit: u.id, routine: u.routine === 'airDefence' ? null : 'airDefence' }),
+      });
+    }
   }
   if (rule.abilities.includes('nuclearWeapon')) {
     const why = !nukesEnabled(rules, snap.state) ? 'Nuclear weapons need the Manhattan Project to be built somewhere.' : noMoves;
@@ -197,6 +208,14 @@ export function unitActions(snap: Snapshot, u: Unit): UnitAction[] {
         },
       });
       out.push({
+        id: 'front',
+        label: u.routine === 'front' ? 'Stop reinforcing' : 'Reinforce front',
+        key: 'KeyQ',
+        detail: 'the city enemies press hardest',
+        advances: u.routine !== 'front',
+        run: () => send({ type: 'setRoutine', unit: u.id, routine: u.routine === 'front' ? null : 'front' }),
+      });
+      out.push({
         id: 'patrol',
         label: u.routine?.startsWith('patrol:') ? 'Stop patrolling' : 'Patrol',
         key: 'KeyV',
@@ -208,6 +227,17 @@ export function unitActions(snap: Snapshot, u: Unit): UnitAction[] {
         },
       });
     }
+    out.push({
+      id: 'escort',
+      label: u.routine?.startsWith('escort:') ? 'Stop escorting' : 'Escort…',
+      key: 'KeyE',
+      detail: 'keep to another unit',
+      run: () => {
+        if (u.routine?.startsWith('escort:')) return send({ type: 'setRoutine', unit: u.id, routine: null });
+        useGame.getState().setTilePick({ purpose: 'escort', unit: u.id });
+        return Promise.resolve();
+      },
+    });
     if (rule.specialActions.includes('bombard') && rule.bombardStrength > 0) {
       out.push({
         id: 'autoBombard',
@@ -231,6 +261,9 @@ function orderText(u: Unit): string {
   if (u.routine === 'autoSettle') return 'Looking for a city site';
   if (u.routine === 'garrison') return u.fortified ? 'Garrison' : 'Garrison: on the way';
   if (u.routine === 'bombard') return 'Bombarding enemies in range';
+  if (u.routine === 'front') return u.fortified ? 'Holding the front' : 'Reinforcing the front';
+  if (u.routine === 'airDefence') return 'Interception duty: standing by';
+  if (u.routine?.startsWith('escort:')) return 'Escorting';
   if (u.routine?.startsWith('patrol:')) return 'Patrolling';
   if (u.routine?.startsWith('rally:')) return 'To the rally point';
   switch (u.order?.type) {
@@ -268,7 +301,7 @@ export function UnitPanel() {
   return (
     <div className="unit-panel panel">
       <div className="unit-head">
-        <span className="swatch" style={{ background: owner.color }} />
+        <img className="unit-portrait" style={{ borderColor: owner.color }} src={unitArt(u.type)} alt="" onError={(e) => (e.currentTarget.style.visibility = 'hidden')} />
         <div>
           <h3>{u.name ? `${u.name} · ${u.scientific ? 'Great scientist' : rule.name}` : rule.name}</h3>
           <span className="muted">

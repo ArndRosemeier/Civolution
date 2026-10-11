@@ -30,6 +30,8 @@ export interface MapView {
   /** Tile under a screen position, or -1. */
   pick(clientX: number, clientY: number): number;
   setGrid(on: boolean): void;
+  /** Lens badges pinned to tiles, such as the automation lens. */
+  setMarkers(markers: readonly { tile: number; text: string; kind: string; title?: string }[]): void;
   stats(): MapStats;
   /** Camera access for the minimap and benchmarks. */
   view(): { x: number; z: number; distance: number; yaw: number };

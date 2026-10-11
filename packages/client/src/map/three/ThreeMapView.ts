@@ -6,6 +6,7 @@ import { buildCost, buildName, cityReport, isExplored, tileCount, type GameEvent
 import type { MapSnapshot, MapStats, MapView } from '../MapView.ts';
 import { StrategyCamera } from './camera.ts';
 import { CityLayer, type CityLabelInfo } from './cities.ts';
+import { MarkerLayer, type MapMarker } from './markers.ts';
 import { Chunk, makeChunks, type DressingMaterials } from './chunks.ts';
 import { applyFog, type FogUniforms } from './fog.ts';
 import { HeightField } from './heights.ts';
@@ -36,6 +37,8 @@ export class ThreeMapView implements MapView {
   private units: UnitLayer | null = null;
   private effects = new EffectLayer(1);
   private cities: CityLayer | null = null;
+  private markers: MarkerLayer | null = null;
+  private pendingMarkers: readonly MapMarker[] = [];
   private readonly labelLayer: HTMLElement | null;
   private readonly onCityClick: (city: number) => void;
   private water: THREE.Mesh[] = [];
@@ -203,6 +206,9 @@ export class ThreeMapView implements MapView {
     this.units = new UnitLayer(this.models, fog, W);
     this.world.add(this.units.group);
     this.cities = new CityLayer(this.models, fog, W, this.labelLayer, (id) => this.onCityClick(id));
+    this.markers?.dispose();
+    this.markers = new MarkerLayer(this.labelLayer, W);
+    this.markers.set(this.pendingMarkers);
     this.world.add(this.cities.group);
     this.cam.setBounds(W, H);
     this.previous = null;
@@ -504,6 +510,12 @@ export class ThreeMapView implements MapView {
     }
   }
 
+  /** Lens badges pinned to tiles (empty list to clear). */
+  setMarkers(markers: readonly MapMarker[]): void {
+    this.pendingMarkers = markers;
+    this.markers?.set(markers);
+  }
+
   setGrid(on: boolean): void {
     this.grid = on;
     if (this.hf) this.terrainUniforms.uGrid.value = on ? 1 : 0;
@@ -572,6 +584,7 @@ export class ThreeMapView implements MapView {
     this.units!.update(dt, this.hf, tx, this.cam.distance, this.time);
     this.effects.update(dt, tx);
     this.cities!.update(this.hf, this.cam.camera, tx, this.cam.distance, this.canvas);
+    this.markers?.update(this.hf, this.cam.camera, tx, this.cam.distance, this.canvas);
     this.placeHover();
     // Shadows follow the view and switch off at strategic zoom.
     const d = this.cam.distance;
@@ -601,6 +614,7 @@ export class ThreeMapView implements MapView {
     cancelAnimationFrame(this.raf);
     for (const c of this.chunks) c.dispose();
     this.cities?.dispose();
+    this.markers?.dispose();
     this.effects.dispose();
     this.renderer.dispose();
   }

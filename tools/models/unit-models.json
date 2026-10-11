@@ -59,18 +59,18 @@
   "mountedWarrior": "civ_unit_horseman.glb",
   "musketeer": "civ_unit_musketman.glb",
   "samurai": "civ_unit_medieval_infantry.glb",
-  "warElephant": "civ_unit_knight.glb",
+  "warElephant": "civ_unit_war_elephant.glb",
   "cossack": "civ_unit_cavalry.glb",
   "panzer": "civ_unit_tank.glb",
   "manOWar": "civ_unit_frigate.glb",
   "f15": "civ_unit_jet_fighter.glb",
   "privateer": "civ_unit_frigate.glb",
-  "keshik": "civ_unit_knight.glb",
+  "keshik": "civ_unit_horseman.glb",
   "conquistador": "civ_unit_knight.glb",
   "berserk": "civ_unit_medieval_infantry.glb",
   "sipahi": "civ_unit_cavalry.glb",
   "gallicSwordsman": "civ_unit_swordsman.glb",
-  "ansarWarrior": "civ_unit_knight.glb",
+  "ansarWarrior": "civ_unit_camel_rider.glb",
   "numidianMercenary": "civ_unit_spearman.glb",
   "hwacha": "civ_unit_catapult.glb",
   "medievalInfantry": "civ_unit_medieval_infantry.glb",
@@ -116,7 +116,7 @@
   "javelinThrower": "civ_unit_archer.glb",
   "dromon": "civ_unit_galley.glb",
   "cruiser": "civ_unit_destroyer.glb",
-  "crusader": "civ_unit_knight.glb",
+  "crusader": "civ_unit_medieval_infantry.glb",
   "ancientCavalry": "civ_unit_horseman.glb",
   "curragh": "civ_unit_galley.glb",
   "paratrooper": "civ_unit_paratrooper.glb",
@@ -250,7 +250,7 @@
       "fit": "length"
     },
     "civ_unit_tank.glb": {
-      "size": 1.0,
+      "size": 1,
       "fit": "length"
     },
     "civ_unit_modern_armor.glb": {
@@ -302,7 +302,7 @@
       "fit": "length"
     },
     "civ_unit_fighter.glb": {
-      "size": 1.0,
+      "size": 1,
       "fit": "length"
     },
     "civ_unit_jet_fighter.glb": {
@@ -330,12 +330,20 @@
       "fit": "height"
     },
     "civ_barbarian_camp.glb": {
-      "size": 1.0,
+      "size": 1,
       "fit": "length"
     },
     "civ_fx_crater.glb": {
-      "size": 1.0,
+      "size": 1,
       "fit": "length"
+    },
+    "civ_unit_war_elephant.glb": {
+      "size": 1.1,
+      "fit": "height"
+    },
+    "civ_unit_camel_rider.glb": {
+      "size": 0.924,
+      "fit": "height"
     }
   }
 }

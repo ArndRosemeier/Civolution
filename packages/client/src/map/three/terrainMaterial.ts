@@ -5,6 +5,10 @@
  * procedural detail: rock on steep slopes, snow on high peaks, sand along shores,
  * furrows on irrigated fields, and the fog of war.
  *
+ * Ground detail comes from generated seamless textures (art/terrain/<id>.jpg) packed
+ * into one texture array; each is sampled at two scales so the repeat does not show,
+ * and the two-tone palette stays as the colour until (or if) the textures load.
+ *
  * Data textures (map lattice resolution, width × height):
  *  - uTerrain (RGBA8, nearest): R terrain index, G improvement bits, B tile flags.
  *  - uFog (R8, linear): 0 unexplored, ~0.5 explored, 1 visible; corner texels hold
@@ -35,14 +39,69 @@ export interface TerrainUniforms {
   uGrid: { value: number };
 }
 
+/** Ground textures in the array, in layer order; terrains without their own use the closest. */
+export const GROUND_TEXTURES = ['grassland', 'plains', 'desert', 'tundra', 'floodPlain', 'hills', 'mountains', 'forest', 'jungle', 'marsh', 'volcano', 'beach', 'snow'] as const;
+const GROUND_FOR: Record<string, string> = { coast: 'beach', sea: 'beach', ocean: 'beach' };
+const TEX_SIZE = 512;
+
+/** Loads the ground textures into one array texture; resolves false if any is missing. */
+function loadGround(tex: THREE.DataArrayTexture): Promise<boolean> {
+  const layers = GROUND_TEXTURES.length;
+  const data = new Uint8Array(TEX_SIZE * TEX_SIZE * 4 * layers);
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = TEX_SIZE;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  if (!ctx) return Promise.resolve(false);
+  const one = (id: string, layer: number) =>
+    new Promise<boolean>((done) => {
+      const img = new Image();
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, TEX_SIZE, TEX_SIZE);
+        data.set(ctx.getImageData(0, 0, TEX_SIZE, TEX_SIZE).data, layer * TEX_SIZE * TEX_SIZE * 4);
+        done(true);
+      };
+      img.onerror = () => done(false);
+      img.src = `${import.meta.env.BASE_URL}art/terrain/${id}.jpg`;
+    });
+  // Decoding one after another keeps the shared canvas simple; it is a one-off at start.
+  return GROUND_TEXTURES.reduce<Promise<boolean>>((ok, id, i) => ok.then((all) => one(id, i).then((x) => all && x)), Promise.resolve(true)).then((ok) => {
+    if (!ok) return false;
+    tex.image = { data, width: TEX_SIZE, height: TEX_SIZE, depth: layers };
+    tex.needsUpdate = true;
+    return true;
+  });
+}
+
+let ground: { tex: THREE.DataArrayTexture; ready: { value: number } } | null = null;
+
+/** One shared ground texture array for every map view. */
+function groundTextures(): { tex: THREE.DataArrayTexture; ready: { value: number } } {
+  if (ground) return ground;
+  const tex = new THREE.DataArrayTexture(new Uint8Array(4 * GROUND_TEXTURES.length), 1, 1, GROUND_TEXTURES.length);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.magFilter = THREE.LinearFilter;
+  tex.minFilter = THREE.LinearMipmapLinearFilter;
+  tex.generateMipmaps = true;
+  tex.anisotropy = 4;
+  tex.needsUpdate = true;
+  const g = { tex, ready: { value: 0 } };
+  ground = g;
+  if (typeof document !== 'undefined') void loadGround(tex).then((ok) => (g.ready.value = ok ? 1 : 0));
+  return g;
+}
+
 export function makeTerrainMaterial(terrainIds: readonly string[], uniforms: TerrainUniforms): THREE.MeshStandardMaterial {
   const n = terrainIds.length;
+  const g = groundTextures();
+  const layerOf = (id: string) => Math.max(0, GROUND_TEXTURES.indexOf((GROUND_FOR[id] ?? id) as (typeof GROUND_TEXTURES)[number]));
+  const layers = terrainIds.map((id) => layerOf(id));
   const palA = terrainIds.map((id) => new THREE.Color().setRGB(...hexToRgb(TERRAIN_COLORS[id]?.[0] ?? '#ff00ff'), THREE.SRGBColorSpace));
   const palB = terrainIds.map((id) => new THREE.Color().setRGB(...hexToRgb(TERRAIN_COLORS[id]?.[1] ?? '#ff00ff'), THREE.SRGBColorSpace));
   const idx = (id: string) => terrainIds.indexOf(id);
   const mat = new THREE.MeshStandardMaterial({ roughness: 0.92, metalness: 0 });
   mat.onBeforeCompile = (shader) => {
-    Object.assign(shader.uniforms, uniforms, { uPalA: { value: palA }, uPalB: { value: palB } });
+    Object.assign(shader.uniforms, uniforms, { uPalA: { value: palA }, uPalB: { value: palB }, uGround: { value: g.tex }, uGroundReady: g.ready, uLayer: { value: layers } });
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', '#include <common>\nvarying vec2 vMapPos;\nvarying float vHeight;\nvarying vec3 vUpNormal;\nuniform sampler2D uFog;\nuniform vec2 uMapSize;')
       .replace(
@@ -69,7 +128,17 @@ uniform float uTime;
 uniform float uGrid;
 uniform vec3 uPalA[${n}];
 uniform vec3 uPalB[${n}];
+uniform highp sampler2DArray uGround;
+uniform float uGroundReady;
+uniform int uLayer[${n}];
 ${NOISE_GLSL}
+// Two scales, the larger one rotated, mixed by noise: the repeat of one texture vanishes.
+vec3 cvGround(float layer, vec2 p) {
+  vec3 a = texture(uGround, vec3(p * 0.42, layer)).rgb;
+  vec2 q = mat2(0.8, -0.6, 0.6, 0.8) * p * 0.13 + 0.37;
+  vec3 b = texture(uGround, vec3(q, layer)).rgb;
+  return mix(a, b, 0.25 + 0.35 * cvNoise(p * 0.35));
+}
 vec4 cvTile(vec2 p, out vec2 local) {
   float u = (p.x + p.y) * 0.5;
   float v = (p.y - p.x) * 0.5;
@@ -106,20 +175,30 @@ vec3 cvPal(int id, vec2 p) {
   vec3 col = cvPal(id, p);
   float slope = 1.0 - clamp(vUpNormal.y, 0.0, 1.0);
   vec3 rock = mix(vec3(0.42, 0.39, 0.35), vec3(0.55, 0.52, 0.47), cvNoise(p * 5.0));
+  vec3 sand = vec3(0.83, 0.76, 0.56);
+  vec3 snow = vec3(0.93, 0.95, 0.98);
+  if (uGroundReady > 0.5) {
+    int layer = 0;
+    for (int i = 0; i < ${n}; i++) { if (i == id) layer = uLayer[i]; }
+    col = cvGround(float(layer), p);
+    rock = cvGround(${layerOf('mountains')}.0, p);
+    sand = cvGround(${layerOf('beach')}.0, p);
+    snow = cvGround(${layerOf('snow')}.0, p);
+  }
   if (id == ${idx('mountains')} || id == ${idx('volcano')} || id == ${idx('hills')}) {
     col = mix(col, rock, smoothstep(0.25, 0.6, slope));
   }
   if (id == ${idx('volcano')}) col = mix(col, vec3(0.12, 0.1, 0.1), smoothstep(1.0, 1.4, vHeight));
-  if (id == ${idx('mountains')}) col = mix(col, vec3(0.93, 0.95, 0.98), smoothstep(1.05, 1.25, vHeight + cvNoise(p * 3.0) * 0.15) * (1.0 - smoothstep(0.55, 0.8, slope)));
-  if (id == ${idx('tundra')}) col = mix(col, vec3(0.88, 0.9, 0.92), smoothstep(0.62, 0.8, cvFbm(p * 2.3)) * 0.7);
+  if (id == ${idx('mountains')}) col = mix(col, snow, smoothstep(1.05, 1.25, vHeight + cvNoise(p * 3.0) * 0.15) * (1.0 - smoothstep(0.55, 0.8, slope)));
+  if (id == ${idx('tundra')}) col = mix(col, snow, smoothstep(0.62, 0.8, cvFbm(p * 2.3)) * 0.7);
   // Shore sand on land just above the water line.
   if (vHeight > -0.02 && vHeight < 0.07 && id != ${idx('coast')} && id != ${idx('sea')} && id != ${idx('ocean')}) {
-    col = mix(col, vec3(0.83, 0.76, 0.56), (1.0 - smoothstep(0.02, 0.07, vHeight)) * 0.8);
+    col = mix(col, sand, (1.0 - smoothstep(0.02, 0.07, vHeight)) * 0.8);
   }
   // Warped lookups can land on a water tile while the ground here is above the sea:
   // that ground is beach, not sea floor.
   bool waterTile = id == ${idx('coast')} || id == ${idx('sea')} || id == ${idx('ocean')};
-  if (waterTile && vHeight > -0.03) col = vec3(0.83, 0.76, 0.56) * (0.92 + 0.16 * cvNoise(p * 6.0));
+  if (waterTile && vHeight > -0.03) col = sand * (0.92 + 0.16 * cvNoise(p * 6.0));
   if (vHeight < -0.03) col = mix(col, vec3(0.62, 0.58, 0.45), 0.5);
   // Outcroppings on bonus grassland.
   if ((flags & 1) != 0) col = mix(col, vec3(0.45, 0.38, 0.28), step(0.83, cvNoise(p * 9.0)) * 0.8);

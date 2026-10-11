@@ -1,14 +1,16 @@
 /**
- * Sound effects for game events (PLAN.md §10.4). Clips are generated into public/audio
- * with an index of variations (packages/assets, `sounds`); a random variation plays per
- * event. Without the files the game stays silent.
+ * Sound playback (PLAN.md §10.4): effects for game events and UI actions, an era music
+ * bed and a terrain ambience under the camera. Clips are generated into public/audio with
+ * an index of variations (packages/assets, `sounds`); a random variation plays each time.
+ * Which event makes which sound lives in sounds.ts. Without the files the game is silent.
+ * Volumes are kept per browser; choosing variations never touches game state.
  */
 import type { GameEvent } from '@civolution/engine';
+import { MUSIC, TITLE_MUSIC, pickSound, type SoundContext } from './sounds.ts';
 import { concernsHuman } from './ui/describe.ts';
 
 let index: Record<string, string[]> | null = null;
 let loading: Promise<void> | null = null;
-let volume = 0.6;
 
 function load(): Promise<void> {
   loading ??= fetch(`${import.meta.env.BASE_URL}audio/index.json`)
@@ -22,153 +24,215 @@ function load(): Promise<void> {
   return loading;
 }
 
-export function setVolume(v: number): void {
-  volume = Math.max(0, Math.min(1, v));
+export type Channel = 'effects' | 'music' | 'ambience';
+
+export interface Volumes {
+  effects: number;
+  music: number;
+  ambience: number;
+  muted: boolean;
 }
 
+const DEFAULTS: Volumes = { effects: 0.6, music: 0.35, ambience: 0.3, muted: false };
+const STORAGE = 'civolution.volumes';
+
+let volumes: Volumes = readVolumes();
+const listeners = new Set<(v: Volumes) => void>();
+
+function readVolumes(): Volumes {
+  try {
+    const raw = localStorage.getItem(STORAGE);
+    if (raw) return { ...DEFAULTS, ...(JSON.parse(raw) as Partial<Volumes>) };
+  } catch {
+    // Storage can be missing or blocked; the defaults do.
+  }
+  return { ...DEFAULTS };
+}
+
+export function getVolumes(): Volumes {
+  return volumes;
+}
+
+export function setVolumes(change: Partial<Volumes>): void {
+  volumes = { ...volumes, ...change };
+  for (const k of ['effects', 'music', 'ambience'] as const) volumes[k] = Math.max(0, Math.min(1, volumes[k]));
+  try {
+    localStorage.setItem(STORAGE, JSON.stringify(volumes));
+  } catch {
+    // Not saved; it still applies for this visit.
+  }
+  music.apply();
+  ambience.apply();
+  for (const f of listeners) f(volumes);
+}
+
+export function onVolumes(f: (v: Volumes) => void): () => void {
+  listeners.add(f);
+  return () => listeners.delete(f);
+}
+
+function level(channel: Channel): number {
+  return volumes.muted ? 0 : volumes[channel];
+}
+
+function url(file: string): string {
+  return `${import.meta.env.BASE_URL}audio/${file}`;
+}
+
+function variation(id: string): string | null {
+  const files = index?.[id];
+  if (!files || files.length === 0) return null;
+  return files[Math.floor(Math.random() * files.length)]!;
+}
+
+let lastPlayed = 0;
+
+/** Plays one effect. */
 export function play(id: string): void {
+  lastPlayed = performance.now();
   void load().then(() => {
-    const files = index?.[id];
-    if (!files || files.length === 0 || volume === 0) return;
-    // Variation choice is presentation only; it never touches game state.
-    const file = files[Math.floor(Math.random() * files.length)]!;
-    const a = new Audio(`${import.meta.env.BASE_URL}audio/${file}`);
-    a.volume = volume;
+    const file = variation(id);
+    const v = level('effects');
+    if (!file || v === 0) return;
+    const a = new Audio(url(file));
+    a.volume = v;
     void a.play().catch(() => undefined);
   });
 }
 
-const EVENT_SOUNDS: Partial<Record<GameEvent['type'], string>> = {
-  cityFounded: 'city-founded',
-  cityGrew: 'city-grew',
-  cityStarved: 'city-starved',
-  wonderBuilt: 'wonder-complete',
-  techDiscovered: 'tech-discovered',
-  eraEntered: 'era-entered',
-  cityDisorder: 'disorder',
-  cityOrderRestored: 'order-restored',
-  anarchyStarted: 'revolution',
-  governmentChanged: 'government-changed',
-  bordersGrew: 'borders-grew',
-  cityHurried: 'hurry',
-  workStarted: 'work-started',
-};
+/**
+ * A looping bed (music or ambience): plays variations of the current id one after
+ * another and crossfades when the id changes.
+ */
+class Bed {
+  private current: HTMLAudioElement | null = null;
+  private id: string | null = null;
+  private fading = false;
 
-let unitFamily: (type: string) => string = () => 'melee';
+  constructor(
+    private readonly channel: Channel,
+    private readonly fadeMs: number,
+    /** Ambiences repeat one clip; music moves on to another variation. */
+    private readonly loopOne: boolean,
+  ) {}
 
-/** Tells the audio which sound family a unit type belongs to (see combatFamily in the client). */
-export function setUnitFamily(f: (type: string) => string): void {
-  unitFamily = f;
+  set(id: string | null): void {
+    if (id === this.id) return;
+    this.id = id;
+    void load().then(() => {
+      if (this.id === id) this.start();
+    });
+  }
+
+  apply(): void {
+    const v = level(this.channel);
+    if (this.current && v === 0) {
+      this.current.pause();
+      this.current = null;
+    } else if (this.current && !this.fading) this.current.volume = v;
+    else if (!this.current && this.id && v > 0) this.start();
+  }
+
+  private start(): void {
+    const old = this.current;
+    this.current = null;
+    if (old) this.fade(old, old.volume, 0, () => old.pause());
+    const file = this.id ? variation(this.id) : null;
+    if (!file || level(this.channel) === 0) return;
+    const a = new Audio(url(file));
+    a.loop = this.loopOne;
+    a.volume = 0;
+    a.addEventListener('ended', () => {
+      if (this.current === a) {
+        this.current = null;
+        this.start();
+      }
+    });
+    this.current = a;
+    void a.play().then(
+      () => this.fade(a, 0, level(this.channel)),
+      () => {
+        // Autoplay is blocked until the first click or key; try again then.
+        if (this.current === a) this.current = null;
+        waitForGesture();
+      },
+    );
+  }
+
+  private fade(a: HTMLAudioElement, from: number, to: number, done?: () => void): void {
+    const t0 = performance.now();
+    const mine = a === this.current;
+    if (mine) this.fading = true;
+    const step = () => {
+      const k = Math.min(1, (performance.now() - t0) / this.fadeMs);
+      a.volume = Math.max(0, Math.min(1, from + (to - from) * k));
+      if (k < 1) requestAnimationFrame(step);
+      else {
+        if (mine && a === this.current) this.fading = false;
+        done?.();
+      }
+    };
+    requestAnimationFrame(step);
+  }
 }
 
-const WAR_SOUNDS: Partial<Record<GameEvent['type'], string>> = {
-  warDeclared: 'war-declared',
-  peaceMade: 'peace',
-  cityCaptured: 'city-captured',
-  cityDestroyed: 'city-destroyed',
-  cityRaided: 'city-destroyed',
-  leaderBorn: 'leader-born',
-  playerEliminated: 'city-destroyed',
-  treatyBroken: 'war-declared',
-  ceasefireEnded: 'war-declared',
-  cityRevolted: 'culture-flip',
-  barbarianLanding: 'barbarian-landing',
-  spaceshipLost: 'city-destroyed',
-  meltdown: 'meltdown',
-};
+const music = new Bed('music', 2500, false);
+const ambience = new Bed('ambience', 1500, true);
 
-/** The great moments of Phase 6: these outrank everything but war. */
-const EPOCH_SOUNDS: Partial<Record<GameEvent['type'], string>> = {
-  goldenAgeStarted: 'golden-age',
-  spaceshipLaunched: 'spaceship-launch',
-  globalWarming: 'global-warming',
-  unitedNationsVote: 'un-vote',
-  pollutionAppeared: 'pollution',
-  resistanceStarted: 'resistance',
-};
+let waiting = false;
+function waitForGesture(): void {
+  if (waiting || typeof window === 'undefined') return;
+  waiting = true;
+  const resume = () => {
+    waiting = false;
+    window.removeEventListener('pointerdown', resume);
+    window.removeEventListener('keydown', resume);
+    music.apply();
+    ambience.apply();
+  };
+  window.addEventListener('pointerdown', resume);
+  window.addEventListener('keydown', resume);
+}
 
-const DIPLOMACY_SOUNDS: Partial<Record<GameEvent['type'], string>> = {
-  contactMade: 'first-contact',
-  dealMade: 'treaty-signed',
-  ceasefireAgreed: 'treaty-signed',
-  dealRejected: 'deal-declined',
-  dealProposed: 'envoy-arrives',
-  airdrop: 'parachute',
-  airlift: 'airlift',
-};
+/**
+ * A soft click for any button press that made no sound of its own: React's handlers run
+ * before this document listener, so a button that played something is left alone.
+ */
+export function installClickSounds(): void {
+  document.addEventListener('click', (e) => {
+    const b = e.target instanceof Element ? e.target.closest('button, [role="tab"], .button') : null;
+    if (!b || (b as HTMLButtonElement).disabled) return;
+    if (performance.now() - lastPlayed > 120) play('ui-click');
+  });
+}
 
-const SKIRMISH_SOUNDS: Partial<Record<GameEvent['type'], string>> = {
-  bombarded: 'bombard',
-  airMission: 'aircraft',
-  intercepted: 'dogfight',
-  tilePillaged: 'pillage',
-  unitCaptured: 'capture',
-  unitPromoted: 'promotion',
-  unitBoarded: 'board-ship',
-  campDestroyed: 'gold-coins',
-  campAppeared: 'barbarian-horn',
-  armyFormed: 'leader-born',
-};
+/** The music bed for an era (0 ancient … 3 modern), or the title theme. */
+export function setMusic(era: number | 'title' | null): void {
+  music.set(era === null ? null : era === 'title' ? TITLE_MUSIC : MUSIC[Math.max(0, Math.min(MUSIC.length - 1, era))]!);
+}
+
+/** The ambience under the camera (an id from sounds.ts AMBIENCE), or none. */
+export function setAmbience(id: string | null): void {
+  ambience.set(id);
+}
+
+let context: Omit<SoundContext, 'human'> = { family: () => 'melee', unitType: () => undefined };
+
+/** Tells the audio how to look up units (the client's rules and current state). */
+export function setSoundContext(c: Omit<SoundContext, 'human'>): void {
+  context = c;
+}
 
 /** Plays the most important sound among a batch of the human player's events. */
 export function playEvents(events: readonly GameEvent[], human: number): void {
   const mine = events.filter((e) => concernsHuman(e, human));
-  // War first: the loudest thing in the batch wins.
-  const nuke = mine.find((e) => e.type === 'nuclearStrike');
-  if (nuke?.type === 'nuclearStrike') {
-    play(nuke.stopped ? 'missile-intercepted' : 'nuclear-blast');
-    return;
-  }
-  const won = mine.find((e) => e.type === 'gameWon');
-  if (won?.type === 'gameWon') {
-    play(won.player === human ? 'victory' : 'defeat');
-    return;
-  }
-  const war = mine.find((e) => WAR_SOUNDS[e.type]);
-  if (war) {
-    play(WAR_SOUNDS[war.type]!);
-    return;
-  }
-  const epoch = mine.find((e) => EPOCH_SOUNDS[e.type]);
-  if (epoch) {
-    play(EPOCH_SOUNDS[epoch.type]!);
-    return;
-  }
+  const id = pickSound(mine, { ...context, human });
+  if (!id) return;
+  play(id);
+  // A battle also says how it went, a moment later (presentation timing only).
   const last = mine.filter((e) => e.type === 'combat').at(-1);
-  if (last?.type === 'combat') {
-    play(`attack-${unitFamily(last.attackerType)}`);
+  if (last?.type === 'combat' && id.startsWith('attack-')) {
     const attackerWon = last.result === 'attackerWon' || last.result === 'defenderRetreated';
-    const humanWon = (last.attackerPlayer === human) === attackerWon;
-    // Presentation timing only.
-    setTimeout(() => play(humanWon ? 'battle-won' : 'battle-lost'), 900);
-    return;
-  }
-  const spy = mine.find((e) => e.type === 'espionage');
-  if (spy?.type === 'espionage') {
-    play(spy.mission === 'embassy' ? 'embassy' : spy.success ? 'spy-success' : 'spy-caught');
-    return;
-  }
-  const talk = mine.find((e) => DIPLOMACY_SOUNDS[e.type]);
-  if (talk) {
-    play(DIPLOMACY_SOUNDS[talk.type]!);
-    return;
-  }
-  const skirmish = mine.find((e) => SKIRMISH_SOUNDS[e.type]);
-  if (skirmish) {
-    play(SKIRMISH_SOUNDS[skirmish.type]!);
-    return;
-  }
-  const priority = ['eraEntered', 'wonderBuilt', 'anarchyStarted', 'governmentChanged', 'techDiscovered', 'cityFounded', 'cityDisorder', 'cityBuilt', 'cityGrew', 'cityCelebrating', 'bordersGrew', 'cityOrderRestored', 'cityStarved', 'cityHurried', 'workStarted'];
-  for (const type of priority) {
-    const e = mine.find((x) => x.type === type);
-    if (!e) continue;
-    if (e.type === 'cityBuilt') play(e.build.kind === 'unit' ? 'unit-trained' : 'building-complete');
-    else if (e.type === 'cityCelebrating') {
-      if (e.started) play('celebration');
-    } else {
-      const id = EVENT_SOUNDS[e.type];
-      if (id) play(id);
-    }
-    return;
+    setTimeout(() => play((last.attackerPlayer === human) === attackerWon ? 'battle-won' : 'battle-lost'), 900);
   }
 }

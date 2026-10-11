@@ -4,7 +4,9 @@
 gate towers, a team-coloured banner. `style: "village"`: round thatched huts around
 a fire and a totem. `style: "camp"`: a barbarian war camp, hide tents round a
 fire inside a broken palisade of stakes, a crude carved totem and team-coloured
-war banners. Origin at the centre, base on Z=0.
+war banners. `style: "fortress"`: a square stone fort with corner towers round an
+open yard. `style: "barricade"`: a modern strongpoint of concrete blocks, sandbags and
+steel hedgehogs. Origin at the centre, base on Z=0.
 
 Slots: wall, roof, stone, wood, team, thatch, fire.
 """
@@ -35,8 +37,8 @@ class SettlementParams:
 def parse_params(raw: Mapping[str, object]) -> SettlementParams:
     reject_unknown(raw, ("style", "radius", "buildings", "walls", "seed"), "params")
     style = as_str(require_key(raw, "style", "params"), "params.style")
-    if style not in ("town", "village", "camp"):
-        raise SpecError("params.style must be town, village or camp")
+    if style not in ("town", "village", "camp", "fortress", "barricade"):
+        raise SpecError("params.style must be town, village, camp, fortress or barricade")
     p = SettlementParams(
         style=style,
         radius=positive_float(require_key(raw, "radius", "params"), "params.radius"),
@@ -198,6 +200,90 @@ def _camp(b: ShapeBuilder, p: SettlementParams) -> None:
     b.between((-0.6, -0.33, 0.35), (-0.3, -0.33, 0.35), 0.015, "wood", segments=4)
 
 
+def _fortress(b: ShapeBuilder, p: SettlementParams) -> None:
+    """A square stone fort round an open yard (the units stand in the middle): battered
+    curtain walls with crenellations, round corner towers, a gate on -Y and a
+    team-coloured flag on one tower."""
+    r = rng(p.seed)
+    R = p.radius
+    t = 0.09  # wall thickness
+    h = 0.22  # wall height
+    for side in range(4):
+        ang = side * math.pi / 2
+        cx, cy = math.cos(ang - math.pi / 2), math.sin(ang - math.pi / 2)
+        # Wall along this side, split by the gate on the first side (-Y).
+        runs = [(-R * 0.82, -0.16), (0.16, R * 0.82)] if side == 0 else [(-R * 0.82, R * 0.82)]
+        for a0, a1 in runs:
+            mid = (a0 + a1) / 2
+            ln = a1 - a0
+            tx, ty = -cy, cx  # along the wall
+            px, py = cx * R + tx * mid, cy * R + ty * mid
+            b.box((px, py, h / 2), (ln, t, h), "stone", rotation=(0.0, 0.0, ang))
+            # Crenellations.
+            n = max(2, int(ln / 0.1))
+            for k in range(n):
+                s = a0 + (k + 0.5) * ln / n
+                b.box((cx * (R + t * 0.3) + tx * s, cy * (R + t * 0.3) + ty * s, h + 0.03), (ln / n * 0.5, t * 0.45, 0.06), "stone", rotation=(0.0, 0.0, ang))
+            # Walkway on the inside.
+            b.box((cx * (R - t * 0.9) + tx * mid, cy * (R - t * 0.9) + ty * mid, h * 0.8), (ln, t * 0.9, 0.025), "wood", rotation=(0.0, 0.0, ang))
+    # Corner towers.
+    for i in range(4):
+        a = math.pi / 4 + i * math.pi / 2
+        x, y = math.cos(a) * R * math.sqrt(2) * 0.97, math.sin(a) * R * math.sqrt(2) * 0.97
+        th = h + 0.12 + r.uniform(-0.01, 0.02)
+        b.cylinder((x, y, th / 2), 0.13, th, "stone", segments=10, radius_top=0.115)
+        for k in range(6):
+            ca = 2 * math.pi * k / 6
+            b.box((x + math.cos(ca) * 0.11, y + math.sin(ca) * 0.11, th + 0.03), (0.05, 0.05, 0.06), "stone", rotation=(0.0, 0.0, ca))
+        b.cone((x, y, th + 0.06), 0.14, 0.14, "roof", segments=10)
+    # Gate: two posts and a lintel, with an open wooden door leaf.
+    for sx in (-1.0, 1.0):
+        b.box((0.17 * sx, -R, h * 0.6), (0.08, t * 1.4, h * 1.2), "stone")
+    b.box((0.0, -R, h * 1.15), (0.42, t * 1.4, 0.06), "stone")
+    b.box((-0.13, -R + 0.12, h * 0.42), (0.03, 0.18, h * 0.8), "wood", rotation=(0.0, 0.0, 0.5))
+    # Flag on the north-east tower.
+    fx, fy = math.cos(math.pi / 4) * R * math.sqrt(2) * 0.97, math.sin(math.pi / 4) * R * math.sqrt(2) * 0.97
+    top = h + 0.12 + 0.2 + 0.25
+    b.between((fx, fy, h + 0.15), (fx, fy, top), 0.012, "wood", segments=5)
+    b.extrude([(fx, top - 0.02), (fx + 0.22, top - 0.05), (fx, top - 0.14)], "y", fy - 0.008, fy + 0.008, "team")
+
+
+def _barricade(b: ShapeBuilder, p: SettlementParams) -> None:
+    """A modern strongpoint round an open centre: broken rings of concrete blocks and
+    sandbag walls, steel anti-tank hedgehogs outside, a team-coloured flag."""
+    r = rng(p.seed)
+    R = p.radius
+    # Concrete blocks in a ring with gaps.
+    blocks = 14
+    for i in range(blocks):
+        if i in (3, 10):
+            continue
+        a = 2 * math.pi * i / blocks + r.uniform(-0.04, 0.04)
+        x, y = R * math.cos(a), R * math.sin(a)
+        b.box((x, y, 0.09), (0.32, 0.12, 0.18), "stone", rotation=(0.0, 0.0, a + math.pi / 2 + r.uniform(-0.08, 0.08)))
+        b.box((x * 1.0, y * 1.0, 0.19), (0.28, 0.08, 0.03), "stone", rotation=(0.0, 0.0, a + math.pi / 2))
+    # Sandbag walls on the inside: rows of squashed spheres.
+    for i in range(3):
+        a0 = 2 * math.pi * i / 3 + 0.5
+        for row in range(2):
+            for k in range(7):
+                a = a0 + (k - 3) * 0.11 + (0.055 if row else 0.0)
+                rr = R * 0.72
+                b.sphere((rr * math.cos(a), rr * math.sin(a), 0.035 + row * 0.06), (0.06, 0.045, 0.035), "thatch", detail=1)
+    # Steel hedgehogs outside: three crossed beams each.
+    for i in range(6):
+        a = 2 * math.pi * i / 6 + 0.25
+        x, y = (R + 0.3) * math.cos(a), (R + 0.3) * math.sin(a)
+        s = 0.11
+        b.between((x - s, y, 0.0), (x + s, y, 0.18), 0.012, "wall", segments=4)
+        b.between((x + s, y, 0.0), (x - s, y, 0.18), 0.012, "wall", segments=4)
+        b.between((x, y - s, 0.0), (x, y + s, 0.18), 0.012, "wall", segments=4)
+    # Flag on a pole.
+    fx, fy = -R * 0.55, R * 0.45
+    b.between((fx, fy, 0.0), (fx, fy, 0.75), 0.012, "wall", segments=5)
+    b.extrude([(fx, 0.73), (fx + 0.24, 0.69), (fx + 0.24, 0.58), (fx, 0.6)], "y", fy - 0.008, fy + 0.008, "team")
+
+
 def build(spec: AssetSpec) -> list[bpy.types.Object]:
     require_materials(spec.materials, MATERIAL_SLOTS, spec.generator)
     p = parse_params(spec.params)
@@ -206,6 +292,10 @@ def build(spec: AssetSpec) -> list[bpy.types.Object]:
         _town(b, p)
     elif p.style == "camp":
         _camp(b, p)
+    elif p.style == "fortress":
+        _fortress(b, p)
+    elif p.style == "barricade":
+        _barricade(b, p)
     else:
         _village(b, p)
     obj = b.to_object(spec.asset_id, spec.materials)

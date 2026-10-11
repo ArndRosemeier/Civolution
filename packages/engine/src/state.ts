@@ -67,7 +67,8 @@ export interface MapState {
 export type Order =
   | { type: 'fortify' }
   | { type: 'sentry' }
-  | { type: 'goto'; target: number }
+  /** `route` is the planned path still ahead (without the unit's tile); missing means plan again. */
+  | { type: 'goto'; target: number; route?: number[] }
   | { type: 'work'; job: string }
   /** Aircraft on interception duty (docs/rules/air.md). */
   | { type: 'intercept' };

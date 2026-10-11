@@ -6,6 +6,7 @@ import { armyCount, armyLimit, attitude, campTiles, cargoOf, currentHp, isArmy, 
 import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
 import { Dialog } from './Dialog.tsx';
+import { unitArt } from './art.ts';
 
 export function ForeignAdvisor({ onClose }: { onClose: () => void }) {
   const snap = useGame((s) => s.snapshot)!;
@@ -133,7 +134,7 @@ export function ForeignAdvisor({ onClose }: { onClose: () => void }) {
                   return (
                     <tr key={type}>
                       <td>
-                        <img className="thumb" src={`${import.meta.env.BASE_URL}art/units/${type}.png`} alt="" onError={(ev) => (ev.currentTarget.style.display = 'none')} /> {r.name}
+                        <img className="thumb" src={unitArt(type)} alt="" onError={(ev) => (ev.currentTarget.style.display = 'none')} /> {r.name}
                       </td>
                       <td>
                         {r.attack} / {r.defence} / {r.movement}

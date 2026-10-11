@@ -35,7 +35,7 @@ export type Panel =
 export type AutomationTab = 'delegation' | 'governors' | 'templates' | 'workers' | 'policies' | 'rules';
 
 /** A map click the UI is waiting for (setting a rally point, a patrol's far end, a worker region). */
-export type TilePick = { purpose: 'rally'; city: number } | { purpose: 'patrol'; unit: number } | { purpose: 'region' };
+export type TilePick = { purpose: 'rally'; city: number } | { purpose: 'patrol'; unit: number } | { purpose: 'escort'; unit: number } | { purpose: 'region' };
 
 /** A unit action waiting for its target tile. */
 export type AimAction = 'bombard' | 'bomb' | 'precisionBomb' | 'recon' | 'rebase' | 'nuke' | 'airdrop' | 'airlift';
@@ -76,6 +76,8 @@ export interface Settings {
   grid: boolean;
   perf: boolean;
   shadows: boolean;
+  /** Automation lens: badges for automated units and cities. */
+  lens: boolean;
 }
 
 interface Store {
@@ -119,11 +121,11 @@ interface Store {
 function readSettings(): Settings {
   try {
     const raw = localStorage.getItem('civolution.settings');
-    if (raw) return { grid: false, perf: false, shadows: true, ...(JSON.parse(raw) as Partial<Settings>) };
+    if (raw) return { grid: false, perf: false, shadows: true, lens: false, ...(JSON.parse(raw) as Partial<Settings>) };
   } catch {
     // Private mode or blocked storage: defaults are fine.
   }
-  return { grid: false, perf: false, shadows: true };
+  return { grid: false, perf: false, shadows: true, lens: false };
 }
 
 /** Cities of the human player with nothing to build. */
@@ -241,6 +243,7 @@ export const useGame = create<Store>((set, get) => {
       set({ tilePick: pick, gotoMode: false, aim: null });
     },
     open(panel) {
+      if ((panel === null) !== (get().panel === null)) play(panel ? 'ui-open' : 'ui-close');
       set({ panel, gotoMode: false, aim: null });
     },
     async newGame(options) {
@@ -295,6 +298,7 @@ export const useGame = create<Store>((set, get) => {
       }
     },
     select(id) {
+      if (id !== null && id !== get().selected) play('ui-select');
       set({ selected: id, gotoMode: false, aim: null });
     },
     selectNext() {

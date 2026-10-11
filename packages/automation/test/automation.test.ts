@@ -23,7 +23,9 @@ import {
   importRoutines,
   inputSeconds,
   jobBoard,
+  frontNeeds,
   runAutomation,
+  runRoutines,
   templateBuild,
 } from '../src/index.ts';
 
@@ -150,6 +152,62 @@ describe('the worker pool', () => {
     });
     board = jobBoard(rules, s, 0);
     expect(board.jobs.filter((j) => ['road', 'irrigation', 'mine'].includes(j.job))).toEqual([]);
+  });
+});
+
+describe('Phase 7 routines', () => {
+  it('reinforce the city visible enemies press hardest, and hold it', () => {
+    let s = flatGame();
+    place(s, 1, 'settler', at(s, 60, 60));
+    s = run(s, { type: 'declareWar', player: 0, target: 1 });
+    const a = found(s, 0, 20, 20);
+    const b = found(a.s, 0, 30, 20);
+    s = b.s;
+    place(s, 1, 'swordsman', at(s, 31, 22));
+    place(s, 1, 'swordsman', at(s, 32, 22));
+    const spear = place(s, 0, 'spearman', at(s, 21, 20), { routine: 'front' });
+    const need = frontNeeds(rules, s, 0);
+    expect(need.map((f) => f.city.id)).toEqual([b.c.id]);
+    let r = runRoutines(rules, s, 0);
+    expect(r.commands[0]).toMatchObject({ type: 'goto', to: b.c.tile });
+    expect(r.commands[0]!.reason).toMatch(/Front: reinforcing/);
+    // Once there, it holds the city.
+    s = r.state;
+    s.units[spear.id] = { ...s.units[spear.id]!, tile: b.c.tile, order: null, movesLeft: 3 };
+    r = runRoutines(rules, s, 0);
+    expect(r.commands[0]).toMatchObject({ type: 'fortify' });
+    expect(r.commands[0]!.reason).toMatch(/holding/);
+  });
+
+  it('escort another unit and stop when it is gone', () => {
+    let s = flatGame();
+    const settler = place(s, 0, 'settler', at(s, 24, 20));
+    const guard = place(s, 0, 'spearman', at(s, 20, 20), { routine: `escort:${settler.id}` });
+    let r = runRoutines(rules, s, 0);
+    expect(r.commands[0]).toMatchObject({ type: 'goto', to: settler.tile });
+    s = r.state;
+    s = run(s, { type: 'disband', player: 0, unit: settler.id });
+    s.units[guard.id] = { ...s.units[guard.id]!, order: null, movesLeft: 3 };
+    r = runRoutines(rules, s, 0);
+    expect(r.commands[0]).toMatchObject({ type: 'setRoutine', routine: null });
+  });
+
+  it('fly interception duty while at war and stand down to repair', () => {
+    let s = flatGame();
+    const { s: s1, c } = found(s, 0, 20, 20);
+    s = s1;
+    const f = place(s, 0, 'fighter', c.tile, { routine: 'airDefence' });
+    expect(runRoutines(rules, s, 0).commands).toEqual([]);
+    place(s, 1, 'settler', at(s, 60, 60));
+    s = run(s, { type: 'declareWar', player: 0, target: 1 });
+    let r = runRoutines(rules, s, 0);
+    expect(r.commands[0]).toMatchObject({ type: 'airMission', mission: 'intercept' });
+    expect(r.state.units[f.id]!.order).toEqual({ type: 'intercept' });
+    s = r.state;
+    s.units[f.id] = { ...s.units[f.id]!, hp: 1 };
+    r = runRoutines(rules, s, 0);
+    expect(r.commands[0]).toMatchObject({ type: 'wake' });
+    expect(r.commands[0]!.reason).toMatch(/repair/);
   });
 });
 

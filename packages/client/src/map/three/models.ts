@@ -38,6 +38,8 @@ const SCENERY = {
   jungle: { file: 'civ_nature_jungle.glb', size: 0.42, fit: 'height' },
   reed: { file: 'civ_nature_reed.glb', size: 0.18, fit: 'height' },
   mine: { file: 'civ_nature_mine.glb', size: 0.6, fit: 'length' },
+  fortress: { file: 'civ_fortress.glb', size: 0.95, fit: 'length' },
+  barricade: { file: 'civ_barricade.glb', size: 1.0, fit: 'length' },
 } satisfies Record<string, ModelSpec>;
 
 /** Unit models and their scale (tools/models/unit-models.json, written with the Blender pipeline). */

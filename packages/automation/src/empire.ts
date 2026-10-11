@@ -27,14 +27,38 @@ import {
   type Rules,
 } from '@civolution/engine';
 
+/** Tiles within three of a city, where no new city may stand; cached per set of cities. */
+const crowdedCache = new WeakMap<GameState['cities'], Uint8Array>();
+
+function crowded(state: GameState): Uint8Array {
+  let mask = crowdedCache.get(state.cities);
+  if (mask) return mask;
+  mask = new Uint8Array(state.map.terrain.length);
+  for (const c of Object.values(state.cities)) for (const t of tilesInRadius(state.map, c.tile, 3)) mask[t] = 1;
+  crowdedCache.set(state.cities, mask);
+  return mask;
+}
+
+/** Site scores already worked out for a state, keyed by player and tile. */
+const scoreCache = new WeakMap<GameState, Map<number, number>>();
+
 /** How good a city site `tile` is for `player` (0 when it cannot be settled). */
 export function siteScore(rules: Rules, state: GameState, player: number, tile: number): number {
+  let scores = scoreCache.get(state);
+  if (!scores) scoreCache.set(state, (scores = new Map<number, number>()));
+  const key = player * state.map.terrain.length + tile;
+  let score = scores.get(key);
+  if (score === undefined) scores.set(key, (score = computeSiteScore(rules, state, player, tile)));
+  return score;
+}
+
+function computeSiteScore(rules: Rules, state: GameState, player: number, tile: number): number {
   const m = state.map;
   const t = rules.terrains[m.terrain[tile]!]!;
   if (!t.canFoundCity || t.water) return 0;
   const owner = m.territory[tile]!;
   if (owner >= 0 && owner !== player) return 0;
-  for (const c of Object.values(state.cities)) if (distance(m, c.tile, tile) < 4) return 0;
+  if (crowded(state)[tile]) return 0;
   let score = 0;
   for (const x of cityRadiusTiles(m, tile)) {
     const o = m.territory[x]!;

@@ -58,8 +58,8 @@ Civ3's; the weights are ours.
 ## Calendar
 
 Turn 1 is 4000 BC. The rule file's time scale gives 25 turns of 50 years, 25 of 40, 40 of
-25, 50 of 20, 100 of 10, 100 of 5, then 2 years a turn; there is no year 0
-(`calendar.ts`).
+25, 50 of 20, 100 of 10, 100 of 5 and 100 of 2 (AD 1951 at turn 441), then one year a
+turn as in Civ3, so the last turn (540) is AD 2050; there is no year 0 (`calendar.ts`).
 
 ## Test vectors
 

@@ -632,3 +632,71 @@ kbd {
     height: 160px;
   }
 }
+
+.sound-menu {
+  position: relative;
+}
+.sound-pop {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 40;
+  width: 240px;
+  padding: 10px 12px;
+  display: grid;
+  gap: 8px;
+  background: var(--panel-solid);
+}
+.sound-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.sound-row span {
+  flex: 0 0 auto;
+  min-width: 64px;
+}
+.sound-row input[type='range'] {
+  flex: 1;
+  accent-color: var(--accent);
+}
+.sound-row small {
+  width: 24px;
+  text-align: right;
+  color: var(--muted);
+}
+
+.unit-head .unit-portrait {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: 50%;
+  border: 2px solid;
+  object-fit: cover;
+}
+
+/* Map lens badges (map/three/markers.ts). */
+.map-marker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-size: 11px;
+  line-height: 16px;
+  white-space: nowrap;
+  pointer-events: auto;
+  color: var(--text);
+  background: rgba(20, 60, 70, 0.86);
+  border: 1px solid rgba(95, 179, 201, 0.6);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+.map-marker.city {
+  background: rgba(60, 48, 16, 0.88);
+  border-color: rgba(233, 185, 73, 0.65);
+}
+.map-marker.front {
+  border-color: var(--warn);
+  color: #ffd9b8;
+}

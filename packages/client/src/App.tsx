@@ -6,6 +6,7 @@ import { useGame } from './store.ts';
 import { BenchScreen } from './bench/BenchScreen.tsx';
 import { WhatsNew } from './ui/WhatsNew.tsx';
 import { VERSION } from './version.ts';
+import { setMusic } from './audio.ts';
 
 type Screen = 'title' | 'new' | 'load' | 'news' | 'game';
 
@@ -23,6 +24,9 @@ export function App() {
   useEffect(() => {
     if (snapshot) setScreen('game');
   }, [snapshot]);
+  useEffect(() => {
+    if (screen !== 'game') setMusic('title');
+  }, [screen]);
   if (params.has('bench')) return <BenchScreen size={params.get('size') ?? 'huge'} units={Number(params.get('units') ?? 500)} />;
   if (screen === 'game' && snapshot) return <GameScreen />;
   return (

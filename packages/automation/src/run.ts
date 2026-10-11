@@ -167,6 +167,7 @@ function delegateUnit(rules: Rules, state: GameState, u: Unit): Command | null {
   if (role === 'worker' && a.delegate.workers) return { type: 'setRoutine', player, unit: u.id, routine: 'autoWorker', reason: 'Delegated: joins the worker pool' };
   if (role === 'settler' && a.delegate.builds) return { type: 'setRoutine', player, unit: u.id, routine: 'autoSettle', reason: 'Delegated: settles the best site nearby' };
   if (!a.delegate.military) return null;
+  if (rules.unit(u.type).airMissions.includes('intercept')) return { type: 'setRoutine', player, unit: u.id, routine: 'airDefence', reason: 'Delegated: flies interception duty while at war' };
   if (role === 'explorer') return { type: 'setRoutine', player, unit: u.id, routine: 'explore', reason: 'Delegated: explores' };
   if (role === 'siege') return { type: 'setRoutine', player, unit: u.id, routine: 'bombard', reason: 'Delegated: bombards enemies in range' };
   if (role !== 'defender' && role !== 'attacker') return null;

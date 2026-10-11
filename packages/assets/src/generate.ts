@@ -4,7 +4,7 @@
  * Generates 2D art from a manifest through OpenRouter (PLAN.md §10.3): the style bible
  * first, then every item with the style bible as a reference image (where the model
  * accepts references). Outputs are post-processed (resize, circular mask for icons)
- * and recorded with their provenance (model, prompt, date, cost) next to the art.
+ * or made seamless for tiling textures) and recorded with their provenance (model, prompt, date, cost) next to the art.
  * Items whose output exists with the same input hash are skipped, so re-runs are cheap.
  * The key comes from OPEN_ROUTER_KEY.
  */
@@ -16,6 +16,7 @@ import { parseArgs } from 'node:util';
 import sharp from 'sharp';
 import { z } from 'zod';
 import { generateImages, imageModels } from './openrouter/images.ts';
+import { makeSeamless } from './seamless.ts';
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 
@@ -24,7 +25,9 @@ const itemSchema = z.strictObject({
   prompt: z.string(),
   aspectRatio: z.string().optional(),
   out: z.string(),
-  post: z.strictObject({ resize: z.number().int().positive().optional(), circleMask: z.boolean().optional(), roundedMask: z.number().min(0).max(0.5).optional() }).optional(),
+  post: z
+    .strictObject({ resize: z.number().int().positive().optional(), circleMask: z.boolean().optional(), roundedMask: z.number().min(0).max(0.5).optional(), seamless: z.boolean().optional() })
+    .optional(),
   references: z.array(z.string()),
 });
 const manifestSchema = z.strictObject({
@@ -73,6 +76,7 @@ async function postProcess(bytes: Buffer, item: Item): Promise<Buffer> {
     const mask = Buffer.from(`<svg width="${size}" height="${size}"><circle cx="${r}" cy="${r}" r="${r - 1}" fill="#fff"/></svg>`);
     img = sharp(await img.png().toBuffer()).composite([{ input: mask, blend: 'dest-in' }]);
   }
+  if (item.post?.seamless) img = sharp(await makeSeamless(await img.png().toBuffer()));
   return item.out.endsWith('.jpg') ? img.jpeg({ quality: 86 }).toBuffer() : img.png({ compressionLevel: 9 }).toBuffer();
 }
 

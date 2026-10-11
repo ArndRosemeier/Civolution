@@ -23,6 +23,9 @@ export function LeaderPortrait({ player, size, mood }: { player: Player; size: n
   const [failed, setFailed] = useState(false);
   const style = { width: size, height: size, borderColor: player.color };
   const cls = `leader-portrait ${mood ? `mood-${mood}` : ''}`;
+  if (player.barbarian && !failed) {
+    return <img className={cls} style={style} src={`${import.meta.env.BASE_URL}art/leaders/barbarians.jpg`} alt={player.name} onError={() => setFailed(true)} />;
+  }
   if (!player.civ || failed) {
     return (
       <span className={`${cls} initial`} style={{ ...style, background: player.color, fontSize: size * 0.42 }} aria-hidden>

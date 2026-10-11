@@ -346,7 +346,9 @@ export function runCampaign(ctx: Ctx, field: Unit[], campaign: Campaign): void {
  */
 function closeIn(ctx: Ctx, v: Unit, target: number, reason: string): void {
   if (v.order?.type === 'goto' && distance(ctx.state().map, v.order.target, target) <= 1) return;
-  for (const spot of approaches(ctx, target, v.tile).slice(0, 3)) if (goto(ctx, v, spot, reason)) return;
+  // One route search: when the best approach cannot be reached, its neighbours rarely can, and every failed search walks the whole region.
+  const spot = approaches(ctx, target, v.tile)[0];
+  if (spot !== undefined && goto(ctx, v, spot, reason)) return;
   const s = ctx.state();
   const here = distance(s.map, v.tile, target);
   const steps = neighbours(s.map, v.tile)

@@ -19,6 +19,9 @@ Code: `packages/engine/src/barbarians.ts`, `raidCity` (war.ts), tribal villages 
   second era, then the advanced one (Horseman).
 - **Raiders** head for the nearest city or unit within 8 tiles, attack when their chance to
   win or retreat is at least 25 %, and otherwise wander.
+- **Raids:** barbarians never hold or destroy a city. Entering an undefended city they take
+  up to 10 gold per citizen from its owner's treasury, kill one citizen (a size 1 city stays
+  at size 1) and leave with the loot. Source: owner's ruling 2026-10-11.
 - Entering an empty camp destroys it for 25 gold.
 - Human players fight barbarians with the difficulty's bonus ([combat.md](combat.md)).
 - **Tribal villages** may now hold 1 or 2 barbarians (after turn 5, not within 3 tiles of

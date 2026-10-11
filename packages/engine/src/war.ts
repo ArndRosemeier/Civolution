@@ -377,7 +377,8 @@ export function enterUndefended(rules: Rules, tx: Tx, unitId: number, tile: numb
     losers.add(x.owner);
     if (canCapture && !captor.barbarian && capturable(rules, x)) {
       const r = rules.unit(x.type);
-      const type = r.specialActions.includes('buildCity') ? rules.set.general.slaveUnit : x.type;
+      const settler = r.specialActions.includes('buildCity');
+      const type = settler ? rules.set.general.slaveUnit : x.type;
       const c = tx.unit(x.id);
       c.owner = u.owner;
       c.type = type;
@@ -387,6 +388,11 @@ export function enterUndefended(rules: Rules, tx: Tx, unitId: number, tile: numb
       c.routine = null;
       c.fortified = false;
       tx.emit({ type: 'unitCaptured', unit: x.id, player: u.owner, from: x.owner, unitType: type, tile });
+      // A captured settler yields two workers (owner's ruling, docs/rules/capture.md).
+      if (settler) {
+        const extra = tx.addUnit({ ...newUnit(rules, u.owner, type, tile), movesLeft: 0 });
+        tx.emit({ type: 'unitCaptured', unit: extra.id, player: u.owner, from: x.owner, unitType: type, tile });
+      }
     } else {
       removeUnitDeep(tx, x.id, false, 'destroyed');
     }
@@ -479,21 +485,22 @@ export function destroyCity(rules: Rules, tx: Tx, cityId: number, by: number): v
   if (tx.state.options.mode === 'elimination' && by !== c.owner && !tx.state.players[by]?.barbarian) eliminatePlayer(rules, tx, c.owner, by, 'lost a city in an elimination game');
 }
 
-/** Barbarians entering an undefended city loot it and leave (docs/rules/barbarians.md). */
+/**
+ * Barbarians entering an undefended city loot it and leave; they never destroy a city, so a
+ * size 1 city keeps its citizen (docs/rules/barbarians.md).
+ */
 function raidCity(rules: Rules, tx: Tx, cityId: number, raider: number): void {
   const c = tx.state.cities[cityId]!;
   const owner = tx.state.players[c.owner]!;
   const gold = Math.min(owner.gold, 10 * c.size);
   tx.player(c.owner).gold = owner.gold - gold;
   removeUnitDeep(tx, raider, false, 'spent');
-  if (c.size <= 1) {
-    tx.emit({ type: 'cityRaided', city: cityId, player: c.owner, tile: c.tile, gold, size: 0 });
-    destroyCity(rules, tx, cityId, tx.state.players.find((p) => p.barbarian)!.id);
-    return;
+  const size = Math.max(1, c.size - 1);
+  if (size !== c.size) {
+    tx.city(cityId).size = size;
+    replaceCitizens(rules, tx, cityId);
   }
-  tx.city(cityId).size = c.size - 1;
-  replaceCitizens(rules, tx, cityId);
-  tx.emit({ type: 'cityRaided', city: cityId, player: c.owner, tile: c.tile, gold, size: c.size - 1 });
+  tx.emit({ type: 'cityRaided', city: cityId, player: c.owner, tile: c.tile, gold, size });
 }
 
 /** A civilization with no cities and nothing to found one with is out of the game. */

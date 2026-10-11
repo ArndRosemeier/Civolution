@@ -231,7 +231,7 @@ describe('attacking', () => {
     expect(checkInvariants(rules, s)).toEqual([]);
   });
 
-  it('turns a captured settler into a worker', () => {
+  it('turns a captured settler into two workers', () => {
     let s = war(flatGame());
     const t = at(s, 20, 20);
     place(s, 1, 'settler', t);
@@ -240,7 +240,47 @@ describe('attacking', () => {
     const a = place(s, 0, 'warrior', at(s, 22, 20));
     s = run(s, { type: 'moveUnit', player: 0, unit: a.id, to: t });
     const captured = Object.values(s.units).filter((u) => u.tile === t && u.owner === 0).map((u) => u.type).sort();
-    expect(captured).toEqual(['warrior', 'worker']);
+    // Owner's ruling 2026-10-11 (docs/rules/capture.md): one settler, two workers.
+    expect(captured).toEqual(['warrior', 'worker', 'worker']);
+    expect(checkInvariants(rules, s)).toEqual([]);
+  });
+
+  it('lets barbarians plunder a size 1 city but never destroy it', () => {
+    let s = flatGame();
+    const c = found(s, 1, 20, 20);
+    s = c.s;
+    s.players[1] = { ...s.players[1]!, gold: 100 };
+    const barb = s.players.find((p) => p.barbarian)!.id;
+    s.players[barb] = { ...s.players[barb]!, endedTurn: false }; // the engine moves them; here the test does
+    const raider = place(s, barb, 'warrior', at(s, 22, 20));
+    const r = apply(rules, s, { type: 'moveUnit', player: barb, unit: raider.id, to: c.c.tile });
+    expect(r.error).toBeUndefined();
+    s = r.state;
+    // Owner's ruling 2026-10-11 (docs/rules/barbarians.md): the city stays, at size 1.
+    expect(s.cities[c.c.id]!.owner).toBe(1);
+    expect(s.cities[c.c.id]!.size).toBe(1);
+    expect(s.players[1]!.gold).toBe(100 - 10);
+    expect(s.units[raider.id]).toBeUndefined();
+    expect(r.events.some((e) => e.type === 'cityDestroyed')).toBe(false);
+    expect(r.events.find((e) => e.type === 'cityRaided')).toMatchObject({ gold: 10, size: 1 });
+    expect(s.players[1]!.alive).toBe(true);
+    expect(checkInvariants(rules, s)).toEqual([]);
+  });
+
+  it('lets barbarians kill a citizen of a bigger city', () => {
+    let s = flatGame();
+    const c = found(s, 1, 20, 20);
+    s = c.s;
+    s.cities[c.c.id] = { ...s.cities[c.c.id]!, size: 3, worked: [], specialists: { entertainer: 3 } };
+    s.players[1] = { ...s.players[1]!, gold: 100 };
+    invalidateCaches(s);
+    const barb = s.players.find((p) => p.barbarian)!.id;
+    s.players[barb] = { ...s.players[barb]!, endedTurn: false }; // the engine moves them; here the test does
+    const raider = place(s, barb, 'warrior', at(s, 22, 20));
+    s = run(s, { type: 'moveUnit', player: barb, unit: raider.id, to: c.c.tile });
+    expect(s.cities[c.c.id]!.size).toBe(2);
+    expect(s.players[1]!.gold).toBe(100 - 30);
+    expect(checkInvariants(rules, s)).toEqual([]);
   });
 
   it('captures an undefended city: one citizen fewer, palace moves, gold is plundered', () => {

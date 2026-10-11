@@ -11,7 +11,8 @@ Code: `enterUndefended`, `captureCity`, `destroyCity`, `raidCity`, `checkElimina
 tile where nothing can defend moves in and:
 
 - **captures** workers, settlers and artillery when it has the `capture` action (armies
-  always do): workers and artillery change sides, settlers become workers (`slaveUnit`);
+  always do): workers and artillery change sides; each settler becomes **two** workers
+  (`slaveUnit`). Source: owner's ruling 2026-10-11;
 - **destroys** everything else there (leaders, ships in port, aircraft).
 
 **Cities.**
@@ -27,8 +28,9 @@ tile where nothing can defend moves in and:
 - A civilization that loses its capital gets a palace in its largest remaining city at no
   cost. A civilization without a capital makes its first conquest the capital.
 
-**Barbarians** do not hold cities: entering an undefended city they take up to 10 gold per
-citizen, kill a citizen (burning a size 1 city) and leave with the loot.
+**Barbarians** do not hold or destroy cities: entering an undefended city they take up to
+10 gold per citizen, kill a citizen (a size 1 city keeps its last one) and leave with the
+loot. Source: owner's ruling 2026-10-11 ([barbarians.md](barbarians.md)).
 
 **Elimination.** A civilization with no cities and no unit able to found one is destroyed;
 its remaining units are removed.
@@ -37,3 +39,5 @@ its remaining units are removed.
 
 - Civ3's real rules for buildings surviving capture and for plunder. Resistance and culture
   flips arrive in Phase 6.
+- The owner says captured size 1 cities are not always destroyed in Civ3; the exact rule is
+  being clarified. Until then a captured size 1 city is still destroyed.

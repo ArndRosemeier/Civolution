@@ -213,7 +213,7 @@ export function describeEvent(s: { state: GameState; human: number }, e: GameEve
     case 'cityDestroyed':
       return e.player === s.human ? `${e.name} has been destroyed.` : `${e.name} is razed.`;
     case 'cityRaided':
-      return e.size > 0 ? `Barbarians sack ${cityName(st, e.city)}: ${e.gold} gold taken.` : `Barbarians burn ${cityName(st, e.city)} to the ground.`;
+      return `Barbarians sack ${cityName(st, e.city)}: ${e.gold} gold taken.`;
     case 'airMission':
       return e.mission === 'rebase' ? `${unitName(st, e.unit)} rebased.` : e.mission === 'recon' ? 'Reconnaissance flight under way.' : null;
     case 'intercepted':

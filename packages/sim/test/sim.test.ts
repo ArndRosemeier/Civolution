@@ -54,7 +54,8 @@ describe('headless games', () => {
   }, 120_000);
 
   it('fights wars between four AI civilizations with barbarians about (Phase 3)', () => {
-    const game = { seed: 1, map: { worldSize: 'small' }, players: defaultPlayers(4) };
+    // Seed 2: barbarians no longer destroy cities, and seed 1's only fallen city was a barbarian raid.
+    const game = { seed: 2, map: { worldSize: 'small' }, players: defaultPlayers(4) };
     const { state, log, report } = runGame({ rules, game, controllers: [ai, ai, ai, ai], turns: 150 });
     expect(report.invariantFailures).toEqual([]);
     expect(report.war.battles).toBeGreaterThan(20);

@@ -1,0 +1,283 @@
+/* Phase 3: health, combat odds, the war room, headline cards and targeting. */
+:root {
+  --win: #6fcf7a;
+  --loss: #e0553a;
+  --retreat: #e8c547;
+  --war: #e0553a;
+  --peace: #6fb6ff;
+}
+
+.unit-panel .hp {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 6px;
+  font-size: 12px;
+}
+.hp-bar {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.hp-bar i {
+  display: block;
+  height: 100%;
+  background: var(--win);
+  transition: width 0.3s ease;
+}
+.hp-bar i.mid {
+  background: var(--retreat);
+}
+.hp-bar i.low {
+  background: var(--loss);
+}
+
+.attack-preview {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--panel-border);
+  font-size: 13px;
+}
+.attack-preview.good {
+  color: var(--ok);
+}
+.attack-preview .odds strong {
+  font-size: 18px;
+  margin-right: 2px;
+}
+.attack-preview .odds.good strong {
+  color: var(--win);
+}
+.attack-preview .odds.warn strong {
+  color: var(--loss);
+}
+.odds-bar {
+  display: flex;
+  height: 6px;
+  margin: 6px 0;
+  border-radius: 3px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+}
+.odds-bar i {
+  display: block;
+  height: 100%;
+}
+.odds-bar .win {
+  background: var(--win);
+}
+.odds-bar .retreat {
+  background: var(--retreat);
+}
+.odds-bar .loss {
+  background: var(--loss);
+}
+.strength {
+  display: grid;
+  grid-template-columns: 58px 44px 1fr;
+  gap: 6px;
+  align-items: baseline;
+  margin-top: 3px;
+}
+.strength small {
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.game.aim .map-canvas {
+  cursor: crosshair;
+}
+.aim-hint {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 14px;
+  border-color: rgba(233, 185, 73, 0.45);
+  color: var(--accent);
+  z-index: 30;
+  pointer-events: none;
+}
+
+.stat.at-war strong {
+  color: var(--war);
+}
+
+.advisor.foreign {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 900px) {
+  .advisor.foreign {
+    grid-template-columns: 1fr;
+  }
+}
+.advisor.foreign h3 {
+  margin: 0 0 4px;
+}
+.advisor.foreign .swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+.badge img {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+}
+.badge.war {
+  color: #ffc9bd;
+  background: rgba(224, 85, 58, 0.18);
+}
+.badge.peace {
+  color: #cfe6ff;
+  background: rgba(111, 182, 255, 0.15);
+}
+button.danger {
+  border-color: rgba(224, 85, 58, 0.5);
+  color: #ffc9bd;
+}
+button.danger:hover {
+  background: rgba(224, 85, 58, 0.2);
+}
+img.thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.news-card {
+  position: absolute;
+  top: 74px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(560px, calc(100% - 32px));
+  display: flex;
+  gap: 0;
+  overflow: hidden;
+  z-index: 35;
+  animation: news-in 0.35s ease-out;
+  border-color: rgba(233, 185, 73, 0.35);
+}
+.news-card img {
+  width: 200px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.news-body {
+  padding: 14px 16px;
+}
+.news-body h3 {
+  margin: 0 0 6px;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+.news-body p {
+  margin: 0 0 12px;
+  line-height: 1.45;
+}
+.news-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.news-warDeclared,
+.news-cityLost,
+.news-cityDestroyed,
+.news-cityRaided,
+.news-nuclearStrike {
+  border-color: rgba(224, 85, 58, 0.5);
+}
+.news-warDeclared h3,
+.news-cityLost h3,
+.news-cityDestroyed h3,
+.news-cityRaided h3,
+.news-nuclearStrike h3 {
+  color: #ff8f73;
+}
+@media (max-width: 600px) {
+  .news-card img {
+    display: none;
+  }
+}
+@keyframes news-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -12px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Title screen: version and "What's new". */
+.version-tag {
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  background: rgba(10, 14, 20, 0.6);
+  border-color: rgba(233, 185, 73, 0.25);
+}
+.version-tag:hover {
+  color: var(--accent);
+}
+.whats-new {
+  max-height: min(64vh, 640px);
+  overflow-y: auto;
+  padding-right: 6px;
+}
+.whats-new section {
+  padding: 12px 0 16px;
+  border-bottom: 1px solid var(--panel-border);
+}
+.whats-new section:last-child {
+  border-bottom: 0;
+}
+.whats-new header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+.whats-new .version {
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+.whats-new h3 {
+  margin: 6px 0 8px;
+}
+.whats-new ul {
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.55;
+}
+.whats-new li + li {
+  margin-top: 3px;
+}
+
+img.rank {
+  width: 16px;
+  height: 16px;
+  vertical-align: -3px;
+  margin-right: 3px;
+}

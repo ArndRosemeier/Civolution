@@ -21,6 +21,46 @@ function cityName(state: GameState, id: number): string {
   return state.cities[id]?.name ?? 'A city';
 }
 
+function who(state: GameState, p: number): string {
+  return state.players[p]?.name ?? 'Someone';
+}
+
+function typeName(t: string): string {
+  return rules.hasUnit(t) ? rules.unit(t).name : t;
+}
+
+/** Whether an event is news for the human player (their own, or something done to them). */
+export function concernsHuman(e: GameEvent, human: number): boolean {
+  switch (e.type) {
+    case 'combat':
+      return e.attackerPlayer === human || e.defenderPlayer === human;
+    case 'bombarded':
+      return e.player === human || e.targetPlayer === human;
+    case 'cityCaptured':
+      return e.player === human || e.from === human;
+    case 'cityDestroyed':
+      return e.player === human || e.by === human;
+    case 'unitCaptured':
+      return e.player === human || e.from === human;
+    case 'intercepted':
+      return e.player === human || e.byPlayer === human;
+    case 'zoneOfControlAttack':
+      return e.player === human || e.byPlayer === human;
+    case 'defensiveBombard':
+      return e.player === human || e.targetPlayer === human;
+    case 'warDeclared':
+    case 'peaceMade':
+      return e.player === human || e.target === human;
+    case 'playerEliminated':
+    case 'nuclearStrike':
+    case 'campAppeared':
+    case 'turnStarted':
+      return true;
+    default:
+      return !('player' in e) || e.player === human;
+  }
+}
+
 export function describeEvent(s: { state: GameState; human: number }, e: GameEvent): string | null {
   const st = s.state;
   switch (e.type) {
@@ -70,6 +110,8 @@ export function describeEvent(s: { state: GameState; human: number }, e: GameEve
       if (o.kind === 'gold') return `${who} found ${o.amount} gold in a tribal village.`;
       if (o.kind === 'map') return `The villagers shared their maps: ${o.tiles} tiles revealed.`;
       if (o.kind === 'unit') return `A band of warriors from the village joins you.`;
+      if (o.kind === 'tech') return `The villagers teach you ${rules.tech(o.tech).name}.`;
+      if (o.kind === 'barbarians') return 'The village was a barbarian lair! Hostile tribesmen attack.';
       return 'The village was abandoned.';
     }
     case 'workCompleted':
@@ -86,6 +128,70 @@ export function describeEvent(s: { state: GameState; human: number }, e: GameEve
       return e.arrived ? null : `${unitName(st, e.unit)} could not continue its route.`;
     case 'unitDisbanded':
       return 'Unit disbanded.';
+    case 'combat': {
+      const mine = e.attackerPlayer === s.human;
+      const a = typeName(e.attackerType);
+      const d = typeName(e.defenderType);
+      if (mine) {
+        if (e.result === 'attackerWon') return `Victory: your ${a} defeated the ${who(st, e.defenderPlayer)} ${d} (${e.odds} % odds).`;
+        if (e.result === 'defenderWon') return `Defeat: your ${a} fell attacking the ${who(st, e.defenderPlayer)} ${d} (${e.odds} % odds).`;
+        if (e.result === 'attackerRetreated') return `Your ${a} withdrew from the ${who(st, e.defenderPlayer)} ${d}.`;
+        return `The ${who(st, e.defenderPlayer)} ${d} slipped away from your ${a}.`;
+      }
+      if (e.result === 'defenderWon') return `Your ${d} held against a ${who(st, e.attackerPlayer)} ${a}.`;
+      if (e.result === 'attackerWon') return `Your ${d} was destroyed by a ${who(st, e.attackerPlayer)} ${a}.`;
+      if (e.result === 'defenderRetreated') return `Your ${d} withdrew before a ${who(st, e.attackerPlayer)} ${a}.`;
+      return `A ${who(st, e.attackerPlayer)} ${a} broke off its attack on your ${d}.`;
+    }
+    case 'bombarded': {
+      const hits = e.hits.filter((h) => h.kind !== 'miss');
+      const parts = hits.map((h) => (h.kind === 'unit' ? (h.killed ? 'a unit destroyed' : 'a unit damaged') : h.kind === 'population' ? 'a citizen killed' : `${rules.building(h.building).name} destroyed`));
+      const what = parts.length > 0 ? parts.join(', ') : 'no damage';
+      return e.player === s.human ? `Bombardment: ${what}.` : `${who(st, e.player)} bombards your lands: ${what}.`;
+    }
+    case 'unitLost':
+      if (e.why === 'combat' || e.why === 'formedArmy' || e.why === 'spent' || e.why === 'upgraded') return null;
+      return `${typeName(e.unitType)} lost${e.why === 'nuke' ? ' in a nuclear blast' : e.why === 'sunk' ? ' at sea' : e.why === 'shotDown' ? ': shot down' : e.why === 'bombard' ? ' to bombardment' : ''}.`;
+    case 'unitCaptured':
+      return e.player === s.human ? `Captured: a ${typeName(e.unitType)} now serves you.` : `A ${who(st, e.player)} force captured your ${typeName(e.unitType)}.`;
+    case 'unitPromoted':
+      return `${unitName(st, e.unit)} is promoted to ${e.experience}.`;
+    case 'leaderBorn':
+      return 'A great leader rises from the ranks! Form an army or hurry a wonder with them.';
+    case 'armyFormed':
+      return 'A new army is formed. Move up to three units into it.';
+    case 'unitJoinedArmy':
+      return `${unitName(st, e.unit)} joins the army.`;
+    case 'unitUpgraded':
+      return `${typeName(e.from)} upgraded to ${typeName(e.to)} for ${e.gold} gold.`;
+    case 'unitBoarded':
+      return null;
+    case 'tilePillaged':
+      return `Pillaged: ${e.removed}.`;
+    case 'cityCaptured':
+      return e.player === s.human ? `${e.name} is ours!${e.gold > 0 ? ` ${e.gold} gold plundered.` : ''}` : `${e.name} has fallen to ${who(st, e.player)}!`;
+    case 'cityDestroyed':
+      return e.player === s.human ? `${e.name} has been destroyed.` : `${e.name} is razed.`;
+    case 'cityRaided':
+      return e.size > 0 ? `Barbarians sack ${cityName(st, e.city)}: ${e.gold} gold taken.` : `Barbarians burn ${cityName(st, e.city)} to the ground.`;
+    case 'airMission':
+      return e.mission === 'rebase' ? `${unitName(st, e.unit)} rebased.` : e.mission === 'recon' ? 'Reconnaissance flight under way.' : null;
+    case 'intercepted':
+      return e.player === s.human ? (e.survived ? 'Our aircraft fought off an interceptor.' : 'Our aircraft was shot down.') : e.survived ? 'Enemy aircraft got past our interceptors.' : 'Our air defence shot down an enemy aircraft.';
+    case 'nuclearStrike':
+      return e.stopped ? 'A nuclear missile was destroyed in flight by missile defence.' : `A nuclear weapon has been detonated by ${who(st, e.player)}!`;
+    case 'warDeclared':
+      return e.player === s.human ? `We are at war with ${who(st, e.target)}.` : `${who(st, e.player)} declares war on us!`;
+    case 'peaceMade':
+      return e.player === s.human ? `Peace with ${who(st, e.target)}.` : `${who(st, e.player)} makes peace with us.`;
+    case 'playerEliminated':
+      return e.player === s.human ? 'Your civilization has been destroyed.' : `The ${who(st, e.player)} civilization has been destroyed.`;
+    case 'campDestroyed':
+      return `Barbarian camp destroyed: ${e.gold} gold.`;
+    case 'campAppeared':
+      return st.players[s.human]!.explored[e.tile >> 5]! & (1 << (e.tile & 31)) ? 'A barbarian camp has appeared.' : null;
+    case 'zoneOfControlAttack':
+      return e.hit && e.player === s.human ? `${unitName(st, e.unit)} took fire passing an enemy zone of control.` : null;
     default:
       return null;
   }

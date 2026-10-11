@@ -5,7 +5,8 @@
   "scripts": {
     "gen": "tsx src/generate.ts",
     "sounds": "tsx src/sounds.ts",
-    "manifest:phase2": "tsx scripts/phase2-manifest.ts"
+    "manifest:phase2": "tsx scripts/phase2-manifest.ts",
+    "manifest:phase3": "tsx scripts/phase3-manifest.ts"
   },
   "dependencies": {
     "sharp": "^0.34.5",

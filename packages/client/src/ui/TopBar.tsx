@@ -2,6 +2,7 @@ import { formatYear, playerUnits, yearOf } from '@civolution/engine';
 import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
 import { empireSummary, signed } from './empire.ts';
+import { VERSION } from '../version.ts';
 
 export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => void }) {
   const snap = useGame((s) => s.snapshot)!;
@@ -16,7 +17,7 @@ export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => v
   const pct = sum.researchCost ? Math.min(100, Math.round((p.research.beakers * 100) / sum.researchCost)) : 0;
   return (
     <div className="top-bar panel">
-      <div className="brand">Civolution</div>
+      <div className="brand" title={`Civolution alpha ${VERSION}`}>Civolution</div>
       <div className="stat" title={`Turn ${state.turn}`}>
         <span className="label">{formatYear(yearOf(rules, state.turn))}</span>
         <strong>Turn {state.turn}</strong>
@@ -41,6 +42,10 @@ export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => v
         <strong>
           {gov.name} <small className="muted">{p.rates.tax * 10}/{p.rates.science * 10}/{p.rates.luxury * 10}</small>
         </strong>
+      </button>
+      <button className={`stat ${p.atWarWith.some((x) => state.players[x]?.alive) ? 'at-war' : ''}`} onClick={() => open({ kind: 'foreign' })} title="War room (F4)">
+        <span className="label">Foreign affairs</span>
+        <strong>{p.atWarWith.filter((x) => state.players[x]?.alive).length > 0 ? `At war with ${p.atWarWith.filter((x) => state.players[x]?.alive).map((x) => state.players[x]!.name).join(', ')}` : 'At peace'}</strong>
       </button>
       <div className="stat" title={`${sum.cities.length} cities, ${playerUnits(state, human).length} units`}>
         <span className="label">Empire</span>

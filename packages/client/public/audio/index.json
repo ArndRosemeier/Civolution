@@ -1,4 +1,74 @@
 {
+  "aircraft": [
+    "aircraft-1.mp3",
+    "aircraft-2.mp3"
+  ],
+  "attack-air": [
+    "attack-air-1.mp3",
+    "attack-air-2.mp3",
+    "attack-air-3.mp3"
+  ],
+  "attack-archery": [
+    "attack-archery-1.mp3",
+    "attack-archery-2.mp3",
+    "attack-archery-3.mp3"
+  ],
+  "attack-armour": [
+    "attack-armour-1.mp3",
+    "attack-armour-2.mp3",
+    "attack-armour-3.mp3"
+  ],
+  "attack-artillery": [
+    "attack-artillery-1.mp3",
+    "attack-artillery-2.mp3",
+    "attack-artillery-3.mp3"
+  ],
+  "attack-gunpowder": [
+    "attack-gunpowder-1.mp3",
+    "attack-gunpowder-2.mp3",
+    "attack-gunpowder-3.mp3"
+  ],
+  "attack-melee": [
+    "attack-melee-1.mp3",
+    "attack-melee-2.mp3",
+    "attack-melee-3.mp3"
+  ],
+  "attack-mounted": [
+    "attack-mounted-1.mp3",
+    "attack-mounted-2.mp3",
+    "attack-mounted-3.mp3"
+  ],
+  "attack-naval": [
+    "attack-naval-1.mp3",
+    "attack-naval-2.mp3",
+    "attack-naval-3.mp3"
+  ],
+  "attack-rifle": [
+    "attack-rifle-1.mp3",
+    "attack-rifle-2.mp3",
+    "attack-rifle-3.mp3"
+  ],
+  "barbarian-horn": [
+    "barbarian-horn-1.mp3",
+    "barbarian-horn-2.mp3"
+  ],
+  "battle-lost": [
+    "battle-lost-1.mp3",
+    "battle-lost-2.mp3"
+  ],
+  "battle-won": [
+    "battle-won-1.mp3",
+    "battle-won-2.mp3"
+  ],
+  "board-ship": [
+    "board-ship-1.mp3",
+    "board-ship-2.mp3"
+  ],
+  "bombard": [
+    "bombard-1.mp3",
+    "bombard-2.mp3",
+    "bombard-3.mp3"
+  ],
   "borders-grew": [
     "borders-grew-1.mp3",
     "borders-grew-2.mp3"
@@ -8,9 +78,21 @@
     "building-complete-2.mp3",
     "building-complete-3.mp3"
   ],
+  "capture": [
+    "capture-1.mp3",
+    "capture-2.mp3"
+  ],
   "celebration": [
     "celebration-1.mp3",
     "celebration-2.mp3"
+  ],
+  "city-captured": [
+    "city-captured-1.mp3",
+    "city-captured-2.mp3"
+  ],
+  "city-destroyed": [
+    "city-destroyed-1.mp3",
+    "city-destroyed-2.mp3"
   ],
   "city-founded": [
     "city-founded-1.mp3",
@@ -28,6 +110,10 @@
   "disorder": [
     "disorder-1.mp3",
     "disorder-2.mp3"
+  ],
+  "dogfight": [
+    "dogfight-1.mp3",
+    "dogfight-2.mp3"
   ],
   "end-turn": [
     "end-turn-1.mp3",
@@ -48,8 +134,29 @@
     "hurry-1.mp3",
     "hurry-2.mp3"
   ],
+  "leader-born": [
+    "leader-born-1.mp3"
+  ],
+  "missile-intercepted": [
+    "missile-intercepted-1.mp3"
+  ],
+  "nuclear-blast": [
+    "nuclear-blast-1.mp3"
+  ],
   "order-restored": [
     "order-restored-1.mp3"
+  ],
+  "peace": [
+    "peace-1.mp3",
+    "peace-2.mp3"
+  ],
+  "pillage": [
+    "pillage-1.mp3",
+    "pillage-2.mp3"
+  ],
+  "promotion": [
+    "promotion-1.mp3",
+    "promotion-2.mp3"
   ],
   "revolution": [
     "revolution-1.mp3"
@@ -76,6 +183,10 @@
     "unit-trained-1.mp3",
     "unit-trained-2.mp3",
     "unit-trained-3.mp3"
+  ],
+  "war-declared": [
+    "war-declared-1.mp3",
+    "war-declared-2.mp3"
   ],
   "wonder-complete": [
     "wonder-complete-1.mp3",

@@ -7,7 +7,9 @@
 import * as THREE from 'three';
 import {
   cityAt,
+  FLAG_CAMP,
   FLAG_HUT,
+  IMP_CRATER,
   IMP_MINE,
   IMP_RAIL,
   IMP_ROAD,
@@ -188,6 +190,8 @@ export class Chunk {
         }
         if (imp & IMP_MINE && !city) put('mine', x + 0.15, z - 0.1, 1, r() * 6.28);
         if (map.flags[tile]! & FLAG_HUT) put('village', x, z, 1, r() * 6.28);
+        if (map.flags[tile]! & FLAG_CAMP) put('civ_barbarian_camp', x, z, 1, r() * 6.28);
+        if (imp & IMP_CRATER && !city) put('civ_fx_crater', x, z, 1, r() * 6.28);
         const res = map.resource[tile]!;
         if (res >= 0 && !city) {
           const rule = rules.resources[res]!;

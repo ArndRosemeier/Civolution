@@ -2,7 +2,9 @@
 
 `style: "town"`: plastered houses with tiled roofs around a temple, low wall with
 gate towers, a team-coloured banner. `style: "village"`: round thatched huts around
-a fire and a totem. Origin at the centre, base on Z=0.
+a fire and a totem. `style: "camp"`: a barbarian war camp, hide tents round a
+fire inside a broken palisade of stakes, a crude carved totem and team-coloured
+war banners. Origin at the centre, base on Z=0.
 
 Slots: wall, roof, stone, wood, team, thatch, fire.
 """
@@ -33,8 +35,8 @@ class SettlementParams:
 def parse_params(raw: Mapping[str, object]) -> SettlementParams:
     reject_unknown(raw, ("style", "radius", "buildings", "walls", "seed"), "params")
     style = as_str(require_key(raw, "style", "params"), "params.style")
-    if style not in ("town", "village"):
-        raise SpecError("params.style must be town or village")
+    if style not in ("town", "village", "camp"):
+        raise SpecError("params.style must be town, village or camp")
     p = SettlementParams(
         style=style,
         radius=positive_float(require_key(raw, "radius", "params"), "params.radius"),
@@ -136,12 +138,74 @@ def _village(b: ShapeBuilder, p: SettlementParams) -> None:
     b.box((0.0, 0.55, 1.18), (0.55, 0.06, 0.08), "wood")
 
 
+def _camp(b: ShapeBuilder, p: SettlementParams) -> None:
+    r = rng(p.seed)
+    R = p.radius
+    # Hide tents: cone tents with poles poking out, and one long ridge tent.
+    for i in range(p.buildings):
+        ang = 2 * math.pi * i / p.buildings + r.uniform(-0.2, 0.2) + 0.4
+        dist = R * r.uniform(0.5, 0.62)
+        x, y = dist * math.cos(ang), dist * math.sin(ang)
+        rad = r.uniform(0.26, 0.34)
+        h = r.uniform(0.5, 0.62)
+        b.cone((x, y, 0.0), rad, h, "roof" if i % 2 == 0 else "wall", segments=7)
+        for k in range(3):
+            a = ang + k * 2 * math.pi / 3
+            b.between((x + math.cos(a) * 0.05, y + math.sin(a) * 0.05, h * 0.8), (x - math.cos(a) * 0.06, y - math.sin(a) * 0.06, h + 0.16), 0.014, "wood", segments=4)
+        dx, dy = -math.cos(ang), -math.sin(ang)
+        b.box((x + dx * rad * 0.62, y + dy * rad * 0.62, 0.12), (0.12, 0.03, 0.22), "thatch", rotation=(0.0, 0.0, ang + math.pi / 2))  # flap
+    b.prism_roof((0.15, R * 0.55, 0.0), 0.75, 0.5, 0.36, "roof", overhang=0.0)
+    # Fire with stones and logs; a spit over it.
+    for i in range(7):
+        a = 2 * math.pi * i / 7
+        b.sphere((0.22 * math.cos(a), 0.22 * math.sin(a), 0.04), 0.06, "stone", detail=1)
+    for k in range(3):
+        a = k * math.pi / 3
+        b.between((-0.13 * math.cos(a), -0.13 * math.sin(a), 0.04), (0.13 * math.cos(a), 0.13 * math.sin(a), 0.04), 0.025, "wood", segments=5)
+    b.cone((0.0, 0.0, 0.03), 0.13, 0.32, "fire", segments=6)
+    for sx in (-1.0, 1.0):
+        b.between((0.2 * sx, 0.0, 0.0), (0.2 * sx, 0.0, 0.32), 0.012, "wood", segments=4)
+    b.between((-0.24, 0.0, 0.3), (0.24, 0.0, 0.3), 0.01, "wood", segments=4)
+    # Palisade: sharpened stakes leaning out, in broken runs, gap towards -Y.
+    stakes = 46
+    for i in range(stakes):
+        a = 2 * math.pi * i / stakes
+        if abs(a - 1.5 * math.pi) < 0.32 or (i % 11) in (4,):
+            continue
+        rr = R + r.uniform(-0.03, 0.03)
+        x, y = rr * math.cos(a), rr * math.sin(a)
+        h = r.uniform(0.32, 0.44)
+        lean = 0.12
+        top = (x + math.cos(a) * lean, y + math.sin(a) * lean, h)
+        b.between((x, y, 0.0), top, 0.035, "wood", segments=5)
+        b.between(top, (top[0] + math.cos(a) * 0.03, top[1] + math.sin(a) * 0.03, h + 0.08), 0.035, "wood", segments=5, radius_end=0.003)
+    # Crude totem: stacked carved blocks with horns, flanked by banners.
+    tx, ty = -0.2, -0.38
+    b.between((tx, ty, 0.0), (tx, ty, 0.95), 0.06, "wood", segments=6)
+    b.box((tx, ty, 0.5), (0.18, 0.16, 0.2), "thatch")
+    b.box((tx, ty, 0.78), (0.2, 0.17, 0.18), "wall")
+    b.box((tx, ty - 0.085, 0.8), (0.1, 0.02, 0.04), "fire")  # painted eyes
+    for sx in (-1.0, 1.0):
+        b.between((tx + 0.08 * sx, ty, 0.9), (tx + 0.22 * sx, ty, 1.12), 0.03, "stone", segments=5, radius_end=0.004)
+    for bx, by, hh in ((0.35, -0.55, 1.25), (-0.75, 0.15, 1.1), (0.75, 0.3, 1.0)):
+        b.between((bx, by, 0.0), (bx, by, hh), 0.022, "wood", segments=5)
+        b.between((bx - 0.02, by, hh - 0.04), (bx + 0.3, by, hh - 0.04), 0.012, "wood", segments=4)
+        b.extrude([(bx, hh - 0.04), (bx + 0.29, hh - 0.04), (bx + 0.29, hh - 0.3), (bx, hh - 0.3)], "y", by - 0.012, by + 0.012, "team")
+        b.extrude([(bx, hh - 0.3), (bx + 0.29, hh - 0.3), (bx + 0.08, hh - 0.44)], "y", by - 0.011, by + 0.011, "team")  # ragged tail
+    # Spear rack.
+    for k in range(4):
+        b.between((-0.55 + k * 0.06, -0.3, 0.0), (-0.5 + k * 0.05, -0.36, 0.62), 0.012, "wood", segments=4)
+    b.between((-0.6, -0.33, 0.35), (-0.3, -0.33, 0.35), 0.015, "wood", segments=4)
+
+
 def build(spec: AssetSpec) -> list[bpy.types.Object]:
     require_materials(spec.materials, MATERIAL_SLOTS, spec.generator)
     p = parse_params(spec.params)
     b = ShapeBuilder(MATERIAL_SLOTS)
     if p.style == "town":
         _town(b, p)
+    elif p.style == "camp":
+        _camp(b, p)
     else:
         _village(b, p)
     obj = b.to_object(spec.asset_id, spec.materials)

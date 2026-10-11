@@ -7,6 +7,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import unitModels from '../../../../../tools/models/unit-models.json';
 
 export interface ModelSpec {
   file: string;
@@ -16,15 +17,7 @@ export interface ModelSpec {
   fit: 'height' | 'length';
 }
 
-export const MODELS = {
-  warrior: { file: 'civ_unit_warrior.glb', size: 0.62, fit: 'height' },
-  spearman: { file: 'civ_unit_spearman.glb', size: 0.62, fit: 'height' },
-  archer: { file: 'civ_unit_archer.glb', size: 0.62, fit: 'height' },
-  settler: { file: 'civ_unit_settler.glb', size: 0.62, fit: 'height' },
-  worker: { file: 'civ_unit_worker.glb', size: 0.6, fit: 'height' },
-  scout: { file: 'civ_unit_scout.glb', size: 0.62, fit: 'height' },
-  explorer: { file: 'civ_unit_explorer.glb', size: 0.62, fit: 'height' },
-  galley: { file: 'civ_unit_galley.glb', size: 1.25, fit: 'length' },
+const SCENERY = {
   city: { file: 'civ_city_ancient.glb', size: 1.9, fit: 'length' },
   cityAncientTown: { file: 'civ_city_ancient_town.glb', size: 1.35, fit: 'length' },
   cityAncientCity: { file: 'civ_city_ancient_city.glb', size: 1.7, fit: 'length' },
@@ -47,7 +40,19 @@ export const MODELS = {
   mine: { file: 'civ_nature_mine.glb', size: 0.6, fit: 'length' },
 } satisfies Record<string, ModelSpec>;
 
-export type ModelId = keyof typeof MODELS;
+/** Unit models and their scale (tools/models/unit-models.json, written with the Blender pipeline). */
+const UNIT_FILES = Object.entries(unitModels._fit as unknown as Record<string, Omit<ModelSpec, 'file'>>).map(([file, spec]) => [file.replace(/\.glb$/, ''), { file, size: spec.size, fit: spec.fit }] as const);
+
+export const MODELS: Record<string, ModelSpec> = { ...SCENERY, ...Object.fromEntries(UNIT_FILES) };
+
+/** Unit type id to model id. */
+const UNIT_MODEL: Record<string, string> = Object.fromEntries(
+  Object.entries(unitModels as Record<string, unknown>)
+    .filter(([k, v]) => k !== '_fit' && typeof v === 'string')
+    .map(([k, v]) => [k, (v as string).replace(/\.glb$/, '')]),
+);
+
+export type ModelId = string;
 export type ModelSet = Record<ModelId, THREE.BufferGeometry>;
 
 async function loadOne(loader: GLTFLoader, spec: ModelSpec): Promise<THREE.BufferGeometry> {
@@ -99,16 +104,16 @@ async function loadOne(loader: GLTFLoader, spec: ModelSpec): Promise<THREE.Buffe
 
 export async function loadModels(): Promise<ModelSet> {
   const loader = new GLTFLoader();
-  const ids = Object.keys(MODELS) as ModelId[];
-  const geos = await Promise.all(ids.map((id) => loadOne(loader, MODELS[id])));
-  return Object.fromEntries(ids.map((id, i) => [id, geos[i]!])) as ModelSet;
+  const ids = Object.keys(MODELS);
+  const geos = await Promise.all(ids.map((id) => loadOne(loader, MODELS[id]!)));
+  return Object.fromEntries<THREE.BufferGeometry>(ids.map((id, i) => [id, geos[i]!]));
 }
 
 /** Model used for a unit type; unit types without their own model yet borrow a family member's. */
 export function unitModel(type: string, domain: 'land' | 'sea' | 'air'): ModelId {
-  if (type in MODELS) return type as ModelId;
-  if (domain === 'sea') return 'galley';
-  return 'warrior';
+  const id = UNIT_MODEL[type];
+  if (id && id in MODELS) return id;
+  return domain === 'sea' ? 'civ_unit_galley' : domain === 'air' ? 'civ_unit_fighter' : 'civ_unit_warrior';
 }
 
 /**

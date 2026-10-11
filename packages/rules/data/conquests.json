@@ -18,6 +18,19 @@
     "fortressDefenceBonus": 50,
     "fortifiedDefenceBonus": 25,
     "riverDefenceBonus": 25,
+    "townDefenceBonus": 0,
+    "cityDefenceBonus": 50,
+    "metropolisDefenceBonus": 100,
+    "basicBarbarian": "warrior",
+    "advancedBarbarian": "horseman",
+    "barbarianSeaUnit": "galley",
+    "leaderUnit": "leader",
+    "armyUnit": "army",
+    "citiesPerArmy": 4,
+    "slaveUnit": "worker",
+    "interceptChance": 50,
+    "stealthInterceptChance": 5,
+    "upgradeCostPerShield": 3,
     "defaultGovernment": "despotism",
     "defaultDifficulty": "regent",
     "maxTownSize": 6,
@@ -825,7 +838,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
@@ -866,7 +881,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredResources": [],
       "workRate": 100,
       "jobs": [
@@ -923,7 +940,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "upgradeTo": "conquistador",
       "requiredResources": [],
       "workRate": 0,
@@ -965,7 +984,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "astronomy",
       "requiredResources": [],
       "workRate": 0,
@@ -1008,7 +1029,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "amphibiousWar",
       "requiredResources": [
         "rubber"
@@ -1057,7 +1080,9 @@
       "rateOfFire": 0,
       "operationalRange": 8,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": true,
+      "requiresSupport": true,
       "requiredTech": "syntheticFibers",
       "requiredResources": [
         "oil",
@@ -1107,7 +1132,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "upgradeTo": "swordsman",
       "requiredResources": [],
       "workRate": 0,
@@ -1153,7 +1180,9 @@
       "rateOfFire": 1,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "warriorCode",
       "upgradeTo": "berserk",
       "requiredResources": [],
@@ -1201,7 +1230,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "bronzeWorking",
       "upgradeTo": "numidianMercenary",
       "requiredResources": [],
@@ -1249,7 +1280,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "ironWorking",
       "upgradeTo": "gallicSwordsman",
       "requiredResources": [
@@ -1298,7 +1331,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "theWheel",
       "upgradeTo": "horseman",
       "requiredResources": [
@@ -1347,7 +1382,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "horsebackRiding",
       "upgradeTo": "mountedWarrior",
       "requiredResources": [
@@ -1394,7 +1431,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "feudalism",
       "upgradeTo": "musketman",
       "requiredResources": [
@@ -1444,7 +1483,9 @@
       "rateOfFire": 1,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "invention",
       "upgradeTo": "guerilla",
       "requiredResources": [],
@@ -1492,7 +1533,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "gunpowder",
       "upgradeTo": "swissMercenary",
       "requiredResources": [
@@ -1543,7 +1586,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "chivalry",
       "upgradeTo": "keshik",
       "requiredResources": [
@@ -1591,7 +1636,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "nationalism",
       "upgradeTo": "infantry",
       "requiredResources": [],
@@ -1640,7 +1687,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": true,
+      "requiresSupport": true,
       "requiredTech": "militaryTradition",
       "upgradeTo": "sipahi",
       "requiredResources": [
@@ -1690,7 +1739,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "replaceableParts",
       "upgradeTo": "mechInfantry",
       "requiredResources": [
@@ -1741,7 +1792,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": true,
+      "requiresSupport": true,
       "requiredTech": "motorizedTransportation",
       "upgradeTo": "modernArmor",
       "requiredResources": [
@@ -1792,7 +1845,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": true,
+      "requiresSupport": true,
       "requiredTech": "computers",
       "requiredResources": [
         "oil",
@@ -1841,7 +1896,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": true,
+      "requiresSupport": true,
       "requiredTech": "syntheticFibers",
       "requiredResources": [
         "oil",
@@ -1891,7 +1948,9 @@
       "rateOfFire": 1,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "mathematics",
       "upgradeTo": "trebuchet",
       "requiredResources": [],
@@ -1936,7 +1995,9 @@
       "rateOfFire": 1,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "metallurgy",
       "upgradeTo": "hwacha",
       "requiredResources": [
@@ -1984,7 +2045,9 @@
       "rateOfFire": 2,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "replaceableParts",
       "upgradeTo": "radarArtillery",
       "requiredResources": [],
@@ -2027,7 +2090,9 @@
       "rateOfFire": 3,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": true,
+      "requiresSupport": true,
       "requiredTech": "robotics",
       "requiredResources": [
         "aluminum"
@@ -2073,7 +2138,9 @@
       "rateOfFire": 3,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "rocketry",
       "requiredResources": [
         "aluminum"
@@ -2083,8 +2150,8 @@
       "ignoresTerrainCost": [],
       "abilities": [
         "cruiseMissile",
-        "bit27",
-        "bit28"
+        "lethalLandBombard",
+        "lethalSeaBombard"
       ],
       "standardOrders": [
         "skipTurn",
@@ -2119,7 +2186,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "spaceFlight",
       "requiredResources": [
         "aluminum",
@@ -2166,7 +2235,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "satellites",
       "requiredResources": [
         "aluminum",
@@ -2212,7 +2283,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 2,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "mapMaking",
       "upgradeTo": "dromon",
       "requiredResources": [],
@@ -2259,7 +2332,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 3,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "astronomy",
       "upgradeTo": "carrack",
       "requiredResources": [],
@@ -2305,7 +2380,9 @@
       "rateOfFire": 2,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "magnetism",
       "requiredResources": [
         "iron",
@@ -2351,7 +2428,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 4,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "magnetism",
       "upgradeTo": "transport",
       "requiredResources": [],
@@ -2396,7 +2475,9 @@
       "rateOfFire": 2,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "ironclads",
       "upgradeTo": "destroyer",
       "requiredResources": [
@@ -2443,7 +2524,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 6,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "combustion",
       "requiredResources": [
         "oil"
@@ -2453,7 +2536,7 @@
       "ignoresTerrainCost": [],
       "abilities": [
         "rangedAttackAnimations",
-        "bit30"
+        "requiresEscort"
       ],
       "standardOrders": [
         "skipTurn",
@@ -2488,7 +2571,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 4,
+      "airDefence": 1,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "massProduction",
       "requiredResources": [
         "oil"
@@ -2500,7 +2585,7 @@
         "radar",
         "aircraftCarrier",
         "rangedAttackAnimations",
-        "bit30"
+        "requiresEscort"
       ],
       "standardOrders": [
         "skipTurn",
@@ -2535,7 +2620,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "massProduction",
       "requiredResources": [
         "oil"
@@ -2558,7 +2645,7 @@
         "sentry"
       ],
       "specialActions": [
-        "bit16"
+        "stealthAttack"
       ],
       "airMissions": [],
       "aiRoles": [
@@ -2581,7 +2668,9 @@
       "rateOfFire": 2,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 1,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "combustion",
       "requiredResources": [
         "oil"
@@ -2626,7 +2715,9 @@
       "rateOfFire": 2,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 2,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "massProduction",
       "requiredResources": [
         "oil"
@@ -2671,7 +2762,9 @@
       "rateOfFire": 2,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 3,
       "zoneOfControl": true,
+      "requiresSupport": true,
       "requiredTech": "robotics",
       "requiredResources": [
         "aluminum",
@@ -2718,7 +2811,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 1,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "fission",
       "requiredResources": [
         "uranium"
@@ -2743,7 +2838,7 @@
       ],
       "specialActions": [
         "unload",
-        "bit16"
+        "stealthAttack"
       ],
       "airMissions": [],
       "aiRoles": [
@@ -2766,7 +2861,9 @@
       "rateOfFire": 1,
       "operationalRange": 6,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "flight",
       "upgradeTo": "jetFighter",
       "requiredResources": [
@@ -2777,7 +2874,7 @@
       "ignoresTerrainCost": [],
       "abilities": [
         "immobile",
-        "bit28"
+        "lethalSeaBombard"
       ],
       "standardOrders": [
         "skipTurn",
@@ -2816,7 +2913,9 @@
       "rateOfFire": 3,
       "operationalRange": 10,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "flight",
       "requiredResources": [
         "oil"
@@ -2826,8 +2925,8 @@
       "ignoresTerrainCost": [],
       "abilities": [
         "immobile",
-        "bit27",
-        "bit28"
+        "lethalLandBombard",
+        "lethalSeaBombard"
       ],
       "standardOrders": [
         "skipTurn",
@@ -2863,7 +2962,9 @@
       "rateOfFire": 0,
       "operationalRange": 6,
       "capacity": 3,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "advancedFlight",
       "requiredResources": [
         "oil",
@@ -2911,7 +3012,9 @@
       "rateOfFire": 1,
       "operationalRange": 9,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "rocketry",
       "upgradeTo": "f15",
       "requiredResources": [
@@ -2923,7 +3026,7 @@
       "ignoresTerrainCost": [],
       "abilities": [
         "immobile",
-        "bit28"
+        "lethalSeaBombard"
       ],
       "standardOrders": [
         "skipTurn",
@@ -2962,7 +3065,9 @@
       "rateOfFire": 2,
       "operationalRange": 12,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "stealth",
       "requiredResources": [
         "oil",
@@ -2974,8 +3079,8 @@
       "abilities": [
         "immobile",
         "stealth",
-        "bit27",
-        "bit28"
+        "lethalLandBombard",
+        "lethalSeaBombard"
       ],
       "standardOrders": [
         "skipTurn",
@@ -2986,7 +3091,7 @@
       ],
       "specialActions": [
         "load",
-        "bit16"
+        "stealthAttack"
       ],
       "airMissions": [
         "bomb",
@@ -3014,7 +3119,9 @@
       "rateOfFire": 3,
       "operationalRange": 16,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "stealth",
       "requiredResources": [
         "oil",
@@ -3026,8 +3133,8 @@
       "abilities": [
         "immobile",
         "stealth",
-        "bit27",
-        "bit28"
+        "lethalLandBombard",
+        "lethalSeaBombard"
       ],
       "standardOrders": [
         "skipTurn",
@@ -3038,7 +3145,7 @@
       ],
       "specialActions": [
         "load",
-        "bit16"
+        "stealthAttack"
       ],
       "airMissions": [
         "bomb",
@@ -3065,7 +3172,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
@@ -3109,7 +3218,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 3,
+      "airDefence": 0,
       "zoneOfControl": true,
+      "requiresSupport": true,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
@@ -3154,7 +3265,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "warriorCode",
       "upgradeTo": "swordsman",
       "requiredResources": [],
@@ -3202,7 +3315,9 @@
       "rateOfFire": 1,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "warriorCode",
       "upgradeTo": "longbowman",
       "requiredResources": [],
@@ -3251,7 +3366,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "bronzeWorking",
       "upgradeTo": "musketman",
       "requiredResources": [],
@@ -3299,7 +3416,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "bronzeWorking",
       "upgradeTo": "musketman",
       "requiredResources": [],
@@ -3347,7 +3466,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "ironWorking",
       "upgradeTo": "immortals",
       "requiredResources": [
@@ -3397,7 +3518,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "ironWorking",
       "upgradeTo": "medievalInfantry",
       "requiredResources": [
@@ -3447,7 +3570,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "theWheel",
       "upgradeTo": "knight",
       "requiredResources": [
@@ -3498,7 +3623,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "chivalry",
       "upgradeTo": "samurai",
       "requiredResources": [
@@ -3548,7 +3675,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "horsebackRiding",
       "upgradeTo": "threeManChariot",
       "requiredResources": [
@@ -3598,7 +3727,9 @@
       "rateOfFire": 1,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "gunpowder",
       "upgradeTo": "rifleman",
       "requiredResources": [
@@ -3649,7 +3780,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "chivalry",
       "upgradeTo": "warElephant",
       "requiredResources": [
@@ -3699,7 +3832,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "chivalry",
       "upgradeTo": "cavalry",
       "requiredResources": [],
@@ -3746,7 +3881,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": true,
+      "requiresSupport": true,
       "requiredTech": "militaryTradition",
       "requiredResources": [
         "horses",
@@ -3796,7 +3933,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": true,
+      "requiresSupport": true,
       "requiredTech": "motorizedTransportation",
       "upgradeTo": "modernArmor",
       "requiredResources": [
@@ -3848,7 +3987,10 @@
       "rateOfFire": 2,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
+      "enslavesTo": "manOWar",
       "requiredTech": "magnetism",
       "requiredResources": [
         "iron",
@@ -3873,7 +4015,7 @@
       ],
       "specialActions": [
         "bombard",
-        "bit18"
+        "enslave"
       ],
       "airMissions": [],
       "aiRoles": [
@@ -3896,7 +4038,9 @@
       "rateOfFire": 2,
       "operationalRange": 9,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "rocketry",
       "requiredResources": [
         "oil",
@@ -3908,8 +4052,8 @@
       "abilities": [
         "immobile",
         "startsGoldenAge",
-        "bit27",
-        "bit28"
+        "lethalLandBombard",
+        "lethalSeaBombard"
       ],
       "standardOrders": [
         "skipTurn",
@@ -3920,7 +4064,7 @@
       ],
       "specialActions": [
         "load",
-        "bit16"
+        "stealthAttack"
       ],
       "airMissions": [
         "bomb",
@@ -3949,7 +4093,10 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
+      "enslavesTo": "privateer",
       "requiredTech": "magnetism",
       "requiredResources": [
         "iron",
@@ -3973,7 +4120,7 @@
         "sentry"
       ],
       "specialActions": [
-        "bit18"
+        "enslave"
       ],
       "airMissions": [],
       "aiRoles": [
@@ -3996,7 +4143,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": true,
+      "requiresSupport": true,
       "requiredTech": "chivalry",
       "upgradeTo": "ansarWarrior",
       "requiredResources": [
@@ -4049,7 +4198,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": true,
+      "requiresSupport": true,
       "requiredTech": "astronomy",
       "upgradeTo": "explorer",
       "requiredResources": [
@@ -4100,7 +4251,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "invention",
       "upgradeTo": "longbowman",
       "requiredResources": [],
@@ -4149,7 +4302,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": true,
+      "requiresSupport": true,
       "requiredTech": "militaryTradition",
       "upgradeTo": "cossack",
       "requiredResources": [
@@ -4200,7 +4355,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "ironWorking",
       "upgradeTo": "legionary",
       "requiredResources": [
@@ -4250,7 +4407,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "chivalry",
       "upgradeTo": "rider",
       "requiredResources": [
@@ -4300,7 +4459,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "bronzeWorking",
       "upgradeTo": "pikeman",
       "requiredResources": [],
@@ -4349,7 +4510,9 @@
       "rateOfFire": 1,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "metallurgy",
       "upgradeTo": "artillery",
       "requiredResources": [
@@ -4361,8 +4524,8 @@
       "abilities": [
         "wheeled",
         "startsGoldenAge",
-        "bit27",
-        "bit28"
+        "lethalLandBombard",
+        "lethalSeaBombard"
       ],
       "standardOrders": [
         "skipTurn",
@@ -4399,7 +4562,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "feudalism",
       "upgradeTo": "guerilla",
       "requiredResources": [
@@ -4449,7 +4614,9 @@
       "rateOfFire": 1,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "replaceableParts",
       "upgradeTo": "towInfantry",
       "requiredResources": [],
@@ -4497,7 +4664,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
@@ -4534,13 +4703,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -4574,13 +4745,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -4614,13 +4787,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -4654,13 +4829,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -4694,13 +4871,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -4734,13 +4913,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -4774,13 +4955,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -4814,13 +4997,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -4854,13 +5039,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -4894,13 +5081,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -4934,13 +5123,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -4974,13 +5165,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5014,13 +5207,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5054,13 +5249,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5094,13 +5291,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5134,13 +5333,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5174,13 +5375,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5214,13 +5417,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5254,13 +5459,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5294,13 +5501,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5334,13 +5543,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5374,13 +5585,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5414,13 +5627,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5454,13 +5669,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5494,7 +5711,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "upgradeTo": "pikeman",
       "requiredResources": [],
       "workRate": 0,
@@ -5541,7 +5760,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "theWheel",
       "upgradeTo": "knight",
       "requiredResources": [
@@ -5592,13 +5813,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5632,13 +5855,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5672,13 +5897,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5712,7 +5939,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 3,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "astronomy",
       "upgradeTo": "galleon",
       "requiredResources": [],
@@ -5758,7 +5987,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "feudalism",
       "upgradeTo": "musketeer",
       "requiredResources": [
@@ -5809,13 +6040,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5849,7 +6082,9 @@
       "rateOfFire": 1,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "engineering",
       "upgradeTo": "cannon",
       "requiredResources": [],
@@ -5894,13 +6129,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5934,13 +6171,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -5974,13 +6213,15 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": false,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
       "ignoresTerrainCost": [],
       "abilities": [
-        "bit29"
+        "king"
       ],
       "standardOrders": [
         "skipTurn",
@@ -6014,7 +6255,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "upgradeTo": "conquistador",
       "requiredResources": [],
       "workRate": 0,
@@ -6064,7 +6307,10 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
+      "enslavesTo": "worker",
       "requiredTech": "warriorCode",
       "upgradeTo": "berserk",
       "requiredResources": [],
@@ -6091,7 +6337,7 @@
         "pillage",
         "upgrade",
         "capture",
-        "bit18"
+        "enslave"
       ],
       "airMissions": [],
       "aiRoles": [
@@ -6114,7 +6360,9 @@
       "rateOfFire": 2,
       "operationalRange": 0,
       "capacity": 2,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "mapMaking",
       "upgradeTo": "caravel",
       "requiredResources": [],
@@ -6126,7 +6374,7 @@
         "sinksInOcean",
         "startsGoldenAge",
         "rangedAttackAnimations",
-        "bit28"
+        "lethalSeaBombard"
       ],
       "standardOrders": [
         "skipTurn",
@@ -6163,7 +6411,9 @@
       "rateOfFire": 2,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 1,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "combustion",
       "upgradeTo": "aegisCruiser",
       "requiredResources": [
@@ -6210,7 +6460,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredResources": [],
       "workRate": 100,
       "jobs": [
@@ -6257,7 +6509,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredResources": [],
       "workRate": 0,
       "jobs": [],
@@ -6299,7 +6553,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "alphabet",
       "upgradeTo": "galley",
       "requiredResources": [],
@@ -6345,7 +6601,9 @@
       "rateOfFire": 0,
       "operationalRange": 6,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": true,
+      "requiresSupport": true,
       "requiredTech": "advancedFlight",
       "upgradeTo": "modernParatrooper",
       "requiredResources": [
@@ -6397,7 +6655,9 @@
       "rateOfFire": 1,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "rocketry",
       "requiredResources": [],
       "workRate": 100,
@@ -6443,7 +6703,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 2,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "flight",
       "upgradeTo": "mobileSam",
       "requiredResources": [],
@@ -6487,7 +6749,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 4,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "rocketry",
       "requiredResources": [],
       "workRate": 0,
@@ -6529,7 +6793,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "nationalism",
       "upgradeTo": "infantry",
       "requiredResources": [],
@@ -6578,7 +6844,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "replaceableParts",
       "upgradeTo": "mechInfantry",
       "requiredResources": [
@@ -6629,7 +6897,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": true,
+      "requiresSupport": true,
       "requiredTech": "computers",
       "requiredResources": [
         "oil",
@@ -6678,7 +6948,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 1,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "fission",
       "requiredResources": [
         "uranium"
@@ -6703,7 +6975,7 @@
       ],
       "specialActions": [
         "unload",
-        "bit16"
+        "stealthAttack"
       ],
       "airMissions": [],
       "aiRoles": [
@@ -6726,7 +6998,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "bronzeWorking",
       "upgradeTo": "musketman",
       "requiredResources": [],
@@ -6774,7 +7048,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "ironWorking",
       "upgradeTo": "immortals",
       "requiredResources": [
@@ -6824,7 +7100,9 @@
       "rateOfFire": 1,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "gunpowder",
       "upgradeTo": "rifleman",
       "requiredResources": [
@@ -6875,7 +7153,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "chivalry",
       "upgradeTo": "warElephant",
       "requiredResources": [
@@ -6925,7 +7205,9 @@
       "rateOfFire": 2,
       "operationalRange": 9,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "rocketry",
       "requiredResources": [
         "oil",
@@ -6937,8 +7219,8 @@
       "abilities": [
         "immobile",
         "startsGoldenAge",
-        "bit27",
-        "bit28"
+        "lethalLandBombard",
+        "lethalSeaBombard"
       ],
       "standardOrders": [
         "skipTurn",
@@ -6949,7 +7231,7 @@
       ],
       "specialActions": [
         "load",
-        "bit16"
+        "stealthAttack"
       ],
       "airMissions": [
         "bomb",
@@ -6978,7 +7260,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": true,
+      "requiresSupport": true,
       "requiredTech": "astronomy",
       "upgradeTo": "explorer",
       "requiredResources": [
@@ -7029,7 +7313,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "bronzeWorking",
       "upgradeTo": "pikeman",
       "requiredResources": [],
@@ -7078,7 +7364,9 @@
       "rateOfFire": 1,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "replaceableParts",
       "upgradeTo": "towInfantry",
       "requiredResources": [],
@@ -7126,7 +7414,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 3,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "astronomy",
       "upgradeTo": "galleon",
       "requiredResources": [],
@@ -7172,7 +7462,9 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "upgradeTo": "conquistador",
       "requiredResources": [],
       "workRate": 0,
@@ -7222,7 +7514,10 @@
       "rateOfFire": 0,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
+      "enslavesTo": "worker",
       "requiredTech": "warriorCode",
       "upgradeTo": "berserk",
       "requiredResources": [],
@@ -7249,7 +7544,7 @@
         "pillage",
         "upgrade",
         "capture",
-        "bit18"
+        "enslave"
       ],
       "airMissions": [],
       "aiRoles": [
@@ -7272,7 +7567,9 @@
       "rateOfFire": 2,
       "operationalRange": 0,
       "capacity": 2,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "mapMaking",
       "upgradeTo": "caravel",
       "requiredResources": [],
@@ -7284,7 +7581,7 @@
         "sinksInOcean",
         "startsGoldenAge",
         "rangedAttackAnimations",
-        "bit28"
+        "lethalSeaBombard"
       ],
       "standardOrders": [
         "skipTurn",
@@ -7321,7 +7618,9 @@
       "rateOfFire": 1,
       "operationalRange": 0,
       "capacity": 0,
+      "airDefence": 0,
       "zoneOfControl": false,
+      "requiresSupport": true,
       "requiredTech": "rocketry",
       "requiredResources": [],
       "workRate": 100,

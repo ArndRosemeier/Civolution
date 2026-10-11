@@ -1,0 +1,341 @@
+{
+  "settler": "civ_unit_settler.glb",
+  "worker": "civ_unit_worker.glb",
+  "scout": "civ_unit_scout.glb",
+  "explorer": "civ_unit_explorer.glb",
+  "marine": "civ_unit_marine.glb",
+  "modernParatrooper": "civ_unit_paratrooper.glb",
+  "warrior": "civ_unit_warrior.glb",
+  "archer": "civ_unit_archer.glb",
+  "spearman": "civ_unit_spearman.glb",
+  "swordsman": "civ_unit_swordsman.glb",
+  "chariot": "civ_unit_chariot.glb",
+  "horseman": "civ_unit_horseman.glb",
+  "pikeman": "civ_unit_pikeman.glb",
+  "longbowman": "civ_unit_longbowman.glb",
+  "musketman": "civ_unit_musketman.glb",
+  "knight": "civ_unit_knight.glb",
+  "rifleman": "civ_unit_rifleman.glb",
+  "cavalry": "civ_unit_cavalry.glb",
+  "infantry": "civ_unit_infantry.glb",
+  "tank": "civ_unit_tank.glb",
+  "mechInfantry": "civ_unit_mech_infantry.glb",
+  "modernArmor": "civ_unit_modern_armor.glb",
+  "catapult": "civ_unit_catapult.glb",
+  "cannon": "civ_unit_cannon.glb",
+  "artillery": "civ_unit_artillery.glb",
+  "radarArtillery": "civ_unit_artillery.glb",
+  "cruiseMissile": "civ_unit_cruise_missile.glb",
+  "tacticalNuke": "civ_unit_nuclear_missile.glb",
+  "icbm": "civ_unit_nuclear_missile.glb",
+  "galley": "civ_unit_galley.glb",
+  "caravel": "civ_unit_caravel.glb",
+  "frigate": "civ_unit_frigate.glb",
+  "galleon": "civ_unit_galleon.glb",
+  "ironclad": "civ_unit_ironclad.glb",
+  "transport": "civ_unit_transport.glb",
+  "carrier": "civ_unit_carrier.glb",
+  "submarine": "civ_unit_submarine.glb",
+  "destroyer": "civ_unit_destroyer.glb",
+  "battleship": "civ_unit_battleship.glb",
+  "aegisCruiser": "civ_unit_destroyer.glb",
+  "nuclearSubmarine": "civ_unit_submarine.glb",
+  "fighter": "civ_unit_fighter.glb",
+  "bomber": "civ_unit_bomber.glb",
+  "helicopter": "civ_unit_helicopter.glb",
+  "jetFighter": "civ_unit_jet_fighter.glb",
+  "stealthFighter": "civ_unit_jet_fighter.glb",
+  "stealthBomber": "civ_unit_stealth_bomber.glb",
+  "leader": "civ_unit_leader.glb",
+  "army": "civ_unit_army.glb",
+  "jaguarWarrior": "civ_unit_warrior.glb",
+  "bowman": "civ_unit_archer.glb",
+  "hoplite": "civ_unit_spearman.glb",
+  "impi": "civ_unit_spearman.glb",
+  "legionary": "civ_unit_swordsman.glb",
+  "immortals": "civ_unit_swordsman.glb",
+  "warChariot": "civ_unit_chariot.glb",
+  "rider": "civ_unit_knight.glb",
+  "mountedWarrior": "civ_unit_horseman.glb",
+  "musketeer": "civ_unit_musketman.glb",
+  "samurai": "civ_unit_medieval_infantry.glb",
+  "warElephant": "civ_unit_knight.glb",
+  "cossack": "civ_unit_cavalry.glb",
+  "panzer": "civ_unit_tank.glb",
+  "manOWar": "civ_unit_frigate.glb",
+  "f15": "civ_unit_jet_fighter.glb",
+  "privateer": "civ_unit_frigate.glb",
+  "keshik": "civ_unit_knight.glb",
+  "conquistador": "civ_unit_knight.glb",
+  "berserk": "civ_unit_medieval_infantry.glb",
+  "sipahi": "civ_unit_cavalry.glb",
+  "gallicSwordsman": "civ_unit_swordsman.glb",
+  "ansarWarrior": "civ_unit_knight.glb",
+  "numidianMercenary": "civ_unit_spearman.glb",
+  "hwacha": "civ_unit_catapult.glb",
+  "medievalInfantry": "civ_unit_medieval_infantry.glb",
+  "guerilla": "civ_unit_infantry.glb",
+  "princess": "civ_unit_settler.glb",
+  "lincoln": "civ_unit_leader.glb",
+  "hammurabi": "civ_unit_leader.glb",
+  "mao": "civ_unit_leader.glb",
+  "bismarck": "civ_unit_leader.glb",
+  "alexander": "civ_unit_leader.glb",
+  "caesar": "civ_unit_leader.glb",
+  "xerxes": "civ_unit_leader.glb",
+  "hiawatha": "civ_unit_leader.glb",
+  "shaka": "civ_unit_leader.glb",
+  "montezuma": "civ_unit_leader.glb",
+  "cleopatra": "civ_unit_leader.glb",
+  "elizabeth": "civ_unit_leader.glb",
+  "catherine": "civ_unit_leader.glb",
+  "abu": "civ_unit_leader.glb",
+  "hannibal": "civ_unit_leader.glb",
+  "osman": "civ_unit_leader.glb",
+  "temujin": "civ_unit_leader.glb",
+  "gandhi": "civ_unit_leader.glb",
+  "ragnar": "civ_unit_leader.glb",
+  "brennus": "civ_unit_leader.glb",
+  "tokugawa": "civ_unit_leader.glb",
+  "joanDarc": "civ_unit_leader.glb",
+  "wangKon": "civ_unit_leader.glb",
+  "isabella": "civ_unit_leader.glb",
+  "enkiduWarrior": "civ_unit_warrior.glb",
+  "threeManChariot": "civ_unit_chariot.glb",
+  "mursilis": "civ_unit_leader.glb",
+  "gilgamesh": "civ_unit_leader.glb",
+  "henry": "civ_unit_leader.glb",
+  "carrack": "civ_unit_caravel.glb",
+  "swissMercenary": "civ_unit_pikeman.glb",
+  "williamOfOrange": "civ_unit_leader.glb",
+  "trebuchet": "civ_unit_trebuchet.glb",
+  "pachacuti": "civ_unit_leader.glb",
+  "smokeJaguar": "civ_unit_leader.glb",
+  "theodora": "civ_unit_leader.glb",
+  "chasquiScout": "civ_unit_scout.glb",
+  "javelinThrower": "civ_unit_archer.glb",
+  "dromon": "civ_unit_galley.glb",
+  "cruiser": "civ_unit_destroyer.glb",
+  "crusader": "civ_unit_knight.glb",
+  "ancientCavalry": "civ_unit_horseman.glb",
+  "curragh": "civ_unit_galley.glb",
+  "paratrooper": "civ_unit_paratrooper.glb",
+  "towInfantry": "civ_unit_marine.glb",
+  "flak": "civ_unit_artillery.glb",
+  "mobileSam": "civ_unit_mobile_sam.glb",
+  "rifleman124": "civ_unit_rifleman.glb",
+  "infantry125": "civ_unit_infantry.glb",
+  "mechInfantry126": "civ_unit_mech_infantry.glb",
+  "nuclearSubmarine127": "civ_unit_submarine.glb",
+  "impi128": "civ_unit_spearman.glb",
+  "legionary129": "civ_unit_swordsman.glb",
+  "musketeer130": "civ_unit_musketman.glb",
+  "samurai131": "civ_unit_medieval_infantry.glb",
+  "f15132": "civ_unit_jet_fighter.glb",
+  "conquistador133": "civ_unit_knight.glb",
+  "numidianMercenary134": "civ_unit_spearman.glb",
+  "guerilla135": "civ_unit_infantry.glb",
+  "carrack136": "civ_unit_caravel.glb",
+  "chasquiScout137": "civ_unit_scout.glb",
+  "javelinThrower138": "civ_unit_archer.glb",
+  "dromon139": "civ_unit_galley.glb",
+  "towInfantry140": "civ_unit_marine.glb",
+  "_fit": {
+    "civ_unit_warrior.glb": {
+      "size": 0.62,
+      "fit": "height"
+    },
+    "civ_unit_spearman.glb": {
+      "size": 0.62,
+      "fit": "height"
+    },
+    "civ_unit_archer.glb": {
+      "size": 0.62,
+      "fit": "height"
+    },
+    "civ_unit_settler.glb": {
+      "size": 0.62,
+      "fit": "height"
+    },
+    "civ_unit_worker.glb": {
+      "size": 0.6,
+      "fit": "height"
+    },
+    "civ_unit_scout.glb": {
+      "size": 0.62,
+      "fit": "height"
+    },
+    "civ_unit_explorer.glb": {
+      "size": 0.62,
+      "fit": "height"
+    },
+    "civ_unit_galley.glb": {
+      "size": 1.25,
+      "fit": "length"
+    },
+    "civ_unit_swordsman.glb": {
+      "size": 0.66,
+      "fit": "height"
+    },
+    "civ_unit_pikeman.glb": {
+      "size": 0.8,
+      "fit": "height"
+    },
+    "civ_unit_longbowman.glb": {
+      "size": 0.74,
+      "fit": "height"
+    },
+    "civ_unit_medieval_infantry.glb": {
+      "size": 0.68,
+      "fit": "height"
+    },
+    "civ_unit_musketman.glb": {
+      "size": 0.76,
+      "fit": "height"
+    },
+    "civ_unit_rifleman.glb": {
+      "size": 0.64,
+      "fit": "height"
+    },
+    "civ_unit_infantry.glb": {
+      "size": 0.62,
+      "fit": "height"
+    },
+    "civ_unit_marine.glb": {
+      "size": 0.62,
+      "fit": "height"
+    },
+    "civ_unit_paratrooper.glb": {
+      "size": 0.62,
+      "fit": "height"
+    },
+    "civ_unit_leader.glb": {
+      "size": 0.96,
+      "fit": "height"
+    },
+    "civ_unit_army.glb": {
+      "size": 0.95,
+      "fit": "height"
+    },
+    "civ_unit_horseman.glb": {
+      "size": 0.86,
+      "fit": "height"
+    },
+    "civ_unit_knight.glb": {
+      "size": 0.88,
+      "fit": "height"
+    },
+    "civ_unit_cavalry.glb": {
+      "size": 0.96,
+      "fit": "height"
+    },
+    "civ_unit_chariot.glb": {
+      "size": 1.1,
+      "fit": "length"
+    },
+    "civ_unit_catapult.glb": {
+      "size": 0.82,
+      "fit": "length"
+    },
+    "civ_unit_trebuchet.glb": {
+      "size": 0.95,
+      "fit": "length"
+    },
+    "civ_unit_cannon.glb": {
+      "size": 0.78,
+      "fit": "length"
+    },
+    "civ_unit_artillery.glb": {
+      "size": 0.9,
+      "fit": "length"
+    },
+    "civ_unit_tank.glb": {
+      "size": 1.0,
+      "fit": "length"
+    },
+    "civ_unit_modern_armor.glb": {
+      "size": 1.1,
+      "fit": "length"
+    },
+    "civ_unit_mech_infantry.glb": {
+      "size": 0.95,
+      "fit": "length"
+    },
+    "civ_unit_mobile_sam.glb": {
+      "size": 0.95,
+      "fit": "length"
+    },
+    "civ_unit_caravel.glb": {
+      "size": 1.3,
+      "fit": "length"
+    },
+    "civ_unit_galleon.glb": {
+      "size": 1.45,
+      "fit": "length"
+    },
+    "civ_unit_frigate.glb": {
+      "size": 1.55,
+      "fit": "length"
+    },
+    "civ_unit_ironclad.glb": {
+      "size": 1.35,
+      "fit": "length"
+    },
+    "civ_unit_transport.glb": {
+      "size": 1.6,
+      "fit": "length"
+    },
+    "civ_unit_destroyer.glb": {
+      "size": 1.6,
+      "fit": "length"
+    },
+    "civ_unit_battleship.glb": {
+      "size": 1.85,
+      "fit": "length"
+    },
+    "civ_unit_carrier.glb": {
+      "size": 1.95,
+      "fit": "length"
+    },
+    "civ_unit_submarine.glb": {
+      "size": 1.45,
+      "fit": "length"
+    },
+    "civ_unit_fighter.glb": {
+      "size": 1.0,
+      "fit": "length"
+    },
+    "civ_unit_jet_fighter.glb": {
+      "size": 1.05,
+      "fit": "length"
+    },
+    "civ_unit_bomber.glb": {
+      "size": 1.4,
+      "fit": "length"
+    },
+    "civ_unit_stealth_bomber.glb": {
+      "size": 1.35,
+      "fit": "length"
+    },
+    "civ_unit_helicopter.glb": {
+      "size": 1.05,
+      "fit": "length"
+    },
+    "civ_unit_cruise_missile.glb": {
+      "size": 0.75,
+      "fit": "length"
+    },
+    "civ_unit_nuclear_missile.glb": {
+      "size": 0.95,
+      "fit": "height"
+    },
+    "civ_barbarian_camp.glb": {
+      "size": 1.0,
+      "fit": "length"
+    },
+    "civ_fx_crater.glb": {
+      "size": 1.0,
+      "fit": "length"
+    }
+  }
+}

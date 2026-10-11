@@ -15,6 +15,7 @@ import type { Rules } from './rules.ts';
 import { FLAG_LAKE, IMP_IRRIGATION, IMP_MINE, type City, type GameState } from './state.ts';
 import { cityAt, cityRadiusTiles } from './territory.ts';
 import { tileYield, resourceVisibleTo, type Explained, type Part } from './yields.ts';
+import { wearinessFaces } from './war.ts';
 
 export type SizeClass = 'town' | 'city' | 'metropolis';
 
@@ -346,6 +347,12 @@ export function cityReport(rules: Rules, state: GameState, city: City): CityRepo
   let unhappy = laborers - content;
   let happy = 0;
   moods.push({ label: sizePenalty > 0 ? `Born content (${diff.name}, ${sizePenalty} fewer for empire size)` : `Born content (${diff.name})`, happy, content, unhappy });
+  const weary = Math.min(content, wearinessFaces(rules, state, city, have));
+  if (weary > 0) {
+    content -= weary;
+    unhappy += weary;
+    moods.push({ label: 'War weariness', happy, content, unhappy });
+  }
   if (city.forcedLabor.length > 0) {
     const n = Math.min(content, city.forcedLabor.length);
     content -= n;

@@ -231,6 +231,27 @@ Suggested order for early value: 0 → 1 → 2 gives a playable empire-builder; 
 
 ---
 
+### Versions
+
+Starting with the first alpha (Phase 3), every shipped change set (a phase PR or a later
+fix PR) is one build: it raises the version by exactly 0.001 (Phase 3 is 0.001) and adds a
+short player-facing entry on top of `packages/client/src/changelog.json`. The title screen
+shows the version and a "What's new" panel with the history, newest first; a test checks
+the numbering. Every later phase keeps doing this.
+
+### Phase 3 notes (combat and war, alpha 0.001)
+
+Defaults picked where the plan left a choice, all documented in `docs/rules/`:
+- Combat bonuses add up (not multiply); promotion 1 in 8 per victory, great leaders 1 in 16
+  for elite winners; retreat at the round that would kill a faster unit.
+- War and peace are immediate for both sides until Phase 4 diplomacy; barbarians are a
+  player of their own, moved by the engine, and loot rather than hold cities.
+- War weariness is our own points model (battles, losses, cities; decays a tenth a turn).
+- Rival civilizations in the browser use the scripted `conqueror` player (builder economy,
+  war on the nearest rival from turn 40) until the Phase 4 AI replaces it.
+- Not yet: airdrops, airlifts, helicopter transport, stealth attack, hidden nationality,
+  barbarian landings, resistance and culture flips (Phase 6).
+
 ## 13. Deferred
 
 Mods and rule-set editing UI, scenarios (custom BIQs, maps, Conquests campaigns), multiplayer (hotseat, PBEM, online), loading original `.SAV`/`.BIQ` maps as starting positions, mobile layout beyond basic responsiveness.

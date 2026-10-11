@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { cityAt, findPath, neighbour, pathTurns, stepCost } from '@civolution/engine';
+import { cityAt, distance, findPath, neighbour, pathTurns, stepCost, type GameState, type Unit } from '@civolution/engine';
+import { setUnitFamily } from '../audio.ts';
 import { host } from '../host/client.ts';
 import { loadModels, type ModelSet } from '../map/three/models.ts';
 import { ThreeMapView } from '../map/three/ThreeMapView.ts';
@@ -8,6 +9,8 @@ import { writeSave } from '../saves.ts';
 import { idleCities, idleUnits, useGame } from '../store.ts';
 import { CityScreen } from './CityScreen.tsx';
 import { DomesticAdvisor } from './DomesticAdvisor.tsx';
+import { ForeignAdvisor } from './ForeignAdvisor.tsx';
+import { NewsCards, RazeDialog } from './WarCards.tsx';
 import { ScienceAdvisor } from './ScienceAdvisor.tsx';
 import { LogPanel } from './LogPanel.tsx';
 import { Minimap } from './Minimap.tsx';
@@ -16,8 +19,35 @@ import { SavesDialog } from './SavesDialog.tsx';
 import { TilePanel } from './TilePanel.tsx';
 import { TopBar } from './TopBar.tsx';
 import { UnitPanel, unitActions } from './UnitPanel.tsx';
+import { unitFamily } from './family.ts';
 
 let modelsPromise: Promise<ModelSet> | null = null;
+
+setUnitFamily((type) => unitFamily(rules, type));
+
+/** Whether stepping from `u` onto `tile` would be an attack or a capture. */
+function hostileStep(state: GameState, u: Unit, tile: number): boolean {
+  if (distance(state.map, u.tile, tile) !== 1) return false;
+  if (Object.values(state.units).some((x) => x.tile === tile && x.owner !== u.owner)) return true;
+  const c = cityAt(state, tile);
+  return !!c && c.owner !== u.owner;
+}
+
+/** Sends the aimed action of a unit at a tile. */
+function fireAt(u: Unit, tile: number): void {
+  const s = useGame.getState();
+  const aim = s.aim;
+  if (!aim) return;
+  s.setAim(null);
+  const done = (ok: boolean) => {
+    const after = useGame.getState().snapshot?.state.units[u.id];
+    if (ok && (!after || after.movesLeft <= 0)) useGame.getState().selectNext();
+  };
+  if (aim.action === 'bombard') void s.send({ type: 'bombard', unit: u.id, target: tile }).then(done);
+  else if (aim.action === 'nuke') {
+    if (confirm('Launch a nuclear strike? Every unit on and around the target is destroyed, and cities there lose half their people.')) void s.send({ type: 'nuke', unit: u.id, target: tile }).then(done);
+  } else void s.send({ type: 'airMission', unit: u.id, mission: aim.action, target: tile }).then(done);
+}
 
 /** Numpad keys to compass directions (0 = N … 7 = NW) with the camera unrotated. */
 const NUMPAD: Record<string, number> = { Numpad8: 0, Numpad9: 1, Numpad6: 2, Numpad3: 3, Numpad2: 4, Numpad1: 5, Numpad4: 6, Numpad7: 7 };
@@ -33,6 +63,7 @@ export function GameScreen() {
   const hover = useGame((s) => s.hover);
   const settings = useGame((s) => s.settings);
   const gotoMode = useGame((s) => s.gotoMode);
+  const aim = useGame((s) => s.aim);
   const lastEvents = useGame((s) => s.lastEvents);
   const toast = useGame((s) => s.toast);
   const built = useRef<number | null>(null);
@@ -50,6 +81,8 @@ export function GameScreen() {
         onCityClick: (id) => useGame.getState().open({ kind: 'city', id }),
       });
       setView(v);
+      // Test hook for scripted UI checks (?scenario=�).
+      if (new URLSearchParams(location.search).has('scenario')) (window as unknown as { __civ: unknown }).__civ = { view: v, store: useGame };
     });
     return () => {
       disposed = true;
@@ -128,6 +161,15 @@ export function GameScreen() {
       }
       if (code === 'F6') {
         s.open({ kind: 'science' });
+        return true;
+      }
+      if (code === 'F4') {
+        s.open({ kind: 'foreign' });
+        return true;
+      }
+      if (code === 'Escape' && (s.aim || s.gotoMode)) {
+        s.setAim(null);
+        s.setGotoMode(false);
         return true;
       }
       if (code === 'Enter' || code === 'NumpadEnter') {
@@ -250,6 +292,19 @@ export function GameScreen() {
     const s = useGame.getState();
     const snap = s.snapshot!;
     const u = s.selected !== null ? snap.state.units[s.selected] : undefined;
+    if (s.aim && u && u.owner === snap.human) {
+      if (d.button === 2) s.setAim(null);
+      else fireAt(u, tile);
+      return;
+    }
+    if ((d.button === 2 || s.gotoMode) && u && u.owner === snap.human && hostileStep(snap.state, u, tile)) {
+      s.setGotoMode(false);
+      void s.send({ type: 'moveUnit', unit: u.id, to: tile }).then((ok) => {
+        const after = useGame.getState().snapshot?.state.units[u.id];
+        if (ok && (!after || after.movesLeft <= 0)) useGame.getState().selectNext();
+      });
+      return;
+    }
     if ((d.button === 2 || s.gotoMode) && u && u.owner === snap.human) {
       s.setGotoMode(false);
       void s.send({ type: 'goto', unit: u.id, to: tile }).then((ok) => {
@@ -285,7 +340,7 @@ export function GameScreen() {
   })();
 
   return (
-    <div className={`game ${gotoMode ? 'goto' : ''}`}>
+    <div className={`game ${gotoMode ? 'goto' : ''} ${aim ? 'aim' : ''}`}>
       <canvas
         ref={canvas}
         className="map-canvas"
@@ -315,11 +370,19 @@ export function GameScreen() {
         </button>
       </div>
       {settings.perf && view && <PerfHud view={view} />}
+      {aim && (
+        <div className="aim-hint panel">
+          Pick a target for {aim.action === 'bombard' ? 'bombardment' : aim.action === 'nuke' ? 'the nuclear strike' : aim.action === 'recon' ? 'reconnaissance' : aim.action === 'rebase' ? 'rebasing' : 'the air strike'} · Esc or right-click to cancel
+        </div>
+      )}
+      <NewsCards onJump={(tile) => view?.centerOn(tile)} />
+      <RazeDialog />
       {toast && <div className="toast">{toast}</div>}
       {dialog && <SavesDialog mode={dialog} onClose={() => setDialog(null)} />}
       {panel?.kind === 'city' && <CityScreen cityId={panel.id} onClose={() => useGame.getState().open(null)} />}
       {panel?.kind === 'domestic' && <DomesticAdvisor onClose={() => useGame.getState().open(null)} />}
       {panel?.kind === 'science' && <ScienceAdvisor onClose={() => useGame.getState().open(null)} />}
+      {panel?.kind === 'foreign' && <ForeignAdvisor onClose={() => useGame.getState().open(null)} />}
     </div>
   );
 }

@@ -1,0 +1,88 @@
+{
+  "spec_version": 1,
+  "id": "civ_unit_modern_armor",
+  "generator": "civ.vehicle",
+  "params": {
+    "kind": "modern_armor",
+    "seed": 501
+  },
+  "materials": {
+    "body": {
+      "base_color": [
+        0.62,
+        0.56,
+        0.42,
+        1
+      ],
+      "roughness": 0.8,
+      "metallic": 0.0
+    },
+    "dark": {
+      "base_color": [
+        0.17,
+        0.18,
+        0.17,
+        1
+      ],
+      "roughness": 0.6,
+      "metallic": 0.4
+    },
+    "track": {
+      "base_color": [
+        0.12,
+        0.11,
+        0.1,
+        1
+      ],
+      "roughness": 0.9,
+      "metallic": 0.0
+    },
+    "team": {
+      "base_color": [
+        0.85,
+        0.85,
+        0.85,
+        1
+      ],
+      "roughness": 0.75,
+      "metallic": 0.0
+    },
+    "metal": {
+      "base_color": [
+        0.5,
+        0.5,
+        0.48,
+        1
+      ],
+      "roughness": 0.5,
+      "metallic": 0.6
+    },
+    "glass": {
+      "base_color": [
+        0.3,
+        0.45,
+        0.55,
+        1
+      ],
+      "roughness": 0.15,
+      "metallic": 0.2
+    },
+    "light": {
+      "base_color": [
+        0.88,
+        0.88,
+        0.85,
+        1
+      ],
+      "roughness": 0.5,
+      "metallic": 0.0
+    }
+  },
+  "qa": {
+    "max_triangles": 8000,
+    "require_uvs": true,
+    "require_manifold": true,
+    "require_origin_at_base": true,
+    "max_dimension_m": 12.0
+  }
+}

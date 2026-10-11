@@ -9,7 +9,10 @@ import {
   apply,
   createGame,
   indexRules,
+  levelHp,
   loadGame,
+  neighbours,
+  tilesInRadius,
   playerUnits,
   saveGame,
   tileCount,
@@ -21,7 +24,7 @@ import {
   type Unit,
 } from '@civolution/engine';
 import { conquests } from '@civolution/rules';
-import { builder } from '@civolution/sim';
+import { conqueror } from '@civolution/sim';
 
 const rules = indexRules(conquests);
 
@@ -51,20 +54,33 @@ function current(): GameState {
   return state;
 }
 
-/** Runs the AI players' turns and the human's routines for the new turn. */
+/** Whether a player survived its own turn (a counter-attack can end a civilization). */
+function stillAlive(s: GameState, i: number): boolean {
+  return s.players[i]?.alive === true;
+}
+
+/**
+ * Runs the AI players' turns and the human's routines for the new turn. Until the real
+ * AI arrives (Phase 4) rivals are the scripted conqueror: they build, expand and, from
+ * turn 40, go to war with their nearest neighbour.
+ */
 function finishRound(events: GameEvent[]): void {
   let s = current();
   s.players.forEach((p, i) => {
-    if (i === human || !p.alive || p.endedTurn) return;
-    builder.takeTurn(rules, s, i, (cmd) => {
+    if (i === human || !s.players[i]!.alive || p.endedTurn || p.barbarian) return;
+    conqueror.takeTurn(rules, s, i, (cmd) => {
       const r = apply(rules, s, cmd);
-      if (!r.error) s = r.state;
+      if (!r.error) {
+        s = r.state;
+        events.push(...r.events);
+      }
       return s;
     });
+    if (!stillAlive(s, i)) return;
     const r = apply(rules, s, { type: 'endTurn', player: i });
     if (!r.error) {
       s = r.state;
-      events.push(...r.events.filter((e) => e.type === 'turnStarted'));
+      events.push(...r.events);
     }
   });
   const run = runRoutines(rules, s, human);
@@ -135,7 +151,7 @@ const host = {
       if (holder !== undefined && holder !== owner) continue;
       taken.set(tile, owner);
       const type = types[k % types.length]!;
-      newUnits[next] = { id: next, owner, type, tile, movesLeft: rules.unit(type).movement * 3, experience: 'regular', fortified: false, order: null, routine: null };
+      newUnits[next] = { id: next, owner, type, tile, movesLeft: rules.unit(type).movement * 3, experience: 'regular', hp: levelHp(rules, type, 'regular'), fortified: false, acted: false, attacked: false, carriedBy: null, order: null, routine: null };
       next++;
     }
     // A few galleys on coastal water so the ship model is part of the measurement.
@@ -145,11 +161,45 @@ const host = {
       if (s.map.terrain[i] !== coast || taken.has(i)) continue;
       const owner = galleys % s.players.length;
       taken.set(i, owner);
-      newUnits[next] = { id: next, owner, type: 'galley', tile: i, movesLeft: 9, experience: 'regular', fortified: false, order: null, routine: null };
+      newUnits[next] = { id: next, owner, type: 'galley', tile: i, movesLeft: 9, experience: 'regular', hp: levelHp(rules, 'galley', 'regular'), fortified: false, acted: false, attacked: false, carriedBy: null, order: null, routine: null };
       next++;
       galleys++;
     }
     s = { ...s, players, units: newUnits, nextUnitId: next };
+    state = s;
+    return snapshot();
+  },
+
+  /**
+   * Test scenario (`?scenario=skirmish`): the human's start gets an archer, a spearman and
+   * a catapult, the next civilization a few units right next to them, and the two are at war.
+   */
+  skirmish(): Snapshot {
+    let s = current();
+    const other = s.players.findIndex((p, i) => i !== human && !p.barbarian);
+    if (other < 0) return snapshot();
+    const start = s.map.starts[human]!;
+    const land = (t: number) => t >= 0 && !rules.terrains[s.map.terrain[t]!]!.water && !rules.terrains[s.map.terrain[t]!]!.impassable;
+    const near = neighbours(s.map, start).filter(land);
+    const ring2 = tilesInRadius(s.map, start, 2).filter((t) => land(t) && !near.includes(t) && t !== start);
+    const units = { ...s.units };
+    let next = s.nextUnitId;
+    const put = (owner: number, type: string, tile: number, experience = 'regular') => {
+      units[next] = { id: next, owner, type, tile, movesLeft: rules.unit(type).movement * rules.moveScale, experience, hp: levelHp(rules, type, experience), fortified: false, acted: false, attacked: false, carriedBy: null, order: null, routine: null };
+      next++;
+    };
+    put(human, 'archer', start, 'veteran');
+    put(human, 'spearman', start);
+    put(human, 'catapult', start);
+    // Two foes right next door (in sight), one a little further out.
+    const spots = [...near.slice(0, 2), ...ring2.slice(0, 1)];
+    for (const [i, t] of spots.entries()) put(other, i === 0 ? 'warrior' : i === 1 ? 'archer' : 'horseman', t);
+    const players = s.players.map((p) => {
+      if (p.id === human) return { ...p, atWarWith: [...p.atWarWith, other], explored: p.explored.map(() => 0xffffffff) };
+      if (p.id === other) return { ...p, atWarWith: [...p.atWarWith, human] };
+      return p;
+    });
+    s = { ...s, units, nextUnitId: next, players };
     state = s;
     return snapshot();
   },

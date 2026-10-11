@@ -1,0 +1,19 @@
+[
+  {
+    "version": "0.001",
+    "date": "2026-10-11",
+    "title": "First alpha: war comes to the world",
+    "items": [
+      "Combat by the Civ3 rules: round-by-round battles with hit points by experience, terrain, river, fortress, fortification and city defences, and retreat for fast units.",
+      "See your odds before you attack, with every modifier on both sides.",
+      "Capture or raze cities, plunder gold, take workers and artillery as prizes; civilizations can be destroyed.",
+      "Catapults to battleships bombard; bombers, fighters and reconnaissance fly missions; anti-air fire and interceptors defend.",
+      "Ships carry troops, armies are formed by great leaders born in battle, and leaders can hurry a wonder.",
+      "Barbarian camps appear in the wilds and raid nearby cities; tribal villages may now teach an advance or hide barbarians.",
+      "War weariness unsettles republics and democracies; the war room (F4) declares war and makes peace.",
+      "Nuclear weapons once the Manhattan Project stands somewhere, with missile defence.",
+      "New 3D models for every line of units from swordsmen to carriers, health bars and battle effects on the map.",
+      "Already in place: a 3D world map with rivers and fog of war, cities with growth, production, corruption, happiness, science, governments, culture and borders."
+    ]
+  }
+]

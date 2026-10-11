@@ -4,6 +4,7 @@
 import { cityReport, effectiveBuildings, isCoastal, sizeClass } from './city.ts';
 import { cityResources, empireInfo } from './empire.ts';
 import { knowsTech } from './queries.ts';
+import { armyCount, armyLimit, nukesEnabled } from './war.ts';
 import type { Rules } from './rules.ts';
 import type { Build, City, GameState } from './state.ts';
 import { cityRadiusTiles } from './territory.ts';
@@ -48,6 +49,16 @@ export function isCommonUnit(rules: Rules, id: string): boolean {
   return popcount(u.availableToMask & ~1) >= 16;
 }
 
+/** The next unit up the upgrade line that civilizations build (unique units in between are skipped). */
+export function nextCommonUpgrade(rules: Rules, id: string): string | undefined {
+  let next = rules.unit(id).upgradeTo;
+  for (let guard = 0; next && guard < 20; guard++) {
+    if (isCommonUnit(rules, next)) return next;
+    next = rules.unit(next).upgradeTo;
+  }
+  return undefined;
+}
+
 /** Why `city` cannot build `b`, or null when it can. */
 export function buildBlocker(rules: Rules, state: GameState, city: City, b: Build): string | null {
   const p = state.players[city.owner]!;
@@ -55,14 +66,17 @@ export function buildBlocker(rules: Rules, state: GameState, city: City, b: Buil
   const resources = cityResources(info, city);
   if (b.kind === 'unit') {
     const u = rules.unit(b.id);
-    if (!isCommonUnit(rules, b.id)) return `${u.name} is not available to your civilization.`;
+    const academy = b.id === rules.set.general.armyUnit && [...effectiveBuildings(rules, state, city)].some((x) => rules.building(x).effects.includes('buildArmiesWithoutLeader'));
+    if (!isCommonUnit(rules, b.id) && !academy) return `${u.name} is not available to your civilization.`;
+    if (academy && armyCount(rules, state, city.owner) >= armyLimit(rules, state, city.owner)) return `You may field ${armyLimit(rules, state, city.owner)} armies (one per ${rules.set.general.citiesPerArmy} cities).`;
     if (u.requiredTech && !knowsTech(p, u.requiredTech)) return `Requires ${rules.tech(u.requiredTech).name}.`;
     const missing = u.requiredResources.filter((r) => !resources.has(r));
     if (missing.length > 0) return `Requires ${missing.map((r) => rules.resources[rules.resourceIndex(r)]!.name).join(' and ')}.`;
     if (u.domain === 'sea' && !isCoastal(rules, state, city.tile)) return 'Ships need a coastal city.';
-    if (u.domain === 'air') return 'Aircraft arrive with air combat in Phase 3.';
-    if (u.upgradeTo && isCommonUnit(rules, u.upgradeTo)) {
-      const up = rules.unit(u.upgradeTo);
+    if (u.abilities.includes('nuclearWeapon') && !nukesEnabled(rules, state)) return 'Nuclear weapons need the Manhattan Project to be built somewhere.';
+    const upId = nextCommonUpgrade(rules, b.id);
+    if (upId) {
+      const up = rules.unit(upId);
       if ((!up.requiredTech || knowsTech(p, up.requiredTech)) && up.requiredResources.every((r) => resources.has(r)))
         return `Replaced by ${up.name}.`;
     }
@@ -72,6 +86,7 @@ export function buildBlocker(rules: Rules, state: GameState, city: City, b: Buil
   if (r.requiredTech && !knowsTech(p, r.requiredTech)) return `Requires ${rules.tech(r.requiredTech).name}.`;
   if (r.obsoletedBy && knowsTech(p, r.obsoletedBy)) return `Obsolete since ${rules.tech(r.obsoletedBy).name}.`;
   if (b.id in city.buildings) return 'Already built here.';
+  if (r.kind === 'wonder' && state.wonders[b.id] === -1) return 'Lost for ever when its city was destroyed.';
   if (r.kind === 'wonder' && b.id in state.wonders) return 'Already built by a civilization.';
   if (r.kind === 'smallWonder' && info.buildingCount.has(b.id)) return 'Your civilization already has it.';
   if (r.requiredBuilding) {
@@ -91,8 +106,8 @@ export function buildBlocker(rules: Rules, state: GameState, city: City, b: Buil
   if (r.effects.includes('mustBeNearWater') && !area.some((t) => state.map.rivers[t] !== 0 || rules.terrains[state.map.terrain[t]!]!.water))
     return 'Needs water in the city area.';
   if (r.effects.includes('allowsCitySize3') && sizeClass(rules, city.size) === 'town') return `Needs a city larger than ${rules.set.general.maxTownSize}.`;
-  if (r.effects.includes('requiresVictoriousArmy')) return 'Needs a victorious army (combat arrives in Phase 3).';
-  if (r.effects.includes('buildLargerArmies')) return 'Needs armies (Phase 3).';
+  if (r.effects.includes('requiresVictoriousArmy') && !p.armyVictory) return 'Needs one of your armies to win a battle first.';
+  if (r.effects.includes('buildLargerArmies') && armyCount(rules, state, city.owner) === 0) return 'Needs an army.';
   if (b.id.startsWith('ss')) return 'The space race arrives in Phase 6.';
   if (b.id === 'palace' && 'palace' in city.buildings) return 'Already the capital.';
   if (r.kind === 'smallWonder' && r.effects.includes('reducesCorruption') && 'palace' in city.buildings) return 'The capital is already the seat of government.';
@@ -109,7 +124,7 @@ export interface BuildOption {
 export function buildOptions(rules: Rules, state: GameState, city: City): BuildOption[] {
   const out: BuildOption[] = [];
   for (const u of rules.set.units) {
-    if (!isCommonUnit(rules, u.id)) continue;
+    if (!isCommonUnit(rules, u.id) && u.id !== rules.set.general.armyUnit) continue;
     const build: Build = { kind: 'unit', id: u.id };
     out.push({ build, cost: u.shieldCost, blocker: buildBlocker(rules, state, city, build) });
   }

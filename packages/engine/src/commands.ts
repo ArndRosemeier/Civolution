@@ -13,7 +13,21 @@ interface Base {
 }
 
 export type Command =
-  | (Base & { type: 'moveUnit'; unit: number; to: number })
+  /** Moving onto enemy units attacks them; onto an undefended enemy city captures it (or razes it with `raze`). */
+  | (Base & { type: 'moveUnit'; unit: number; to: number; raze?: boolean })
+  | (Base & { type: 'bombard'; unit: number; target: number })
+  | (Base & { type: 'airMission'; unit: number; mission: AirMission; target?: number })
+  | (Base & { type: 'nuke'; unit: number; target: number })
+  | (Base & { type: 'pillage'; unit: number })
+  | (Base & { type: 'upgrade'; unit: number })
+  | (Base & { type: 'load'; unit: number })
+  | (Base & { type: 'buildArmy'; unit: number })
+  | (Base & { type: 'joinArmy'; unit: number; army: number })
+  | (Base & { type: 'leaderHurry'; unit: number })
+  /** Burns a city taken this turn to the ground. */
+  | (Base & { type: 'razeCity'; city: number })
+  | (Base & { type: 'declareWar'; target: number })
+  | (Base & { type: 'makePeace'; target: number })
   | (Base & { type: 'goto'; unit: number; to: number })
   | (Base & { type: 'fortify'; unit: number })
   | (Base & { type: 'sentry'; unit: number })
@@ -35,10 +49,33 @@ export type Command =
   | (Base & { type: 'revolution'; government: string })
   | (Base & { type: 'endTurn' });
 
+export type AirMission = 'bomb' | 'precisionBomb' | 'recon' | 'rebase' | 'intercept';
+
+export type UnitLossReason =
+  | 'combat'
+  | 'bombard'
+  | 'nuke'
+  | 'sunk'
+  | 'captured'
+  | 'destroyed'
+  | 'eliminated'
+  | 'shotDown'
+  | 'spent'
+  | 'upgraded'
+  | 'formedArmy';
+
+export type BombardHit =
+  | { kind: 'unit'; unit: number; killed: boolean }
+  | { kind: 'population'; size: number }
+  | { kind: 'building'; building: string }
+  | { kind: 'miss' };
+
 export type HutOutcome =
   | { kind: 'gold'; amount: number }
   | { kind: 'map'; tiles: number }
   | { kind: 'unit'; unitType: string; unit: number }
+  | { kind: 'tech'; tech: string }
+  | { kind: 'barbarians'; units: number }
   | { kind: 'empty' };
 
 export type GameEvent = { reason?: string } & (
@@ -78,6 +115,47 @@ export type GameEvent = { reason?: string } & (
   | { type: 'anarchyStarted'; player: number; target: string; turns: number }
   | { type: 'governmentChanged'; player: number; government: string }
   | { type: 'treasury'; player: number; income: number; upkeep: number; unitSupport: number; gold: number }
+  | {
+      type: 'combat';
+      attacker: number;
+      attackerPlayer: number;
+      attackerType: string;
+      defender: number;
+      defenderPlayer: number;
+      defenderType: string;
+      from: number;
+      tile: number;
+      result: 'attackerWon' | 'defenderWon' | 'attackerRetreated' | 'defenderRetreated';
+      /** One letter per round: 'a' when the attacker won it, 'd' when the defender did. */
+      rounds: string;
+      attackerHp: number;
+      defenderHp: number;
+      /** The attacker's chance to win as it stood before the battle, in percent. */
+      odds: number;
+    }
+  | { type: 'zoneOfControlAttack'; unit: number; player: number; by: number; byPlayer: number; hit: boolean }
+  | { type: 'defensiveBombard'; unit: number; player: number; target: number; targetPlayer: number; hit: boolean }
+  | { type: 'bombarded'; unit: number; player: number; from: number; tile: number; targetPlayer: number; hits: BombardHit[] }
+  | { type: 'unitLost'; unit: number; player: number; unitType: string; tile: number; why: UnitLossReason }
+  | { type: 'unitCaptured'; unit: number; player: number; from: number; unitType: string; tile: number }
+  | { type: 'unitPromoted'; unit: number; player: number; experience: string }
+  | { type: 'leaderBorn'; unit: number; player: number; tile: number }
+  | { type: 'armyFormed'; unit: number; player: number; tile: number }
+  | { type: 'unitJoinedArmy'; unit: number; army: number; player: number }
+  | { type: 'unitUpgraded'; unit: number; player: number; from: string; to: string; gold: number }
+  | { type: 'unitBoarded'; unit: number; transport: number; player: number }
+  | { type: 'tilePillaged'; tile: number; player: number; removed: string }
+  | { type: 'cityCaptured'; city: number; player: number; from: number; tile: number; name: string; gold: number }
+  | { type: 'cityDestroyed'; city: number; player: number; by: number; tile: number; name: string }
+  | { type: 'cityRaided'; city: number; player: number; tile: number; gold: number; size: number }
+  | { type: 'airMission'; unit: number; player: number; mission: AirMission; from: number; target: number }
+  | { type: 'intercepted'; unit: number; player: number; by: number; byPlayer: number; survived: boolean }
+  | { type: 'nuclearStrike'; unit: number; player: number; tile: number; stopped: boolean }
+  | { type: 'warDeclared'; player: number; target: number }
+  | { type: 'peaceMade'; player: number; target: number }
+  | { type: 'playerEliminated'; player: number; by: number | null }
+  | { type: 'campDestroyed'; tile: number; player: number; gold: number }
+  | { type: 'campAppeared'; tile: number }
 );
 
 export interface CommandError {
@@ -94,6 +172,7 @@ export interface CommandError {
     | 'cannotFound'
     | 'cannotBuild'
     | 'notImplemented'
+    | 'notAtWar'
     | 'invalid';
   message: string;
 }

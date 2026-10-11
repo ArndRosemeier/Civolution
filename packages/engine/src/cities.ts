@@ -15,6 +15,7 @@ import { eraFor, researchBlocker, techCost } from './science.ts';
 import { IMP_ROAD, type Build, type City, type GameState, type Unit } from './state.ts';
 import { borderRadius, cityAt, computeTerritory, playerCities } from './territory.ts';
 import type { Tx } from './tx.ts';
+import { newUnit } from './units.ts';
 import { reveal } from './vision.ts';
 
 type Fail = { error: CommandError };
@@ -57,6 +58,7 @@ export function newCity(rules: Rules, state: GameState, owner: number, tile: num
     forcedLabor: [],
     hurried: false,
     wonderUnitTimer: 0,
+    capturedOn: null,
   };
 }
 
@@ -347,7 +349,7 @@ export function runCityTurn(rules: Rules, tx: Tx): void {
   // Cities that place their own citizens re-place them first (yields and moods may have changed).
   refreshAutoCities(rules, tx);
   for (const p of tx.state.players) {
-    if (!p.alive) continue;
+    if (!p.alive || p.barbarian) continue;
     let income = 0;
     let upkeep = 0;
     let beakers = 0;
@@ -382,7 +384,7 @@ export function unitSupportCost(rules: Rules, state: GameState, player: number):
   for (const u of Object.values(state.units)) {
     if (u.owner !== player) continue;
     const rule = rules.unit(u.type);
-    if (rule.attack > 0 || rule.defence > 0) military++;
+    if (rule.requiresSupport && (rule.attack > 0 || rule.defence > 0)) military++;
   }
   return Math.max(0, military - free) * gov.unitCost;
 }
@@ -494,16 +496,7 @@ function veteranFor(rules: Rules, tx: Tx, owner: number, cityId: number, type: s
 
 function addUnit(rules: Rules, tx: Tx, owner: number, type: string, tile: number, cityId: number): Unit {
   const veteran = veteranFor(rules, tx, owner, cityId, type);
-  const u = tx.addUnit({
-    owner,
-    type,
-    tile,
-    movesLeft: rules.unit(type).movement * rules.moveScale,
-    experience: veteran ? 'veteran' : 'regular',
-    fortified: false,
-    order: null,
-    routine: null,
-  });
+  const u = tx.addUnit(newUnit(rules, owner, type, tile, veteran ? 'veteran' : 'regular'));
   tx.emit({ type: 'unitCreated', unit: u.id, player: owner, unitType: type, tile });
   return u;
 }
@@ -587,7 +580,7 @@ function produce(rules: Rules, tx: Tx, cityId: number, shields: number): void {
   c.shieldsFor = c.shields > 0 && c.build ? buildCategory(rules, c.build) : null;
 }
 
-function learn(rules: Rules, tx: Tx, player: number, tech: string): void {
+export function learn(rules: Rules, tx: Tx, player: number, tech: string): void {
   const p = tx.player(player);
   if (p.techs.includes(tech)) return;
   p.techs = [...p.techs, tech];

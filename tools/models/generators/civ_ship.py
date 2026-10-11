@@ -1,6 +1,9 @@
-"""Civolution ships: lofted hull, mast and sail, oars. Bow points -Y.
+"""Civolution ships. Bow points -Y, origin at the footprint centre, keel on Z=0.
 
-Slots: hull, deck, wood, sail, team, metal.
+Sailing kinds (galley, caravel, galleon, frigate) use the slots hull, deck, wood,
+sail, team, metal. Steam and modern kinds (ironclad, transport, destroyer,
+battleship, carrier, submarine) use hull, deck, superstructure, dark, team, metal,
+glass. Team colour goes on sails, flags, funnels and command towers.
 """
 
 from __future__ import annotations
@@ -12,10 +15,14 @@ from dataclasses import dataclass
 import bpy
 
 from blender.generators.civ_common import ShapeBuilder, finish
+from blender.generators.civ_ship_kinds import BUILDERS
 from blender.lib.spec import AssetSpec, SpecError, as_int, as_str, positive_float, reject_unknown, require_key, require_materials
 
 MATERIAL_SLOTS: tuple[str, ...] = ("hull", "deck", "wood", "sail", "team", "metal")
-KINDS = ("galley",)
+STEEL_SLOTS: tuple[str, ...] = ("hull", "deck", "superstructure", "dark", "team", "metal", "glass")
+SAIL_KINDS = ("galley", "caravel", "galleon", "frigate")
+STEEL_KINDS = ("ironclad", "transport", "destroyer", "battleship", "carrier", "submarine")
+KINDS = SAIL_KINDS + STEEL_KINDS
 
 
 @dataclass(frozen=True)
@@ -36,10 +43,10 @@ def parse_params(raw: Mapping[str, object]) -> ShipParams:
         kind=kind,
         length=positive_float(require_key(raw, "length", "params"), "params.length"),
         beam=positive_float(require_key(raw, "beam", "params"), "params.beam"),
-        oars_per_side=as_int(require_key(raw, "oars_per_side", "params"), "params.oars_per_side"),
+        oars_per_side=as_int(raw.get("oars_per_side", 0), "params.oars_per_side"),
         seed=as_int(require_key(raw, "seed", "params"), "params.seed"),
     )
-    if not 3 <= p.oars_per_side <= 12:
+    if kind == "galley" and not 3 <= p.oars_per_side <= 12:
         raise SpecError("params.oars_per_side must be 3..12")
     return p
 
@@ -57,10 +64,7 @@ def _section(y: float, half: float, depth: float, sheer: float) -> list[tuple[fl
     ]
 
 
-def build(spec: AssetSpec) -> list[bpy.types.Object]:
-    require_materials(spec.materials, MATERIAL_SLOTS, spec.generator)
-    p = parse_params(spec.params)
-    b = ShapeBuilder(MATERIAL_SLOTS)
+def _galley(b: ShapeBuilder, p: ShipParams) -> None:
     L = p.length
     W = p.beam * 0.5
     depth = 0.7
@@ -92,6 +96,17 @@ def build(spec: AssetSpec) -> list[bpy.types.Object]:
         for i in range(p.oars_per_side - 1):
             y = -L * 0.25 + i * (L * 0.5 / max(1, p.oars_per_side - 2))
             b.cylinder((side * (W * 0.97), y, depth + 0.12), 0.16, 0.04, "team", rotation=(0.0, math.pi / 2, 0.0), segments=10)
+
+
+def build(spec: AssetSpec) -> list[bpy.types.Object]:
+    p = parse_params(spec.params)
+    slots = MATERIAL_SLOTS if p.kind in SAIL_KINDS else STEEL_SLOTS
+    require_materials(spec.materials, slots, spec.generator)
+    b = ShapeBuilder(slots)
+    if p.kind == "galley":
+        _galley(b, p)
+    else:
+        BUILDERS[p.kind](b, p.length, p.beam)
     obj = b.to_object(spec.asset_id, spec.materials)
     finish(obj)
     return [obj]

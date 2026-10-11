@@ -3,6 +3,7 @@ import { defaultOptions, makeRng, PLAYER_COLORS, VICTORY_NAMES, type GameMode, t
 import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
 import { Dialog } from './Dialog.tsx';
+import { loadNewGameSettings, saveNewGameSettings, type NewGameSettings } from './newGameSettings.ts';
 
 type Choice<T extends string | number> = { value: T | 'random'; label: string }[];
 
@@ -110,27 +111,56 @@ export function NewGameDialog({ onClose }: { onClose: () => void }) {
   const newGame = useGame((s) => s.newGame);
   const busy = useGame((s) => s.busy);
   const sizes = rules.set.worldSizes;
-  const [size, setSize] = useState('standard');
-  const [land, setLand] = useState<string>('continents');
-  const [water, setWater] = useState<number | 'random'>(70);
-  const [climate, setClimate] = useState<string>('normal');
-  const [temp, setTemp] = useState<string>('temperate');
-  const [age, setAge] = useState<number | 'random'>(4);
-  const sizeRule = sizes.find((s) => s.id === size)!;
-  const [rivals, setRivals] = useState(sizeRule.defaultCivs - 1);
-  const [mode, setMode] = useState<GameMode>('standard');
-  const [victories, setVictories] = useState<GameOptions['victories']>(defaultOptions().victories);
-  const [flips, setFlips] = useState(true);
-  const [seed, setSeed] = useState(() => Math.floor(Math.random() * 1_000_000));
-  const [difficulty, setDifficulty] = useState(rules.set.general.defaultDifficulty);
   const civs = rules.set.civs;
-  const [civ, setCiv] = useState<string>(() => civs[Math.floor(Math.random() * civs.length)]!.id);
+  // Start from the choices of the last game (newGameSettings.ts), dropping any that no longer exist.
+  const [saved] = useState(() => {
+    const defaults: NewGameSettings = {
+      size: 'standard',
+      land: 'continents',
+      water: 70,
+      climate: 'normal',
+      temp: 'temperate',
+      age: 4,
+      civ: 'random',
+      difficulty: rules.set.general.defaultDifficulty,
+      rivals: (sizes.find((s) => s.id === 'standard') ?? sizes[0]!).defaultCivs - 1,
+      mode: 'standard',
+      victories: defaultOptions().victories,
+      flips: true,
+    };
+    const s = loadNewGameSettings(defaults);
+    if (!sizes.some((z) => z.id === s.size)) s.size = defaults.size;
+    if (s.civ !== 'random' && !civs.some((c) => c.id === s.civ)) s.civ = 'random';
+    if (!rules.set.difficulties.some((d) => d.id === s.difficulty)) s.difficulty = defaults.difficulty;
+    if (!MODES.some((m) => m.value === s.mode)) s.mode = defaults.mode;
+    for (const [opts, key] of [[LAND, 'land'], [WATER, 'water'], [CLIMATE, 'climate'], [TEMP, 'temp'], [AGE, 'age']] as const) {
+      if (!(opts as Choice<string | number>).some((o) => o.value === s[key])) (s as unknown as Record<string, unknown>)[key] = defaults[key];
+    }
+    s.rivals = Math.max(1, Math.min(15, Math.round(s.rivals) || defaults.rivals));
+    return s;
+  });
+  const [size, setSize] = useState(saved.size);
+  const [land, setLand] = useState<string>(saved.land);
+  const [water, setWater] = useState<number | 'random'>(saved.water);
+  const [climate, setClimate] = useState<string>(saved.climate);
+  const [temp, setTemp] = useState<string>(saved.temp);
+  const [age, setAge] = useState<number | 'random'>(saved.age);
+  const [rivals, setRivals] = useState(saved.rivals);
+  const [mode, setMode] = useState<GameMode>(saved.mode);
+  const [victories, setVictories] = useState<GameOptions['victories']>(saved.victories);
+  const [flips, setFlips] = useState(saved.flips);
+  const [seed, setSeed] = useState(() => Math.floor(Math.random() * 1_000_000));
+  const [difficulty, setDifficulty] = useState(saved.difficulty);
+  const [civ, setCiv] = useState<string>(saved.civ);
 
   const start = async () => {
     // Rivals get distinct civilizations, drawn from the map seed.
+    saveNewGameSettings({ size, land, water, climate, temp, age, civ, difficulty, rivals, mode, victories, flips });
     const rng = makeRng(seed ^ 0x63697673);
-    const pool = civs.map((c) => c.id).filter((id) => id !== civ);
-    const picks = [civ];
+    // A random civilization for the player is drawn fresh each game, not from the map seed.
+    const mine = civ === 'random' ? civs[Math.floor(Math.random() * civs.length)]!.id : civ;
+    const pool = civs.map((c) => c.id).filter((id) => id !== mine);
+    const picks = [mine];
     for (let i = 0; i < rivals && pool.length > 0; i++) picks.push(pool.splice(rng.int(pool.length), 1)[0]!);
     const players = picks.map((id, i) => ({
       name: rules.civ(id).name,
@@ -182,6 +212,11 @@ export function NewGameDialog({ onClose }: { onClose: () => void }) {
       <div className="field">
         <span className="field-label">Civilization</span>
         <div className="civ-picker" role="radiogroup" aria-label="Civilization">
+          <button role="radio" aria-checked={civ === 'random'} className={`civ-random${civ === 'random' ? ' on' : ''}`} onClick={() => setCiv('random')} title="A civilization picked at random when the game starts">
+            <span className="civ-random-mark" aria-hidden="true">?</span>
+            <span>Random</span>
+            <small>Surprise me</small>
+          </button>
           {civs.map((c) => (
             <button key={c.id} role="radio" aria-checked={civ === c.id} className={civ === c.id ? 'on' : ''} onClick={() => setCiv(c.id)} title={`${c.leaderTitle} ${c.leader} · ${c.traits.join(', ')}`}>
               <img src={`${import.meta.env.BASE_URL}art/leaders/${c.id}.jpg`} alt="" onError={(e) => (e.currentTarget.style.visibility = 'hidden')} />
@@ -191,7 +226,7 @@ export function NewGameDialog({ onClose }: { onClose: () => void }) {
           ))}
         </div>
       </div>
-      <CivDetail id={civ} />
+      {civ === 'random' ? <p className="hint">A civilization is picked at random when the game starts.</p> : <CivDetail id={civ} />}
       <Segmented label="Difficulty" options={rules.set.difficulties.map((d) => ({ value: d.id, label: d.name }))} value={difficulty} onChange={setDifficulty} />
       <div className="field row">
         <label>

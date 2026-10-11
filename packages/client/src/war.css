@@ -501,6 +501,17 @@ img.rank {
   border-radius: 50%;
   object-fit: cover;
 }
+.civ-picker .civ-random-mark {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px dashed var(--accent);
+  color: var(--accent);
+  font-size: 26px;
+  font-weight: 600;
+}
 .civ-picker small {
   color: var(--muted);
   font-size: 11px;

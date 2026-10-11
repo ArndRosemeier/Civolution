@@ -22,7 +22,10 @@ import { cityResources, empireInfo } from './empire.ts';
 import { distance, neighbours, tilesInRadius } from './grid.ts';
 import { canStandOn, checkMove } from './movement.ts';
 import { moveUnitTo } from './move.ts';
-import { nextCommonUpgrade } from './production.ts';
+import { hasTrait, leaderName, nextUpgrade, uniqueUnitVictory } from './civs.ts';
+import { startResistance } from './culture.ts';
+import { loseSpaceship } from './space.ts';
+import { addVictoryPoints, eliminatePlayer } from './victory.ts';
 import { atWar, hasTechFlag, invalidateTileOwners } from './queries.ts';
 import { declareWar, meetAround } from './diplomacy.ts';
 import type { Rules } from './rules.ts';
@@ -200,7 +203,8 @@ function promote(rules: Rules, tx: Tx, unitId: number, vsBarbarians: boolean): v
   if (i < 0 || i >= levels.length - 1) return;
   // Barbarians teach no more than veteran skills.
   if (vsBarbarians && i + 1 >= levels.length - 1) return;
-  if (tx.random(PROMOTION_ODDS) !== 0) return;
+  // Militaristic civilizations are promoted twice as often (docs/rules/civilizations.md).
+  if (tx.random(hasTrait(rules, tx.state, u.owner, 'militaristic') ? PROMOTION_ODDS / 2 : PROMOTION_ODDS) !== 0) return;
   const next = levels[i + 1]!;
   const w = tx.unit(unitId);
   w.hp = u.hp + (levelHp(rules, u.type, next.id) - levelHp(rules, u.type, u.experience));
@@ -211,12 +215,19 @@ function promote(rules: Rules, tx: Tx, unitId: number, vsBarbarians: boolean): v
 function maybeLeader(rules: Rules, tx: Tx, winner: Unit, wasElite: boolean, vsBarbarians: boolean): void {
   const leaderType = rules.set.general.leaderUnit;
   if (!wasElite || vsBarbarians || tx.state.players[winner.owner]!.barbarian) return;
-  if (Object.values(tx.state.units).some((x) => x.owner === winner.owner && x.type === leaderType)) return;
+  if (Object.values(tx.state.units).some((x) => x.owner === winner.owner && x.type === leaderType && !x.scientific)) return;
   const odds = hasEffect(rules, tx.state, winner.owner, 'increasesLeaderChance') ? LEADER_ODDS / 2 : LEADER_ODDS;
   if (tx.random(odds) !== 0) return;
   const tile = tx.state.units[winner.id]?.tile ?? winner.tile;
-  const leader = tx.addUnit({ ...newUnit(rules, winner.owner, leaderType, tile), movesLeft: 0 });
-  tx.emit({ type: 'leaderBorn', unit: leader.id, player: winner.owner, tile });
+  bearLeader(rules, tx, winner.owner, tile, false);
+}
+
+/** A great leader appears on `tile` (docs/rules/leaders.md). */
+export function bearLeader(rules: Rules, tx: Tx, player: number, tile: number, scientific: boolean): void {
+  const name = leaderName(rules, tx.state, player, scientific);
+  const leader = tx.addUnit({ ...newUnit(rules, player, rules.set.general.leaderUnit, tile), movesLeft: 0, name, ...(scientific ? { scientific: true } : {}) });
+  tx.player(player).leadersBorn = tx.state.players[player]!.leadersBorn + 1;
+  tx.emit({ type: 'leaderBorn', unit: leader.id, player, tile, name, ...(scientific ? { scientific: true } : {}) });
 }
 
 /** Units with defensive bombard in the defending stack fire once at a land attacker. */
@@ -316,6 +327,11 @@ export function attack(rules: Rules, tx: Tx, attackerId: number, defenderId: num
   addWeariness(tx, d0.owner, a0.owner, 1);
   if (!attackerAlive) addWeariness(tx, a0.owner, d0.owner, 3);
   if (!defenderAlive) addWeariness(tx, d0.owner, a0.owner, 3);
+  const points = rules.set.general.victory.defeatUnitPoints;
+  if (!defenderAlive) addVictoryPoints(tx, a0.owner, points, `defeated a ${rules.unit(d0.type).name}`);
+  if (!attackerAlive) addVictoryPoints(tx, d0.owner, points, `defeated a ${rules.unit(a0.type).name}`);
+  if (result.result === 'attackerWon' || result.result === 'defenderRetreated') uniqueUnitVictory(rules, tx, a0.owner, a0.type);
+  if (result.result === 'defenderWon' || result.result === 'attackerRetreated') uniqueUnitVictory(rules, tx, d0.owner, d0.type);
 
   if (result.result === 'attackerWon' && attackerAlive) {
     const winner = tx.state.units[attackerId]!;
@@ -437,12 +453,17 @@ export function captureCity(rules: Rules, tx: Tx, cityId: number, captor: number
     if (lost) delete c.buildings[b];
   }
   tx.emit({ type: 'cityCaptured', city: cityId, player: captor, from: loser, tile: c0.tile, name: c0.name, gold });
+  if ('palace' in c0.buildings) loseSpaceship(tx, loser, captor);
+  addVictoryPoints(tx, captor, rules.set.general.victory.cityConquestPoints, `conquered ${c0.name}`);
   relocatePalace(rules, tx, loser);
   // A civilization without a capital makes its first conquest the capital.
   if (rules.hasBuilding('palace') && !playerCities(tx.state, captor).some((x) => 'palace' in x.buildings)) tx.city(cityId).buildings.palace = tx.state.turn;
   updateTerritory(rules, tx);
+  startResistance(rules, tx, cityId, loser);
   replaceCitizens(rules, tx, cityId);
   reveal(tx, captor, tilesInRadius(tx.state.map, c0.tile, 2));
+  // In an elimination game losing any city ends a civilization (docs/rules/victory.md).
+  if (tx.state.options.mode === 'elimination') eliminatePlayer(rules, tx, loser, captor, 'lost a city in an elimination game');
 }
 
 /** Destroys a city; its wonders are lost for good. */
@@ -451,8 +472,10 @@ export function destroyCity(rules: Rules, tx: Tx, cityId: number, by: number): v
   for (const b of Object.keys(c.buildings)) if (tx.state.wonders[b] === cityId) tx.setWonder(b, -1);
   tx.removeCity(cityId);
   tx.emit({ type: 'cityDestroyed', city: cityId, player: c.owner, by, tile: c.tile, name: c.name });
+  if ('palace' in c.buildings) loseSpaceship(tx, c.owner, by);
   relocatePalace(rules, tx, c.owner);
   updateTerritory(rules, tx);
+  if (tx.state.options.mode === 'elimination' && by !== c.owner && !tx.state.players[by]?.barbarian) eliminatePlayer(rules, tx, c.owner, by, 'lost a city in an elimination game');
 }
 
 /** Barbarians entering an undefended city loot it and leave (docs/rules/barbarians.md). */
@@ -815,9 +838,9 @@ export function upgradeQuote(rules: Rules, state: GameState, u: Unit): { to: str
     return (!r.requiredTech || p.techs.includes(r.requiredTech)) && r.requiredResources.every((x) => resources.has(x));
   };
   let to: string | null = null;
-  const first = nextCommonUpgrade(rules, u.type);
+  const first = nextUpgrade(rules, state, u.owner, u.type);
   if (!first) return { reason: `${rule.name} has no upgrade.` };
-  for (let next: string | undefined = first, guard = 0; next && guard < 20; next = nextCommonUpgrade(rules, next), guard++) {
+  for (let next: string | undefined = first, guard = 0; next && guard < 20; next = nextUpgrade(rules, state, u.owner, next), guard++) {
     if (!ready(next)) break;
     to = next;
   }
@@ -857,6 +880,7 @@ export function armyCount(rules: Rules, state: GameState, player: number): numbe
 function buildArmyCommand(rules: Rules, tx: Tx, u: Unit): CommandError | null {
   const rule = rules.unit(u.type);
   if (!rule.specialActions.includes('buildArmy')) return err('invalid', `${rule.name} cannot form an army.`);
+  if (u.scientific) return err('invalid', 'Scientific leaders do not lead armies; they hurry buildings and wonders.');
   const city = cityAt(tx.state, u.tile);
   if (!city || city.owner !== u.owner) return err('invalid', 'Leaders form armies in your cities.');
   if (armyCount(rules, tx.state, u.owner) >= armyLimit(rules, tx.state, u.owner))

@@ -8,17 +8,19 @@ import {
   tileIndex,
   type Command,
   type GameState,
+  type NewGameOptions,
   type Unit,
 } from '../src/index.ts';
 
 export const rules = indexRules(conquests);
 
 /** A Tiny map with two players, then flattened to grassland around (20, 20) for hand-built cases. */
-export function flatGame(seed = 1, count = 2): GameState {
+export function flatGame(seed = 1, count = 2, extra: { civs?: (string | undefined)[]; options?: NewGameOptions['options'] } = {}): GameState {
   const s = createGame(rules, {
     seed,
     map: { worldSize: 'tiny' },
-    players: Array.from({ length: count }, (_, i) => ({ name: String.fromCharCode(65 + i), color: PLAYER_COLORS[i]!, human: i === 0 })),
+    players: Array.from({ length: count }, (_, i) => ({ name: String.fromCharCode(65 + i), color: PLAYER_COLORS[i]!, human: i === 0, ...(extra.civs?.[i] ? { civ: extra.civs[i] } : {}) })),
+    ...(extra.options ? { options: extra.options } : {}),
   });
   const grass = rules.terrainIndex('grassland');
   const n = s.map.terrain.length;

@@ -16,6 +16,8 @@ import { FLAG_LAKE, IMP_IRRIGATION, IMP_MINE, type City, type GameState } from '
 import { cityAt, cityRadiusTiles } from './territory.ts';
 import { tileYield, resourceVisibleTo, type Explained, type Part } from './yields.ts';
 import { wearinessFaces } from './war.ts';
+import { civOf, inGoldenAge, INDUSTRIOUS_CITY_SIZE } from './civs.ts';
+import { pollutionPoints } from './pollution.ts';
 
 export type SizeClass = 'town' | 'city' | 'metropolis';
 
@@ -131,10 +133,22 @@ export function cityTileYield(rules: Rules, state: GameState, city: City, tile: 
   }
   if (countEffect(rules, have, 'plusOneTradePerTile') > 0 && sum(commerce) >= 1) commerce.push({ label: 'Colossus', amount: 1 });
 
-  const gov = rules.government(state.players[city.owner]!.government);
+  const owner = state.players[city.owner]!;
+  const gov = rules.government(owner.government);
   if (gov.commerceBonus && sum(commerce) >= 1) commerce.push({ label: gov.name, amount: 1 });
   if (gov.tilePenalty && !city.celebrating) {
     for (const ps of [food, shields, commerce]) if (sum(ps) > 2) ps.push({ label: `${gov.name} penalty`, amount: -1 });
+  }
+  // Civilization traits and golden ages (docs/rules/civilizations.md, golden-ages.md).
+  const traits = civOf(rules, owner)?.traits ?? [];
+  if (traits.includes('commercial') && sum(commerce) >= 2) commerce.push({ label: 'Commercial', amount: 1 });
+  if (tile === city.tile) {
+    if (traits.includes('agricultural') && !water) food.push({ label: 'Agricultural', amount: 1 });
+    if (traits.includes('industrious') && city.size >= INDUSTRIOUS_CITY_SIZE) shields.push({ label: 'Industrious', amount: 1 });
+  }
+  if (inGoldenAge(state, city.owner)) {
+    if (sum(shields) >= 1) shields.push({ label: 'Golden age', amount: 1 });
+    if (sum(commerce) >= 1) commerce.push({ label: 'Golden age', amount: 1 });
   }
   return { food: explained(food), shields: explained(shields), commerce: explained(commerce) };
 }
@@ -172,6 +186,10 @@ export interface CityReport {
   luxury: Explained;
   culture: Explained;
   upkeep: Explained;
+  /** Pollution points: the chance of a polluted tile this turn is a few percent per point (docs/rules/pollution.md). */
+  pollution: Explained;
+  /** Citizens resisting a conqueror; the city produces nothing while any resist. */
+  resisters: number;
   moods: MoodStep[];
   happy: number;
   content: number;
@@ -230,6 +248,9 @@ export function corruptionRate(rules: Rules, state: GameState, city: City, info:
   }
   return explained(parts);
 }
+
+/** Years a tourist-attraction wonder must stand before it earns gold (docs/rules/wonders.md). */
+export const TOURIST_YEARS = 2000;
 
 /** Luxury-resource happy faces with and without a Marketplace (Civilopedia table). */
 const MARKET_LUXURY = [0, 1, 2, 4, 6, 9, 12, 16, 20];
@@ -423,14 +444,15 @@ export function cityReport(rules: Rules, state: GameState, city: City): CityRepo
   const surplus = food.value - eaten;
   const celebrating = !disorder && unhappy === 0 && happy > content && city.size >= g.celebrationMinimumSize && surplus >= 0;
 
-  // Disorder stops production, income and growth.
+  // Disorder, and resistance in a conquered city, stop production, income and growth.
   let shields = explained(prodParts);
   let foodSurplus = surplus;
-  if (disorder) {
-    shields = { value: 0, parts: [...shields.parts, { label: 'Civil disorder', amount: -shields.value }] };
-    tax = { value: 0, parts: [...tax.parts, { label: 'Civil disorder', amount: -tax.value }] };
-    science = { value: 0, parts: [...science.parts, { label: 'Civil disorder', amount: -science.value }] };
-    luxury = { value: 0, parts: [...luxury.parts, { label: 'Civil disorder', amount: -luxury.value }] };
+  const halted = disorder ? 'Civil disorder' : city.resisters > 0 ? `${city.resisters} resisting` : null;
+  if (halted) {
+    shields = { value: 0, parts: [...shields.parts, { label: halted, amount: -shields.value }] };
+    tax = { value: 0, parts: [...tax.parts, { label: halted, amount: -tax.value }] };
+    science = { value: 0, parts: [...science.parts, { label: halted, amount: -science.value }] };
+    luxury = { value: 0, parts: [...luxury.parts, { label: halted, amount: -luxury.value }] };
     foodSurplus = Math.min(0, surplus);
   }
   if (city.build?.kind === 'building' && rules.building(city.build.id).kind === 'wealth') {
@@ -445,8 +467,11 @@ export function cityReport(rules: Rules, state: GameState, city: City): CityRepo
   for (const [b, built] of Object.entries(city.buildings)) {
     const r = rules.building(b);
     if (r.culture <= 0) continue;
-    const old = yearsBetween(rules, built, state.turn) >= 1000;
+    const age = yearsBetween(rules, built, state.turn);
+    const old = age >= 1000;
     cultureParts.push({ label: old ? `${r.name} (over 1000 years)` : r.name, amount: r.culture * (old ? 2 : 1) });
+    // A wonder that draws visitors earns its culture again as gold once it is 2000 years old.
+    if (r.effects.includes('touristAttraction') && age >= TOURIST_YEARS && !halted) tax = explained([...tax.parts, { label: `${r.name} visitors`, amount: r.culture * 2 }]);
   }
 
   // Building upkeep.
@@ -487,6 +512,8 @@ export function cityReport(rules: Rules, state: GameState, city: City): CityRepo
     luxury,
     culture: explained(cultureParts),
     upkeep: explained(upkeepParts),
+    pollution: pollutionPoints(rules, state, city, have, shields.value),
+    resisters: city.resisters,
     moods,
     happy,
     content,

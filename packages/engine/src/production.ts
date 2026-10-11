@@ -2,7 +2,9 @@
  * What a city can build, what it costs, and hurrying (docs/rules/production.md).
  */
 import { cityReport, effectiveBuildings, isCoastal, sizeClass } from './city.ts';
+import { isCommonUnit, nextUpgrade, traitDiscount, unitAvailable } from './civs.ts';
 import { cityResources, empireInfo } from './empire.ts';
+import { spaceshipPartBlocker } from './space.ts';
 import { knowsTech } from './queries.ts';
 import { armyCount, armyLimit, nukesEnabled } from './war.ts';
 import type { Rules } from './rules.ts';
@@ -17,47 +19,18 @@ export function buildCategory(rules: Rules, b: Build): BuildCategory {
   return kind === 'wonder' || kind === 'smallWonder' ? 'wonder' : 'improvement';
 }
 
-export function buildCost(rules: Rules, b: Build): number {
-  return b.kind === 'unit' ? rules.unit(b.id).shieldCost : rules.building(b.id).cost;
+/** Shields `b` costs; with a player, a matching civilization trait halves an improvement (docs/rules/civilizations.md). */
+export function buildCost(rules: Rules, b: Build, state?: GameState, player?: number): number {
+  if (b.kind === 'unit') return rules.unit(b.id).shieldCost;
+  const cost = rules.building(b.id).cost;
+  return state && player !== undefined && traitDiscount(rules, state, player, b.id) ? Math.ceil(cost / 2) : cost;
 }
 
 export function buildName(rules: Rules, b: Build): string {
   return b.kind === 'unit' ? rules.unit(b.id).name : rules.building(b.id).name;
 }
 
-function popcount(x: number): number {
-  let v = x >>> 0;
-  let c = 0;
-  while (v) {
-    v &= v - 1;
-    c++;
-  }
-  return c;
-}
-
-/**
- * Units every civilization may build. Until civilizations are chosen (Phase 6) a unit
- * available to fewer than half of them (unique units, the scout) is left out.
- */
-export function isCommonUnit(rules: Rules, id: string): boolean {
-  const u = rules.unit(id);
-  if (u.shieldCost <= 0) return false;
-  if (u.aiRoles.includes('leader') || u.aiRoles.includes('army')) return false;
-  // A second entry with an already-used name (Rifleman, Infantry, …) is a variant the game
-  // creates itself (drafted units), not something cities build.
-  if (/\d$/.test(id)) return false;
-  return popcount(u.availableToMask & ~1) >= 16;
-}
-
-/** The next unit up the upgrade line that civilizations build (unique units in between are skipped). */
-export function nextCommonUpgrade(rules: Rules, id: string): string | undefined {
-  let next = rules.unit(id).upgradeTo;
-  for (let guard = 0; next && guard < 20; guard++) {
-    if (isCommonUnit(rules, next)) return next;
-    next = rules.unit(next).upgradeTo;
-  }
-  return undefined;
-}
+export { isCommonUnit };
 
 /** Why `city` cannot build `b`, or null when it can. */
 export function buildBlocker(rules: Rules, state: GameState, city: City, b: Build): string | null {
@@ -67,14 +40,14 @@ export function buildBlocker(rules: Rules, state: GameState, city: City, b: Buil
   if (b.kind === 'unit') {
     const u = rules.unit(b.id);
     const academy = b.id === rules.set.general.armyUnit && [...effectiveBuildings(rules, state, city)].some((x) => rules.building(x).effects.includes('buildArmiesWithoutLeader'));
-    if (!isCommonUnit(rules, b.id) && !academy) return `${u.name} is not available to your civilization.`;
+    if (!unitAvailable(rules, state, city.owner, b.id) && !academy) return `${u.name} is not available to your civilization.`;
     if (academy && armyCount(rules, state, city.owner) >= armyLimit(rules, state, city.owner)) return `You may field ${armyLimit(rules, state, city.owner)} armies (one per ${rules.set.general.citiesPerArmy} cities).`;
     if (u.requiredTech && !knowsTech(p, u.requiredTech)) return `Requires ${rules.tech(u.requiredTech).name}.`;
     const missing = u.requiredResources.filter((r) => !resources.has(r));
     if (missing.length > 0) return `Requires ${missing.map((r) => rules.resources[rules.resourceIndex(r)]!.name).join(' and ')}.`;
     if (u.domain === 'sea' && !isCoastal(rules, state, city.tile)) return 'Ships need a coastal city.';
     if (u.abilities.includes('nuclearWeapon') && !nukesEnabled(rules, state)) return 'Nuclear weapons need the Manhattan Project to be built somewhere.';
-    const upId = nextCommonUpgrade(rules, b.id);
+    const upId = nextUpgrade(rules, state, city.owner, b.id);
     if (upId) {
       const up = rules.unit(upId);
       if ((!up.requiredTech || knowsTech(p, up.requiredTech)) && up.requiredResources.every((r) => resources.has(r)))
@@ -108,7 +81,10 @@ export function buildBlocker(rules: Rules, state: GameState, city: City, b: Buil
   if (r.effects.includes('allowsCitySize3') && sizeClass(rules, city.size) === 'town') return `Needs a city larger than ${rules.set.general.maxTownSize}.`;
   if (r.effects.includes('requiresVictoriousArmy') && !p.armyVictory) return 'Needs one of your armies to win a battle first.';
   if (r.effects.includes('buildLargerArmies') && armyCount(rules, state, city.owner) === 0) return 'Needs an army.';
-  if (b.id.startsWith('ss')) return 'The space race arrives in Phase 6.';
+  if (r.spaceshipParts > 0) {
+    const why = spaceshipPartBlocker(rules, state, city.owner, b.id);
+    if (why) return why;
+  }
   if (b.id === 'palace' && 'palace' in city.buildings) return 'Already the capital.';
   if (r.kind === 'smallWonder' && r.effects.includes('reducesCorruption') && 'palace' in city.buildings) return 'The capital is already the seat of government.';
   return null;
@@ -124,13 +100,13 @@ export interface BuildOption {
 export function buildOptions(rules: Rules, state: GameState, city: City): BuildOption[] {
   const out: BuildOption[] = [];
   for (const u of rules.set.units) {
-    if (!isCommonUnit(rules, u.id) && u.id !== rules.set.general.armyUnit) continue;
+    if (!unitAvailable(rules, state, city.owner, u.id) && u.id !== rules.set.general.armyUnit) continue;
     const build: Build = { kind: 'unit', id: u.id };
     out.push({ build, cost: u.shieldCost, blocker: buildBlocker(rules, state, city, build) });
   }
   for (const b of rules.set.buildings) {
     const build: Build = { kind: 'building', id: b.id };
-    out.push({ build, cost: b.cost, blocker: buildBlocker(rules, state, city, build) });
+    out.push({ build, cost: buildCost(rules, build, state, city.owner), blocker: buildBlocker(rules, state, city, build) });
   }
   return out;
 }
@@ -155,7 +131,7 @@ export function hurryQuote(rules: Rules, state: GameState, city: City): HurryQuo
   if (city.build.kind === 'building' && rules.building(city.build.id).kind === 'wealth') return { kind: 'none', reason: 'Wealth cannot be hurried.' };
   const report = cityReport(rules, state, city);
   if (report.disorder) return { kind: 'none', reason: 'Not while the city is in disorder.' };
-  const remaining = Math.max(0, buildCost(rules, city.build) - city.shields);
+  const remaining = Math.max(0, buildCost(rules, city.build, state, city.owner) - city.shields);
   if (remaining === 0) return { kind: 'none', reason: 'It completes this turn anyway.' };
   const g = rules.set.general;
   if (gov.hurry === 'gold') {

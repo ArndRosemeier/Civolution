@@ -52,7 +52,19 @@
       20000,
       40000,
       80000
-    ]
+    ],
+    "lastTurn": 540,
+    "victory": {
+      "cityCulture": 20000,
+      "civCulture": 100000,
+      "dominationLandPercent": 66,
+      "dominationPopulationPercent": 66,
+      "pointLimit": 50000,
+      "wonderPoints": 10,
+      "defeatUnitPoints": 5,
+      "advancePoints": 5,
+      "cityConquestPoints": 100
+    }
   },
   "eras": [
     {
@@ -8833,6 +8845,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "centerOfEmpire"
       ],
@@ -8857,6 +8870,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "veteranGroundUnits"
       ],
@@ -8884,6 +8898,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "doublesCityGrowth"
       ],
@@ -8909,6 +8924,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [],
       "tags": [
         "placeOfWorship"
@@ -8934,6 +8950,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "tax50",
         "increasesLuxuryTrade"
@@ -8962,6 +8979,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "research50"
       ],
@@ -8989,6 +9007,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "resistantToBribery",
         "reducesCorruption"
@@ -9015,6 +9034,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [],
       "tags": [
         "militaryInstallation"
@@ -9040,10 +9060,13 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "allowsCitySize2"
       ],
-      "tags": []
+      "tags": [
+        "agriculturalInstallation"
+      ]
     },
     {
       "id": "bank",
@@ -9066,6 +9089,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "tax50"
       ],
@@ -9094,6 +9118,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [],
       "tags": [
         "placeOfWorship"
@@ -9120,6 +9145,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "research50"
       ],
@@ -9147,6 +9173,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [],
       "tags": []
     },
@@ -9172,6 +9199,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [],
       "tags": []
     },
@@ -9196,6 +9224,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [],
       "tags": []
     },
@@ -9219,10 +9248,13 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "reducesBuildingPollution"
       ],
-      "tags": []
+      "tags": [
+        "agriculturalInstallation"
+      ]
     },
     {
       "id": "coalPlant",
@@ -9247,6 +9279,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "replacesOtherBuildings"
       ],
@@ -9273,6 +9306,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "replacesOtherBuildings",
         "mustBeNearRiver"
@@ -9302,6 +9336,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "replacesOtherBuildings",
         "mustBeNearWater",
@@ -9329,6 +9364,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "allowsCitySize3"
       ],
@@ -9355,6 +9391,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "research50"
       ],
@@ -9384,6 +9421,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "removesPopulationPollution"
       ],
@@ -9411,6 +9449,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [],
       "tags": [
         "militaryInstallation"
@@ -9439,10 +9478,12 @@
       "navalDefenceBonus": 50,
       "navalBombardDefence": 8,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [],
       "tags": [
         "coastalInstallation",
-        "militaryInstallation"
+        "militaryInstallation",
+        "seafaringInstallation"
       ]
     },
     {
@@ -9466,10 +9507,13 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "replacesOtherBuildings"
       ],
-      "tags": []
+      "tags": [
+        "agriculturalInstallation"
+      ]
     },
     {
       "id": "harbor",
@@ -9491,6 +9535,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "veteranSeaUnits",
         "allowsWaterTrade",
@@ -9499,7 +9544,8 @@
       "tags": [
         "coastalInstallation",
         "militaryInstallation",
-        "tradeInstallation"
+        "tradeInstallation",
+        "seafaringInstallation"
       ]
     },
     {
@@ -9522,11 +9568,13 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "increasesShieldsInWater"
       ],
       "tags": [
-        "coastalInstallation"
+        "coastalInstallation",
+        "seafaringInstallation"
       ]
     },
     {
@@ -9549,6 +9597,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "veteranAirUnits",
         "allowsAirTrade"
@@ -9578,6 +9627,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "reducesCorruption",
         "reducesWarWeariness"
@@ -9603,6 +9653,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "capitalization"
       ],
@@ -9629,12 +9680,14 @@
       "navalBombardDefence": 0,
       "actsAsOnContinent": "granary",
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "touristAttraction"
       ],
       "tags": [
         "placeOfWorship",
-        "constructionInstallation"
+        "constructionInstallation",
+        "agriculturalInstallation"
       ]
     },
     {
@@ -9658,11 +9711,13 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "touristAttraction"
       ],
       "tags": [
-        "constructionInstallation"
+        "constructionInstallation",
+        "agriculturalInstallation"
       ]
     },
     {
@@ -9686,6 +9741,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "plusOneTradePerTile",
         "touristAttraction"
@@ -9693,7 +9749,8 @@
       "tags": [
         "coastalInstallation",
         "tradeInstallation",
-        "explorationInstallation"
+        "explorationInstallation",
+        "seafaringInstallation"
       ]
     },
     {
@@ -9717,6 +9774,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "safeSeaTravel",
         "plusOneShipMovement",
@@ -9725,7 +9783,8 @@
       "tags": [
         "coastalInstallation",
         "tradeInstallation",
-        "explorationInstallation"
+        "explorationInstallation",
+        "seafaringInstallation"
       ]
     },
     {
@@ -9749,6 +9808,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "gainAdvancesKnownByTwoCivs",
         "touristAttraction"
@@ -9779,6 +9839,7 @@
       "navalBombardDefence": 0,
       "doublesContentOf": "temple",
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "touristAttraction"
       ],
@@ -9808,6 +9869,7 @@
       "navalBombardDefence": 0,
       "actsAsOnContinent": "walls",
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "doubleCombatVsBarbarians",
         "touristAttraction"
@@ -9838,6 +9900,7 @@
       "navalBombardDefence": 0,
       "actsAsOnContinent": "barracks",
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [],
       "tags": [
         "militaryInstallation"
@@ -9864,6 +9927,7 @@
       "navalBombardDefence": 0,
       "doublesContentOf": "cathedral",
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "touristAttraction"
       ],
@@ -9891,13 +9955,15 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "plusOneShipMovement"
       ],
       "tags": [
         "coastalInstallation",
         "tradeInstallation",
-        "explorationInstallation"
+        "explorationInstallation",
+        "seafaringInstallation"
       ]
     },
     {
@@ -9920,6 +9986,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "doublesResearch",
         "touristAttraction"
@@ -9948,6 +10015,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "allowsCitySize3",
         "touristAttraction"
@@ -9974,6 +10042,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "halvesUpgradeCost",
         "touristAttraction"
@@ -10002,6 +10071,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "touristAttraction"
       ],
@@ -10029,6 +10099,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "doublesResearch",
         "touristAttraction"
@@ -10057,11 +10128,13 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "paysTradeMaintenance"
       ],
       "tags": [
-        "tradeInstallation"
+        "tradeInstallation",
+        "seafaringInstallation"
       ]
     },
     {
@@ -10084,10 +10157,13 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "reducesWarWearinessAll"
       ],
-      "tags": []
+      "tags": [
+        "agriculturalInstallation"
+      ]
     },
     {
       "id": "hooverDam",
@@ -10110,12 +10186,14 @@
       "navalBombardDefence": 0,
       "actsAsOnContinent": "hydroPlant",
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "mustBeNearRiver",
         "touristAttraction"
       ],
       "tags": [
-        "constructionInstallation"
+        "constructionInstallation",
+        "agriculturalInstallation"
       ]
     },
     {
@@ -10138,6 +10216,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "twoFreeAdvances"
       ],
@@ -10165,6 +10244,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "allowsDiplomaticVictory",
         "touristAttraction"
@@ -10195,6 +10275,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "allowsAllCivsNukes"
       ],
@@ -10223,9 +10304,11 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [],
       "tags": [
-        "researchInstallation"
+        "researchInstallation",
+        "agriculturalInstallation"
       ]
     },
     {
@@ -10248,6 +10331,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "cityGrowthTwoCitizens"
       ],
@@ -10275,6 +10359,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "doublesResearch"
       ],
@@ -10301,12 +10386,14 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "increasesLeaderChance",
         "requiresVictoriousArmy"
       ],
       "tags": [
-        "placeOfWorship"
+        "placeOfWorship",
+        "seafaringInstallation"
       ]
     },
     {
@@ -10331,6 +10418,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [],
       "tags": []
     },
@@ -10353,6 +10441,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "reducesCorruption"
       ],
@@ -10380,6 +10469,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "buildArmiesWithoutLeader",
         "requiresVictoriousArmy"
@@ -10407,6 +10497,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "buildLargerArmies"
       ],
@@ -10434,6 +10525,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "treasuryEarnsInterest"
       ],
@@ -10461,6 +10553,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "buildSpaceshipParts"
       ],
@@ -10489,6 +10582,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "decreasesMissileSuccess"
       ],
@@ -10516,6 +10610,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "allowsSpyMissions"
       ],
@@ -10544,6 +10639,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "allowsHealingInEnemyTerritory"
       ],
@@ -10573,6 +10669,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 1,
       "effects": [],
       "tags": []
     },
@@ -10598,6 +10695,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 1,
       "effects": [],
       "tags": []
     },
@@ -10623,6 +10721,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 1,
       "effects": [],
       "tags": []
     },
@@ -10648,6 +10747,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 1,
       "effects": [],
       "tags": []
     },
@@ -10673,6 +10773,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 1,
       "effects": [],
       "tags": []
     },
@@ -10698,6 +10799,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 1,
       "effects": [],
       "tags": []
     },
@@ -10724,6 +10826,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 1,
       "effects": [],
       "tags": []
     },
@@ -10749,6 +10852,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 1,
       "effects": [],
       "tags": []
     },
@@ -10774,6 +10878,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 1,
       "effects": [],
       "tags": []
     },
@@ -10800,6 +10905,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 1,
       "effects": [],
       "tags": []
     },
@@ -10824,6 +10930,7 @@
       "navalBombardDefence": 0,
       "actsAsOnContinent": "researchLab",
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [],
       "tags": [
         "militaryInstallation",
@@ -10831,7 +10938,9 @@
         "tradeInstallation",
         "explorationInstallation",
         "placeOfWorship",
-        "constructionInstallation"
+        "constructionInstallation",
+        "agriculturalInstallation",
+        "seafaringInstallation"
       ]
     },
     {
@@ -10855,6 +10964,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [],
       "tags": [
         "militaryInstallation"
@@ -10881,6 +10991,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "tax50"
       ],
@@ -10909,11 +11020,13 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "increasesCommerceInWater"
       ],
       "tags": [
-        "tradeInstallation"
+        "tradeInstallation",
+        "seafaringInstallation"
       ]
     },
     {
@@ -10938,6 +11051,7 @@
       "navalBombardDefence": 0,
       "actsAsOnContinent": "temple",
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "touristAttraction"
       ],
@@ -10969,6 +11083,7 @@
       "navalBombardDefence": 0,
       "unitProduced": "ancientCavalry",
       "unitEvery": 5,
+      "spaceshipParts": 0,
       "effects": [
         "touristAttraction"
       ],
@@ -10997,11 +11112,13 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "touristAttraction"
       ],
       "tags": [
-        "researchInstallation"
+        "researchInstallation",
+        "seafaringInstallation"
       ]
     },
     {
@@ -11026,6 +11143,7 @@
       "navalBombardDefence": 0,
       "unitProduced": "crusader",
       "unitEvery": 5,
+      "spaceshipParts": 0,
       "effects": [],
       "tags": [
         "militaryInstallation",
@@ -11053,6 +11171,7 @@
       "navalDefenceBonus": 0,
       "navalBombardDefence": 0,
       "unitEvery": 0,
+      "spaceshipParts": 0,
       "effects": [
         "reducesCorruption"
       ],
@@ -11307,7 +11426,79 @@
         "production"
       ],
       "buildNever": [],
-      "color": 1
+      "color": 1,
+      "unitBit": 1,
+      "uniqueUnits": [
+        "legionary"
+      ],
+      "kingUnit": "caesar",
+      "freeTechs": [
+        "warriorCode",
+        "alphabet"
+      ],
+      "cityNames": [
+        "Rome",
+        "Veii",
+        "Antium",
+        "Cumae",
+        "Neapolis",
+        "Pompeii",
+        "Pisae",
+        "Ravenna",
+        "Hispalis",
+        "Viroconium",
+        "Lugdunum",
+        "Lutetia",
+        "Byzantium",
+        "Brundisium",
+        "Syracuse",
+        "Caesaraugusta",
+        "Palmyra",
+        "Jerusalem",
+        "Caesarea",
+        "Tarentum",
+        "Nicomedia",
+        "Seleucia",
+        "Artaxata",
+        "Aurelianorum",
+        "Hippo Regius",
+        "Nicopolis",
+        "Londinium",
+        "Eburacum",
+        "Arretium",
+        "Gordion",
+        "Agrippina",
+        "Cyrene",
+        "Tyrus",
+        "Verona",
+        "Corfinium",
+        "Mediolanum",
+        "Treveri",
+        "Sirmium",
+        "Augustadorum",
+        "Trapezus",
+        "Bagacum",
+        "Lauriacum",
+        "Teurnia",
+        "Curia"
+      ],
+      "militaryLeaders": [
+        "Trajan",
+        "Hadrian",
+        "Maximus",
+        "Germanicus",
+        "Claudius",
+        "Anthony",
+        "Octavian",
+        "Titus"
+      ],
+      "scientificLeaders": [
+        "Leonardo da Vinci",
+        "Galileo Galilei",
+        "Enrico Fermi",
+        "Guglieilmo Marconi",
+        "Lucretius"
+      ]
     },
     {
       "id": "egyptians",
@@ -11331,7 +11522,62 @@
         "culture"
       ],
       "buildNever": [],
-      "color": 3
+      "color": 3,
+      "unitBit": 2,
+      "uniqueUnits": [
+        "warChariot"
+      ],
+      "kingUnit": "cleopatra",
+      "freeTechs": [
+        "ceremonialBurial",
+        "masonry"
+      ],
+      "cityNames": [
+        "Thebes",
+        "Memphis",
+        "Heliopolis",
+        "Elephantine",
+        "Alexandria",
+        "Pi-Ramesses",
+        "Giza",
+        "Byblos",
+        "El-Amarna",
+        "Hieraconpolis",
+        "Abydos",
+        "Asyut",
+        "Avaris",
+        "Lisht",
+        "Buto",
+        "Edfu",
+        "Pithom",
+        "Busiris",
+        "Kahun",
+        "Athribis",
+        "Mendes",
+        "El-Ashmunein",
+        "Tanis",
+        "Buhen",
+        "Bubastis",
+        "This",
+        "Oryx",
+        "Sebennytus",
+        "Cairo"
+      ],
+      "militaryLeaders": [
+        "Ramses",
+        "Cheops",
+        "Khufu",
+        "Mentuhotep",
+        "Seti",
+        "Na'rmer"
+      ],
+      "scientificLeaders": [
+        "Ptolemy",
+        "Conon of Samos",
+        "Diophantus",
+        "Hypatia",
+        "Pappus"
+      ]
     },
     {
       "id": "greeks",
@@ -11356,7 +11602,64 @@
         "culture"
       ],
       "buildNever": [],
-      "color": 10
+      "color": 10,
+      "unitBit": 3,
+      "uniqueUnits": [
+        "hoplite"
+      ],
+      "kingUnit": "alexander",
+      "freeTechs": [
+        "alphabet",
+        "bronzeWorking"
+      ],
+      "cityNames": [
+        "Athens",
+        "Sparta",
+        "Thermopylae",
+        "Corinth",
+        "Delphi",
+        "Pharsalos",
+        "Knossos",
+        "Argos",
+        "Mycenae",
+        "Herakleia",
+        "Ephesus",
+        "Thessalonica",
+        "Rhodes",
+        "Eretria",
+        "Troy",
+        "Marathon",
+        "Halicarnassus",
+        "Pergamon",
+        "Miletos",
+        "Artemisium",
+        "Megara",
+        "Phocaea",
+        "Sicyon",
+        "Gortyn",
+        "Mytilene",
+        "Tegea",
+        "Syracuse",
+        "Apollonia",
+        "Apolyton"
+      ],
+      "militaryLeaders": [
+        "Pyrrhus",
+        "Hector",
+        "Ajax",
+        "Ulysess"
+      ],
+      "scientificLeaders": [
+        "Aristotle",
+        "Plato",
+        "Socrates",
+        "Archimedes",
+        "Euclid",
+        "Eratosthenes",
+        "Pythagorus",
+        "Heron of Alexandria",
+        "Thales of Miletus"
+      ]
     },
     {
       "id": "babylonians",
@@ -11380,7 +11683,60 @@
         "science"
       ],
       "buildNever": [],
-      "color": 1
+      "color": 1,
+      "unitBit": 4,
+      "uniqueUnits": [
+        "bowman"
+      ],
+      "kingUnit": "hammurabi",
+      "freeTechs": [
+        "bronzeWorking",
+        "ceremonialBurial"
+      ],
+      "cityNames": [
+        "Babylon",
+        "Nineveh",
+        "Ashur",
+        "Ellipi",
+        "Akkad",
+        "Uruk",
+        "Eridu",
+        "Samarra",
+        "Eulbar",
+        "Nippur",
+        "Shuruppak",
+        "Zariqum",
+        "Sippar",
+        "Izibia",
+        "Carchemish",
+        "Mari",
+        "Larsa",
+        "Nimrud",
+        "Zamua",
+        "Khorsabad",
+        "Hindana",
+        "Tell Wilaya",
+        "Karana",
+        "Adab",
+        "Telloh",
+        "Nina",
+        "Ebla"
+      ],
+      "militaryLeaders": [
+        "Agum",
+        "Sumuabum",
+        "Ashurbanipal",
+        "Naboplasser",
+        "Nebuchadnezzar"
+      ],
+      "scientificLeaders": [
+        "Hammurabi",
+        "Domninus of Larissa",
+        "Jabir Ibn Haiyan",
+        "Ibn Khaldun",
+        "Ibn Rushd",
+        "AL-Mawardi"
+      ]
     },
     {
       "id": "germans",
@@ -11404,7 +11760,53 @@
         "culture"
       ],
       "buildNever": [],
-      "color": 6
+      "color": 6,
+      "unitBit": 5,
+      "uniqueUnits": [
+        "panzer"
+      ],
+      "kingUnit": "bismarck",
+      "freeTechs": [
+        "warriorCode",
+        "bronzeWorking"
+      ],
+      "cityNames": [
+        "Berlin",
+        "Leipzig",
+        "Hamburg",
+        "Konigsberg",
+        "Frankfurt",
+        "Munich",
+        "Heidelburg",
+        "Nuremberg",
+        "Cologne",
+        "Hannover",
+        "Bremen",
+        "Stuttgart",
+        "Bonn",
+        "Salzburg",
+        "Dortmund",
+        "Brandenburg"
+      ],
+      "militaryLeaders": [
+        "Barbarossa",
+        "Richtofen",
+        "Hengest",
+        "Horsa",
+        "Rommel"
+      ],
+      "scientificLeaders": [
+        "Copernicus",
+        "Gutenberg",
+        "Max Planck",
+        "Heinrich Hertz",
+        "Johannes Kepler",
+        "Hans Geiger",
+        "Fritz Haber",
+        "Wilhelm Röntgen",
+        "Gerardus Mercator",
+        "Albertus Magnus"
+      ]
     },
     {
       "id": "russians",
@@ -11428,7 +11830,72 @@
         "science"
       ],
       "buildNever": [],
-      "color": 9
+      "color": 9,
+      "unitBit": 6,
+      "uniqueUnits": [
+        "cossack"
+      ],
+      "kingUnit": "catherine",
+      "freeTechs": [
+        "pottery",
+        "bronzeWorking"
+      ],
+      "cityNames": [
+        "Moscow",
+        "St. Petersburg",
+        "Novgorod",
+        "Rostov",
+        "Yaroslavl'",
+        "Yekaterinburg",
+        "Yakutsk",
+        "Vladivostok",
+        "Smolensk",
+        "Orenburg",
+        "Krasnoyarsk",
+        "Khabarovsk",
+        "Bryansk",
+        "Tver'",
+        "Kazan'",
+        "Novosibirsk",
+        "Magadan",
+        "Murmansk",
+        "Irkutsk",
+        "Chita",
+        "Samara",
+        "Arkhangel'sk",
+        "Chelyabinsk",
+        "Tobol'sk",
+        "Vologda",
+        "Omsk",
+        "Astrakhan'",
+        "Kursk",
+        "Saratov",
+        "Tula",
+        "Vladimir",
+        "Perm'",
+        "Voronezh",
+        "Pskov",
+        "Staraya Russa",
+        "Kostroma",
+        "Nizhniy Novgorod",
+        "Suzdal'",
+        "Magnitogorsk"
+      ],
+      "militaryLeaders": [
+        "Ivan the Terrible",
+        "Peter the Great",
+        "Stalin",
+        "Lenin",
+        "Trotsky",
+        "Zukhov"
+      ],
+      "scientificLeaders": [
+        "Ivan Pavlov",
+        "Korolev",
+        "Dmitri Mendeléev",
+        "Holonyak",
+        "Theremin"
+      ]
     },
     {
       "id": "chinese",
@@ -11452,7 +11919,49 @@
         "science"
       ],
       "buildNever": [],
-      "color": 5
+      "color": 5,
+      "unitBit": 7,
+      "uniqueUnits": [
+        "rider"
+      ],
+      "kingUnit": "mao",
+      "freeTechs": [
+        "warriorCode",
+        "masonry"
+      ],
+      "cityNames": [
+        "Beijing",
+        "Shanghai",
+        "Canton",
+        "Nanking",
+        "Tsingtao",
+        "Xinjian",
+        "Chengdu",
+        "Hangchow",
+        "Tientsin",
+        "Tatung",
+        "Macao",
+        "Anyang",
+        "Shantung",
+        "Chinan",
+        "Kaifeng",
+        "Ningpo",
+        "Paoting",
+        "Yangchow"
+      ],
+      "militaryLeaders": [
+        "K'uang-yin",
+        "Sun Tzu",
+        "Qianlong",
+        "Jin Qiu",
+        "General Tso"
+      ],
+      "scientificLeaders": [
+        "Confucius",
+        "Zhang Heng",
+        "Tsu Ch'ung Chi",
+        "Jia Xian"
+      ]
     },
     {
       "id": "americans",
@@ -11477,7 +11986,76 @@
         "culture"
       ],
       "buildNever": [],
-      "color": 5
+      "color": 5,
+      "unitBit": 8,
+      "uniqueUnits": [
+        "f15"
+      ],
+      "kingUnit": "lincoln",
+      "freeTechs": [
+        "pottery",
+        "masonry"
+      ],
+      "cityNames": [
+        "Washington",
+        "New York",
+        "Boston",
+        "Philadelphia",
+        "Atlanta",
+        "Chicago",
+        "Seattle",
+        "San Francisco",
+        "Miami",
+        "Houston",
+        "Buffalo",
+        "St. Louis",
+        "Detroit",
+        "New Orleans",
+        "Baltimore",
+        "Denver",
+        "Cincinnati",
+        "Dallas",
+        "Memphis",
+        "Los Angeles",
+        "Cleveland",
+        "Kansas City",
+        "San Diego",
+        "Richmond",
+        "Las Vegas",
+        "Phoenix",
+        "Albuquerque",
+        "Portland",
+        "Minneapolis",
+        "Pittsburgh",
+        "Oakland",
+        "Tampa Bay",
+        "Orlando",
+        "Tacoma",
+        "Santa Fe",
+        "Olympia",
+        "Hunt Valley",
+        "Springfield",
+        "Palo Alto",
+        "Spokane"
+      ],
+      "militaryLeaders": [
+        "Washington",
+        "Lee",
+        "Sherman",
+        "Jackson",
+        "Grant",
+        "MacArthur",
+        "Patton"
+      ],
+      "scientificLeaders": [
+        "Albert Einstein",
+        "Thomas Edison",
+        "Benjamin Franklin",
+        "Nicola Tesla",
+        "Richard Feynman",
+        "George W. Carver",
+        "Buckminster Fuller"
+      ]
     },
     {
       "id": "japanese",
@@ -11501,7 +12079,54 @@
         "happiness"
       ],
       "buildNever": [],
-      "color": 4
+      "color": 4,
+      "unitBit": 9,
+      "uniqueUnits": [
+        "samurai"
+      ],
+      "kingUnit": "tokugawa",
+      "freeTechs": [
+        "theWheel",
+        "ceremonialBurial"
+      ],
+      "cityNames": [
+        "Kyoto",
+        "Osaka",
+        "Tokyo",
+        "Edo",
+        "Satsuma",
+        "Kagoshima",
+        "Nara",
+        "Nagoya",
+        "Izumo",
+        "Nagasaki",
+        "Yokohama",
+        "Shimonoseki",
+        "Matsuyama",
+        "Sapporo",
+        "Hakodate",
+        "Ise",
+        "Toyama",
+        "Fukushima",
+        "Suo",
+        "Bizen",
+        "Echizen",
+        "Izumi",
+        "Omi",
+        "Echigo",
+        "Kozuke",
+        "Sado"
+      ],
+      "militaryLeaders": [
+        "Tojo",
+        "Hirohito",
+        "Fujiwara"
+      ],
+      "scientificLeaders": [
+        "Aida Yasuki",
+        "Kiyosi Ito",
+        "Nagaoka Hantaro"
+      ]
     },
     {
       "id": "french",
@@ -11525,7 +12150,51 @@
         "culture"
       ],
       "buildNever": [],
-      "color": 7
+      "color": 7,
+      "unitBit": 10,
+      "uniqueUnits": [
+        "musketeer"
+      ],
+      "kingUnit": "joanDarc",
+      "freeTechs": [
+        "alphabet",
+        "masonry"
+      ],
+      "cityNames": [
+        "Paris",
+        "Orleans",
+        "Lyons",
+        "Rheims",
+        "Tours",
+        "Marseilles",
+        "Chartres",
+        "Avignon",
+        "Besancon",
+        "Rouen",
+        "Grenoble",
+        "Dijon",
+        "Amiens",
+        "Cherbourg",
+        "Poitiers",
+        "Toulouse",
+        "Bayonne",
+        "Strasbourg",
+        "Brest",
+        "Bordeaux",
+        "Rennes"
+      ],
+      "militaryLeaders": [
+        "Napoleon",
+        "Richelieu",
+        "De Gaulle",
+        "Charlemagne"
+      ],
+      "scientificLeaders": [
+        "Louis Pasteur",
+        "Marie Curie",
+        "Blaise Pascal",
+        "Rene Descartes"
+      ]
     },
     {
       "id": "indians",
@@ -11550,7 +12219,53 @@
         "culture"
       ],
       "buildNever": [],
-      "color": 8
+      "color": 8,
+      "unitBit": 11,
+      "uniqueUnits": [
+        "warElephant"
+      ],
+      "kingUnit": "gandhi",
+      "freeTechs": [
+        "alphabet",
+        "ceremonialBurial"
+      ],
+      "cityNames": [
+        "Delhi",
+        "Bombay",
+        "Madras",
+        "Bangalore",
+        "Calcutta",
+        "Lahore",
+        "Karachi",
+        "Kolhapur",
+        "Jaipur",
+        "Hyderabad",
+        "Bengal",
+        "Chittagong",
+        "Punjab",
+        "Dacca",
+        "Indus",
+        "Ganges",
+        "Pune"
+      ],
+      "militaryLeaders": [
+        "Chandragupta",
+        "Shivaji",
+        "Porus",
+        "Bindusara",
+        "Asoka",
+        "Akbar",
+        "Singh",
+        "Tilak"
+      ],
+      "scientificLeaders": [
+        "Brahmagupta",
+        "Nilakantha",
+        "Kamalakara",
+        "Paramesvara",
+        "Madhava",
+        "Panini"
+      ]
     },
     {
       "id": "persians",
@@ -11574,7 +12289,60 @@
         "trade"
       ],
       "buildNever": [],
-      "color": 10
+      "color": 10,
+      "unitBit": 12,
+      "uniqueUnits": [
+        "immortals"
+      ],
+      "kingUnit": "xerxes",
+      "freeTechs": [
+        "bronzeWorking",
+        "masonry"
+      ],
+      "cityNames": [
+        "Persepolis",
+        "Pasargadae",
+        "Arbela",
+        "Antioch",
+        "Gordium",
+        "Bactra",
+        "Sidon",
+        "Tyre",
+        "Sardis",
+        "Samaria",
+        "Hamadan",
+        "Ergili",
+        "Dariush Kabir",
+        "Ghulaman",
+        "Zohak",
+        "Istakhr",
+        "Jinjan",
+        "Borazjan",
+        "Herat",
+        "Dakyanus",
+        "Bampur",
+        "Tureng Tepe",
+        "Merv",
+        "Behistun",
+        "Kandahar",
+        "Altin Tepe",
+        "Bunyan",
+        "Charsadda",
+        "Ura Tyube"
+      ],
+      "militaryLeaders": [
+        "Darius",
+        "Cyrus",
+        "Achaemenes"
+      ],
+      "scientificLeaders": [
+        "Al-Khwarizmi",
+        "Omar Khayyam",
+        "AL-Farghani",
+        "Al-Mahani",
+        "Nasir al-Tusi",
+        "Kushyar ibn Labban"
+      ]
     },
     {
       "id": "aztecs",
@@ -11598,7 +12366,71 @@
         "explore"
       ],
       "buildNever": [],
-      "color": 4
+      "color": 4,
+      "unitBit": 13,
+      "uniqueUnits": [
+        "jaguarWarrior"
+      ],
+      "kingUnit": "montezuma",
+      "freeTechs": [
+        "warriorCode",
+        "pottery"
+      ],
+      "cityNames": [
+        "Tenochtitlan",
+        "Teotihuacan",
+        "Tlatelolco",
+        "Texcoco",
+        "Tlaxcala",
+        "Calixtlahuaca",
+        "Xochicalco",
+        "Tlacopan",
+        "Atzcapotzalco",
+        "Tzintzuntzen",
+        "Malinalco",
+        "Tula",
+        "Tamuin",
+        "Teayo",
+        "Cempoala",
+        "Chalco",
+        "Tlalmanalco",
+        "Ixtapaluca",
+        "Huexotla",
+        "Tepexpan",
+        "Tepetlaoxtoc",
+        "Chiconautla",
+        "Zitlaltepec",
+        "Coyotepec",
+        "Tequixquiac",
+        "Jilotzingo",
+        "Tlapanaloya",
+        "Tultitlan",
+        "Ecatepec",
+        "Coatepec",
+        "Chalchihuites",
+        "Chiauhtia",
+        "Chapultepec",
+        "Itzapalapa",
+        "Ayotzinco",
+        "Iztapam"
+      ],
+      "militaryLeaders": [
+        "Ahuitzotl",
+        "Itzcóatl",
+        "Acamapichtli",
+        "Axayacatl",
+        "Tizoc",
+        "Huitzilhuitl",
+        "Chimalpopoca",
+        "Maxtla",
+        "Nezahualcóyotl",
+        "Nezahualpilli"
+      ],
+      "scientificLeaders": [
+        "Chichatoyotl",
+        "Textalatzin",
+        "Quakeotzlitopotec"
+      ]
     },
     {
       "id": "zulu",
@@ -11620,7 +12452,45 @@
         "offensiveLandUnits"
       ],
       "buildNever": [],
-      "color": 3
+      "color": 3,
+      "unitBit": 14,
+      "uniqueUnits": [
+        "impi"
+      ],
+      "kingUnit": "shaka",
+      "freeTechs": [
+        "warriorCode",
+        "pottery"
+      ],
+      "cityNames": [
+        "Zimbabwe",
+        "Ulundi",
+        "Bapedi",
+        "Hlobane",
+        "Isandhlwana",
+        "Intombe",
+        "Mpondo",
+        "Ngome",
+        "Swazi",
+        "Tugela",
+        "Umtata",
+        "Umfolozi",
+        "Ibabanago",
+        "Isipezi",
+        "Amatikulu",
+        "Zunguin"
+      ],
+      "militaryLeaders": [
+        "Mpande",
+        "Zwelithini",
+        "Dingane",
+        "Cetshwayo"
+      ],
+      "scientificLeaders": [
+        "Senzangakhona",
+        "Dingiswayo",
+        "Malandela"
+      ]
     },
     {
       "id": "iroquois",
@@ -11644,7 +12514,59 @@
         "trade"
       ],
       "buildNever": [],
-      "color": 8
+      "color": 8,
+      "unitBit": 15,
+      "uniqueUnits": [
+        "mountedWarrior"
+      ],
+      "kingUnit": "hiawatha",
+      "freeTechs": [
+        "pottery",
+        "alphabet"
+      ],
+      "cityNames": [
+        "Salamanca",
+        "Niagara Falls",
+        "Grand River",
+        "Allegheny",
+        "Cattaraugus",
+        "Oil Springs",
+        "Tonawanda",
+        "Mauch Chunk",
+        "St. Regis",
+        "Centralia",
+        "Akwesasne",
+        "Tyendenaga",
+        "Kahnawake",
+        "Caughnawaga",
+        "Oka",
+        "Chondote",
+        "Gandasetaigon",
+        "Ganogeh",
+        "Gayagaahe",
+        "Gewauga",
+        "Goigouen",
+        "Kawauka",
+        "Kente",
+        "Kiohero",
+        "Owego",
+        "Neodakheat",
+        "Oiogouen",
+        "Skannayutenate",
+        "Onnontare"
+      ],
+      "militaryLeaders": [
+        "Shenandoah",
+        "Cornplanter",
+        "Tecumseh",
+        "Red Cloud",
+        "Sitting Bull"
+      ],
+      "scientificLeaders": [
+        "Guyasuta",
+        "Old Smoke",
+        "Three Feathers"
+      ]
     },
     {
       "id": "english",
@@ -11669,7 +12591,63 @@
         "culture"
       ],
       "buildNever": [],
-      "color": 2
+      "color": 2,
+      "unitBit": 16,
+      "uniqueUnits": [
+        "manOWar"
+      ],
+      "kingUnit": "elizabeth",
+      "freeTechs": [
+        "alphabet",
+        "pottery"
+      ],
+      "cityNames": [
+        "London",
+        "York",
+        "Nottingham",
+        "Hastings",
+        "Canterbury",
+        "Coventry",
+        "Warwick",
+        "Newcastle",
+        "Oxford",
+        "Liverpool",
+        "Dover",
+        "Brighton",
+        "Norwich",
+        "Leeds",
+        "Reading",
+        "Birmingham",
+        "Richmond",
+        "Exeter",
+        "Cambridge",
+        "Gloucester",
+        "Manchester",
+        "Bristol",
+        "Leicester",
+        "Carlisle",
+        "Ipswich",
+        "Portsmouth",
+        "Berwick",
+        "Bath",
+        "The Mumbles"
+      ],
+      "militaryLeaders": [
+        "Edward",
+        "Boudicea",
+        "Nelson",
+        "Wallace",
+        "Cornwallis",
+        "Clinton",
+        "Wellington"
+      ],
+      "scientificLeaders": [
+        "Isaac Newton",
+        "Charles Darwin",
+        "Francis Bacon",
+        "Charles Babbage",
+        "Alan Turing"
+      ]
     },
     {
       "id": "mongols",
@@ -11692,7 +12670,61 @@
         "production"
       ],
       "buildNever": [],
-      "color": 3
+      "color": 3,
+      "unitBit": 17,
+      "uniqueUnits": [
+        "keshik"
+      ],
+      "kingUnit": "temujin",
+      "freeTechs": [
+        "warriorCode",
+        "pottery"
+      ],
+      "cityNames": [
+        "Karakorum",
+        "Ta-Tu",
+        "Kazan",
+        "Almarikh",
+        "Tabriz",
+        "Ulaanbaatar",
+        "Hovd",
+        "Darhan",
+        "Dalandzadgad",
+        "Mandalgovi",
+        "Choybalsan",
+        "Erdenet",
+        "Tsetserleg",
+        "Baruun-Urt",
+        "Ereen",
+        "Batshireet",
+        "Choyr",
+        "Ulaangom",
+        "Tosontsengel",
+        "Atlay",
+        "Uliastay",
+        "Bayanhongor",
+        "Har-Ayrag",
+        "Nalayh",
+        "Tes",
+        "Hutag",
+        "Arvayheer",
+        "Ondorhaan",
+        "Saynshand",
+        "Tumentsogt"
+      ],
+      "militaryLeaders": [
+        "Ogodei",
+        "Jochi",
+        "Chagatai",
+        "Tolui",
+        "Kublai",
+        "Mongke"
+      ],
+      "scientificLeaders": [
+        "Ulan Bator",
+        "Minzu Wenyibao",
+        "Kumujil-yin Qoro"
+      ]
     },
     {
       "id": "spanish",
@@ -11717,7 +12749,62 @@
         "culture"
       ],
       "buildNever": [],
-      "color": 5
+      "color": 5,
+      "unitBit": 18,
+      "uniqueUnits": [
+        "conquistador"
+      ],
+      "kingUnit": "isabella",
+      "freeTechs": [
+        "alphabet",
+        "ceremonialBurial"
+      ],
+      "cityNames": [
+        "Madrid",
+        "Barcelona",
+        "Seville",
+        "Toledo",
+        "Santiago",
+        "Salamanca",
+        "Murcia",
+        "Valencia",
+        "Zaragoza",
+        "Pamplona",
+        "Vitoria",
+        "Santander",
+        "Asturias",
+        "Jaen",
+        "Logrono",
+        "Valladolid",
+        "Palma",
+        "Cordoba",
+        "Teruel",
+        "Almeria",
+        "Leon",
+        "Zamora",
+        "Mérida",
+        "Lugo",
+        "Alicante",
+        "Cadiz",
+        "Elche",
+        "Alcorcon",
+        "Burgos",
+        "Vigo",
+        "Badajoz"
+      ],
+      "militaryLeaders": [
+        "Cordoba",
+        "Bartolome",
+        "Columbus",
+        "Zuniga",
+        "Olivares",
+        "Zumalacarregui"
+      ],
+      "scientificLeaders": [
+        "Juan de Ortega",
+        "Gherard of Cremona",
+        "Joao Baptista Lavanha"
+      ]
     },
     {
       "id": "vikings",
@@ -11740,7 +12827,66 @@
         "navalUnits"
       ],
       "buildNever": [],
-      "color": 8
+      "color": 8,
+      "unitBit": 19,
+      "uniqueUnits": [
+        "berserk"
+      ],
+      "kingUnit": "ragnar",
+      "freeTechs": [
+        "warriorCode",
+        "alphabet"
+      ],
+      "cityNames": [
+        "Trondheim",
+        "Bergen",
+        "Copenhagen",
+        "Reykjavik",
+        "Oslo",
+        "Stockholm",
+        "Birka",
+        "Aarhus",
+        "Stavanger",
+        "Odense",
+        "Hareid",
+        "Molde",
+        "Alesund",
+        "Bodo",
+        "Karasjok",
+        "Tromso",
+        "Vadso",
+        "Farsund",
+        "Risor",
+        "Fauske",
+        "Karistad",
+        "Batsfjord",
+        "Hammerfest",
+        "Honningsvag",
+        "Svolvaer",
+        "Haugesund",
+        "Sarpsborg",
+        "Lillehammer",
+        "Elverurn",
+        "Falun",
+        "Helsinki",
+        "Keflavik",
+        "Thunderfall"
+      ],
+      "militaryLeaders": [
+        "Healfdene",
+        "Inwaaer",
+        "Hubba",
+        "Erik Bloodaxe",
+        "Leif Eriksson",
+        "Canute II"
+      ],
+      "scientificLeaders": [
+        "Anders Angstrom",
+        "Niels Bohr",
+        "Tycho Brahe",
+        "Niels Stensen",
+        "Hans Oersted"
+      ]
     },
     {
       "id": "ottomans",
@@ -11763,7 +12909,63 @@
         "happiness"
       ],
       "buildNever": [],
-      "color": 2
+      "color": 2,
+      "unitBit": 20,
+      "uniqueUnits": [
+        "sipahi"
+      ],
+      "kingUnit": "osman",
+      "freeTechs": [
+        "bronzeWorking",
+        "masonry"
+      ],
+      "cityNames": [
+        "Istanbul",
+        "Edrine",
+        "Bursa",
+        "Iznik",
+        "Uskudar",
+        "Izmit",
+        "Aydin",
+        "Antalya",
+        "Konya",
+        "Sinop",
+        "Kafa",
+        "Ankara",
+        "Salonika",
+        "Mugla",
+        "Denizli",
+        "Bolu",
+        "Urfa",
+        "Bingol",
+        "Riza",
+        "Zonguldak",
+        "Kirklareli",
+        "Karabuk",
+        "Cankiri",
+        "Iskenderun",
+        "Tunceli",
+        "Sivas",
+        "Yozgat",
+        "Tokat",
+        "Van"
+      ],
+      "militaryLeaders": [
+        "Orhan",
+        "Murad I",
+        "Suleyman I",
+        "Selim",
+        "Mehmed II",
+        "Bayezid II"
+      ],
+      "scientificLeaders": [
+        "Zakariya al-Razi",
+        "Thabit Ibn Qurra",
+        "Callippus of Cyzicus",
+        "Sporus of Nicaea",
+        "Dionysodorus",
+        "Menaechmus"
+      ]
     },
     {
       "id": "celts",
@@ -11787,7 +12989,61 @@
         "culture"
       ],
       "buildNever": [],
-      "color": 4
+      "color": 4,
+      "unitBit": 21,
+      "uniqueUnits": [
+        "gallicSwordsman"
+      ],
+      "kingUnit": "brennus",
+      "freeTechs": [
+        "pottery",
+        "ceremonialBurial"
+      ],
+      "cityNames": [
+        "Entremont",
+        "Alesia",
+        "Lugdunum",
+        "Camulodunum",
+        "Richborough",
+        "Verulamium",
+        "Gergovia",
+        "Augustodurum",
+        "Agedincum",
+        "Eboracum",
+        "Burdigala",
+        "Cataractonium",
+        "Lapurdum",
+        "Ratae Coritanorum",
+        "Tolosa",
+        "Lindum",
+        "Nemausus",
+        "Curovernum",
+        "Glanum",
+        "Isca",
+        "Segusio",
+        "Rutupiae",
+        "Monguntiacum",
+        "Glevum",
+        "Axima",
+        "Deva",
+        "Lezoux",
+        "Noviomagus",
+        "Arausio",
+        "Durocortorum"
+      ],
+      "militaryLeaders": [
+        "Vercingetorix",
+        "Orgetorix",
+        "Caractacus",
+        "Boudicca",
+        "Cunobelinus",
+        "Dumnorix"
+      ],
+      "scientificLeaders": [
+        "Maredudd ap Owain",
+        "Grufudd ap Llewelyn",
+        "Rhodri Mawr"
+      ]
     },
     {
       "id": "arabs",
@@ -11810,7 +13066,58 @@
         "culture"
       ],
       "buildNever": [],
-      "color": 7
+      "color": 7,
+      "unitBit": 22,
+      "uniqueUnits": [
+        "ansarWarrior"
+      ],
+      "kingUnit": "abu",
+      "freeTechs": [
+        "pottery",
+        "ceremonialBurial"
+      ],
+      "cityNames": [
+        "Mecca",
+        "Medina",
+        "Damascus",
+        "Baghdad",
+        "Najran",
+        "Kufah",
+        "Basra",
+        "Khurasan",
+        "Anjar",
+        "Fustat",
+        "Aden",
+        "Yamama",
+        "Muscat",
+        "Mansura",
+        "Bukhara",
+        "Fez",
+        "Shiraz",
+        "Merw",
+        "Balkh",
+        "Mosul",
+        "Aydab",
+        "Bayt Ras",
+        "Suhar",
+        "Taif",
+        "Hama",
+        "Tabuk",
+        "Sana'a",
+        "Shihr"
+      ],
+      "militaryLeaders": [
+        "Uthman",
+        "Mu'awiya",
+        "Hind",
+        "Ziyad Ibn Abihi",
+        "Saffah"
+      ],
+      "scientificLeaders": [
+        "Nicomachus of Gerasa",
+        "Ali Abbas",
+        "Al-Kindi"
+      ]
     },
     {
       "id": "carthaginians",
@@ -11833,7 +13140,60 @@
         "growth"
       ],
       "buildNever": [],
-      "color": 9
+      "color": 9,
+      "unitBit": 23,
+      "uniqueUnits": [
+        "numidianMercenary"
+      ],
+      "kingUnit": "hannibal",
+      "freeTechs": [
+        "alphabet",
+        "masonry"
+      ],
+      "cityNames": [
+        "Carthage",
+        "Utica",
+        "Leptis Magna",
+        "Theveste",
+        "Hippo",
+        "Leptis Minor",
+        "Sabratha",
+        "Rusicade",
+        "Oea",
+        "Hadrumetum",
+        "Cadiz",
+        "Cirta",
+        "Nora",
+        "Rusaddir",
+        "Sulcis",
+        "Saldae",
+        "Carthago Novo",
+        "Malaca",
+        "Gades",
+        "Calaris",
+        "Tingis",
+        "Iol",
+        "Rusguniae",
+        "Thaenae",
+        "Rusuccuru",
+        "al-Kaf",
+        "Zouchis",
+        "Gigthis",
+        "Tacape",
+        "Zama"
+      ],
+      "militaryLeaders": [
+        "Hamilcar",
+        "Mago",
+        "Hanno",
+        "Himilco",
+        "Hasdrubal"
+      ],
+      "scientificLeaders": [
+        "Bomilcar",
+        "Tanit",
+        "Eshmuniaton"
+      ]
     },
     {
       "id": "koreans",
@@ -11857,7 +13217,61 @@
         "trade"
       ],
       "buildNever": [],
-      "color": 6
+      "color": 6,
+      "unitBit": 24,
+      "uniqueUnits": [
+        "hwacha"
+      ],
+      "kingUnit": "wangKon",
+      "freeTechs": [
+        "bronzeWorking",
+        "alphabet"
+      ],
+      "cityNames": [
+        "Seoul",
+        "P'yongyang",
+        "Wonsan",
+        "Pusan",
+        "Namp'o",
+        "Cheju",
+        "Hyangsan",
+        "Ulsan",
+        "Inch'on",
+        "Pyongsong",
+        "Taejon",
+        "Paegam",
+        "Manp'o",
+        "Kaesong",
+        "Chonju",
+        "Sariwon",
+        "Suwon",
+        "Haeju",
+        "Taegu",
+        "Chinje",
+        "Tokch'on",
+        "Ch'ongfu",
+        "Taegwon",
+        "Sokch'o",
+        "Hamhung",
+        "Iri",
+        "Huich'on",
+        "Namwon",
+        "Kumgang",
+        "Oijongbu"
+      ],
+      "militaryLeaders": [
+        "Yi Song-gye",
+        "Chu-Mong",
+        "Pak Hyokkose",
+        "Onjo",
+        "Syngman Rhee",
+        "Kim Il Sung"
+      ],
+      "scientificLeaders": [
+        "Seok Tong-sik",
+        "Taro Aso Han",
+        "Roh Moo Sun"
+      ]
     },
     {
       "id": "sumerians",
@@ -11880,7 +13294,57 @@
         "culture"
       ],
       "buildNever": [],
-      "color": 5
+      "color": 5,
+      "unitBit": 25,
+      "uniqueUnits": [
+        "enkiduWarrior"
+      ],
+      "kingUnit": "gilgamesh",
+      "freeTechs": [
+        "pottery",
+        "bronzeWorking"
+      ],
+      "cityNames": [
+        "Ur",
+        "Sumer",
+        "Lagash",
+        "Kish",
+        "Umma",
+        "Bad-tibira",
+        "Agade",
+        "Erech",
+        "Isin",
+        "Akshak",
+        "Zabalam",
+        "Kisurra",
+        "Der",
+        "Kua",
+        "Marad",
+        "Kuara",
+        "Kutha",
+        "Nagsu",
+        "Susa",
+        "Tutub",
+        "Kutallu",
+        "Anshan",
+        "Babil",
+        "Apisala",
+        "Dabrum"
+      ],
+      "militaryLeaders": [
+        "Lugalzaggesi",
+        "Etana",
+        "Meskiaggasher",
+        "Enmerkar",
+        "Lugalbanda"
+      ],
+      "scientificLeaders": [
+        "Ali Ibn Rabban",
+        "AL-Battani",
+        "Abul Wafa",
+        "Ibn al-Baitar",
+        "Eutocius of Ascalon"
+      ]
     },
     {
       "id": "hittites",
@@ -11903,7 +13367,56 @@
         "trade"
       ],
       "buildNever": [],
-      "color": 14
+      "color": 14,
+      "unitBit": 26,
+      "uniqueUnits": [
+        "threeManChariot"
+      ],
+      "kingUnit": "mursilis",
+      "freeTechs": [
+        "pottery",
+        "alphabet"
+      ],
+      "cityNames": [
+        "Hattusas",
+        "Tarsus",
+        "Ugarit",
+        "Harran",
+        "Hattusha",
+        "Tyrana",
+        "Aleppo",
+        "Ankuwa",
+        "Kadesh",
+        "Adana",
+        "Hubishna",
+        "Alaca Huyuk",
+        "Emar",
+        "Alalah",
+        "Ivriz",
+        "Kanesh",
+        "Karhuyuk",
+        "Karatepe",
+        "Kummanni",
+        "Malatya",
+        "Samuha",
+        "Yalburt",
+        "Katna",
+        "Kultepe",
+        "Alisar Huyuk"
+      ],
+      "militaryLeaders": [
+        "Suppiluliumas",
+        "Muwatallis",
+        "Hattusilis",
+        "Huzziya",
+        "Anitta"
+      ],
+      "scientificLeaders": [
+        "Hipparchus",
+        "Eudoxus of Cnidus",
+        "Heraclides of Pontus",
+        "Posidonius"
+      ]
     },
     {
       "id": "dutch",
@@ -11927,7 +13440,56 @@
         "production"
       ],
       "buildNever": [],
-      "color": 2
+      "color": 2,
+      "unitBit": 27,
+      "uniqueUnits": [
+        "swissMercenary"
+      ],
+      "kingUnit": "williamOfOrange",
+      "freeTechs": [
+        "pottery",
+        "alphabet"
+      ],
+      "cityNames": [
+        "Amsterdam",
+        "Rotterdam",
+        "The Hague",
+        "Utrecht",
+        "Groningen",
+        "Eindhoven",
+        "Arnhem",
+        "Maastricht",
+        "Haarlem",
+        "Holwerd",
+        "Middelburg",
+        "Delft",
+        "Breda",
+        "Leiden",
+        "Den Helder",
+        "Harlingen",
+        "Lauwersoog",
+        "Enschede",
+        "Tilburg",
+        "Zwolle",
+        "Gouda",
+        "Dordrecht",
+        "Leerdam",
+        "Hilversum",
+        "Roosendaal"
+      ],
+      "militaryLeaders": [
+        "Abel Tasman",
+        "Willem Jansz",
+        "Dirck Hartog",
+        "Henry Hudson",
+        "Willem Jantszoon"
+      ],
+      "scientificLeaders": [
+        "Christiaan Huygens",
+        "Anton Brugmmans",
+        "Jan Swammerdam",
+        "Frans van Shooten"
+      ]
     },
     {
       "id": "portuguese",
@@ -11952,7 +13514,69 @@
         "explore"
       ],
       "buildNever": [],
-      "color": 8
+      "color": 8,
+      "unitBit": 28,
+      "uniqueUnits": [
+        "carrack"
+      ],
+      "kingUnit": "henry",
+      "freeTechs": [
+        "alphabet",
+        "pottery"
+      ],
+      "cityNames": [
+        "Lisbon",
+        "Oporto",
+        "Guimarães",
+        "Lagos",
+        "Emerita",
+        "Sagres",
+        "Coimbra",
+        "Leiria",
+        "Évora",
+        "Braga",
+        "Faro",
+        "Rio Janeiro",
+        "São Paulo",
+        "Luanda",
+        "Alcácer do Sal",
+        "Guarda",
+        "Castelo Branco",
+        "Badajoz",
+        "Lourenço Marques",
+        "Viseu",
+        "São Mamede",
+        "Ourique",
+        "Goa",
+        "Diu",
+        "Tavira",
+        "Cacela",
+        "Alcobaça",
+        "Bissau",
+        "Óbidos",
+        "Nazaré",
+        "Avis",
+        "Praia",
+        "Tomar",
+        "Atoleiros",
+        "Mina",
+        "Pederneira"
+      ],
+      "militaryLeaders": [
+        "Viriato",
+        "Afonso",
+        "Dinis",
+        "da Gama",
+        "Magellan",
+        "Cabral",
+        "Dias",
+        "Cabrillo"
+      ],
+      "scientificLeaders": [
+        "Anthony of Padua",
+        "Pedro Nunez",
+        "Enricho Swarez"
+      ]
     },
     {
       "id": "byzantines",
@@ -11978,7 +13602,57 @@
         "culture"
       ],
       "buildNever": [],
-      "color": 11
+      "color": 11,
+      "unitBit": 29,
+      "uniqueUnits": [
+        "dromon"
+      ],
+      "kingUnit": "theodora",
+      "freeTechs": [
+        "bronzeWorking",
+        "alphabet"
+      ],
+      "cityNames": [
+        "Constantinople",
+        "Adrianople",
+        "Caesarea",
+        "Nicaea",
+        "Varna",
+        "Smyrna",
+        "Heraclea",
+        "Trebizond",
+        "Chalcedon",
+        "Sardica",
+        "Naissus",
+        "Dyrrachium",
+        "Septum",
+        "Nicomedia",
+        "Amorium",
+        "Ancyra",
+        "Brusa",
+        "Iconium",
+        "Prilep",
+        "Ohrid",
+        "Vidin",
+        "Samosata",
+        "Ani",
+        "Edessa",
+        "Taormina"
+      ],
+      "militaryLeaders": [
+        "Justinian",
+        "Belisarius",
+        "Constantine",
+        "Theodosius",
+        "Irene"
+      ],
+      "scientificLeaders": [
+        "Geminus",
+        "Empedocles of Acragas",
+        "Apollonius of Tyana",
+        "Callinicus of Heliopolis",
+        "Ctesibius"
+      ]
     },
     {
       "id": "inca",
@@ -12003,7 +13677,58 @@
         "culture"
       ],
       "buildNever": [],
-      "color": 7
+      "color": 7,
+      "unitBit": 30,
+      "uniqueUnits": [
+        "chasquiScout"
+      ],
+      "kingUnit": "pachacuti",
+      "freeTechs": [
+        "pottery",
+        "masonry"
+      ],
+      "cityNames": [
+        "Cuzco",
+        "Tiwanaku",
+        "Machu Picchu",
+        "Ollantaytambo",
+        "Corihuayrachina",
+        "Huamanga",
+        "Vilcas",
+        "Vilcabamba",
+        "Vitcos",
+        "Andahuaylas",
+        "Ica",
+        "Arequipa",
+        "Nasca",
+        "Atico",
+        "Juli",
+        "Chuito",
+        "Chuquiapo",
+        "Huanuco Pampa",
+        "Tamboccocha",
+        "Huaras",
+        "Riobamba",
+        "Caxamalca",
+        "Sausa",
+        "Tambo Colorado",
+        "Huaca"
+      ],
+      "militaryLeaders": [
+        "Tupa Inca-Yupanqui",
+        "Huayna Capac",
+        "Huascar",
+        "Atahuallpa",
+        "Manco Inca",
+        "Sayri Tupa Inca",
+        "Titu Cusi",
+        "Tupa Amaru"
+      ],
+      "scientificLeaders": [
+        "Sinchi Roca",
+        "Manco Capac",
+        "Maita Capac"
+      ]
     },
     {
       "id": "maya",
@@ -12028,7 +13753,53 @@
         "culture"
       ],
       "buildNever": [],
-      "color": 6
+      "color": 6,
+      "unitBit": 31,
+      "uniqueUnits": [
+        "javelinThrower"
+      ],
+      "kingUnit": "smokeJaguar",
+      "freeTechs": [
+        "masonry",
+        "pottery"
+      ],
+      "cityNames": [
+        "Chichén Itza",
+        "Copán",
+        "Palenque",
+        "Tikal",
+        "Yaxchilán",
+        "Bonampak",
+        "Lagartero",
+        "Quiriguá",
+        "Calakmul",
+        "Lazapa",
+        "Kaminaljuyú",
+        "Piedras Negras",
+        "Uaxactún",
+        "Cuello",
+        "Tulúm",
+        "Cobá",
+        "Dzibilchaltun",
+        "Uxmal",
+        "Mayapán",
+        "Kabáh",
+        "Aké",
+        "Xcalumkin",
+        "Ek Balam",
+        "Tazumal",
+        "Cozumel"
+      ],
+      "militaryLeaders": [
+        "Blue-Quetzal-Macaw",
+        "Eighteen Rabbit",
+        "Cauac-Sky"
+      ],
+      "scientificLeaders": [
+        "Ah Cacao",
+        "Smoke-Monkey",
+        "Stormy Sky"
+      ]
     }
   ],
   "espionageMissions": [

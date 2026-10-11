@@ -7,7 +7,11 @@ import type { Command, CommandError } from './commands.ts';
 import { empireInfo } from './empire.ts';
 import { distance, tilesInRadius } from './grid.ts';
 import { avoidDisorder, defaultSpecialist, placeCitizens } from './governor.ts';
-import { nextCityName } from './names.ts';
+import { checkWonderGoldenAge, hasTrait, nextCityName, SCIENTIFIC_LEADER_PERCENT } from './civs.ts';
+import { maybeMeltdown, rollPollution } from './pollution.ts';
+import { addSpaceshipPart } from './space.ts';
+import { addVictoryPoints } from './victory.ts';
+import { bearLeader } from './war.ts';
 import { buildBlocker, buildCategory, buildCost, hurryQuote } from './production.ts';
 import { knowsTech } from './queries.ts';
 import type { Rules } from './rules.ts';
@@ -60,6 +64,8 @@ export function newCity(rules: Rules, state: GameState, owner: number, tile: num
     wonderUnitTimer: 0,
     capturedOn: null,
     airliftedOn: 0,
+    nationality: owner,
+    resisters: 0,
   };
 }
 
@@ -117,8 +123,7 @@ export function updateTerritory(rules: Rules, tx: Tx): void {
 function foundCity(rules: Rules, tx: Tx, u: Unit, name?: string): void {
   const p = tx.state.players[u.owner]!;
   const mine = playerCities(tx.state, u.owner);
-  const used = new Set(Object.values(tx.state.cities).filter((c) => c.owner === u.owner).map((c) => c.name));
-  const cityName = name?.trim() || nextCityName(used, mine.length);
+  const cityName = name?.trim() || nextCityName(rules, tx.state, u.owner);
   const city = tx.addCity(newCity(rules, tx.state, u.owner, u.tile, cityName));
   // The first city becomes the capital.
   if (!mine.some((c) => 'palace' in c.buildings) && rules.hasBuilding('palace')) tx.city(city.id).buildings.palace = tx.state.turn;
@@ -241,7 +246,7 @@ export function applyCityCommand(rules: Rules, tx: Tx, cmd: Command): CommandErr
       }
       const city = tx.city(c.id);
       city.hurried = true;
-      city.shields = buildCost(rules, c.build!);
+      city.shields = buildCost(rules, c.build!, state, c.owner);
       city.shieldsFor = buildCategory(rules, c.build!);
       if (q.kind === 'forcedLabor') {
         city.size = c.size - q.citizens;
@@ -294,7 +299,7 @@ export function applyCityCommand(rules: Rules, tx: Tx, cmd: Command): CommandErr
         tx.emit({ type: 'anarchyStarted', player: cmd.player, target: target.id, turns: p.revolution.endsOnTurn - state.turn });
         return null;
       }
-      const turns = anarchyTurns(rules, tx);
+      const turns = anarchyTurns(rules, tx, cmd.player);
       const anarchy = rules.set.governments.find((g) => g.transitional);
       const pl = tx.player(cmd.player);
       if (!anarchy || turns <= 0) {
@@ -318,8 +323,12 @@ export function placeableTiles(rules: Rules, state: GameState, c: City): number[
   return workableTiles(rules, state, c);
 }
 
-/** Anarchy lasts 2 to 5 turns, never more than the difficulty's limit (docs/rules/governments.md). */
-function anarchyTurns(rules: Rules, tx: Tx): number {
+/**
+ * Anarchy lasts 2 to 5 turns, never more than the difficulty's limit
+ * (docs/rules/governments.md); religious civilizations get through it in one.
+ */
+function anarchyTurns(rules: Rules, tx: Tx, player: number): number {
+  if (hasTrait(rules, tx.state, player, 'religious')) return 1;
   const cap = rules.difficulty(tx.state.difficulty).maxAnarchyTurns;
   const turns = 2 + tx.random(4);
   return cap > 0 ? Math.min(cap, turns) : turns;
@@ -362,14 +371,44 @@ export function runCityTurn(rules: Rules, tx: Tx): void {
       if (r.bordersGrew) territoryDirty = true;
     }
     const support = unitSupportCost(rules, tx.state, p.id);
+    income += treasuryInterest(rules, tx.state, p.id);
     const pl = tx.player(p.id);
     pl.gold = p.gold + income - upkeep - support;
     tx.emit({ type: 'treasury', player: p.id, income, upkeep, unitSupport: support, gold: pl.gold });
     research(rules, tx, p.id, beakers);
+    greatLibrary(rules, tx, p.id);
     if (tx.state.players[p.id]!.gold < 0) settleDebt(rules, tx, p.id);
     endRevolution(rules, tx, p.id);
   }
   if (territoryDirty) updateTerritory(rules, tx);
+}
+
+/** Wall Street pays this much interest on the treasury, in percent… */
+export const INTEREST_PERCENT = 5;
+/** …up to this much gold a turn. */
+export const INTEREST_CAP = 50;
+
+/** Interest a treasury earns with a treasuryEarnsInterest wonder (Wall Street; docs/rules/wonders.md). */
+export function treasuryInterest(rules: Rules, state: GameState, player: number): number {
+  const p = state.players[player]!;
+  if (p.gold <= 0) return 0;
+  const info = empireInfo(rules, state, player);
+  if (![...info.activeWonders].some((w) => rules.building(w).effects.includes('treasuryEarnsInterest'))) return 0;
+  return Math.min(INTEREST_CAP, Math.floor((p.gold * INTEREST_PERCENT) / 100));
+}
+
+/** The Great Library teaches every advance two civilizations it knows of have (docs/rules/wonders.md). */
+function greatLibrary(rules: Rules, tx: Tx, player: number): void {
+  const info = empireInfo(rules, tx.state, player);
+  if (![...info.activeWonders].some((w) => rules.building(w).effects.includes('gainAdvancesKnownByTwoCivs'))) return;
+  for (let guard = 0; guard < 10; guard++) {
+    const p = tx.state.players[player]!;
+    const others = tx.state.players.filter((o) => o.id !== player && o.alive && !o.barbarian && p.contacts.includes(o.id));
+    const pick = rules.set.techs.find((t) => researchBlocker(rules, p, t.id) === null && others.filter((o) => o.techs.includes(t.id)).length >= 2);
+    if (!pick) return;
+    learn(rules, tx, player, pick.id);
+    if (p.research.tech === pick.id) tx.player(player).research = { tech: null, beakers: tx.state.players[player]!.research.beakers, turns: 0 };
+  }
 }
 
 /** Military units beyond what the government supports for free cost gold each turn. */
@@ -460,6 +499,11 @@ function processCity(rules: Rules, tx: Tx, cityId: number): CityTurnResult {
   // Production.
   produce(rules, tx, cityId, report.shields.value);
 
+  // Pollution and meltdowns (docs/rules/pollution.md).
+  const have = empireInfo(rules, tx.state, before.owner).effective.get(cityId) ?? new Set(Object.keys(before.buildings));
+  if (report.disorder) maybeMeltdown(rules, tx, cityId, have);
+  rollPollution(rules, tx, tx.state.cities[cityId]!, report.pollution.value);
+
   // Wonder-made units (Statue of Zeus, Knights Templar).
   for (const b of Object.keys(tx.state.cities[cityId]!.buildings)) {
     const rule = rules.building(b);
@@ -520,7 +564,7 @@ function produce(rules: Rules, tx: Tx, cityId: number, shields: number): void {
   const cat = buildCategory(rules, build);
   c.shields = before.shields + shields;
   if (c.shields > 0) c.shieldsFor = cat;
-  const cost = buildCost(rules, build);
+  const cost = buildCost(rules, build, tx.state, before.owner);
   if (c.shields < cost) return;
 
   const blocked = (why: string) => {
@@ -553,6 +597,16 @@ function produce(rules: Rules, tx: Tx, cityId: number, shields: number): void {
   } else {
     const rule = rules.building(build.id);
     c.shields -= cost;
+    if (rule.spaceshipParts > 0) {
+      // Spaceship parts join the ship at the capital rather than standing in the city.
+      addSpaceshipPart(tx, before.owner, build.id);
+      tx.emit({ type: 'cityBuilt', ...where, build });
+      c = tx.city(cityId);
+      c.build = c.queue.shift() ?? null;
+      if (c.build && c.shields > 0 && buildCategory(rules, c.build) !== cat) c.shields = Math.floor(c.shields / 2);
+      c.shieldsFor = c.shields > 0 && c.build ? buildCategory(rules, c.build) : null;
+      return;
+    }
     if (rule.effects.includes('replacesOtherBuildings')) {
       for (const b of Object.keys(c.buildings)) {
         // eslint-disable-next-line @typescript-eslint/no-dynamic-delete -- records keyed by building id
@@ -570,6 +624,8 @@ function produce(rules: Rules, tx: Tx, cityId: number, shields: number): void {
     if (rule.kind === 'wonder') {
       tx.setWonder(build.id, cityId);
       tx.emit({ type: 'wonderBuilt', ...where, building: build.id });
+      addVictoryPoints(tx, before.owner, rules.set.general.victory.wonderPoints, `built ${rule.name}`);
+      checkWonderGoldenAge(rules, tx, before.owner);
     }
     tx.emit({ type: 'cityBuilt', ...where, build });
     if (rule.effects.includes('twoFreeAdvances')) {
@@ -587,15 +643,28 @@ function produce(rules: Rules, tx: Tx, cityId: number, shields: number): void {
 }
 
 export function learn(rules: Rules, tx: Tx, player: number, tech: string): void {
+  if (tx.state.players[player]!.techs.includes(tech)) return;
+  const first = !tx.state.players.some((o) => o.id !== player && !o.barbarian && o.techs.includes(tech));
   const p = tx.player(player);
-  if (p.techs.includes(tech)) return;
   p.techs = [...p.techs, tech];
   tx.emit({ type: 'techDiscovered', player, tech });
+  if (first) firstDiscovery(rules, tx, player, tech);
   const era = eraFor(rules, p.techs);
   if (era > p.era) {
     p.era = era;
     tx.emit({ type: 'eraEntered', player, era: rules.set.eras[era]!.id });
+    // Scientific civilizations get a free advance with each new era (docs/rules/civilizations.md).
+    if (hasTrait(rules, tx.state, player, 'scientific')) grantNextTech(rules, tx, player);
   }
+}
+
+/** Being first in the world to an advance: victory points, and perhaps a scientific leader. */
+function firstDiscovery(rules: Rules, tx: Tx, player: number, tech: string): void {
+  addVictoryPoints(tx, player, rules.set.general.victory.advancePoints, `first to discover ${rules.tech(tech).name}`);
+  if (!hasTrait(rules, tx.state, player, 'scientific')) return;
+  const capital = empireInfo(rules, tx.state, player).capital;
+  if (!capital || tx.random(100) >= SCIENTIFIC_LEADER_PERCENT) return;
+  bearLeader(rules, tx, player, capital.tile, true);
 }
 
 /** Free tech: the cheapest one the player can research. */

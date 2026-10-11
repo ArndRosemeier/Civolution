@@ -35,6 +35,8 @@ export type Command =
   | (Base & { type: 'buildArmy'; unit: number })
   | (Base & { type: 'joinArmy'; unit: number; army: number })
   | (Base & { type: 'leaderHurry'; unit: number })
+  /** Launches a finished spaceship from the capital (docs/rules/spaceship.md). */
+  | (Base & { type: 'launchSpaceship' })
   /** Burns a city taken this turn to the ground. */
   | (Base & { type: 'razeCity'; city: number })
   | (Base & { type: 'declareWar'; target: number })
@@ -157,7 +159,7 @@ export type GameEvent = { reason?: string } & (
   | { type: 'unitLost'; unit: number; player: number; unitType: string; tile: number; why: UnitLossReason }
   | { type: 'unitCaptured'; unit: number; player: number; from: number; unitType: string; tile: number }
   | { type: 'unitPromoted'; unit: number; player: number; experience: string }
-  | { type: 'leaderBorn'; unit: number; player: number; tile: number }
+  | { type: 'leaderBorn'; unit: number; player: number; tile: number; name?: string; scientific?: boolean }
   | { type: 'armyFormed'; unit: number; player: number; tile: number }
   | { type: 'unitJoinedArmy'; unit: number; army: number; player: number }
   | { type: 'unitUpgraded'; unit: number; player: number; from: string; to: string; gold: number }
@@ -183,12 +185,25 @@ export type GameEvent = { reason?: string } & (
   | { type: 'dealCancelled'; player: number; target: number; why: string }
   | { type: 'dealExpired'; player: number; target: number }
   | { type: 'cityTraded'; city: number; player: number; from: number; tile: number; name: string }
-  | { type: 'cityRevolted'; city: number; player: number; from: number; tile: number; name: string }
+  /** A city changed sides through propaganda or, with `cause: 'culture'`, a culture flip. */
+  | { type: 'cityRevolted'; city: number; player: number; from: number; tile: number; name: string; cause?: 'propaganda' | 'culture' }
+  | { type: 'resistanceStarted'; city: number; player: number; tile: number; resisters: number }
+  | { type: 'resistanceEnded'; city: number; player: number; tile: number }
+  | { type: 'goldenAgeStarted'; player: number; cause: 'uniqueUnit' | 'wonders'; detail: string; until: number }
+  | { type: 'goldenAgeEnded'; player: number }
+  | { type: 'pollutionAppeared'; tile: number; player: number; city: number }
+  | { type: 'globalWarming'; tiles: number[] }
+  | { type: 'meltdown'; city: number; player: number; tile: number }
+  | { type: 'spaceshipLaunched'; player: number; arrives: number }
+  | { type: 'spaceshipLost'; player: number; by: number }
+  | { type: 'unitedNationsVote'; votes: Record<string, number>; total: number; winner: number | null }
+  | { type: 'victoryPoints'; player: number; points: number; why: string }
+  | { type: 'gameWon'; player: number | null; kind: import('./state.ts').VictoryKind; detail: string }
   | { type: 'espionage'; player: number; target: number; mission: string; success: boolean; cost: number; city?: number; detail: string }
   | { type: 'airdrop'; unit: number; player: number; from: number; tile: number }
   | { type: 'airlift'; unit: number; player: number; from: number; tile: number }
   | { type: 'barbarianLanding'; tile: number; units: number; near: number }
-  | { type: 'playerEliminated'; player: number; by: number | null }
+  | { type: 'playerEliminated'; player: number; by: number | null; why?: string }
   | { type: 'campDestroyed'; tile: number; player: number; gold: number }
   | { type: 'campAppeared'; tile: number }
 );

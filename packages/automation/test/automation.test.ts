@@ -62,7 +62,7 @@ describe('automation settings', () => {
     old.state.version = 4;
     for (const p of old.state.players) delete (p as Partial<typeof p>).automation;
     const loaded = loadGame(rules, JSON.stringify(old));
-    expect(loaded.version).toBe(5);
+    expect(loaded.version).toBe(6);
     expect(loaded.players[0]!.automation).toEqual(defaultAutomation());
   });
 });

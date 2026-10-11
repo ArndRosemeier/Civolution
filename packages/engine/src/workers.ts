@@ -8,6 +8,7 @@ import { availableResources } from './empire.ts';
 import { distance } from './grid.ts';
 import { cityRadiusTiles, playerCities } from './territory.ts';
 import { hasFreshWaterAccess, hasTechFlag, knowsTech, unitsAt } from './queries.ts';
+import { INDUSTRIOUS_WORK_PERCENT } from './civs.ts';
 import type { Rules } from './rules.ts';
 import {
   IMP_BARRICADE,
@@ -36,7 +37,9 @@ export function workRate(rules: Rules, state: GameState, u: Unit): number {
   const owner = state.players[u.owner]!;
   const gov = rules.government(owner.government);
   const doubled = hasTechFlag(rules, owner, 'doublesWorkRate') ? 2 : 1;
-  return rules.unit(u.type).workRate * gov.workerRate * doubled;
+  const rate = rules.unit(u.type).workRate * gov.workerRate * doubled;
+  // Industrious workers work faster (docs/rules/civilizations.md).
+  return owner.civ && rules.civ(owner.civ).traits.includes('industrious') ? Math.floor((rate * (100 + INDUSTRIOUS_WORK_PERCENT)) / 100) : rate;
 }
 
 /** Why a job is not possible here, or null if it is (ignores who is doing it). */

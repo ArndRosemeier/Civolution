@@ -54,11 +54,14 @@ export function cultureOpinion(rules: Rules, state: GameState, player: number, t
   return ordered.find((o) => ratio >= o.ratioPercent) ?? ordered.at(-1)!;
 }
 
-/** Chance in percent that `mission` against `target` succeeds. */
-export function missionChance(rules: Rules, state: GameState, player: number, target: number, mission: string): number {
+/** Chance in percent that `mission` against `target` (and its `city`) succeeds. */
+export function missionChance(rules: Rules, state: GameState, player: number, target: number, mission: string, city?: number): number {
   if (mission === 'embassy') return 100;
   let chance = mission === 'propaganda' ? cultureOpinion(rules, state, player, target).propagandaSuccess : (MISSION_CHANCE[mission] ?? 50);
   if (agency(rules, state, target)) chance -= COUNTER_ESPIONAGE;
+  // A Courthouse makes its city resistant to bribery: propaganda succeeds half as often.
+  const c = city === undefined ? undefined : state.cities[city];
+  if (mission === 'propaganda' && c && Object.keys(c.buildings).some((b) => rules.building(b).effects.includes('resistantToBribery'))) chance = Math.floor(chance / 2);
   return Math.max(1, chance);
 }
 
@@ -107,7 +110,7 @@ export function runMission(rules: Rules, tx: Tx, player: number, target: number,
   if (why) return err('invalid', why);
   const cost = missionCost(rules, tx.state, player, mission);
   tx.player(player).gold = tx.state.players[player]!.gold - cost;
-  const chance = missionChance(rules, tx.state, player, target, mission);
+  const chance = missionChance(rules, tx.state, player, target, mission, city);
   const success = chance >= 100 || tx.random(100) < chance;
   const t = tx.state.players[target]!;
   let detail = '';

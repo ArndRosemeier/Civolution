@@ -17,4 +17,29 @@ export { tileYield, resourceVisibleTo, type Explained, type Part, type TileYield
 export { saveGame, loadGame, stateHash, SaveError, type SaveHeader } from './save.ts';
 export { checkInvariants, invariants, type Invariant } from './invariants.ts';
 export { canonicalJson, hashString, hashValue } from './hash.ts';
+export { yearOf, formatYear, yearsBetween } from './calendar.ts';
+export {
+  cityReport,
+  cityTileYield,
+  corruptionRate,
+  effectiveBuildings,
+  foodBox,
+  hasFreshWater,
+  isCoastal,
+  sizeClass,
+  sizeLimit,
+  workableTiles,
+  workedTiles,
+  type CityReport,
+  type MoodStep,
+  type SizeClass,
+  type TileOutput,
+} from './city.ts';
+export { foundBlocker, placeableTiles, unitSupportCost } from './cities.ts';
+export { availableResources, cityResources, connectedToCapital, empireInfo, landMasses, type EmpireInfo } from './empire.ts';
+export { defaultSpecialist, placeCitizens, type Placement } from './governor.ts';
+export { buildBlocker, buildCategory, buildCost, buildName, buildOptions, hurryQuote, isCommonUnit, type BuildCategory, type BuildOption, type HurryQuote } from './production.ts';
+export { eraFor, requiredTechs, researchableTechs, researchBlocker, techCost } from './science.ts';
+export { borderRadius, cityAt, cityRadiusTiles, computeTerritory, playerCities, ringTiles, CITY_RADIUS } from './territory.ts';
+export { CITY_NAMES } from './names.ts';
 export { makeRng, hash3, type Rng, type RngState } from './rng.ts';

@@ -4,7 +4,8 @@
  * facts under our own identifiers and field names, never original text or art
  * (PLAN.md D2). Every reference is a string id into another list of the same rule set.
  *
- * The rule set grows phase by phase; Phase 1 covers what maps, units and workers need.
+ * The rule set grows phase by phase: Phase 1 covered maps, units and workers; Phase 2
+ * adds buildings, specialists, governments in full, difficulty levels and the calendar.
  */
 import { z } from 'zod';
 
@@ -119,13 +120,128 @@ export const TechRuleSchema = z.strictObject({
 
 export const EraRuleSchema = z.strictObject({ id, name: z.string() });
 
+export const CORRUPTION_LEVELS = ['minimal', 'nuisance', 'problematic', 'rampant', 'catastrophic', 'communal', 'off'] as const;
+
 export const GovernmentRuleSchema = z.strictObject({
   id,
   name: z.string(),
   requiredTech: id.optional(),
   /** Worker work rate multiplier under this government. */
   workerRate: nonNeg,
+  /** The interim government between two others (Anarchy). */
+  transitional: z.boolean(),
+  corruption: z.enum(CORRUPTION_LEVELS),
+  /** Tiles yielding more than 2 of anything yield one less (Despotism, Anarchy). */
+  tilePenalty: z.boolean(),
+  /** Tiles yielding at least 1 commerce yield one more (Republic, Democracy). */
+  commerceBonus: z.boolean(),
+  /** How production can be hurried. */
+  hurry: z.enum(['none', 'forcedLabor', 'gold']),
+  /** Highest share of commerce, in percent, any one of tax, science and luxury may take. */
+  rateCap: percent,
+  /** Buildings cost upkeep under this government. */
+  buildingUpkeep: z.boolean(),
+  draftLimit: nonNeg,
+  militaryPoliceLimit: nonNeg,
+  /** Units each town, city and metropolis supports for free. */
+  freeUnits: z.strictObject({ town: nonNeg, city: nonNeg, metropolis: nonNeg }),
+  /** Gold per turn for each unit beyond the free ones. */
+  unitCost: nonNeg,
+  warWeariness: z.enum(['none', 'low', 'high']),
+  xenophobic: z.boolean(),
+  forcedResettlement: z.boolean(),
   notes,
+});
+
+export const SpecialistRuleSchema = z.strictObject({
+  id,
+  name: z.string(),
+  pluralName: z.string(),
+  /** The citizen working a tile; never a specialist. */
+  laborer: z.boolean(),
+  requiredTech: id.optional(),
+  luxury: nonNeg,
+  science: nonNeg,
+  gold: nonNeg,
+  /** Corruption and waste reduction steps (Policeman). */
+  corruption: nonNeg,
+  /** Shields toward buildings and wonders (Civil Engineer). */
+  shields: nonNeg,
+  notes,
+});
+
+export const DifficultyRuleSchema = z.strictObject({
+  id,
+  name: z.string(),
+  /** Citizens born content in each city before overpopulation makes the rest unhappy. */
+  contentCitizens: nonNeg,
+  /** Upper bound for anarchy turns; 0 means no difficulty limit. */
+  maxAnarchyTurns: nonNeg,
+  /** Research cost factor (10 = 100 %). */
+  costFactor: nonNeg,
+  /** Optimal city number in percent of the world size's value. */
+  optimalCitiesPercent: nonNeg,
+  corruptionPercent: nonNeg,
+  aiDefensiveStartUnits: nonNeg,
+  aiOffensiveStartUnits: nonNeg,
+  aiExtraStartUnits: z.array(nonNeg),
+  aiFreeUnitSupport: nonNeg,
+  aiBonusPerCity: nonNeg,
+  aiTradeRate: nonNeg,
+  attackBonusVsBarbarians: percent,
+  notes,
+});
+
+export const BuildingRuleSchema = z.strictObject({
+  id,
+  name: z.string(),
+  kind: z.enum(['improvement', 'smallWonder', 'wonder', 'wealth']),
+  /** Shields to build. */
+  cost: nonNeg,
+  /** Gold per turn. */
+  upkeep: nonNeg,
+  /** Culture points per turn (doubling once the building is 1000 years old). */
+  culture: nonNeg,
+  requiredTech: id.optional(),
+  obsoletedBy: id.optional(),
+  /** A building the city must already have (or, with requiredCount > 1, the empire must have that many of). */
+  requiredBuilding: id.optional(),
+  requiredCount: z.int().min(1),
+  requiredGovernment: id.optional(),
+  requiredResources: z.array(id),
+  /** Unhappy citizens made content in this city. */
+  contentFaces: z.int(),
+  /** Unhappy citizens made content in every other city (or on the continent with `continental`). */
+  contentFacesElsewhere: z.int(),
+  /** Mood effects reach the continent rather than the whole empire. */
+  continental: z.boolean(),
+  /** Production bonus in percent (power plants: of the factory's bonus). */
+  productionPercent: nonNeg,
+  pollution: nonNeg,
+  defenceBonus: percent,
+  bombardDefence: nonNeg,
+  navalDefenceBonus: percent,
+  navalBombardDefence: nonNeg,
+  /** Doubles the content faces of this building in every city of the owner. */
+  doublesContentOf: id.optional(),
+  /** Acts as this building in every city of the owner on the same continent. */
+  actsAsOnContinent: id.optional(),
+  /** Acts as this building in every city of the owner. */
+  actsAsEverywhere: id.optional(),
+  /** Produces a free unit every `unitEvery` turns. */
+  unitProduced: id.optional(),
+  unitEvery: nonNeg,
+  /** Effect flags (tax50, research50, reducesCorruption, allowsCitySize2, …). */
+  effects: z.array(z.string()),
+  /** Categories (militaryInstallation, tradeInstallation, coastalInstallation, …). */
+  tags: z.array(z.string()),
+  notes,
+});
+
+export const CalendarRuleSchema = z.strictObject({
+  startYear: z.int(),
+  /** Consecutive spans: `turns` turns of `years` years each; the last one repeats. */
+  spans: z.array(z.strictObject({ turns: z.int().positive(), years: z.int().positive() })).min(1),
 });
 
 export const WorldSizeRuleSchema = z.strictObject({
@@ -159,6 +275,27 @@ export const CuratedGeneralSchema = z.strictObject({
   fortifiedDefenceBonus: percent,
   riverDefenceBonus: percent,
   defaultGovernment: id,
+  defaultDifficulty: id,
+  /** Largest size of a town and of a city; above that a city is a metropolis. */
+  maxTownSize: z.int().positive(),
+  maxCitySize: z.int().positive(),
+  /** Smallest city that can celebrate We Love the King Day. */
+  celebrationMinimumSize: nonNeg,
+  /** Gold per shield when buying units (improvements cost half). */
+  shieldCostInGold: nonNeg,
+  /** Shields per gold for the Wealth build. */
+  shieldValueInGold: nonNeg,
+  /** Shields one citizen is worth when hurrying by forced labour. */
+  citizenValueInShields: nonNeg,
+  /** Turns a forced-labour sacrifice keeps a citizen unhappy. */
+  forcedLaborUnhappyTurns: nonNeg,
+  /** Research takes at least / at most this many turns per advance. */
+  minimumResearchTime: nonNeg,
+  maximumResearchTime: nonNeg,
+  futureTechCost: nonNeg,
+  goldenAgeDuration: nonNeg,
+  /** City culture totals at which borders grow by one ring. */
+  borderThresholds: z.array(nonNeg),
   notes,
 });
 
@@ -174,6 +311,10 @@ export const RuleSetSchema = z.strictObject({
   governments: z.array(GovernmentRuleSchema),
   worldSizes: z.array(WorldSizeRuleSchema),
   experienceLevels: z.array(ExperienceLevelRuleSchema),
+  buildings: z.array(BuildingRuleSchema),
+  specialists: z.array(SpecialistRuleSchema),
+  difficulties: z.array(DifficultyRuleSchema),
+  calendar: CalendarRuleSchema,
 });
 
 export type RuleSet = z.infer<typeof RuleSetSchema>;
@@ -185,3 +326,7 @@ export type TechRule = z.infer<typeof TechRuleSchema>;
 export type GovernmentRule = z.infer<typeof GovernmentRuleSchema>;
 export type WorldSizeRule = z.infer<typeof WorldSizeRuleSchema>;
 export type GeneralRules = z.infer<typeof CuratedGeneralSchema>;
+export type BuildingRule = z.infer<typeof BuildingRuleSchema>;
+export type SpecialistRule = z.infer<typeof SpecialistRuleSchema>;
+export type DifficultyRule = z.infer<typeof DifficultyRuleSchema>;
+export type CorruptionLevel = (typeof CORRUPTION_LEVELS)[number];

@@ -4,6 +4,7 @@
  * workRate (100 for a Worker) × the government's worker rate every turn. Workers on
  * the same tile doing the same job pool their work.
  */
+import { availableResources } from './empire.ts';
 import { hasFreshWaterAccess, hasTechFlag, knowsTech, unitsAt } from './queries.ts';
 import type { Rules } from './rules.ts';
 import {
@@ -45,7 +46,8 @@ export function jobBlocker(rules: Rules, state: GameState, player: number, tile:
   const rule = rules.job(job);
   if (terrain.water) return 'Workers cannot work water tiles.';
   if (rule.requiredTech && !knowsTech(p, rule.requiredTech)) return `Requires ${rules.tech(rule.requiredTech).name}.`;
-  const missing = rule.requiredResources.filter((r) => !p.resources.includes(r));
+  const have = rule.requiredResources.length > 0 ? availableResources(rules, state, player) : new Set<string>();
+  const missing = rule.requiredResources.filter((r) => !have.has(r));
   if (missing.length > 0)
     return `Requires access to ${missing.map((r) => rules.resources[rules.resourceIndex(r)]!.name).join(' and ')}.`;
   switch (job) {

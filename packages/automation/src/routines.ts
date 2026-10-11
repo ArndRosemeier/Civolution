@@ -6,10 +6,13 @@
  * Phase 1 ships two: `explore` and `autoWorker` (roads first, then irrigation and mines
  * around the player's home tile). Governors, templates and policies follow in Phase 5.
  */
+import { bestSite, siteScore } from './empire.ts';
 import {
   checkJob,
   costField,
   distance,
+  foundBlocker,
+  playerCities,
   IMP_IRRIGATION,
   IMP_MINE,
   IMP_ROAD,
@@ -22,7 +25,7 @@ import {
   type Unit,
 } from '@civolution/engine';
 
-export type RoutineId = 'explore' | 'autoWorker';
+export type RoutineId = 'explore' | 'autoWorker' | 'autoSettle';
 
 export interface Proposal {
   command: Command;
@@ -38,6 +41,8 @@ export function proposeRoutine(rules: Rules, state: GameState, u: Unit): Proposa
       return proposeExplore(rules, state, u);
     case 'autoWorker':
       return proposeAutoWorker(rules, state, u);
+    case 'autoSettle':
+      return proposeAutoSettle(rules, state, u);
     default:
       return null;
   }
@@ -83,9 +88,31 @@ interface Job {
   why: string;
 }
 
-/** The player's home tile until cities exist: their start position. */
-export function homeTile(state: GameState, player: number): number {
-  return state.map.starts[player] ?? 0;
+/** Where a worker calls home: its nearest city, or the start position before there are cities. */
+export function homeTile(state: GameState, player: number, from?: number): number {
+  const cities = playerCities(state, player);
+  if (cities.length === 0) return state.map.starts[player] ?? 0;
+  if (from === undefined) return cities[0]!.tile;
+  let best = cities[0]!;
+  for (const c of cities) if (distance(state.map, c.tile, from) < distance(state.map, best.tile, from)) best = c;
+  return best.tile;
+}
+
+/** Settle: walk to the best city site nearby and found a city there. */
+export function proposeAutoSettle(rules: Rules, state: GameState, u: Unit): Proposal | null {
+  const target = u.order?.type === 'goto' ? u.order.target : -1;
+  if (target >= 0 && siteScore(rules, state, u.owner, target) > 0) {
+    return { command: { type: 'skip', player: u.owner, unit: u.id, reason: 'Settling: travelling to the site' } };
+  }
+  const site = bestSite(rules, state, u.owner, u.tile, 12);
+  if (site < 0) {
+    return { command: { type: 'setRoutine', player: u.owner, unit: u.id, routine: null, reason: 'Settling: no free site nearby' }, finished: true };
+  }
+  if (site === u.tile) {
+    if (foundBlocker(rules, state, u) !== null) return null;
+    return { command: { type: 'foundCity', player: u.owner, unit: u.id, reason: 'Settling: founding a city on the best site nearby' }, finished: true };
+  }
+  return { command: { type: 'goto', player: u.owner, unit: u.id, to: site, reason: 'Settling: heading for the best site nearby' } };
 }
 
 /**
@@ -94,7 +121,7 @@ export function homeTile(state: GameState, player: number): number {
  */
 export function proposeAutoWorker(rules: Rules, state: GameState, u: Unit): Proposal | null {
   if (u.order?.type === 'work') return null;
-  const home = homeTile(state, u.owner);
+  const home = homeTile(state, u.owner, u.tile);
   const claimed = new Set<number>();
   for (const other of Object.values(state.units)) {
     if (other.owner !== u.owner || other.id === u.id || other.routine !== 'autoWorker') continue;

@@ -5,6 +5,8 @@
  * is echoed on the resulting events so the UI can show why something happened.
  */
 
+import type { Build, Rates } from './state.ts';
+
 interface Base {
   player: number;
   reason?: string;
@@ -20,6 +22,17 @@ export type Command =
   | (Base & { type: 'disband'; unit: number })
   | (Base & { type: 'work'; unit: number; job: string })
   | (Base & { type: 'setRoutine'; unit: number; routine: string | null })
+  | (Base & { type: 'foundCity'; unit: number; name?: string })
+  | (Base & { type: 'joinCity'; unit: number })
+  | (Base & { type: 'setBuild'; city: number; build: Build })
+  | (Base & { type: 'setQueue'; city: number; queue: Build[] })
+  | (Base & { type: 'setCitizens'; city: number; worked: number[]; specialists: Record<string, number> })
+  | (Base & { type: 'autoCitizens'; city: number })
+  | (Base & { type: 'hurry'; city: number })
+  | (Base & { type: 'renameCity'; city: number; name: string })
+  | (Base & { type: 'setRates'; rates: Rates })
+  | (Base & { type: 'setResearch'; tech: string })
+  | (Base & { type: 'revolution'; government: string })
   | (Base & { type: 'endTurn' });
 
 export type HutOutcome =
@@ -43,6 +56,28 @@ export type GameEvent = { reason?: string } & (
   | { type: 'unitWoke'; unit: number; player: number; tile: number }
   | { type: 'playerEndedTurn'; player: number }
   | { type: 'turnStarted'; turn: number }
+  | { type: 'cityFounded'; city: number; player: number; tile: number; name: string }
+  | { type: 'cityJoined'; city: number; player: number; tile: number; size: number }
+  | { type: 'cityGrew'; city: number; player: number; tile: number; size: number }
+  | { type: 'cityStarved'; city: number; player: number; tile: number; size: number }
+  | { type: 'cityCapped'; city: number; player: number; tile: number; needs: string }
+  | { type: 'cityBuilt'; city: number; player: number; tile: number; build: Build; unit?: number }
+  | { type: 'cityBuildBlocked'; city: number; player: number; tile: number; build: Build; why: string }
+  | { type: 'cityChanged'; city: number; player: number; tile: number }
+  | { type: 'cityHurried'; city: number; player: number; tile: number; gold: number; citizens: number }
+  | { type: 'cityDisorder'; city: number; player: number; tile: number; turns: number }
+  | { type: 'cityOrderRestored'; city: number; player: number; tile: number }
+  | { type: 'cityCelebrating'; city: number; player: number; tile: number; started: boolean }
+  | { type: 'bordersGrew'; city: number; player: number; tile: number; radius: number }
+  | { type: 'wonderBuilt'; city: number; player: number; tile: number; building: string }
+  | { type: 'buildingSold'; city: number; player: number; tile: number; building: string; why: string }
+  | { type: 'techDiscovered'; player: number; tech: string }
+  | { type: 'researchChanged'; player: number; tech: string }
+  | { type: 'eraEntered'; player: number; era: string }
+  | { type: 'ratesChanged'; player: number }
+  | { type: 'anarchyStarted'; player: number; target: string; turns: number }
+  | { type: 'governmentChanged'; player: number; government: string }
+  | { type: 'treasury'; player: number; income: number; upkeep: number; unitSupport: number; gold: number }
 );
 
 export interface CommandError {
@@ -54,6 +89,10 @@ export interface CommandError {
     | 'noMovesLeft'
     | 'cannotWork'
     | 'turnEnded'
+    | 'unknownCity'
+    | 'notYourCity'
+    | 'cannotFound'
+    | 'cannotBuild'
     | 'notImplemented'
     | 'invalid';
   message: string;

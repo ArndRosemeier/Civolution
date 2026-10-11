@@ -53,6 +53,8 @@ export interface MapState {
   improvements: number[];
   /** Per tile: FLAG_* bits. */
   flags: number[];
+  /** Per tile: the player whose borders include it, or -1 (docs/rules/culture.md). */
+  territory: number[];
   /** Start positions chosen by the generator, one per player slot. */
   starts: number[];
   /** Bumped whenever terrain, improvements or flags change, so views know to refresh. */
@@ -90,15 +92,79 @@ export interface Player {
   government: string;
   techs: string[];
   /**
-   * Resources the player can use. Until trade networks exist (Phase 2) this is set by the
-   * scenario or by tests.
+   * Resources granted by a scenario or test on top of what the trade network connects
+   * (queries.availableResources has the full set).
    */
   resources: string[];
+  /** Tax, science and luxury shares in tens of percent; they add up to 10. */
+  rates: Rates;
+  research: Research;
+  /** Index into rules.set.eras of the era the player is in. */
+  era: number;
+  /** Set while in anarchy: the government that follows and the turn it takes over. */
+  revolution: { target: string; endsOnTurn: number } | null;
+  /** Culture points accumulated by all the player's cities, ever. */
+  culture: number;
   /** Bitset of explored tiles, 32 tiles per word. */
   explored: number[];
   /** Players this player is at war with. */
   atWarWith: number[];
   endedTurn: boolean;
+}
+
+export interface Rates {
+  tax: number;
+  science: number;
+  luxury: number;
+}
+
+export interface Research {
+  /** Tech being researched, or null when the player has not chosen. */
+  tech: string | null;
+  /** Beakers collected toward it (kept when the target changes). */
+  beakers: number;
+  /** Turns spent on the current target (minimum and maximum research time). */
+  turns: number;
+}
+
+/** What a city is building. */
+export type Build = { kind: 'unit'; id: string } | { kind: 'building'; id: string };
+
+export interface City {
+  id: number;
+  owner: number;
+  name: string;
+  tile: number;
+  size: number;
+  /** Food in the food box. */
+  food: number;
+  /** Shields toward the current build. */
+  shields: number;
+  build: Build | null;
+  /** Builds that follow the current one. */
+  queue: Build[];
+  /** Category the shields were collected for; switching category loses half (docs/rules/production.md). */
+  shieldsFor: 'unit' | 'improvement' | 'wonder' | null;
+  /** Buildings present, mapped to the turn they were completed. */
+  buildings: Record<string, number>;
+  /** Tiles worked by laborers (never the city tile itself, which is always worked). */
+  worked: number[];
+  /** Specialists by specialist id. */
+  specialists: Record<string, number>;
+  /** When false the city reassigns its tiles itself as it grows and shrinks. */
+  manualTiles: boolean;
+  /** Accumulated culture points. */
+  culture: number;
+  founded: number;
+  /** Consecutive turns in civil disorder. */
+  disorder: number;
+  celebrating: boolean;
+  /** Turns on which forced-labour unhappiness ends, one entry per sacrificed citizen. */
+  forcedLabor: number[];
+  /** A hurry was paid this turn; the build completes at the end of the turn. */
+  hurried: boolean;
+  /** Turns until the next free unit from a wonder such as the Statue of Zeus. */
+  wonderUnitTimer: number;
 }
 
 export interface WorkProgress {
@@ -109,7 +175,7 @@ export interface WorkProgress {
 
 export interface GameState {
   format: 'civolution-state';
-  version: 1;
+  version: 2;
   rulesHash: string;
   seed: number;
   rng: RngState;
@@ -121,4 +187,10 @@ export interface GameState {
   nextUnitId: number;
   /** Ongoing worker jobs keyed by tile index. */
   work: Record<string, WorkProgress>;
+  /** Difficulty level id. */
+  difficulty: string;
+  cities: Record<string, City>;
+  nextCityId: number;
+  /** Great wonders built anywhere, mapped to the city that holds them. */
+  wonders: Record<string, number>;
 }

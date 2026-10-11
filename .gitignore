@@ -18,3 +18,4 @@ coverage/
 packages/client/bench-*.png
 packages/client/test-results/
 packages/client/playwright-report/
+*.local.ts

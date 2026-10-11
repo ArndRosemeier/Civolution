@@ -32,6 +32,7 @@ export function flatGame(seed = 1): GameState {
     resource: new Array<number>(n).fill(-1),
     improvements: new Array<number>(n).fill(0),
     flags: new Array<number>(n).fill(0),
+    territory: new Array<number>(n).fill(-1),
   };
   // Everyone sees everything, no units yet.
   const players = s.players.map((p) => ({ ...p, explored: p.explored.map(() => 0xffffffff) }));

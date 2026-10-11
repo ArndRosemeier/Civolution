@@ -365,6 +365,7 @@ export function generateMap(rules: Rules, settings: MapSettings, players: number
     resource,
     improvements: new Array<number>(n).fill(0),
     flags,
+    territory: new Array<number>(n).fill(-1),
     starts,
     revision: 0,
   };

@@ -20,7 +20,7 @@ describe('headless games', () => {
     const game = { seed: 11, map: { worldSize: 'tiny' }, players: defaultPlayers(2), startUnits: withScouts };
     const { report } = runGame({ rules, game, controllers: [explorer, explorer], turns: 15 });
     // Changing this hash needs a stated reason in the commit (PLAN.md §11).
-    expect(report.finalHash).toMatchInlineSnapshot(`"88bb666f553656f8"`);
+    expect(report.finalHash).toMatchInlineSnapshot(`"eaea27cbe270899c"`);
   });
 
   it('explores a Huge map with 16 players and builds roads (Phase 1 exit criterion)', () => {

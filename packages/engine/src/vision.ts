@@ -5,6 +5,7 @@
 import { tileCount, tilesInRadius } from './grid.ts';
 import type { Rules } from './rules.ts';
 import type { GameState, Unit } from './state.ts';
+import { CITY_RADIUS } from './territory.ts';
 import type { Tx } from './tx.ts';
 
 /** Sight radius in tiles: 1, or 2 from mountains or with radar. */
@@ -20,13 +21,19 @@ export function unitSight(rules: Rules, state: GameState, u: Unit): number[] {
   return tilesInRadius(state.map, u.tile, sightRadius(rules, state, u));
 }
 
-/** 1 where the player currently sees the tile, else 0. */
+/** 1 where the player currently sees the tile, else 0: around units and cities, and all own territory. */
 export function visibleTiles(rules: Rules, state: GameState, player: number): Uint8Array {
   const out = new Uint8Array(tileCount(state.map));
   for (const u of Object.values(state.units)) {
     if (u.owner !== player) continue;
     for (const t of unitSight(rules, state, u)) out[t] = 1;
   }
+  for (const c of Object.values(state.cities)) {
+    if (c.owner !== player) continue;
+    for (const t of tilesInRadius(state.map, c.tile, CITY_RADIUS)) out[t] = 1;
+  }
+  const terr = state.map.territory;
+  for (let t = 0; t < terr.length; t++) if (terr[t] === player) out[t] = 1;
   return out;
 }
 

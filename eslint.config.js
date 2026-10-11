@@ -8,7 +8,7 @@ const TRANSCENDENTALS = [
 ];
 
 export default tseslint.config(
-  { ignores: ['**/dist/**', '**/node_modules/**', '**/coverage/**', 'data/**', '**/test-results/**', '**/playwright-report/**', 'packages/client/public/**'] },
+  { ignores: ['**/dist/**', '**/node_modules/**', '**/coverage/**', 'data/**', '**/test-results/**', '**/playwright-report/**', 'packages/client/public/**', '**/*.local.ts'] },
   {
     files: ['**/*.ts', '**/*.tsx'],
     extends: [js.configs.recommended, ...tseslint.configs.strictTypeChecked],

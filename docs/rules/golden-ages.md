@@ -10,7 +10,10 @@ A civilization has one golden age per game. It starts when:
   retreating enemy counts), or
 - the great wonders it holds together carry the characteristics of both its traits (one
   wonder may cover both: the Pyramids are a place of worship and a construction, so they
-  start Egypt's golden age on their own).
+  start Egypt's golden age on their own), or
+- it completes a great wonder whose characteristic matches at least one of its traits: a
+  50 % chance (`WONDER_GOLDEN_AGE_PERCENT`; the Oracle, a place of worship, for Egypt).
+  Source: owner's ruling 2026-10-11.
 
 It lasts `goldenAgeDuration` turns (20). While it lasts every tile that yields at least one
 shield yields one more, and every tile that yields at least one commerce yields one more.
@@ -25,4 +28,5 @@ The tile bonus is the documented Civ3 effect.
 
 `packages/engine/test/civs.test.ts`: a Panzer's first victory starts Germany's golden age,
 the city tile gains a shield and a commerce, it ends after 20 turns and does not return;
-Egypt's Pyramids start one.
+Egypt's Pyramids start one; Egypt's Oracle starts one about half the time, the Great
+Library never.

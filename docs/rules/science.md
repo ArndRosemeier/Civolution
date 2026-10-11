@@ -39,12 +39,28 @@ A tech costs up to 30 % less when the civilizations you have met already know it
 Conquests splits the tree by era: the first techs of a new era have no prerequisites in the
 rule file. A player enters the next era once they know every tech of their current era not
 flagged "not required for era advance"; techs of later eras cannot be researched before.
-The Theory of Evolution grants two free advances.
+
+## Free advances
+
+A free advance (the first civilization to Philosophy, a scientific civilization entering a
+new era, the Theory of Evolution) is the advance currently being researched: it arrives at
+once and the beakers already put into it are kept for the next research. When nothing is
+being researched, the free advance is a free pick instead. A source that gives two advances
+(the Theory of Evolution) gives the advance being researched plus a free pick.
+
+A free pick is owed to the player (`freeAdvances` on the player) until it is chosen: the
+player picks any advance it can research, and it is learned at once. A human is asked (the
+science advisor opens and the next advance chosen there is the free one; `setResearch`
+spends the credit); computer players choose with their normal research choice
+(`planResearch`). `grantFreeAdvance` and `oweFreeAdvance` in
+`packages/engine/src/cities.ts`.
+
+Source: owner's ruling 2026-10-11.
 
 **Conquests tech flags the importer leaves unnamed** (`flags` holds them as `bitN`):
 
 - `bit21` (Philosophy), the "bonus tech": the first civilization to discover it gets a
-  free advance (the cheapest it can research; `learn` in `packages/engine/src/cities.ts`).
+  free advance (see [Free advances](#free-advances); `learn` in `packages/engine/src/cities.ts`).
 - `bit22` (Satellites), "reveal map": its discoverer sees the whole map once.
 
 *Confidence: medium.* The Conquests editor lists these two flags after the 19 the importer
@@ -61,7 +77,10 @@ Civilopedia: *Research*, *Treasury*, *Commerce*.
 
 `packages/engine/test/cities.test.ts`: Bronze Working costs 48 on Tiny/Regent; a tech
 needs four turns even with beakers to spare and the spare beakers are lost; Monotheism
-opens only with the Middle Ages. `packages/sim/test/sim.test.ts`: a single civilization
+opens only with the Middle Ages. `packages/engine/test/ruledata.test.ts`: Philosophy's free
+advance is a free pick owed and spent by the next choice. `packages/engine/test/civs.test.ts`:
+the Theory of Evolution gives the advance being researched (its beakers kept) and a free
+pick. `packages/sim/test/sim.test.ts`: a single civilization
 reaches the Modern era.
 
 ## Open questions

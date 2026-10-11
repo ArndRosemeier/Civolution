@@ -15,7 +15,7 @@ import { bearLeader } from './war.ts';
 import { buildBlocker, buildCategory, buildCost, draftBlocker, draftedThisTurn, draftUnit, hurryQuote } from './production.ts';
 import { knowsTech } from './queries.ts';
 import type { Rules } from './rules.ts';
-import { eraFor, researchBlocker, techCost } from './science.ts';
+import { eraFor, researchableTechs, researchBlocker, techCost } from './science.ts';
 import { IMP_ROAD, type Build, type City, type GameState, type Unit } from './state.ts';
 import { borderRadius, cityAt, computeTerritory, playerCities } from './territory.ts';
 import type { Tx } from './tx.ts';
@@ -30,12 +30,17 @@ export function foundBlocker(rules: Rules, state: GameState, u: Unit): string | 
   const rule = rules.unit(u.type);
   if (!rule.specialActions.includes('buildCity')) return `${rule.name} cannot found cities.`;
   if (u.movesLeft <= 0) return 'No movement left this turn.';
-  const t = rules.terrains[state.map.terrain[u.tile]!]!;
+  return siteBlocker(rules, state, u.owner, u.tile);
+}
+
+/** Why `owner` cannot have a city on `tile` (terrain, borders, spacing), or null. */
+export function siteBlocker(rules: Rules, state: GameState, owner: number, tile: number): string | null {
+  const t = rules.terrains[state.map.terrain[tile]!]!;
   if (!t.canFoundCity) return `Cities cannot be founded on ${t.name}.`;
-  const owner = state.map.territory[u.tile]!;
-  if (owner >= 0 && owner !== u.owner) return 'This land lies inside another civilization’s borders.';
+  const holder = state.map.territory[tile]!;
+  if (holder >= 0 && holder !== owner) return 'This land lies inside another civilization’s borders.';
   for (const c of Object.values(state.cities)) {
-    if (distance(state.map, c.tile, u.tile) < 2) return `Too close to ${c.name}; cities need at least one tile between them.`;
+    if (distance(state.map, c.tile, tile) < 2) return `Too close to ${c.name}; cities need at least one tile between them.`;
   }
   return null;
 }
@@ -121,19 +126,24 @@ export function updateTerritory(rules: Rules, tx: Tx): void {
 }
 
 function foundCity(rules: Rules, tx: Tx, u: Unit, name?: string): void {
-  const p = tx.state.players[u.owner]!;
-  const mine = playerCities(tx.state, u.owner);
-  const cityName = name?.trim() || nextCityName(rules, tx.state, u.owner);
-  const city = tx.addCity(newCity(rules, tx.state, u.owner, u.tile, cityName));
+  tx.removeUnit(u.id);
+  foundCityAt(rules, tx, u.owner, u.tile, name);
+}
+
+/** A new city for `owner` on `tile` (already checked with siteBlocker); returns its id. */
+export function foundCityAt(rules: Rules, tx: Tx, owner: number, tile: number, name?: string): number {
+  const mine = playerCities(tx.state, owner);
+  const cityName = name?.trim() || nextCityName(rules, tx.state, owner);
+  const city = tx.addCity(newCity(rules, tx.state, owner, tile, cityName));
   // The first city becomes the capital.
   if (!mine.some((c) => 'palace' in c.buildings) && rules.hasBuilding('palace')) tx.city(city.id).buildings.palace = tx.state.turn;
   const imp = tx.mapArray('improvements');
-  imp[u.tile] = imp[u.tile]! | IMP_ROAD;
-  tx.removeUnit(u.id);
-  tx.emit({ type: 'cityFounded', city: city.id, player: p.id, tile: u.tile, name: cityName });
+  imp[tile] = imp[tile]! | IMP_ROAD;
+  tx.emit({ type: 'cityFounded', city: city.id, player: owner, tile, name: cityName });
   updateTerritory(rules, tx);
-  reveal(tx, p.id, tilesInRadius(tx.state.map, u.tile, 2));
+  reveal(tx, owner, tilesInRadius(tx.state.map, tile, 2));
   replaceCitizens(rules, tx, city.id);
+  return city.id;
 }
 
 function ownCity(state: GameState, cmd: { player: number; city: number }): City | Fail {
@@ -304,6 +314,13 @@ export function applyCityCommand(rules: Rules, tx: Tx, cmd: Command): CommandErr
       if (!rules.set.techs.some((t) => t.id === cmd.tech)) return { code: 'invalid', message: `Unknown tech ${cmd.tech}.` };
       const why = researchBlocker(rules, p, cmd.tech);
       if (why) return { code: 'invalid', message: why };
+      // A free advance owed to the player is spent on the choice (docs/rules/science.md).
+      if ((p.freeAdvances ?? 0) > 0) {
+        tx.player(cmd.player).freeAdvances = p.freeAdvances! - 1;
+        if (p.research.tech === cmd.tech) tx.player(cmd.player).research = { tech: null, beakers: p.research.beakers, turns: 0 };
+        learn(rules, tx, cmd.player, cmd.tech);
+        return null;
+      }
       if (p.research.tech !== cmd.tech) tx.player(cmd.player).research = { tech: cmd.tech, beakers: p.research.beakers, turns: 0 };
       tx.emit({ type: 'researchChanged', player: cmd.player, tech: cmd.tech });
       return null;
@@ -645,11 +662,13 @@ function produce(rules: Rules, tx: Tx, cityId: number, shields: number): void {
       tx.setWonder(build.id, cityId);
       tx.emit({ type: 'wonderBuilt', ...where, building: build.id });
       addVictoryPoints(tx, before.owner, rules.set.general.victory.wonderPoints, `built ${rule.name}`);
-      checkWonderGoldenAge(rules, tx, before.owner);
+      checkWonderGoldenAge(rules, tx, before.owner, build.id);
     }
     tx.emit({ type: 'cityBuilt', ...where, build });
+    // The Theory of Evolution: the advance being researched, and a free pick (docs/rules/science.md).
     if (rule.effects.includes('twoFreeAdvances')) {
-      for (let i = 0; i < 2; i++) grantNextTech(rules, tx, before.owner);
+      grantFreeAdvance(rules, tx, before.owner);
+      oweFreeAdvance(rules, tx, before.owner);
     }
   }
   // Next build: the queue, else repeat units, else nothing.
@@ -676,13 +695,13 @@ export function learn(rules: Rules, tx: Tx, player: number, tech: string): void 
   if (flags.includes(TECH_REVEALS_MAP)) reveal(tx, player, Array.from({ length: tileCount(tx.state.map) }, (_, t) => t), rules.tech(tech).name);
   if (first) firstDiscovery(rules, tx, player, tech);
   // Conquests' "bonus tech" (bit 21: Philosophy) gives the first civilization to discover it a free advance.
-  if (first && flags.includes(TECH_BONUS_ADVANCE)) grantNextTech(rules, tx, player);
+  if (first && flags.includes(TECH_BONUS_ADVANCE)) grantFreeAdvance(rules, tx, player);
   const era = eraFor(rules, p.techs);
   if (era > p.era) {
     p.era = era;
     tx.emit({ type: 'eraEntered', player, era: rules.set.eras[era]!.id });
     // Scientific civilizations get a free advance with each new era (docs/rules/civilizations.md).
-    if (hasTrait(rules, tx.state, player, 'scientific')) grantNextTech(rules, tx, player);
+    if (hasTrait(rules, tx.state, player, 'scientific')) grantFreeAdvance(rules, tx, player);
   }
 }
 
@@ -695,14 +714,30 @@ function firstDiscovery(rules: Rules, tx: Tx, player: number, tech: string): voi
   bearLeader(rules, tx, player, capital.tile, true);
 }
 
-/** Free tech: the cheapest one the player can research. */
-function grantNextTech(rules: Rules, tx: Tx, player: number): void {
+/**
+ * A free advance (docs/rules/science.md): the advance being researched, whose beakers carry
+ * over to the next research; with nothing (researchable) being researched, a free pick.
+ */
+export function grantFreeAdvance(rules: Rules, tx: Tx, player: number): void {
   const p = tx.state.players[player]!;
-  const options = rules.set.techs.filter((t) => researchBlocker(rules, p, t.id) === null).sort((a, b) => a.costFactor - b.costFactor || a.id.localeCompare(b.id));
-  const pick = p.research.tech && researchBlocker(rules, p, p.research.tech) === null ? p.research.tech : options[0]?.id;
-  if (!pick) return;
-  learn(rules, tx, player, pick);
-  if (p.research.tech === pick) tx.player(player).research = { tech: null, beakers: 0, turns: 0 };
+  const tech = p.research.tech;
+  if (!tech || researchBlocker(rules, p, tech) !== null) {
+    oweFreeAdvance(rules, tx, player);
+    return;
+  }
+  tx.player(player).research = { tech: null, beakers: p.research.beakers, turns: 0 };
+  learn(rules, tx, player, tech);
+}
+
+/**
+ * A free pick of any advance the player can research, owed until it chooses one
+ * (setResearch spends it; computer players choose as they choose their research).
+ */
+export function oweFreeAdvance(rules: Rules, tx: Tx, player: number): void {
+  const p = tx.state.players[player]!;
+  if (researchableTechs(rules, p).length <= (p.freeAdvances ?? 0)) return;
+  tx.player(player).freeAdvances = (p.freeAdvances ?? 0) + 1;
+  tx.emit({ type: 'freeAdvanceOwed', player });
 }
 
 /** Adds this turn's beakers and completes the advance (docs/rules/science.md). */

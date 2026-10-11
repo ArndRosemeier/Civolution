@@ -134,6 +134,8 @@ export function describeEvent(s: { state: GameState; human: number }, e: GameEve
       return `${rules.building(e.building).name} in ${cityName(st, e.city)} was sold: ${e.why}`;
     case 'techDiscovered':
       return `Your scholars discover ${rules.tech(e.tech).name}.`;
+    case 'freeAdvanceOwed':
+      return 'A free advance! Choose any advance you can research in the science advisor.';
     case 'eraEntered':
       return `Your civilization enters the ${rules.set.eras.find((x) => x.id === e.era)?.name ?? e.era}.`;
     case 'anarchyStarted':
@@ -147,7 +149,8 @@ export function describeEvent(s: { state: GameState; human: number }, e: GameEve
       const who = unitName(st, e.unit);
       if (o.kind === 'gold') return `${who} found ${o.amount} gold in a tribal village.`;
       if (o.kind === 'map') return `The villagers shared their maps: ${o.tiles} tiles revealed.`;
-      if (o.kind === 'unit') return `A band of warriors from the village joins you.`;
+      if (o.kind === 'unit') return o.unitType === 'settler' ? 'Settlers from the village join you.' : 'A band of warriors from the village joins you.';
+      if (o.kind === 'city') return `The villagers join your civilization: the village becomes ${cityName(st, o.city)}.`;
       if (o.kind === 'tech') return `The villagers teach you ${rules.tech(o.tech).name}.`;
       if (o.kind === 'barbarians') return 'The village was a barbarian lair! Hostile tribesmen attack.';
       return 'The village was abandoned.';

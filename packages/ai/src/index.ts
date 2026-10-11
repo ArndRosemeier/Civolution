@@ -44,6 +44,12 @@ const why = (text: string) => `AI: ${text}`;
 function runEmpire(ctx: Ctx): void {
   const { view } = ctx;
   const rules = view.rules;
+  // Free advances owed (docs/rules/science.md): each is the advance research would pick, learned at once.
+  for (let guard = 0; guard < 10 && (ctx.state().players[view.player]!.freeAdvances ?? 0) > 0; guard++) {
+    const tech = planResearch(rules, ctx.state(), view.player);
+    if (!tech) break;
+    ctx.act({ type: 'setResearch', player: view.player, tech, reason: why(`free advance: ${rules.tech(tech).name}`) });
+  }
   const s = ctx.state();
   const p = s.players[view.player]!;
   if (p.research.tech === null) {

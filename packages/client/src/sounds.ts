@@ -95,8 +95,8 @@ export const EVENT_SOUNDS: { [K in GameEvent['type']]: Rule<K> | { covered: stri
   unitPromoted: { tier: 4, sound: 'promotion' },
   hutEntered: {
     tier: 4,
-    sound: (e) => ({ gold: 'gold-coins', map: 'hut-map', unit: 'unit-trained', tech: 'tech-discovered', barbarians: 'barbarian-horn', empty: 'hut-empty' })[e.outcome.kind],
-    ids: ['gold-coins', 'hut-map', 'unit-trained', 'tech-discovered', 'barbarian-horn', 'hut-empty'],
+    sound: (e) => ({ gold: 'gold-coins', map: 'hut-map', unit: 'unit-trained', tech: 'tech-discovered', barbarians: 'barbarian-horn', city: 'city-founded', empty: 'hut-empty' })[e.outcome.kind],
+    ids: ['gold-coins', 'hut-map', 'unit-trained', 'tech-discovered', 'barbarian-horn', 'city-founded', 'hut-empty'],
   },
   resistanceEnded: { tier: 3, sound: 'order-restored' },
   cityFounded: { tier: 3, sound: 'city-founded' },
@@ -133,6 +133,7 @@ export const EVENT_SOUNDS: { [K in GameEvent['type']]: Rule<K> | { covered: stri
   playerEndedTurn: { covered: 'the end-turn button plays end-turn' },
   tilesRevealed: { covered: 'always comes with the move that revealed the tiles' },
   victoryPoints: { covered: 'comes with the battle, wonder or advance that scored them' },
+  freeAdvanceOwed: { covered: 'comes with the wonder, era or advance that grants it' },
 };
 
 /** The one sound for a batch of the human player's events, or null. */

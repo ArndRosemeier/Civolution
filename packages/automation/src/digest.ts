@@ -104,7 +104,8 @@ export function turnDigest(rules: Rules, state: GameState, player: number, input
   // Offers waiting for an answer.
   for (const pr of state.diplomacy.proposals)
     if (pr.to === player) items.push({ kind: 'offer', priority: 1, text: `${state.players[pr.from]!.name} makes an offer`, needsInput: true });
-  if (p.research.tech === null && cities.length > 0 && researchableTechs(rules, p).length > 0)
+  if ((p.freeAdvances ?? 0) > 0) items.push({ kind: 'research', priority: 1, text: 'Choose a free advance', needsInput: true });
+  else if (p.research.tech === null && cities.length > 0 && researchableTechs(rules, p).length > 0)
     items.push({ kind: 'research', priority: 2, text: 'Choose what to research', needsInput: true });
   const units = playerUnits(state, player).filter((u) => u.movesLeft > 0 && u.order === null && u.routine === null && u.carriedBy === null);
   if (units.length > 0)

@@ -4,7 +4,8 @@
  * camps (docs/rules/movement.md, combat.md, naval.md, barbarians.md).
  */
 import { attackStrength, defenceStrength } from './combat.ts';
-import { learn } from './cities.ts';
+import { foundCityAt, learn, siteBlocker } from './cities.ts';
+import { civVersionOf, hasTrait } from './civs.ts';
 import type { HutOutcome } from './commands.ts';
 import { tilesInRadius } from './grid.ts';
 import { checkMove, zocUnits } from './movement.ts';
@@ -84,47 +85,89 @@ export function destroyCamp(tx: Tx, tile: number, player: number): void {
 }
 
 /**
- * Tribal villages (docs/rules/turns.md): gold, a map, a free unit, a free advance,
- * hostile barbarians, or nothing.
+ * What a tribal village holds (docs/rules/turns.md; owner's ruling 2026-10-11), as weights
+ * out of 100. Barbarians are the 70 % (the owner's recollection); the rest are the gifts.
+ */
+export const HUT_ODDS = {
+  barbarians: 70,
+  gold: 10,
+  tech: 6,
+  unit: 5,
+  map: 4,
+  settlers: 2,
+  city: 2,
+  nothing: 1,
+} as const;
+type HutKind = keyof typeof HUT_ODDS;
+const HUT_KINDS = Object.keys(HUT_ODDS) as HutKind[];
+
+/**
+ * Tribal villages (docs/rules/turns.md): one roll on HUT_ODDS. Barbarians that may not
+ * appear (early game, near the player's cities, a single city, no barbarians in the game,
+ * an expansionist civilization) become a gift instead, never nothing; a gift that cannot be
+ * given is rolled again among those that can.
  */
 function enterHut(rules: Rules, tx: Tx, unitId: number, tile: number): void {
   const u = tx.state.units[unitId]!;
   const flags = tx.mapArray('flags');
   flags[tile] = flags[tile]! & ~FLAG_HUT;
-  const roll = tx.random(100);
   const p = tx.state.players[u.owner]!;
   const barbarians = tx.state.players.find((x) => x.barbarian && x.alive);
   // A civilization with a single city meets no barbarians in villages: two warriors could end a game before it starts.
   const ownCities = Object.values(tx.state.cities).filter((c) => c.owner === u.owner).length;
   const nearOwnCity = Object.values(tx.state.cities).some((c) => c.owner === u.owner && tilesInRadius(tx.state.map, c.tile, 3).includes(tile));
+  const spots = tilesInRadius(tx.state.map, tile, 1).filter((t) => t !== tile && canHostBarbarian(rules, tx, t));
+  const raiders = barbarians && !nearOwnCity && tx.state.turn > 5 && ownCities >= 2 && spots.length > 0 && !hasTrait(rules, tx.state, u.owner, 'expansionist') ? barbarians : null;
   const techs = rules.set.techs.filter((t) => researchBlocker(rules, p, t.id) === null && t.prerequisites.length > 0).sort((a, b) => a.costFactor - b.costFactor || a.id.localeCompare(b.id));
+  const basic = rules.hasUnit('warrior') ? civVersionOf(rules, tx.state, u.owner, 'warrior') : null;
+  const possible: Record<HutKind, boolean> = {
+    barbarians: raiders !== null,
+    gold: true,
+    tech: techs.length > 0,
+    unit: basic !== null,
+    map: true,
+    settlers: rules.hasUnit('settler'),
+    city: siteBlocker(rules, tx.state, u.owner, tile) === null,
+    nothing: true,
+  };
+  const roll = (kinds: HutKind[]): HutKind => {
+    let r = tx.random(kinds.reduce((n, k) => n + HUT_ODDS[k], 0));
+    for (const k of kinds) {
+      if (r < HUT_ODDS[k]) return k;
+      r -= HUT_ODDS[k];
+    }
+    return kinds[kinds.length - 1]!;
+  };
+  let kind = roll(HUT_KINDS);
+  if (kind === 'barbarians' && !raiders) kind = roll(HUT_KINDS.filter((k) => possible[k] && k !== 'barbarians' && k !== 'nothing'));
+  else if (!possible[kind]) kind = roll(HUT_KINDS.filter((k) => possible[k] && k !== 'barbarians'));
   let outcome: HutOutcome;
-  if (roll < 30) {
+  if (kind === 'barbarians' && raiders) {
+    const count = Math.min(spots.length, 1 + tx.random(2));
+    const type = rules.set.general.basicBarbarian;
+    for (let i = 0; i < count; i++) {
+      const b = tx.addUnit(newUnit(rules, raiders.id, type, spots[i]!));
+      tx.emit({ type: 'unitCreated', unit: b.id, player: raiders.id, unitType: type, tile: spots[i]! });
+    }
+    outcome = { kind: 'barbarians', units: count };
+  } else if (kind === 'gold') {
     const amount = 25 * (1 + tx.random(3));
     tx.player(u.owner).gold = p.gold + amount;
     outcome = { kind: 'gold', amount };
-  } else if (roll < 45) {
-    const tiles = reveal(tx, u.owner, tilesInRadius(tx.state.map, tile, 6), 'Map from a tribal village');
-    outcome = { kind: 'map', tiles: tiles.length };
-  } else if (roll < 62 && rules.hasUnit('warrior')) {
-    const unit = tx.addUnit(newUnit(rules, u.owner, 'warrior', tile));
-    tx.emit({ type: 'unitCreated', unit: unit.id, player: u.owner, unitType: 'warrior', tile });
-    outcome = { kind: 'unit', unitType: 'warrior', unit: unit.id };
-  } else if (roll < 77 && techs.length > 0) {
+  } else if (kind === 'tech') {
     const tech = techs[tx.random(Math.min(3, techs.length))]!.id;
     learn(rules, tx, u.owner, tech);
     outcome = { kind: 'tech', tech };
-  } else if (roll < 90 && barbarians && !nearOwnCity && tx.state.turn > 5 && ownCities >= 2) {
-    const count = 1 + tx.random(2);
-    const spots = tilesInRadius(tx.state.map, tile, 1).filter((t) => t !== tile && canHostBarbarian(rules, tx, t));
-    let made = 0;
-    for (let i = 0; i < count && i < spots.length; i++) {
-      const type = rules.set.general.basicBarbarian;
-      const b = tx.addUnit(newUnit(rules, barbarians.id, type, spots[i]!));
-      tx.emit({ type: 'unitCreated', unit: b.id, player: barbarians.id, unitType: type, tile: spots[i]! });
-      made++;
-    }
-    outcome = made > 0 ? { kind: 'barbarians', units: made } : { kind: 'empty' };
+  } else if ((kind === 'unit' && basic) || kind === 'settlers') {
+    const type = kind === 'unit' && basic ? basic : 'settler';
+    const unit = tx.addUnit(newUnit(rules, u.owner, type, tile));
+    tx.emit({ type: 'unitCreated', unit: unit.id, player: u.owner, unitType: type, tile });
+    outcome = { kind: 'unit', unitType: type, unit: unit.id };
+  } else if (kind === 'map') {
+    const tiles = reveal(tx, u.owner, tilesInRadius(tx.state.map, tile, 6), 'Map from a tribal village');
+    outcome = { kind: 'map', tiles: tiles.length };
+  } else if (kind === 'city') {
+    outcome = { kind: 'city', city: foundCityAt(rules, tx, u.owner, tile) };
   } else {
     outcome = { kind: 'empty' };
   }

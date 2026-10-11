@@ -730,5 +730,119 @@
     "prompt": "The sound of oars splashing, wooden boat hulls grinding onto a pebble beach, waves breaking and a rough war horn blown, without words, about three seconds",
     "hash": "2de31afe3dfdebe2",
     "date": "2026-10-11"
+  },
+  "digest-open-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a parchment scroll being unrolled on a wooden desk, followed by two soft bright chimes, without voices, about one and a half seconds",
+    "hash": "2f4604d994c76ec9",
+    "date": "2026-10-11"
+  },
+  "digest-open-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a parchment scroll being unrolled on a wooden desk, followed by two soft bright chimes, without voices, about one and a half seconds",
+    "hash": "b53b15deffe98a46",
+    "date": "2026-10-11"
+  },
+  "digest-clear-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a single warm bell tone ringing out calmly and fading, without voices, about one and a half seconds",
+    "hash": "baed552fc8e9be7f",
+    "date": "2026-10-11"
+  },
+  "digest-clear-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a single warm bell tone ringing out calmly and fading, without voices, about one and a half seconds",
+    "hash": "228214c31b68feed",
+    "date": "2026-10-11"
+  },
+  "automation-on-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of brass clockwork gears engaging one after another with crisp ticks and a satisfying final click, without voices, about one and a half seconds",
+    "hash": "e43bd1149826db02",
+    "date": "2026-10-11"
+  },
+  "automation-on-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of brass clockwork gears engaging one after another with crisp ticks and a satisfying final click, without voices, about one and a half seconds",
+    "hash": "fd38f032c7419c5b",
+    "date": "2026-10-11"
+  },
+  "automation-off-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a small clockwork mechanism winding down with slowing ticks and a soft stop, without voices, about one and a half seconds",
+    "hash": "cac3264cf578ea35",
+    "date": "2026-10-11"
+  },
+  "automation-off-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a small clockwork mechanism winding down with slowing ticks and a soft stop, without voices, about one and a half seconds",
+    "hash": "0d77e6f371c0c866",
+    "date": "2026-10-11"
+  },
+  "template-set-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a heavy brass seal stamp pressed firmly onto paper on a wooden table, a single thud with a light papery rustle, without voices, about one second",
+    "hash": "936146f0f063367e",
+    "date": "2026-10-11"
+  },
+  "template-set-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a heavy brass seal stamp pressed firmly onto paper on a wooden table, a single thud with a light papery rustle, without voices, about one second",
+    "hash": "0ca1f90be970603b",
+    "date": "2026-10-11"
+  },
+  "rule-fired-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a small brass hand bell rung twice quickly, light and clear, without voices, about one second",
+    "hash": "538fdf03ccd67262",
+    "date": "2026-10-11"
+  },
+  "rule-fired-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a small brass hand bell rung twice quickly, light and clear, without voices, about one second",
+    "hash": "42c03e71ed963a58",
+    "date": "2026-10-11"
+  },
+  "work-started-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a pickaxe striking hard soil twice and a shovel scraping gravel, outdoors, without voices, about one and a half seconds",
+    "hash": "4e835e38a00c2810",
+    "date": "2026-10-11"
+  },
+  "work-started-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a pickaxe striking hard soil twice and a shovel scraping gravel, outdoors, without voices, about one and a half seconds",
+    "hash": "5e79cfcc182d2dec",
+    "date": "2026-10-11"
+  },
+  "work-started-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a pickaxe striking hard soil twice and a shovel scraping gravel, outdoors, without voices, about one and a half seconds",
+    "hash": "546af1914d59ec7d",
+    "date": "2026-10-11"
+  },
+  "rally-call-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a short military bugle call of four rising notes followed by a single snare drum roll, without voices, about two seconds",
+    "hash": "cf87b68b2463d749",
+    "date": "2026-10-11"
+  },
+  "rally-call-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a short military bugle call of four rising notes followed by a single snare drum roll, without voices, about two seconds",
+    "hash": "d218e7b9d0191ac3",
+    "date": "2026-10-11"
+  },
+  "garrison-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of armoured soldiers marching a few steps on stone and grounding their shields with a solid clank, without voices, about one and a half seconds",
+    "hash": "b6ec528131907dbd",
+    "date": "2026-10-11"
+  },
+  "garrison-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of armoured soldiers marching a few steps on stone and grounding their shields with a solid clank, without voices, about one and a half seconds",
+    "hash": "3dbbe757a11d3c52",
+    "date": "2026-10-11"
   }
 }

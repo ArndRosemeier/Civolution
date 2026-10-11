@@ -52,6 +52,14 @@
     "attack-rifle-2.mp3",
     "attack-rifle-3.mp3"
   ],
+  "automation-off": [
+    "automation-off-1.mp3",
+    "automation-off-2.mp3"
+  ],
+  "automation-on": [
+    "automation-on-1.mp3",
+    "automation-on-2.mp3"
+  ],
   "barbarian-horn": [
     "barbarian-horn-1.mp3",
     "barbarian-horn-2.mp3"
@@ -119,6 +127,14 @@
     "deal-declined-1.mp3",
     "deal-declined-2.mp3"
   ],
+  "digest-clear": [
+    "digest-clear-1.mp3",
+    "digest-clear-2.mp3"
+  ],
+  "digest-open": [
+    "digest-open-1.mp3",
+    "digest-open-2.mp3"
+  ],
   "disorder": [
     "disorder-1.mp3",
     "disorder-2.mp3"
@@ -145,6 +161,10 @@
   "first-contact": [
     "first-contact-1.mp3",
     "first-contact-2.mp3"
+  ],
+  "garrison": [
+    "garrison-1.mp3",
+    "garrison-2.mp3"
   ],
   "gold-coins": [
     "gold-coins-1.mp3",
@@ -186,8 +206,16 @@
     "promotion-1.mp3",
     "promotion-2.mp3"
   ],
+  "rally-call": [
+    "rally-call-1.mp3",
+    "rally-call-2.mp3"
+  ],
   "revolution": [
     "revolution-1.mp3"
+  ],
+  "rule-fired": [
+    "rule-fired-1.mp3",
+    "rule-fired-2.mp3"
   ],
   "spy-caught": [
     "spy-caught-1.mp3",
@@ -201,6 +229,10 @@
     "tech-discovered-1.mp3",
     "tech-discovered-2.mp3",
     "tech-discovered-3.mp3"
+  ],
+  "template-set": [
+    "template-set-1.mp3",
+    "template-set-2.mp3"
   ],
   "treaty-signed": [
     "treaty-signed-1.mp3",
@@ -232,5 +264,10 @@
   "wonder-complete": [
     "wonder-complete-1.mp3",
     "wonder-complete-2.mp3"
+  ],
+  "work-started": [
+    "work-started-1.mp3",
+    "work-started-2.mp3",
+    "work-started-3.mp3"
   ]
 }

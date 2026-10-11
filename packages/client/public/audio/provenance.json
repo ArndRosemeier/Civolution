@@ -838,5 +838,125 @@
     "prompt": "The sound of armoured soldiers marching a few steps on stone and grounding their shields with a solid clank, without voices, about one and a half seconds",
     "hash": "3dbbe757a11d3c52",
     "date": "2026-10-11"
+  },
+  "golden-age-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a bright brass fanfare rising over a festive crowd cheering and bells ringing, triumphant and warm, without voices singing words, about three seconds",
+    "hash": "bd85c85ce78cf78d",
+    "date": "2026-10-11"
+  },
+  "golden-age-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a bright brass fanfare rising over a festive crowd cheering and bells ringing, triumphant and warm, without voices singing words, about three seconds",
+    "hash": "4e6b282d8ef09381",
+    "date": "2026-10-11"
+  },
+  "culture-flip-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a city gate creaking open while a distant crowd cheers and a drum beats a slow welcome, without voices speaking words, about two and a half seconds",
+    "hash": "7b6e0c839f28872e",
+    "date": "2026-10-11"
+  },
+  "culture-flip-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a city gate creaking open while a distant crowd cheers and a drum beats a slow welcome, without voices speaking words, about two and a half seconds",
+    "hash": "51b1bd5f90434c43",
+    "date": "2026-10-11"
+  },
+  "spaceship-launch-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a huge rocket engine igniting with a deep rumbling roar that builds and fades into the sky, without voices, about four seconds",
+    "hash": "f29b2b2c2391e84c",
+    "date": "2026-10-11"
+  },
+  "spaceship-launch-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a huge rocket engine igniting with a deep rumbling roar that builds and fades into the sky, without voices, about four seconds",
+    "hash": "9b381465e51c385a",
+    "date": "2026-10-11"
+  },
+  "global-warming-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a hot dry wind sweeping over cracked earth with a low ominous drone underneath, without voices, about three seconds",
+    "hash": "adaa49f9bb800121",
+    "date": "2026-10-11"
+  },
+  "global-warming-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a hot dry wind sweeping over cracked earth with a low ominous drone underneath, without voices, about three seconds",
+    "hash": "04e9d872332089a1",
+    "date": "2026-10-11"
+  },
+  "un-vote-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a wooden gavel striking twice in a large echoing hall, followed by polite applause from a crowd, without voices speaking words, about two and a half seconds",
+    "hash": "0061e2bab4736dd1",
+    "date": "2026-10-11"
+  },
+  "un-vote-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a wooden gavel striking twice in a large echoing hall, followed by polite applause from a crowd, without voices speaking words, about two and a half seconds",
+    "hash": "adbaf483495a99d0",
+    "date": "2026-10-11"
+  },
+  "pollution-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a factory steam whistle followed by a low hiss of smoke from chimneys, without voices, about two seconds",
+    "hash": "963d33ef8bd3147b",
+    "date": "2026-10-11"
+  },
+  "pollution-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a factory steam whistle followed by a low hiss of smoke from chimneys, without voices, about two seconds",
+    "hash": "1fe06911cef99205",
+    "date": "2026-10-11"
+  },
+  "resistance-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of an angry crowd murmuring and stamping in a stone square, with a few shouts that are not words, about two seconds",
+    "hash": "28c9cf0957b8e380",
+    "date": "2026-10-11"
+  },
+  "resistance-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of an angry crowd murmuring and stamping in a stone square, with a few shouts that are not words, about two seconds",
+    "hash": "3fa1a18453a43851",
+    "date": "2026-10-11"
+  },
+  "meltdown-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a deep electrical hum rising into a warning siren and a heavy muffled boom, without voices, about three seconds",
+    "hash": "9950a0aefd0e3bd9",
+    "date": "2026-10-11"
+  },
+  "meltdown-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a deep electrical hum rising into a warning siren and a heavy muffled boom, without voices, about three seconds",
+    "hash": "34fa24f38257e6ed",
+    "date": "2026-10-11"
+  },
+  "victory-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a grand orchestral fanfare with trumpets and timpani building to a triumphant final chord, without voices, about five seconds",
+    "hash": "b1bf35c255076db3",
+    "date": "2026-10-11"
+  },
+  "victory-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a grand orchestral fanfare with trumpets and timpani building to a triumphant final chord, without voices, about five seconds",
+    "hash": "8521e47bb1c19075",
+    "date": "2026-10-11"
+  },
+  "defeat-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a slow mournful horn over a low drum roll fading into silence, without voices, about four seconds",
+    "hash": "d3e2113a724dc498",
+    "date": "2026-10-11"
+  },
+  "defeat-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a slow mournful horn over a low drum roll fading into silence, without voices, about four seconds",
+    "hash": "c8f96d30253110bf",
+    "date": "2026-10-11"
   }
 }

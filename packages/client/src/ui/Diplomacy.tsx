@@ -19,6 +19,7 @@ import {
   playerCities,
   relation,
   resourceSurplus,
+  resourceTradable,
   treatiesBetween,
   score,
   militaryPower,
@@ -47,7 +48,8 @@ function offerable(state: GameState, giver: number, receiver: number): DealItem[
   if (hasTechFlag(rules, g, 'enablesMapTrading')) out.push({ kind: 'worldMap' });
   for (const o of g.contacts) if (o !== receiver && !r.contacts.includes(o) && state.players[o]?.alive) out.push({ kind: 'contact', player: o });
   if (!r.embassies.includes(giver)) out.push({ kind: 'embassy' });
-  for (const res of rules.resources) if (res.kind !== 'bonus' && resourceSurplus(rules, state, giver, res.id) > 0) out.push({ kind: 'resource', resource: res.id });
+  // Even the last copy may go: the giver then goes without it while the deal runs.
+  for (const res of rules.resources) if (res.kind !== 'bonus' && resourceTradable(rules, state, giver, res.id) > 0) out.push({ kind: 'resource', resource: res.id });
   for (const c of playerCities(state, giver)) if (!('palace' in c.buildings)) out.push({ kind: 'city', city: c.id });
   if (rel !== 'war') {
     out.push({ kind: 'rightOfPassage' }, { kind: 'mutualProtection' });
@@ -60,6 +62,13 @@ function offerable(state: GameState, giver: number, receiver: number): DealItem[
 }
 
 const same = (a: DealItem, b: DealItem) => JSON.stringify(a) === JSON.stringify(b);
+
+/** An item's label, warning when it is the giver's last copy of a resource (the giver loses it while the deal runs). */
+function itemText(state: GameState, giver: number, item: DealItem): string {
+  const label = dealItemLabel(rules, state, item);
+  if (item.kind !== 'resource' || resourceSurplus(rules, state, giver, item.resource) > 0) return label;
+  return `${label} (last one: ${state.players[giver]?.human ? 'we' : 'they'} go without it)`;
+}
 
 function ItemPicker({ state, giver, receiver, chosen, onAdd }: { state: GameState; giver: number; receiver: number; chosen: DealItem[]; onAdd: (i: DealItem) => void }) {
   const options = useMemo(() => offerable(state, giver, receiver), [state, giver, receiver]);
@@ -80,7 +89,7 @@ function ItemPicker({ state, giver, receiver, chosen, onAdd }: { state: GameStat
         <option value="">Add…</option>
         {free.map((o, i) => (
           <option key={JSON.stringify(o)} value={i}>
-            {dealItemLabel(rules, state, o)}
+            {itemText(state, giver, o)}
           </option>
         ))}
       </select>
@@ -100,14 +109,14 @@ function ItemPicker({ state, giver, receiver, chosen, onAdd }: { state: GameStat
   );
 }
 
-function ItemList({ state, items, onRemove }: { state: GameState; items: DealItem[]; onRemove?: (i: number) => void }) {
+function ItemList({ state, giver, items, onRemove }: { state: GameState; giver: number; items: DealItem[]; onRemove?: (i: number) => void }) {
   if (items.length === 0) return <p className="muted small">Nothing</p>;
   return (
     <ul className="deal-items">
       {items.map((it, i) => (
         <li key={JSON.stringify(it)} className={`deal-item kind-${it.kind}`}>
           <img src={`${import.meta.env.BASE_URL}art/diplomacy/${it.kind}.png`} alt="" onError={(e) => (e.currentTarget.style.display = 'none')} />
-          <span>{dealItemLabel(rules, state, it)}</span>
+          <span>{itemText(state, giver, it)}</span>
           {onRemove && (
             <button className="icon" aria-label="Remove" onClick={() => onRemove(i)}>
               ×
@@ -231,8 +240,11 @@ export function DiplomacyScreen({ initial, onClose }: { initial?: number; onClos
   };
   const declare = () => {
     const bound = peaceBinding(state, human, sel);
-    const kinds = treaties.map((t) => treatyName(t.kind));
-    const warn = bound || treaties.some((t) => t.kind !== 'peace' && t.kind !== 'embargo') ? `\n\nThis breaks our ${kinds.join(', ')} and costs reputation with every civilization.` : '';
+    const kinds = [...treaties.filter((t) => t.kind !== 'peace' || bound).map((t) => treatyName(t.kind)), ...(ongoing.length > 0 ? [treatyName('trade')] : [])];
+    const warn =
+      bound || ongoing.length > 0 || treaties.some((t) => t.kind !== 'peace' && t.kind !== 'embargo')
+        ? `\n\nThis breaks our ${kinds.join(', ')}: every civilization we know will hold it against us.`
+        : '';
     if (confirm(`Declare war on ${civTitle(other)}?${warn}`)) void send({ type: 'declareWar', target: sel });
   };
 
@@ -320,12 +332,12 @@ export function DiplomacyScreen({ initial, onClose }: { initial?: number; onClos
               <section className="trade-table">
                 <div>
                   <h3>We offer</h3>
-                  <ItemList state={state} items={give} onRemove={(i) => setGive(give.filter((_, k) => k !== i))} />
+                  <ItemList state={state} giver={human} items={give} onRemove={(i) => setGive(give.filter((_, k) => k !== i))} />
                   <ItemPicker state={state} giver={human} receiver={sel} chosen={give} onAdd={(i) => setGive([...give.filter((x) => !(x.kind === i.kind && (i.kind === 'gold' || i.kind === 'goldPerTurn'))), i])} />
                 </div>
                 <div>
                   <h3>We ask for</h3>
-                  <ItemList state={state} items={take} onRemove={(i) => setTake(take.filter((_, k) => k !== i))} />
+                  <ItemList state={state} giver={sel} items={take} onRemove={(i) => setTake(take.filter((_, k) => k !== i))} />
                   <ItemPicker state={state} giver={sel} receiver={human} chosen={take} onAdd={(i) => setTake([...take.filter((x) => !(x.kind === i.kind && (i.kind === 'gold' || i.kind === 'goldPerTurn'))), i])} />
                 </div>
               </section>
@@ -365,6 +377,40 @@ export function OfferDialog() {
   const from = state.players[offer.from]!;
   const answer = (accept: boolean) => void send({ type: 'answerDeal', proposal: offer.id, accept });
   const peace = [...offer.give, ...offer.take].some((i) => i.kind === 'peace' || i.kind === 'ceasefire');
+  const demand = offer.demand;
+  if (demand) {
+    // A threat must be answered: closing the dialog does not refuse it.
+    const withdraw = demand.kind === 'withdraw';
+    return (
+      <Dialog title={`${leaderName(from)} makes a demand`} onClose={() => undefined}>
+        <div className="offer">
+          <LeaderPortrait player={from} size={110} mood={attitude(rules, state, offer.from, human).level} />
+          <div>
+            <p>
+              {withdraw
+                ? `“Your troops are in our territory. Withdraw them immediately, or it means war!”`
+                : `“We demand tribute. Pay it, or face the consequences!”`}
+            </p>
+            <h3>They demand</h3>
+            <ItemList state={state} giver={human} items={offer.take} />
+            <p className="small muted">
+              {withdraw
+                ? 'Accepting sends every one of our units in their territory home to our nearest city at once. Refusing means war.'
+                : 'Refusing may mean war, depending on how warlike they are.'}
+            </p>
+          </div>
+        </div>
+        <div className="dialog-actions">
+          <button className="danger" onClick={() => answer(false)}>
+            Refuse
+          </button>
+          <button className="primary" onClick={() => answer(true)}>
+            {withdraw ? 'Withdraw our troops' : 'Pay the tribute'}
+          </button>
+        </div>
+      </Dialog>
+    );
+  }
   return (
     <Dialog title={`${leaderName(from)} has an offer`} onClose={() => answer(false)}>
       <div className="offer">
@@ -372,9 +418,9 @@ export function OfferDialog() {
         <div>
           <p>{peace ? `“Let us put an end to this war.”` : `“Perhaps we can come to an arrangement.”`}</p>
           <h3>They give</h3>
-          <ItemList state={state} items={offer.give} />
+          <ItemList state={state} giver={offer.from} items={offer.give} />
           <h3>They ask for</h3>
-          <ItemList state={state} items={offer.take} />
+          <ItemList state={state} giver={human} items={offer.take} />
         </div>
       </div>
       <div className="dialog-actions">

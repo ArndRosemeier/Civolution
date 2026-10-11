@@ -138,6 +138,8 @@ const onlyPeace = (items: DealItem[]) => items.every((i) => i.kind === 'peace' |
 /** The deal policy's answer to an offer, with the reason, or null to leave it to the player. */
 export function dealAnswer(state: GameState, player: number, proposal: Proposal): { accept: boolean; reason: string } | null {
   const policy = state.players[player]!.automation.policies.deals;
+  // A demand backed by a threat (refusing may mean war) is always left to the player.
+  if (proposal.demand) return null;
   // `give` comes to us, `take` is what we would hand over.
   const gets = proposal.give;
   const pays = proposal.take;

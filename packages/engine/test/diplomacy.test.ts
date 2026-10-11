@@ -13,6 +13,11 @@ import {
   checkInvariants,
   createGame,
   DEAL_TURNS,
+  DEFAULT_PENALTY,
+  DEMAND_COOLDOWN,
+  demandBlocker,
+  TRADE_BREACH_PENALTY,
+  trespassThreat,
   invalidateCaches,
   missionBlocker,
   missionCost,
@@ -22,6 +27,7 @@ import {
   techCost,
   availableResources,
   resourceSurplus,
+  resourceTradable,
   tradeRoute,
   IMP_ROAD,
   type City,
@@ -90,7 +96,8 @@ describe('war, peace and treaties', () => {
     expect(r.events.some((e) => e.type === 'treatyBroken')).toBe(true);
     s = r.state;
     expect(s.players[0]!.reputation).toBe(100 - BREACH_PENALTY.peace);
-    expect(s.players[2]!.memory[0]).toBeLessThan(0);
+    // Owner's ruling 2026-10-11: every civilization that knows the breaker takes the full penalty.
+    expect(s.players[2]!.memory[0]).toBe(-BREACH_PENALTY.peace);
     expect(attitude(rules, s, 1, 0).level).toBe('furious');
   });
 
@@ -327,6 +334,170 @@ describe('resource trade routes (docs/rules/trade.md)', () => {
     s.map.improvements[at(s, 25, 20)] = 0;
     invalidateCaches(s);
     expect(availableResources(rules, s, 1).has('wines')).toBe(false);
+    expect(checkInvariants(rules, s)).toEqual([]);
+  });
+});
+
+describe('breaking treaties and trade deals (owner’s ruling 2026-10-11)', () => {
+  it('costs the full penalty with every civilization that knows the breaker, for any treaty', () => {
+    let s = flatGame(1, 3);
+    s = run(s, { type: 'declareWar', player: 0, target: 1 });
+    s = deal(s, 0, 1, [{ kind: 'ceasefire' }]);
+    const before = s.players[2]!.memory[0] ?? 0;
+    const r = apply(rules, s, { type: 'declareWar', player: 0, target: 1 });
+    expect(r.events.find((e) => e.type === 'treatyBroken')).toMatchObject({ treaty: 'ceasefire' });
+    expect(r.state.players[0]!.reputation).toBe(100 - BREACH_PENALTY.ceasefire);
+    expect(r.state.players[2]!.memory[0]).toBe(before - BREACH_PENALTY.ceasefire);
+  });
+
+  it('counts cancelling running trade deals by war as breaking them', () => {
+    let s = flatGame(1, 3);
+    s.players[0] = { ...s.players[0]!, gold: 500 };
+    s = deal(s, 0, 1, [{ kind: 'goldPerTurn', amount: 5 }], [{ kind: 'gold', amount: 1 }]);
+    const before = s.players[2]!.memory[0] ?? 0;
+    const r = apply(rules, s, { type: 'declareWar', player: 0, target: 1 });
+    expect(r.events.find((e) => e.type === 'treatyBroken')).toMatchObject({ treaty: 'trade' });
+    expect(r.state.diplomacy.ongoing).toEqual([]);
+    expect(r.state.players[0]!.reputation).toBe(100 - TRADE_BREACH_PENALTY);
+    expect(r.state.players[2]!.memory[0]).toBe(before - TRADE_BREACH_PENALTY);
+  });
+
+  it('makes a payer who defaults lose standing with everyone it knows', () => {
+    let s = flatGame(1, 3);
+    s = deal(s, 1, 0, [{ kind: 'goldPerTurn', amount: 900 }]);
+    s.players[1] = { ...s.players[1]!, gold: 0 };
+    const before = s.players[2]!.memory[1] ?? 0;
+    s = endTurnAll(s);
+    expect(s.diplomacy.ongoing).toEqual([]);
+    expect(s.players[1]!.reputation).toBe(100 - DEFAULT_PENALTY);
+    // Memories fade a point at the end of the same turn.
+    expect(s.players[2]!.memory[1]).toBe(before - DEFAULT_PENALTY + 1);
+  });
+});
+
+describe('withdrawal demands (owner’s ruling 2026-10-11)', () => {
+  /** Player 1's city at (30, 20) with player 0's warriors next to it; player 0's city at (10, 20). */
+  function standoff(warriors = 3): { s: GameState; city: City; units: number[] } {
+    let s = flatGame();
+    s = found(s, 0, 10, 20).s;
+    const f = found(s, 1, 30, 20);
+    s = f.s;
+    const tiles = [at(s, 31, 20), at(s, 29, 20), at(s, 30, 21), at(s, 30, 19)].slice(0, warriors);
+    const units = tiles.map((t) => place(s, 0, 'warrior', t).id);
+    return { s, city: f.c, units };
+  }
+  const withdraw = (s: GameState, from: number, to: number, war = true): GameState =>
+    run(s, { type: 'proposeDeal', player: from, target: to, give: [], take: [{ kind: 'withdraw' }], demand: { kind: 'withdraw', war } });
+
+  it('sees a serious threat in several armed units, or attack clearly outweighing the defence', () => {
+    const { s, city } = standoff(3);
+    expect(trespassThreat(rules, s, 1, 0)).toBe(city.id);
+    // One warrior next to a city held by a spearman is no threat.
+    const one = standoff(1).s;
+    place(one, 1, 'spearman', city.tile);
+    expect(trespassThreat(rules, one, 1, 0)).toBeNull();
+    // Two warriors next to an empty city are.
+    expect(trespassThreat(rules, standoff(2).s, 1, 0)).toBe(city.id);
+    // At war, or with leave to pass, there is nothing to demand.
+    const war = run(standoff(3).s, { type: 'declareWar', player: 0, target: 1 });
+    expect(trespassThreat(rules, war, 1, 0)).toBeNull();
+  });
+
+  it('sends every one of the intruder’s units in the territory home when accepted', () => {
+    const { s: start, units } = standoff(3);
+    const worker = place(start, 0, 'worker', at(start, 31, 21));
+    let s = withdraw(start, 1, 0);
+    const p = s.diplomacy.proposals.at(-1)!;
+    expect(p.demand).toEqual({ kind: 'withdraw', war: true });
+    s = run(s, { type: 'answerDeal', player: 0, proposal: p.id, accept: true });
+    for (const id of [...units, worker.id]) expect(s.map.territory[s.units[id]!.tile]).toBe(0);
+    expect(relation(s, 0, 1)).toBe('peace');
+    expect(checkInvariants(rules, s)).toEqual([]);
+  });
+
+  it('means war when refused or left unanswered, without costing the demander reputation', () => {
+    let s = withdraw(standoff(3).s, 1, 0);
+    const r = apply(rules, s, { type: 'answerDeal', player: 0, proposal: s.diplomacy.proposals.at(-1)!.id, accept: false });
+    expect(r.events.find((e) => e.type === 'warDeclared')).toMatchObject({ player: 1, target: 0, cause: 'withdrawRefused' });
+    expect(relation(r.state, 0, 1)).toBe('war');
+    expect(r.state.players[1]!.reputation).toBe(100);
+    s = withdraw(standoff(3).s, 1, 0);
+    s = run(s, { type: 'endTurn', player: 0 });
+    expect(relation(s, 0, 1)).toBe('war');
+  });
+
+  it('needs troops in the territory, comes at most once every few turns, and is the only way to ask for a withdrawal', () => {
+    const { s: start } = standoff(3);
+    const demand = { kind: 'withdraw' as const, war: true };
+    expect(demandBlocker(rules, start, { from: 0, to: 1, give: [], take: [{ kind: 'withdraw' }], demand })).toMatch(/no troops/);
+    expect(apply(rules, start, { type: 'proposeDeal', player: 1, target: 0, give: [], take: [{ kind: 'withdraw' }] }).error?.message).toMatch(/only on demand/);
+    expect(apply(rules, start, { type: 'proposeDeal', player: 1, target: 0, give: [{ kind: 'embassy' }], take: [{ kind: 'withdraw' }], demand }).error?.message).toMatch(/nothing in return/);
+    let s = withdraw(start, 1, 0, false);
+    s = run(s, { type: 'answerDeal', player: 0, proposal: s.diplomacy.proposals.at(-1)!.id, accept: false });
+    expect(relation(s, 0, 1)).toBe('peace');
+    expect(apply(rules, s, { type: 'proposeDeal', player: 1, target: 0, give: [], take: [{ kind: 'withdraw' }], demand }).error?.message).toMatch(/Too soon/);
+    s = { ...s, turn: s.turn + DEMAND_COOLDOWN.withdraw };
+    expect(apply(rules, s, { type: 'proposeDeal', player: 1, target: 0, give: [], take: [{ kind: 'withdraw' }], demand }).error).toBeUndefined();
+  });
+});
+
+describe('tribute demands (owner’s ruling 2026-10-11)', () => {
+  const tribute = (s: GameState, war: boolean, take: Extract<Command, { type: 'proposeDeal' }>['take']): GameState =>
+    run(s, { type: 'proposeDeal', player: 1, target: 0, give: [], take, demand: { kind: 'tribute', war } });
+
+  it('hands over the gold or advance when paid', () => {
+    let s = flatGame();
+    s.players[0] = { ...s.players[0]!, gold: 200 };
+    withTechs(s, 0, ['bronzeWorking']);
+    s = tribute(s, true, [{ kind: 'gold', amount: 100 }, { kind: 'tech', tech: 'bronzeWorking' }]);
+    s = run(s, { type: 'answerDeal', player: 0, proposal: s.diplomacy.proposals.at(-1)!.id, accept: true });
+    expect(s.players[0]!.gold).toBe(100);
+    expect(s.players[1]!.techs).toContain('bronzeWorking');
+    expect(relation(s, 0, 1)).toBe('peace');
+  });
+
+  it('leads to war on refusal only when the demander threatened it', () => {
+    let s = flatGame();
+    s.players[0] = { ...s.players[0]!, gold: 200 };
+    s = tribute(s, false, [{ kind: 'gold', amount: 100 }]);
+    s = run(s, { type: 'answerDeal', player: 0, proposal: s.diplomacy.proposals.at(-1)!.id, accept: false });
+    expect(relation(s, 0, 1)).toBe('peace');
+    expect(s.players[1]!.memory[0]).toBeLessThan(0);
+    expect(apply(rules, s, { type: 'proposeDeal', player: 1, target: 0, give: [], take: [{ kind: 'gold', amount: 50 }], demand: { kind: 'tribute', war: true } }).error?.message).toMatch(/Too soon/);
+    s = { ...s, turn: s.turn + DEMAND_COOLDOWN.tribute };
+    s = tribute(s, true, [{ kind: 'gold', amount: 100 }]);
+    const r = apply(rules, s, { type: 'answerDeal', player: 0, proposal: s.diplomacy.proposals.at(-1)!.id, accept: false });
+    expect(r.events.find((e) => e.type === 'warDeclared')).toMatchObject({ player: 1, target: 0, cause: 'tributeRefused' });
+  });
+
+  it('is gold or an advance only', () => {
+    let { s, c } = found(flatGame(), 0, 20, 20);
+    ({ s } = found(s, 0, 30, 20));
+    const second = Object.values(s.cities).find((x) => x.id !== c.id)!;
+    const r = apply(rules, s, { type: 'proposeDeal', player: 1, target: 0, give: [], take: [{ kind: 'city', city: second.id }], demand: { kind: 'tribute', war: true } });
+    expect(r.error?.message).toMatch(/gold or an advance/);
+  });
+});
+
+describe('trading the last copy of a resource (owner’s ruling 2026-10-11)', () => {
+  it('may go, and the giver goes without it while the deal runs', () => {
+    let s = flatGame();
+    s = found(s, 0, 20, 20).s;
+    s = found(s, 1, 30, 20).s;
+    s.map.resource[at(s, 21, 21)] = rules.resourceIndex('wines');
+    for (let x = 20; x <= 30; x++) s.map.improvements[at(s, x, 20)]! |= IMP_ROAD;
+    invalidateCaches(s);
+    expect(resourceSurplus(rules, s, 0, 'wines')).toBe(0);
+    expect(resourceTradable(rules, s, 0, 'wines')).toBe(1);
+    s = deal(s, 0, 1, [{ kind: 'resource', resource: 'wines' }]);
+    expect(availableResources(rules, s, 1).has('wines')).toBe(true);
+    expect(availableResources(rules, s, 0).has('wines')).toBe(false);
+    expect(resourceTradable(rules, s, 0, 'wines')).toBe(0);
+    expect(apply(rules, s, { type: 'proposeDeal', player: 0, target: 1, give: [{ kind: 'resource', resource: 'wines' }], take: [] }).error?.message).toMatch(/left to trade/);
+    // When the deal ends the wine is the giver's again.
+    s = { ...s, diplomacy: { ...s.diplomacy, ongoing: [] } };
+    invalidateCaches(s);
+    expect(availableResources(rules, s, 0).has('wines')).toBe(true);
     expect(checkInvariants(rules, s)).toEqual([]);
   });
 });

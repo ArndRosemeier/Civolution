@@ -38,7 +38,7 @@ export {
   type TileOutput,
 } from './city.ts';
 export { foundBlocker, placeableTiles, unitSupportCost, TECH_BONUS_ADVANCE, TECH_REVEALS_MAP } from './cities.ts';
-export { availableResources, cityResources, connectedToCapital, empireInfo, landMasses, tradeRoute, type EmpireInfo } from './empire.ts';
+export { availableResources, cityResources, resourceCopies, connectedToCapital, empireInfo, landMasses, tradeRoute, type EmpireInfo } from './empire.ts';
 export { avoidDisorder, defaultSpecialist, placeCitizens, type Placement } from './governor.ts';
 export { buildBlocker, buildCategory, buildCost, buildName, buildOptions, draftBlocker, draftedThisTurn, draftUnit, hurryQuote, isCommonUnit, type BuildCategory, type BuildOption, type HurryQuote } from './production.ts';
 export {
@@ -85,6 +85,7 @@ export {
   civilizations,
   dealBlocker,
   dealItemLabel,
+  demandBlocker,
   embargoed,
   hasContact,
   hasTreaty,
@@ -94,12 +95,18 @@ export {
   peaceBinding,
   relation,
   resourceSurplus,
+  resourceTradable,
   score,
+  trespassers,
+  trespassThreat,
   canReceiveTech,
   tradingPartners,
   treatiesBetween,
   BREACH_PENALTY,
   CEASEFIRE_TURNS,
+  DEFAULT_PENALTY,
+  DEMAND_COOLDOWN,
+  TRADE_BREACH_PENALTY,
   DEAL_TURNS,
   PEACE_TURNS,
   type Attitude,

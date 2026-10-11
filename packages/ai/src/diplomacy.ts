@@ -5,17 +5,25 @@
  * civilization's temper.
  */
 import {
+  atWar,
   attitude,
+  canReceiveTech,
   dealBlocker,
+  demandBlocker,
+  hash3,
   hasTreaty,
+  makeRng,
   missionBlocker,
   militaryPower,
   peaceBinding,
   playerCities,
   techCost,
+  trespassThreat,
   distance,
   isCoastal,
   type Deal,
+  type DealItem,
+  type Demand,
   type GameState,
   type Proposal,
   type Rules,
@@ -24,12 +32,97 @@ import { accepts, dealGain, peaceValue } from './value.ts';
 import type { Ctx } from './military.ts';
 import type { View } from './view.ts';
 import { canSail } from './naval.ts';
+import { personality } from './view.ts';
 
 const why = (text: string) => `AI: ${text}`;
 
 /** Whether AI player `player` accepts an offer made to it. */
 export function respond(rules: Rules, state: GameState, player: number, proposal: Proposal): boolean {
+  if (proposal.demand) return yieldsTo(rules, state, player, proposal);
   return accepts(rules, state, player, proposal);
+}
+
+/**
+ * Whether AI player `player` gives in to a demand (docs/ai.md, owner's ruling
+ * 2026-10-11): troops are withdrawn when it is weaker than the demander or not warlike
+ * (aggression 0 or less); tribute is paid when it is clearly weaker (a warlike leader
+ * pays only below 70 % of the demander's strength).
+ */
+export function yieldsTo(rules: Rules, state: GameState, player: number, proposal: Proposal): boolean {
+  if (!proposal.demand || dealBlocker(rules, state, proposal) !== null) return false;
+  const aggression = personality(rules, state, player).aggression;
+  const mine = militaryPower(rules, state, player);
+  const theirs = militaryPower(rules, state, proposal.from);
+  if (proposal.demand.kind === 'withdraw') return mine < theirs || aggression <= 0;
+  return mine < theirs * (aggression <= 0 ? 1 : 0.7);
+}
+
+/**
+ * Percent chance a turn that an AI demands tribute of one rival, by aggression (−2 … +2):
+ * never for peaceful leaders, 1 % for an even temper up to 3 % for the most warlike;
+ * doubled against a rival at most 40 % as strong.
+ */
+export const TRIBUTE_CHANCE = (aggression: number): number => Math.max(0, 1 + aggression);
+
+/**
+ * Demands (docs/ai.md, owner's ruling 2026-10-11): foreign troops seriously threatening
+ * one of our cities must withdraw or it means war; now and then tribute (an advance or
+ * gold) from a weaker civilization we dislike, with war threatened by a warlike leader.
+ * The engine keeps demands of a kind to one per pair every few turns (DEMAND_COOLDOWN).
+ */
+export function makeDemands(ctx: Ctx): void {
+  const { view } = ctx;
+  const rules = view.rules;
+  const me = view.player;
+  for (const o of view.me.contacts) {
+    const s = ctx.state();
+    const other = s.players[o];
+    if (!other?.alive || other.barbarian || atWar(s, me, o)) continue;
+    if (s.diplomacy.proposals.some((p) => p.from === me && p.to === o)) continue;
+    if (trespassThreat(rules, s, me, o, view.visible) === null) continue;
+    const demand: Demand = { kind: 'withdraw', war: true };
+    const take: DealItem[] = [{ kind: 'withdraw' }];
+    if (demandBlocker(rules, s, { from: me, to: o, give: [], take, demand }) !== null) continue;
+    ctx.act({ type: 'proposeDeal', player: me, target: o, give: [], take, demand, reason: why('foreign troops threaten our city') });
+  }
+  demandTribute(ctx);
+}
+
+/** Rarely, tribute from a weaker rival the AI dislikes: at most one demand a turn. */
+function demandTribute(ctx: Ctx): void {
+  const { view } = ctx;
+  const rules = view.rules;
+  const me = view.player;
+  const s = ctx.state();
+  const aggression = view.traits.aggression;
+  if (TRIBUTE_CHANCE(aggression) <= 0 || s.turn < 20) return;
+  // The AI's own stream, so its whims never disturb the game's dice.
+  const rng = makeRng(hash3(s.seed, s.turn, me + 0x7417));
+  for (const o of view.me.contacts) {
+    const other = s.players[o];
+    if (!other?.alive || other.barbarian || atWar(s, me, o)) continue;
+    if (hasTreaty(s, me, o, 'alliance') || hasTreaty(s, me, o, 'mutualProtection')) continue;
+    if (s.diplomacy.proposals.some((p) => p.from === me && p.to === o)) continue;
+    if (attitude(rules, s, me, o).value > -15) continue;
+    const ratio = view.power / Math.max(1, militaryPower(rules, s, o));
+    if (ratio < 1.5) continue;
+    if (!rng.chance(TRIBUTE_CHANCE(aggression) * (ratio >= 2.5 ? 2 : 1))) continue;
+    const mine = s.players[me]!;
+    const tech = other.techs
+      .filter((t) => canReceiveTech(rules, mine, t))
+      .sort((a, b) => techCost(rules, s, b, me) - techCost(rules, s, a, me) || a.localeCompare(b))[0];
+    const gold = Math.floor(other.gold / 20) * 10;
+    let take: DealItem[] = [];
+    if (tech && (gold < 50 || rng.chance(50))) take = [{ kind: 'tech', tech }];
+    else if (gold >= 50) take = [{ kind: 'gold', amount: gold }];
+    if (take.length === 0) continue;
+    // Warlike leaders mean it; a binding peace treaty holds back all but the most warlike.
+    const war = (aggression >= 1 || (aggression === 0 && rng.chance(50))) && (!peaceBinding(s, me, o) || aggression >= 2);
+    const demand: Demand = { kind: 'tribute', war };
+    if (demandBlocker(rules, s, { from: me, to: o, give: [], take, demand }) !== null) continue;
+    ctx.act({ type: 'proposeDeal', player: me, target: o, give: [], take, demand, reason: why('tribute from a weak neighbour') });
+    return;
+  }
 }
 
 /**

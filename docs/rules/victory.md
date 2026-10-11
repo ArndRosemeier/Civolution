@@ -17,8 +17,8 @@ recorded for the histograph.
 | Diplomatic | Elected by the United Nations |
 | Histograph | When the last turn (540, `turnTimeLimit`) ends, the highest score wins; always on |
 
-**United Nations.** While someone holds the United Nations, an election is held the turn
-after it is built and then every 10 turns. The candidates are the owner and the most
+**United Nations.** While someone holds the United Nations, an election is held at the end
+of the turn it is built and then every 10 turns. The candidates are the owner and the most
 populous other civilization. Every civilization votes with its citizens: for itself if it
 stands, otherwise for the candidate it likes better and is not at war with, abstaining if
 it dislikes both (attitude below −15). More than half of all citizens' votes wins.

@@ -2350,5 +2350,222 @@
     "hash": "66a12962297252c1",
     "date": "2026-10-11",
     "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/balanced.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a brass balance scale with a wheat sheaf on one pan and a small hammer on the other, perfectly level, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "15f81b5e9ba88b09",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/gold.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a tall stack of gold coins beside an open leather purse, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "f00d7d87f5852e26",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/culture.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a golden laurel wreath around a small classical lyre, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "528918c804a1526c",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/militaryPump.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: two crossed swords above an anvil with a glowing blade, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "e037f1312daf3535",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/settlerPump.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a covered pioneer wagon with a wooden wheel and a bundle of tools, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "69d3cac995acece7",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/science.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a brass astrolabe resting on an open book with a candle, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "cd753c0ad295b0e7",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/custom.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: three brass weights of different sizes lined up on a small wooden board, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "1ccf5b8802c78141",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/growth.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a lush golden wheat sheaf bursting with grain beside a full clay granary jar, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "16851ec6c597de0b",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/production.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a blacksmith hammer striking a glowing ingot on an anvil with bright sparks, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "c2aae7e427a7f097",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/manual.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: an open hand holding a quill above parchment, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "4790b73aa03676c1",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/cities.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a small city gate with two citizens walking through it, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "6e89d8bb5e4ee986",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/workers.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a crossed pickaxe and shovel over a patch of tilled earth, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "f3920daeefe91a52",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/research.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a lit oil lamp beside a stack of rolled scrolls, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "88c7456ee6a90053",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/military.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a round shield with a spear leaning against it, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "68796541f50f181f",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/builds.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a wooden building scaffold with a small crane lifting a stone block, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "887b9a265c262edc",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/rates.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: an open treasure chest with gold coins and a small balance scale, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "32fa09be09fc544a",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/diplomacy.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: two hands clasping over a letter sealed with red wax, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "65c81f86e7d6a78a",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/template.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a rolled architectural plan tied with string beside a drafting compass, the plan blank without any writing, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "b6ebe401e31f53fa",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/digest.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a parchment scroll half unrolled and tied with a ribbon, the parchment blank, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "ea063ad70d9d0f60",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/rule.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: three interlocking brass gears turning together, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "58e9137b53642a5e",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/threat.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: three enemy spear tips rising behind a stone city wall, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "c1e40c7a760d7c84",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/rally.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a red banner on a tall pole planted on a green hilltop, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "0c00fe57a6f17d1d",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/offer.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a folded envelope with a red wax seal, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "84bcf8ce3d46ecc9",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/disorder.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a burning torch above a cracked city wall, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "64fc4cab920a5384",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/idleCity.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: an empty building site with stacked bricks and idle tools, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "00ba53b4414a7ac7",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/idleUnits.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a soldier helmet resting on a tree stump, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "72cdbea8f1a9f93f",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/resourceGained.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: two joined chain links with a glowing gemstone, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "a18acc39a97e6f8a",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/notice.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a small brass hand bell, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "0290952ef24aeaa2",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/starving.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: an empty wooden bowl with a few scattered grains, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "09b6da1e198efee3",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/resourceLost.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a broken iron chain link, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "f050de48a26768b7",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/automation/handled.png": {
+    "model": "meta/muse-image",
+    "prompt": "Small round game icon: a brass seal stamp pressed onto blank parchment, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "9145080beef41d3a",
+    "date": "2026-10-11",
+    "costUsd": 0.01
   }
 }

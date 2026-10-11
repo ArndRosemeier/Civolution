@@ -29,6 +29,9 @@ import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
 import { Dialog } from './Dialog.tsx';
 import { Explain, explainText } from './Explain.tsx';
+import { pauseGovernorFor, pauseTemplateFor } from './automation.ts';
+import { CityAutomation } from './CityAutomation.tsx';
+import { governorFor } from '@civolution/automation';
 
 const sameBuild = (a: Build | null, b: Build | null) => !!a && !!b && a.kind === b.kind && a.id === b.id;
 
@@ -75,7 +78,7 @@ export function CityScreen({ cityId, onClose }: { cityId: number; onClose: () =>
   };
 
   const setCitizens = (worked: number[], specialists: Record<string, number>) => {
-    void send({ type: 'setCitizens', city: city.id, worked, specialists });
+    void pauseGovernorFor(city).then(() => send({ type: 'setCitizens', city: city.id, worked, specialists }));
   };
   const specialistTypes = rules.set.specialists.filter((s) => !s.laborer && (!s.requiredTech || knowsTech(p, s.requiredTech)));
   const toggleTile = (t: number) => {
@@ -154,11 +157,16 @@ export function CityScreen({ cityId, onClose }: { cityId: number; onClose: () =>
             </div>
             {mine && (
               <div className="row">
-                <button className={city.manualTiles ? '' : 'on'} onClick={() => void send({ type: 'autoCitizens', city: city.id })} title="Let the city place its citizens itself">
-                  {city.manualTiles ? 'Placed by hand · switch to automatic' : 'Citizens placed automatically'}
-                </button>
+                {governorFor(state, city) ? (
+                  <span className="muted small">Citizens placed by the governor; clicking a tile pauses it.</span>
+                ) : (
+                  <button className={city.manualTiles ? '' : 'on'} onClick={() => void send({ type: 'autoCitizens', city: city.id })} title="Let the city place its citizens itself">
+                    {city.manualTiles ? 'Placed by hand · switch to automatic' : 'Citizens placed automatically'}
+                  </button>
+                )}
               </div>
             )}
+            {mine && <CityAutomation city={city} />}
             <h3>Mood</h3>
             <ul className="moods">
               {report.moods.map((m, i) => (
@@ -345,8 +353,7 @@ function BuildList({ city, perTurn, showAll }: { city: City; perTurn: number; sh
     { title: 'Wonders', items: options.filter((o) => buildCategory(rules, o.build) === 'wonder') },
   ];
   const pick = (b: Build, queue: boolean) => {
-    if (queue) void send({ type: 'setQueue', city: city.id, queue: [...city.queue, b] });
-    else void send({ type: 'setBuild', city: city.id, build: b });
+    void pauseTemplateFor(city).then(() => (queue ? send({ type: 'setQueue', city: city.id, queue: [...city.queue, b] }) : send({ type: 'setBuild', city: city.id, build: b })));
   };
   return (
     <div>

@@ -1,13 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { cityAt, distance, findPath, neighbour, pathTurns, stepCost, type GameState, type Unit } from '@civolution/engine';
-import { setUnitFamily } from '../audio.ts';
+import { cityAt, distance, findPath, neighbour, pathTurns, stealthTargets, stepCost, type GameState, type Unit } from '@civolution/engine';
+import { play, setUnitFamily } from '../audio.ts';
 import { host } from '../host/client.ts';
 import { loadModels, type ModelSet } from '../map/three/models.ts';
 import { ThreeMapView } from '../map/three/ThreeMapView.ts';
 import { rules } from '../rules.ts';
 import { writeSave } from '../saves.ts';
 import { idleCities, idleUnits, useGame } from '../store.ts';
+import { AutomationScreen } from './AutomationScreen.tsx';
+import { editAutomation } from './automation.ts';
 import { CityScreen } from './CityScreen.tsx';
+import { TurnDigest } from './TurnDigest.tsx';
 import { DomesticAdvisor } from './DomesticAdvisor.tsx';
 import { ForeignAdvisor } from './ForeignAdvisor.tsx';
 import { DiplomacyScreen, OfferDialog } from './Diplomacy.tsx';
@@ -50,7 +53,40 @@ function fireAt(u: Unit, tile: number): void {
   else if (aim.action === 'airlift') void s.send({ type: 'airlift', unit: u.id, target: tile }).then(done);
   else if (aim.action === 'nuke') {
     if (confirm('Launch a nuclear strike? Every unit on and around the target is destroyed, and cities there lose half their people.')) void s.send({ type: 'nuke', unit: u.id, target: tile }).then(done);
-  } else void s.send({ type: 'airMission', unit: u.id, mission: aim.action, target: tile }).then(done);
+  } else {
+    // A stealth bomber singles out the most valuable unit on the tile.
+    const snap = s.snapshot!;
+    const pick = aim.action === 'bomb' ? stealthTargets(rules, snap.state, u, tile).sort((a, b) => rules.unit(b.type).shieldCost - rules.unit(a.type).shieldCost || a.id - b.id)[0] : undefined;
+    void s.send({ type: 'airMission', unit: u.id, mission: aim.action, target: tile, ...(pick ? { targetUnit: pick.id } : {}) }).then(done);
+  }
+}
+
+/** Completes a pending map pick (rally point, patrol end, worker region). */
+function finishTilePick(tile: number): void {
+  const s = useGame.getState();
+  const pick = s.tilePick;
+  if (!pick) return;
+  s.setTilePick(null);
+  const snap = s.snapshot!;
+  if (pick.purpose === 'rally') {
+    const city = snap.state.cities[pick.city];
+    void editAutomation((a) => {
+      a.rally[pick.city] = tile;
+    }, `Rally point set for ${city?.name ?? 'the city'}.`);
+  } else if (pick.purpose === 'patrol') {
+    const u = snap.state.units[pick.unit];
+    if (u && tile !== u.tile) {
+      play('rally-call');
+      void s.send({ type: 'setRoutine', unit: u.id, routine: `patrol:${u.tile}:${tile}` }).then(() => useGame.getState().selectNext());
+    }
+  } else {
+    const near = Object.values(snap.state.cities)
+      .filter((c) => c.owner === snap.human)
+      .sort((a, b) => distance(snap.state.map, a.tile, tile) - distance(snap.state.map, b.tile, tile))[0];
+    void editAutomation((a) => {
+      a.regions.push({ id: a.nextId++, name: near ? `Near ${near.name}` : 'Region', center: tile, radius: 2, forbid: ['clearForest', 'clearWetlands'] });
+    }, 'Region added: workers will not clear forests or wetlands there. Change it under Automation › Workers.');
+  }
 }
 
 /** Numpad keys to compass directions (0 = N … 7 = NW) with the camera unrotated. */
@@ -70,6 +106,7 @@ export function GameScreen() {
   const aim = useGame((s) => s.aim);
   const lastEvents = useGame((s) => s.lastEvents);
   const toast = useGame((s) => s.toast);
+  const tilePick = useGame((s) => s.tilePick);
   const built = useRef<number | null>(null);
 
   // Create the renderer once the models are loaded.
@@ -85,7 +122,7 @@ export function GameScreen() {
         onCityClick: (id) => useGame.getState().open({ kind: 'city', id }),
       });
       setView(v);
-      // Test hook for scripted UI checks (?scenario=�).
+      // Test hook for scripted UI checks (?scenario=�).
       if (new URLSearchParams(location.search).has('scenario')) (window as unknown as { __civ: unknown }).__civ = { view: v, store: useGame };
     });
     return () => {
@@ -175,9 +212,18 @@ export function GameScreen() {
         s.open({ kind: 'diplomacy' });
         return true;
       }
-      if (code === 'Escape' && (s.aim || s.gotoMode)) {
+      if (code === 'F7') {
+        s.open({ kind: 'automation' });
+        return true;
+      }
+      if (code === 'F9') {
+        s.setDigestOpen(!s.digestOpen);
+        return true;
+      }
+      if (code === 'Escape' && (s.aim || s.gotoMode || s.tilePick)) {
         s.setAim(null);
         s.setGotoMode(false);
+        s.setTilePick(null);
         return true;
       }
       if (code === 'Enter' || code === 'NumpadEnter') {
@@ -300,6 +346,11 @@ export function GameScreen() {
     const s = useGame.getState();
     const snap = s.snapshot!;
     const u = s.selected !== null ? snap.state.units[s.selected] : undefined;
+    if (s.tilePick) {
+      if (d.button === 2) s.setTilePick(null);
+      else finishTilePick(tile);
+      return;
+    }
     if (s.aim && u && u.owner === snap.human) {
       if (d.button === 2) s.setAim(null);
       else fireAt(u, tile);
@@ -349,7 +400,7 @@ export function GameScreen() {
   })();
 
   return (
-    <div className={`game ${gotoMode ? 'goto' : ''} ${aim ? 'aim' : ''}`}>
+    <div className={`game ${gotoMode ? 'goto' : ''} ${aim || tilePick ? 'aim' : ''}`}>
       <canvas
         ref={canvas}
         className="map-canvas"
@@ -398,6 +449,12 @@ export function GameScreen() {
           · Esc or right-click to cancel
         </div>
       )}
+      {tilePick && (
+        <div className="aim-hint panel">
+          {tilePick.purpose === 'rally' ? 'Click the rally point' : tilePick.purpose === 'patrol' ? 'Click the far end of the patrol route' : 'Click the centre of the worker region'} · Esc or right-click to cancel
+        </div>
+      )}
+      <TurnDigest onJump={(tile) => view?.centerOn(tile)} />
       <NewsCards onJump={(tile) => view?.centerOn(tile)} />
       <RazeDialog />
       {toast && <div className="toast">{toast}</div>}
@@ -405,6 +462,7 @@ export function GameScreen() {
       {panel?.kind === 'city' && <CityScreen cityId={panel.id} onClose={() => useGame.getState().open(null)} />}
       {panel?.kind === 'domestic' && <DomesticAdvisor onClose={() => useGame.getState().open(null)} />}
       {panel?.kind === 'science' && <ScienceAdvisor onClose={() => useGame.getState().open(null)} />}
+      {panel?.kind === 'automation' && <AutomationScreen {...(panel.tab ? { tab: panel.tab } : {})} onClose={() => useGame.getState().open(null)} />}
       {panel?.kind === 'foreign' && <ForeignAdvisor onClose={() => useGame.getState().open(null)} />}
       {panel?.kind === 'diplomacy' && <DiplomacyScreen {...(panel.with === undefined ? {} : { initial: panel.with })} onClose={() => useGame.getState().open(null)} />}
       {!panel && <OfferDialog />}

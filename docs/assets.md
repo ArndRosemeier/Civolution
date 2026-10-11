@@ -100,5 +100,13 @@ unit and wonder complete, tech and era, disorder and celebration, revolution, bo
 gold, hurry, UI clicks, end of turn). The client (`src/audio.ts`) plays one per batch of
 events and stays silent without the files.
 
+`manifests/phase5.json` (scripts/phase5-manifest.ts, 31 items): icons for the automation
+screens (`art/automation/<name>.png`): the eight governors plus custom and manual, the seven
+delegated aspects, templates, rally points, rules, the digest, and each kind of digest entry.
+
+`manifests/phase5-sounds.json`: the turn digest (with and without something to decide),
+automation switched on and off, a template or governor set, a rule firing, a worker
+starting a job, rally and patrol orders, garrison duty.
+
 `manifests/phase4-sounds.json`: first contact, envoy, treaty signed, deal declined,
 embassy, spy success and capture, parachute drop, airlift, barbarian landing.

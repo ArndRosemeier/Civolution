@@ -2,6 +2,7 @@
  * Game state: plain serialisable data, no classes (PLAN.md §5). A save is this object
  * plus the rule-set hash; a replay is the seed plus the command log.
  */
+import type { AutomationSettings } from './automation.ts';
 import type { RngState } from './rng.ts';
 
 /** Improvement bits in `MapState.improvements`. */
@@ -142,6 +143,8 @@ export interface Player {
   reputation: number;
   /** What this civilization remembers about each other one, −100 … 100 (attitude before standing and circumstances). */
   memory: Record<string, number>;
+  /** What the player hands to automation and how (PLAN.md §8; run by @civolution/automation). */
+  automation: AutomationSettings;
 }
 
 export interface Rates {
@@ -274,7 +277,7 @@ export interface Diplomacy {
 
 export interface GameState {
   format: 'civolution-state';
-  version: 4;
+  version: 5;
   rulesHash: string;
   seed: number;
   rng: RngState;

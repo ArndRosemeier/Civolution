@@ -7,7 +7,7 @@
 import { registerCache } from './caches.ts';
 import { learn, replaceCitizens, updateTerritory } from './cities.ts';
 import type { CommandError } from './commands.ts';
-import { empireInfo } from './empire.ts';
+import { empireInfo, tradeRoute } from './empire.ts';
 import { distance } from './grid.ts';
 import { atWar, hasTechFlag, tileOwners } from './queries.ts';
 import type { Rules } from './rules.ts';
@@ -486,6 +486,7 @@ function itemBlocker(rules: Rules, state: GameState, giver: number, receiver: nu
     case 'resource': {
       if (!rules.resources.some((x) => x.id === item.resource)) return 'Unknown resource.';
       if (resourceSurplus(rules, state, giver, item.resource) <= 0) return `${g.name} has no spare ${rules.resources[rules.resourceIndex(item.resource)]!.name}.`;
+      if (!tradeRoute(rules, state, giver, receiver)) return `No trade route joins the two capitals (roads, rivers or harbours).`;
       return null;
     }
     case 'city': {

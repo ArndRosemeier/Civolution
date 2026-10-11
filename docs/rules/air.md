@@ -45,5 +45,6 @@ stealth attacks.
 ## Stealth attack (Phase 4)
 
 Units with the stealth attack action (submarines, stealth aircraft) pick which unit of a
-stack they fight instead of meeting its best defender (`moveUnit` with `defender`). Air
-units with the action still bomb the whole stack; choosing a target for them is open.
+stack they fight instead of meeting its best defender (`moveUnit` with `defender`).
+Stealth bombers single out one unit of the stack (`airMission` with `targetUnit`):
+every hit goes to that unit, never citizens or buildings (Phase 5).

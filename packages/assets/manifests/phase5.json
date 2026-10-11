@@ -1,0 +1,427 @@
+{
+  "$comment": "Phase 5 art, written by scripts/phase5-manifest.ts. Generate with: OPEN_ROUTER_KEY=... pnpm --filter @civolution/assets gen -- --manifest manifests/phase5.json. Reuses the Phase 1 style bible as the reference image.",
+  "modelPreference": [
+    "meta/muse-image",
+    "openai/gpt-image-2",
+    "google/gemini-2.5-flash-image",
+    "google/gemini-3-pro-image-preview",
+    "openai/gpt-image-1",
+    "black-forest-labs/flux-1.1-pro"
+  ],
+  "styleBible": {
+    "id": "styleBible",
+    "prompt": "A style reference sheet (no text) for a game's art direction. Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Show, arranged on one sheet: a small coastal landscape vignette with grassland, forest, hills and a snowy mountain; three round game icons (a wheat sheaf, a horse head, a gemstone) on medallions with bronze rims; a colour swatch row of the palette.",
+    "aspectRatio": "16:9",
+    "out": "packages/client/public/art/style-bible.png",
+    "post": {
+      "resize": 1600
+    },
+    "references": []
+  },
+  "styleSuffix": "Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+  "items": [
+    {
+      "id": "automation-balanced",
+      "prompt": "Small round game icon: a brass balance scale with a wheat sheaf on one pan and a small hammer on the other, perfectly level, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/balanced.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-growth",
+      "prompt": "Small round game icon: a lush golden wheat sheaf bursting with grain beside a full clay granary jar, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/growth.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-production",
+      "prompt": "Small round game icon: a blacksmith hammer striking a glowing ingot on an anvil with bright sparks, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/production.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-gold",
+      "prompt": "Small round game icon: a tall stack of gold coins beside an open leather purse, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/gold.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-science",
+      "prompt": "Small round game icon: a brass astrolabe resting on an open book with a candle, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/science.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-culture",
+      "prompt": "Small round game icon: a golden laurel wreath around a small classical lyre, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/culture.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-militaryPump",
+      "prompt": "Small round game icon: two crossed swords above an anvil with a glowing blade, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/militaryPump.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-settlerPump",
+      "prompt": "Small round game icon: a covered pioneer wagon with a wooden wheel and a bundle of tools, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/settlerPump.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-custom",
+      "prompt": "Small round game icon: three brass weights of different sizes lined up on a small wooden board, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/custom.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-manual",
+      "prompt": "Small round game icon: an open hand holding a quill above parchment, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/manual.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-cities",
+      "prompt": "Small round game icon: a small city gate with two citizens walking through it, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/cities.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-builds",
+      "prompt": "Small round game icon: a wooden building scaffold with a small crane lifting a stone block, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/builds.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-workers",
+      "prompt": "Small round game icon: a crossed pickaxe and shovel over a patch of tilled earth, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/workers.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-research",
+      "prompt": "Small round game icon: a lit oil lamp beside a stack of rolled scrolls, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/research.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-rates",
+      "prompt": "Small round game icon: an open treasure chest with gold coins and a small balance scale, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/rates.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-military",
+      "prompt": "Small round game icon: a round shield with a spear leaning against it, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/military.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-diplomacy",
+      "prompt": "Small round game icon: two hands clasping over a letter sealed with red wax, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/diplomacy.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-template",
+      "prompt": "Small round game icon: a rolled architectural plan tied with string beside a drafting compass, the plan blank without any writing, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/template.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-rally",
+      "prompt": "Small round game icon: a red banner on a tall pole planted on a green hilltop, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/rally.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-rule",
+      "prompt": "Small round game icon: three interlocking brass gears turning together, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/rule.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-digest",
+      "prompt": "Small round game icon: a parchment scroll half unrolled and tied with a ribbon, the parchment blank, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/digest.png",
+      "post": {
+        "resize": 96,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-threat",
+      "prompt": "Small round game icon: three enemy spear tips rising behind a stone city wall, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/threat.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-disorder",
+      "prompt": "Small round game icon: a burning torch above a cracked city wall, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/disorder.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-offer",
+      "prompt": "Small round game icon: a folded envelope with a red wax seal, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/offer.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-idleCity",
+      "prompt": "Small round game icon: an empty building site with stacked bricks and idle tools, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/idleCity.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-idleUnits",
+      "prompt": "Small round game icon: a soldier helmet resting on a tree stump, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/idleUnits.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-starving",
+      "prompt": "Small round game icon: an empty wooden bowl with a few scattered grains, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/starving.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-resourceLost",
+      "prompt": "Small round game icon: a broken iron chain link, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/resourceLost.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-resourceGained",
+      "prompt": "Small round game icon: two joined chain links with a glowing gemstone, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/resourceGained.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-notice",
+      "prompt": "Small round game icon: a small brass hand bell, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/notice.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    },
+    {
+      "id": "automation-handled",
+      "prompt": "Small round game icon: a brass seal stamp pressed onto blank parchment, centered on a round deep teal enamel medallion with a thin bronze rim, the rim touching all four edges of the image so the medallion fills the whole square. Bold, simple shapes, readable at very small size. Absolutely no text: no letters, no numbers, no writing on any paper, scroll, plan or banner. Square image.",
+      "aspectRatio": "1:1",
+      "out": "packages/client/public/art/automation/handled.png",
+      "post": {
+        "resize": 64,
+        "circleMask": true
+      },
+      "references": [
+        "styleBible"
+      ]
+    }
+  ]
+}

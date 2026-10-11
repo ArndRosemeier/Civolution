@@ -1,0 +1,338 @@
+/* Phase 5: automation screen, city automation card, turn digest. */
+.auto-icon {
+  flex-shrink: 0;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+/* Turn digest */
+.turn-digest {
+  position: absolute;
+  left: 360px;
+  top: 66px;
+  width: min(400px, calc(100vw - 380px));
+  max-height: calc(100vh - 380px);
+  overflow: auto;
+  padding: 10px 12px;
+  z-index: 40;
+  background: var(--panel-solid);
+  border-color: rgba(95, 179, 201, 0.35);
+  animation: digest-in 0.25s ease-out;
+}
+@keyframes digest-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+.turn-digest header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.turn-digest header > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.turn-digest h3 {
+  margin: 0;
+  font-size: 15px;
+}
+.turn-digest ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.digest-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.digest-item .digest-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.digest-item.p1 .digest-text > :first-child {
+  color: var(--warn);
+}
+.digest-item.p3 {
+  opacity: 0.75;
+}
+.digest-item.needs {
+  background: rgba(240, 163, 94, 0.06);
+}
+
+/* City screen card */
+.city-automation {
+  margin: 10px 0;
+  padding: 8px 10px;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  background: rgba(95, 179, 201, 0.05);
+}
+.city-automation h3 {
+  margin: 0 0 6px;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+.auto-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+}
+.auto-row > span {
+  min-width: 74px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.auto-row select {
+  flex: 1;
+  min-width: 0;
+}
+.auto-paused {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 6px 0;
+  font-size: 12px;
+}
+select,
+textarea {
+  font: inherit;
+  color: var(--text);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 5px 8px;
+}
+select option,
+select optgroup {
+  background: var(--panel-solid);
+}
+
+/* Automation screen */
+.automation .tabs {
+  margin-bottom: 12px;
+}
+.automation .tabs button {
+  min-width: 0;
+}
+.aspects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+.aspect {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.aspect.on {
+  border-color: var(--accent);
+  background: rgba(233, 185, 73, 0.07);
+}
+.aspect span {
+  display: flex;
+  flex-direction: column;
+}
+.segmented.governors button {
+  min-width: 88px;
+  gap: 4px;
+}
+.weights {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 6px 16px;
+  margin: 10px 0;
+}
+.weights label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: capitalize;
+}
+.weights label span {
+  min-width: 70px;
+}
+.weights input {
+  flex: 1;
+}
+label.check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0;
+}
+.automation .city-table td select {
+  max-width: 160px;
+}
+.templates {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 14px;
+}
+.template-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.template-list button {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.template-detail .entries {
+  margin: 8px 0;
+  padding-left: 22px;
+}
+.template-detail .entries li {
+  margin: 4px 0;
+}
+.template-detail .entries li > * {
+  vertical-align: middle;
+  margin-right: 4px;
+}
+.conditions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+.condition {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+  padding: 2px 4px;
+  border: 1px dashed var(--panel-border);
+  border-radius: 6px;
+}
+.condition input {
+  width: 64px;
+  padding: 4px 6px;
+}
+.condition select {
+  padding: 4px 6px;
+}
+button.small {
+  padding: 3px 8px;
+  font-size: 12px;
+}
+.workers-tab {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(300px, 1.3fr);
+  gap: 18px;
+}
+.tasks {
+  margin: 4px 0 12px;
+  padding-left: 22px;
+}
+.tasks li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.tasks li button.icon {
+  font-size: 15px;
+  padding: 0 4px;
+}
+.tasks li:first-child {
+  color: var(--accent);
+}
+.region {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  align-items: center;
+  padding: 6px 8px;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  margin: 6px 0;
+  font-size: 12px;
+}
+.region input[type='number'] {
+  width: 56px;
+  margin-left: 4px;
+}
+.region label.check {
+  margin: 0;
+}
+.jobs {
+  margin: 4px 0;
+  padding-left: 18px;
+  font-size: 13px;
+}
+.rules {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+}
+.rules li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.rules li > span {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.rule-editor {
+  padding: 10px 12px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.rule-editor label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.routines-text {
+  width: 100%;
+  min-height: 110px;
+  margin-top: 6px;
+  font-family: ui-monospace, 'Cascadia Mono', monospace;
+  font-size: 12px;
+}
+.tech.goal {
+  border-color: var(--accent-2);
+  background: rgba(95, 179, 201, 0.14);
+  opacity: 1;
+}
+.tech.locked {
+  cursor: pointer;
+}
+@media (max-width: 900px) {
+  .templates,
+  .workers-tab {
+    grid-template-columns: 1fr;
+  }
+  .turn-digest {
+    left: auto;
+    right: 10px;
+    width: min(400px, calc(100vw - 20px));
+  }
+}

@@ -4,7 +4,7 @@
  * report.
  */
 import { takeTurn as aiTakeTurn, respond as aiRespond } from '@civolution/ai';
-import { planEmpire, runRoutines } from '@civolution/automation';
+import { delegateEverything, planEmpire, runAutomation, runRoutines } from '@civolution/automation';
 import {
   apply,
   checkInvariants,
@@ -93,10 +93,24 @@ function manageUnits(rules: Rules, state: GameState, player: number, act: (cmd: 
   for (const cmd of run.commands) act(cmd);
 }
 
+/**
+ * Automated: hands everything to the player automation (PLAN.md §8) and does nothing
+ * else, the way a player who delegates every aspect would play.
+ */
+export const automated: Controller = {
+  id: 'automated',
+  takeTurn(rules, state, player, act) {
+    if (!state.players[player]!.automation.delegate.cities)
+      state = act({ type: 'setAutomation', player, settings: delegateEverything(state.players[player]!.automation), reason: 'Scripted automated player: everything delegated' });
+    const run = runAutomation(rules, state, player, { adopt: true, noDigest: true });
+    for (const cmd of run.commands) state = act(cmd);
+  },
+};
+
 /** The computer player (@civolution/ai). */
 export const ai: Controller = { id: 'ai', lenient: true, takeTurn: aiTakeTurn, respond: aiRespond };
 
-export const CONTROLLERS: Record<string, Controller> = { idle, explorer, builder, ai };
+export const CONTROLLERS: Record<string, Controller> = { idle, explorer, builder, automated, ai };
 
 export interface SimOptions {
   rules: Rules;

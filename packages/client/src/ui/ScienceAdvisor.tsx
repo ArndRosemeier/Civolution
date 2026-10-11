@@ -7,6 +7,7 @@ import { isCommonUnit, requiredTechs, researchBlocker, techCost } from '@civolut
 import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
 import { Dialog } from './Dialog.tsx';
+import { editAutomation } from './automation.ts';
 import { empireSummary } from './empire.ts';
 
 type TechRule = (typeof rules.set.techs)[number];
@@ -51,6 +52,11 @@ export function ScienceAdvisor({ onClose }: { onClose: () => void }) {
   const missing = required.filter((t) => !p.techs.includes(t));
   const choose = (t: string) => void send({ type: 'setResearch', tech: t }).then((ok) => ok && onClose());
   const current = p.research.tech;
+  const goal = p.automation.researchGoal;
+  const setGoal = (t: string | null) =>
+    void editAutomation((a) => {
+      a.researchGoal = t;
+    }, t ? `Research goal: ${rules.tech(t).name}. Automation picks the advances on the way.` : 'Research goal cleared.');
 
   return (
     <Dialog title="Science advisor" onClose={onClose} wide>
@@ -83,6 +89,17 @@ export function ScienceAdvisor({ onClose }: { onClose: () => void }) {
             </div>
             <div className="muted small">{p.techs.length} of {rules.set.techs.length} advances known.</div>
           </section>
+          <section className="card">
+            <h3>Goal</h3>
+            {goal ? (
+              <>
+                <div className="big">{rules.tech(goal).name}</div>
+                <button onClick={() => setGoal(null)}>Clear goal</button>
+              </>
+            ) : (
+              <div className="muted small">Click an advance you cannot research yet to head for it: automation picks the steps on the way.</div>
+            )}
+          </section>
         </div>
         <div className="segmented era-tabs">
           {rules.set.eras.map((e, i) => (
@@ -99,7 +116,7 @@ export function ScienceAdvisor({ onClose }: { onClose: () => void }) {
                 .map((t) => {
                   const known = p.techs.includes(t.id);
                   const blocker = researchBlocker(rules, p, t.id);
-                  const state_ = known ? 'known' : t.id === current ? 'current' : blocker === null ? 'open' : 'locked';
+                  const state_ = known ? 'known' : t.id === current ? 'current' : blocker === null ? 'open' : t.id === goal ? 'goal' : 'locked';
                   const what = unlocks(t.id);
                   const cost = techCost(rules, state, t.id, human);
                   const tip = [
@@ -112,7 +129,7 @@ export function ScienceAdvisor({ onClose }: { onClose: () => void }) {
                     .filter(Boolean)
                     .join('\n');
                   return (
-                    <button key={t.id} className={`tech ${state_}`} title={tip} onClick={() => state_ === 'open' && choose(t.id)}>
+                    <button key={t.id} className={`tech ${state_}`} title={state_ === 'locked' ? `${tip}\nClick to make it your research goal` : tip} onClick={() => (state_ === 'open' ? choose(t.id) : state_ === 'locked' ? setGoal(t.id) : undefined)}>
                       <img src={`${import.meta.env.BASE_URL}art/techs/${t.id}.png`} alt="" onError={(e) => (e.currentTarget.style.visibility = 'hidden')} />
                       <span className="tech-name">{t.name}</span>
                       <span className="tech-cost">{known ? 'known' : `${cost}`}</span>

@@ -411,6 +411,24 @@ describe('air and nukes', () => {
     expect(checkInvariants(rules, s)).toEqual([]);
   });
 
+  it('lets a stealth bomber single out one unit of a stack', () => {
+    let { s, c } = found(flatGame(), 0, 20, 20);
+    s = war(s);
+    const bomber = place(s, 0, 'stealthBomber', c.tile);
+    const chosen = place(s, 1, 'cavalry', at(s, 28, 20));
+    const other = place(s, 1, 'infantry', at(s, 28, 20));
+    expect(apply(rules, s, { type: 'airMission', player: 0, unit: bomber.id, mission: 'bomb', target: chosen.tile, targetUnit: 999 }).error?.message).toMatch(/Pick a unit/);
+    const r = apply(rules, s, { type: 'airMission', player: 0, unit: bomber.id, mission: 'bomb', target: chosen.tile, targetUnit: chosen.id });
+    expect(r.error?.message).toBeUndefined();
+    const hits = r.events.flatMap((e) => (e.type === 'bombarded' ? e.hits : []));
+    expect(hits.length).toBeGreaterThan(0);
+    expect(hits.every((h) => h.kind === 'miss' || (h.kind === 'unit' && h.unit === chosen.id))).toBe(true);
+    expect(r.state.units[other.id]!.hp).toBe(other.hp);
+    // An ordinary bomber cannot pick.
+    const plain = place(r.state, 0, 'bomber', c.tile);
+    expect(apply(rules, r.state, { type: 'airMission', player: 0, unit: plain.id, mission: 'bomb', target: chosen.tile, targetUnit: chosen.id }).error?.message).toMatch(/single out/);
+  });
+
   it('needs the Manhattan Project for nukes, then destroys everything around the target', () => {
     let { s, c } = found(flatGame(), 0, 20, 20);
     s = war(s);

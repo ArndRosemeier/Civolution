@@ -9,6 +9,9 @@ export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => v
   const settings = useGame((s) => s.settings);
   const setSettings = useGame((s) => s.setSettings);
   const open = useGame((s) => s.open);
+  const digestOpen = useGame((s) => s.digestOpen);
+  const setDigestOpen = useGame((s) => s.setDigestOpen);
+  const needs = useGame((s) => s.digest.filter((d) => d.needsInput).length);
   const { state, human } = snap;
   const p = state.players[human]!;
   const sum = empireSummary(snap);
@@ -60,6 +63,12 @@ export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => v
         </strong>
       </div>
       <div className="spacer" />
+      <button className={Object.values(p.automation.delegate).some(Boolean) ? 'on' : ''} onClick={() => open({ kind: 'automation' })} title="Automation: governors, templates, workers, policies, rules (F7)">
+        Automation
+      </button>
+      <button className={digestOpen ? 'on' : ''} onClick={() => setDigestOpen(!digestOpen)} title="Turn digest (F9)">
+        Digest{needs > 0 ? ` · ${needs}` : ''}
+      </button>
       <button className={settings.grid ? 'on' : ''} onClick={() => setSettings({ grid: !settings.grid })} title="Tile grid (Ctrl+G)">
         Grid
       </button>

@@ -127,8 +127,8 @@ function wantsMoreCities(rules: Rules, state: GameState, player: number): boolea
 
 const BUILDING_PRIORITY: { id: string; when: (r: ReturnType<typeof cityReport>, c: City) => boolean; why: string }[] = [
   { id: 'temple', when: (r) => r.unhappy > 0 || r.disorder, why: 'unhappy citizens' },
-  { id: 'granary', when: (_r, c) => c.size >= 3, why: 'faster growth' },
   { id: 'library', when: () => true, why: 'more research' },
+  { id: 'granary', when: (_r, c) => c.size >= 3, why: 'faster growth' },
   { id: 'marketplace', when: (r) => r.commerceBase.value >= 6 || r.unhappy > 1, why: 'more gold and luxury' },
   { id: 'harbor', when: (r) => r.foodSurplus < 3, why: 'more food from the sea' },
   { id: 'aqueduct', when: (r, c) => c.size >= r.sizeLimit - 1, why: 'room to grow' },

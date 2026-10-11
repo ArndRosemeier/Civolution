@@ -3,6 +3,7 @@
  * latest snapshot plus what only the UI cares about: selection, hover, log, settings.
  */
 import { create } from 'zustand';
+import type { DigestItem } from '@civolution/automation';
 import { playerCities, playerUnits, researchableTechs, type Command, type GameEvent, type NewGameOptions } from '@civolution/engine';
 import { rules } from './rules.ts';
 import { host, type Snapshot } from './host/client.ts';
@@ -20,7 +21,19 @@ export interface LogEntry {
 }
 
 /** The open screen over the map, if any. */
-export type Panel = { kind: 'city'; id: number } | { kind: 'domestic' } | { kind: 'science' } | { kind: 'foreign' } | { kind: 'diplomacy'; with?: number } | null;
+export type Panel =
+  | { kind: 'city'; id: number }
+  | { kind: 'domestic' }
+  | { kind: 'science' }
+  | { kind: 'foreign' }
+  | { kind: 'diplomacy'; with?: number }
+  | { kind: 'automation'; tab?: AutomationTab }
+  | null;
+
+export type AutomationTab = 'delegation' | 'governors' | 'templates' | 'workers' | 'policies' | 'rules';
+
+/** A map click the UI is waiting for (setting a rally point, a patrol's far end, a worker region). */
+export type TilePick = { purpose: 'rally'; city: number } | { purpose: 'patrol'; unit: number } | { purpose: 'region' };
 
 /** A unit action waiting for its target tile. */
 export type AimAction = 'bombard' | 'bomb' | 'precisionBomb' | 'recon' | 'rebase' | 'nuke' | 'airdrop' | 'airlift';
@@ -70,7 +83,13 @@ interface Store {
   /** A city taken this turn that the player may keep or raze. */
   razePrompt: number | null;
   news: News[];
+  /** The turn digest (PLAN.md §8.7) and whether it is showing. */
+  digest: DigestItem[];
+  digestOpen: boolean;
+  tilePick: TilePick | null;
   panel: Panel;
+  setDigestOpen: (open: boolean) => void;
+  setTilePick: (pick: TilePick | null) => void;
   open: (panel: Panel) => void;
   newGame: (options: NewGameOptions) => Promise<void>;
   send: (cmd: CommandInput) => Promise<boolean>;
@@ -144,13 +163,29 @@ function headlines(snapshot: Snapshot, events: readonly GameEvent[]): News[] {
 }
 
 export const useGame = create<Store>((set, get) => {
-  const absorb = (snapshot: Snapshot, events: GameEvent[]) => {
-    const entries = events
+  const absorb = (snapshot: Snapshot, events: GameEvent[], digest?: DigestItem[]) => {
+    if (digest) set({ digest, digestOpen: digest.some((d) => d.priority <= 2) });
+    const raw: LogEntry[] = events
       .filter((e) => concernsHuman(e, snapshot.human))
       .flatMap((e) => {
         const text = describeEvent(snapshot, e);
         return text ? [{ turn: snapshot.state.turn, text, ...(e.reason ? { reason: e.reason } : {}), ...('tile' in e ? { tile: e.tile } : {}) }] : [];
       });
+    // Automation repeats itself across a big empire: identical lines are counted, not repeated.
+    const entries: LogEntry[] = [];
+    const seen = new Map<string, LogEntry & { count: number }>();
+    for (const e of raw) {
+      const key = `${e.text}|${e.reason ?? ''}`;
+      const prev = seen.get(key);
+      if (prev) {
+        prev.count++;
+        prev.text = `${e.text} (×${prev.count})`;
+        continue;
+      }
+      const entry = { ...e, count: 1 };
+      seen.set(key, entry);
+      entries.push(entry);
+    }
     const captured = events.find((e) => e.type === 'cityCaptured' && e.player === snapshot.human);
     const fresh = headlines(snapshot, events);
     set((st) => ({
@@ -177,15 +212,27 @@ export const useGame = create<Store>((set, get) => {
     aim: null,
     razePrompt: null,
     news: [],
+    digest: [],
+    digestOpen: false,
+    tilePick: null,
     panel: null,
+    setDigestOpen(open) {
+      set({ digestOpen: open });
+    },
+    setTilePick(pick) {
+      set({ tilePick: pick, gotoMode: false, aim: null });
+    },
     open(panel) {
       set({ panel, gotoMode: false, aim: null });
     },
     async newGame(options) {
-      set({ busy: true, log: [], selected: null, panel: null, news: [], razePrompt: null, aim: null });
+      set({ busy: true, log: [], selected: null, panel: null, news: [], razePrompt: null, aim: null, digest: [], digestOpen: false, tilePick: null });
       let snapshot = await host().newGame(options, 0);
-      // Test scenarios (e2e and visual checks): ?scenario=skirmish.
-      if (new URLSearchParams(location.search).get('scenario') === 'skirmish') snapshot = await host().skirmish();
+      // Test scenarios (e2e and visual checks): ?scenario=skirmish, ?scenario=empire.
+      const params = new URLSearchParams(location.search);
+      const scenario = params.get('scenario');
+      if (scenario === 'skirmish') snapshot = await host().skirmish();
+      if (scenario === 'empire') snapshot = await host().empire(Number(params.get('cities') ?? 200));
       set({ snapshot, busy: false, lastEvents: [] });
       get().selectNext();
     },
@@ -193,7 +240,7 @@ export const useGame = create<Store>((set, get) => {
       const s = get().snapshot;
       if (!s) return false;
       const r = await host().command({ ...cmd, player: s.human });
-      absorb(r.snapshot, r.events);
+      absorb(r.snapshot, r.events, r.digest);
       if (r.error) {
         get().showToast(r.error);
         return false;
@@ -205,7 +252,12 @@ export const useGame = create<Store>((set, get) => {
       play('end-turn');
       set({ busy: true, selected: null, aim: null, razePrompt: null });
       const r = await host().endTurn();
-      absorb(r.snapshot, r.events);
+      absorb(r.snapshot, r.events, r.digest);
+      // The digest's chime follows the turn's own sounds (presentation timing only).
+      if (r.digest && r.digest.length > 0) {
+        const id = r.digest.some((d) => d.needsInput) ? 'digest-open' : r.digest.some((d) => d.kind === 'notice') ? 'rule-fired' : 'digest-clear';
+        setTimeout(() => play(id), 700);
+      }
       set({ busy: false });
       if (r.error) get().showToast(r.error);
       get().selectNext();
@@ -216,7 +268,7 @@ export const useGame = create<Store>((set, get) => {
       set({ busy: true });
       try {
         const snapshot = await host().load(text);
-        set({ snapshot, log: [{ turn: snapshot.state.turn, text: 'Game loaded.' }], selected: null, lastEvents: [], panel: null });
+        set({ snapshot, log: [{ turn: snapshot.state.turn, text: 'Game loaded.' }], selected: null, lastEvents: [], panel: null, digest: [], digestOpen: false, tilePick: null });
         get().selectNext();
       } catch (e) {
         get().showToast(e instanceof Error ? e.message : String(e));

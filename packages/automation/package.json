@@ -4,6 +4,7 @@
   "type": "module",
   "exports": { ".": "./src/index.ts" },
   "dependencies": {
+    "@civolution/data-schema": "workspace:*",
     "@civolution/engine": "workspace:*"
   },
   "devDependencies": {

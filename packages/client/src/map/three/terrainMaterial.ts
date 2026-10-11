@@ -44,14 +44,27 @@ export const GROUND_TEXTURES = ['grassland', 'plains', 'desert', 'tundra', 'floo
 const GROUND_FOR: Record<string, string> = { coast: 'beach', sea: 'beach', ocean: 'beach' };
 const TEX_SIZE = 512;
 
-/** Loads the ground textures into one array texture; resolves false if any is missing. */
-function loadGround(tex: THREE.DataArrayTexture): Promise<boolean> {
+/** Builds a ground texture array with the shared sampling settings. */
+function groundArray(data: Uint8Array<ArrayBuffer>, size: number, layers: number): THREE.DataArrayTexture {
+  const tex = new THREE.DataArrayTexture(data, size, size, layers);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.magFilter = THREE.LinearFilter;
+  tex.minFilter = THREE.LinearMipmapLinearFilter;
+  tex.generateMipmaps = true;
+  tex.anisotropy = 4;
+  tex.needsUpdate = true;
+  return tex;
+}
+
+/** Loads the ground textures into one array texture; resolves null if any is missing. */
+function loadGround(): Promise<THREE.DataArrayTexture | null> {
   const layers = GROUND_TEXTURES.length;
   const data = new Uint8Array(TEX_SIZE * TEX_SIZE * 4 * layers);
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = TEX_SIZE;
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
-  if (!ctx) return Promise.resolve(false);
+  if (!ctx) return Promise.resolve(null);
   const one = (id: string, layer: number) =>
     new Promise<boolean>((done) => {
       const img = new Image();
@@ -64,30 +77,31 @@ function loadGround(tex: THREE.DataArrayTexture): Promise<boolean> {
       img.src = `${import.meta.env.BASE_URL}art/terrain/${id}.jpg`;
     });
   // Decoding one after another keeps the shared canvas simple; it is a one-off at start.
-  return GROUND_TEXTURES.reduce<Promise<boolean>>((ok, id, i) => ok.then((all) => one(id, i).then((x) => all && x)), Promise.resolve(true)).then((ok) => {
-    if (!ok) return false;
-    tex.image = { data, width: TEX_SIZE, height: TEX_SIZE, depth: layers };
-    tex.needsUpdate = true;
-    return true;
-  });
+  return GROUND_TEXTURES.reduce<Promise<boolean>>((ok, id, i) => ok.then((all) => one(id, i).then((x) => all && x)), Promise.resolve(true)).then((ok) =>
+    ok ? groundArray(data, TEX_SIZE, layers) : null,
+  );
 }
 
-let ground: { tex: THREE.DataArrayTexture; ready: { value: number } } | null = null;
+let ground: { tex: { value: THREE.DataArrayTexture }; ready: { value: number } } | null = null;
 
-/** One shared ground texture array for every map view. */
-function groundTextures(): { tex: THREE.DataArrayTexture; ready: { value: number } } {
+/**
+ * One shared ground texture array for every map view. It starts as a 1×1 placeholder;
+ * the loaded textures arrive as a new texture swapped into the uniform, because WebGL 2
+ * allocates array storage once and a larger upload into the placeholder fails, which
+ * left every terrain sampling black.
+ */
+function groundTextures(): { tex: { value: THREE.DataArrayTexture }; ready: { value: number } } {
   if (ground) return ground;
-  const tex = new THREE.DataArrayTexture(new Uint8Array(4 * GROUND_TEXTURES.length), 1, 1, GROUND_TEXTURES.length);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-  tex.magFilter = THREE.LinearFilter;
-  tex.minFilter = THREE.LinearMipmapLinearFilter;
-  tex.generateMipmaps = true;
-  tex.anisotropy = 4;
-  tex.needsUpdate = true;
-  const g = { tex, ready: { value: 0 } };
+  const g = { tex: { value: groundArray(new Uint8Array(4 * GROUND_TEXTURES.length), 1, GROUND_TEXTURES.length) }, ready: { value: 0 } };
   ground = g;
-  if (typeof document !== 'undefined') void loadGround(tex).then((ok) => (g.ready.value = ok ? 1 : 0));
+  if (typeof document !== 'undefined')
+    void loadGround().then((tex) => {
+      if (!tex) return;
+      const old = g.tex.value;
+      g.tex.value = tex;
+      g.ready.value = 1;
+      old.dispose();
+    });
   return g;
 }
 
@@ -101,7 +115,7 @@ export function makeTerrainMaterial(terrainIds: readonly string[], uniforms: Ter
   const idx = (id: string) => terrainIds.indexOf(id);
   const mat = new THREE.MeshStandardMaterial({ roughness: 0.92, metalness: 0 });
   mat.onBeforeCompile = (shader) => {
-    Object.assign(shader.uniforms, uniforms, { uPalA: { value: palA }, uPalB: { value: palB }, uGround: { value: g.tex }, uGroundReady: g.ready, uLayer: { value: layers } });
+    Object.assign(shader.uniforms, uniforms, { uPalA: { value: palA }, uPalB: { value: palB }, uGround: g.tex, uGroundReady: g.ready, uLayer: { value: layers } });
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', '#include <common>\nvarying vec2 vMapPos;\nvarying float vHeight;\nvarying vec3 vUpNormal;\nuniform sampler2D uFog;\nuniform vec2 uMapSize;')
       .replace(

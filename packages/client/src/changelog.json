@@ -1,5 +1,13 @@
 [
   {
+    "version": "0.007",
+    "date": "2026-10-11",
+    "title": "Ground textures fix",
+    "items": [
+      "The ground no longer turns black a few seconds into a game: the painted terrain textures now load and show as intended."
+    ]
+  },
+  {
     "version": "0.006",
     "date": "2026-10-11",
     "title": "Civilopedia, advisors and polish",

@@ -300,6 +300,38 @@ Defaults picked where the plan left a choice ([automation.md](automation.md)):
   that the trade network is cached. Not yet: automation map lenses, auto-reinforcing a
   front, transport escorts, interception schedules, sentry wake conditions.
 
+### Phase 6 notes (complete Conquests rules, alpha 0.004)
+
+Defaults picked where the plan left a choice ([civilizations.md](rules/civilizations.md),
+[golden-ages.md](rules/golden-ages.md), [leaders.md](rules/leaders.md),
+[wonders.md](rules/wonders.md), [culture.md](rules/culture.md),
+[pollution.md](rules/pollution.md), [spaceship.md](rules/spaceship.md),
+[victory.md](rules/victory.md)):
+- Civilizations come entirely from the rule file (traits, unique units via the unit
+  availability mask, kings, free advances, city and leader names). Trait amounts are ours
+  where the rule file has no number; matching building characteristics halve improvements.
+- Golden ages: first unique-unit victory or wonders covering both traits; 20 turns of +1
+  shield and +1 commerce on productive tiles. Scientific leaders: 10 % on a first discovery.
+- Culture flips and pollution use our formulas with Civ3's inputs (low confidence); the
+  garrison of a flipped city is lost. Resistance uses the rule file's culture table.
+- Spaceship: own Apollo Program, 12 turns of flight, lost with the capital. UN: elections
+  every 10 turns, a majority of all citizens wins. Regicide and elimination hand the
+  loser's cities to whoever caused it.
+- State format 6; 0.003 saves load with defaults. Every rule page has tests
+  (`civs.test.ts`, `endgame.test.ts`, a sim game played until it is decided).
+- AI: prefers its unique units, builds wonders that match its traits, runs the space race,
+  lets cities reach size 4 before giving up settlers, builds a temple once entertainers
+  are needed, and keeps army upkeep under a third of its taxes. Tournaments now play real
+  civilizations and report victories (a conquest win came on turn 281 on Small).
+- For Phase 7: AI economies are still slower than Civ3's (Small maps reach the industrial
+  era by turn 500, sometimes the modern era); golden ages come in about half the games.
+  A Huge map with 16 AI civilizations runs about 70 ms a turn over 300 turns (slowest 0.3 s);
+  the profile puts pathfinding first (findPath ≈ 27 %, almost all of it re-planning gotos
+  every turn in continueGoto), then city-site search (bestSite/siteScore ≈ 13 %, called
+  from the AI's land-full check and planBuild). Caching paths per goto and site scores
+  per turn are the next wins. Still open from Phase 5: automation map lenses, front
+  reinforcement, transport escorts, interception schedules.
+
 ## 13. Deferred
 
 Mods and rule-set editing UI, scenarios (custom BIQs, maps, Conquests campaigns), multiplayer (hotseat, PBEM, online), loading original `.SAV`/`.BIQ` maps as starting positions, mobile layout beyond basic responsiveness.

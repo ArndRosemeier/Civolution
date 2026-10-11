@@ -8,13 +8,18 @@
   },
   "scripts": {
     "import": "pnpm --filter @civolution/importer run import",
-    "typecheck": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json && tsc -p packages/client/tsconfig.json",
     "lint": "eslint .",
     "test": "vitest run",
-    "check": "pnpm typecheck && pnpm lint && pnpm test"
+    "sim": "pnpm --filter @civolution/sim run sim --",
+    "rules:curate": "pnpm --filter @civolution/rules run curate",
+    "check": "pnpm typecheck && pnpm lint && pnpm test",
+    "dev": "pnpm --filter @civolution/client run dev",
+    "build": "pnpm --filter @civolution/client run build"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
+    "@playwright/test": "^1.64.0",
     "@types/node": "^24.19.2",
     "eslint": "^9.39.5",
     "globals": "^17.13.0",

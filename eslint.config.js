@@ -8,9 +8,9 @@ const TRANSCENDENTALS = [
 ];
 
 export default tseslint.config(
-  { ignores: ['**/dist/**', '**/node_modules/**', '**/coverage/**', 'data/**'] },
+  { ignores: ['**/dist/**', '**/node_modules/**', '**/coverage/**', 'data/**', '**/test-results/**', '**/playwright-report/**', 'packages/client/public/**'] },
   {
-    files: ['**/*.ts'],
+    files: ['**/*.ts', '**/*.tsx'],
     extends: [js.configs.recommended, ...tseslint.configs.strictTypeChecked],
     languageOptions: {
       globals: { ...globals.node },
@@ -55,6 +55,11 @@ export default tseslint.config(
         { selector: "BinaryExpression[operator='**']", message: 'Use integer maths; ** on non-integers is not portable.' },
       ],
     },
+  },
+  {
+    // The browser client.
+    files: ['packages/client/src/**/*.{ts,tsx}'],
+    languageOptions: { globals: { ...globals.browser } },
   },
   {
     files: ['eslint.config.js'],

@@ -20,3 +20,23 @@ jobs:
       - run: pnpm lint
       # Tests that need the original game files skip themselves here.
       - run: pnpm test
+      - run: pnpm build
+
+  ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @civolution/client exec playwright install --with-deps chromium
+      # Software WebGL (SwiftShader): checks the UI flow, not frame rates.
+      - run: pnpm --filter @civolution/client e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-test-results
+          path: packages/client/test-results

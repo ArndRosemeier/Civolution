@@ -15,3 +15,6 @@ coverage/
 .env
 .env.*
 !.env.example
+packages/client/bench-*.png
+packages/client/test-results/
+packages/client/playwright-report/

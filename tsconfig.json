@@ -20,5 +20,6 @@
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true
   },
-  "include": ["packages/*/src/**/*.ts", "packages/*/test/**/*.ts", "vitest.config.ts", "eslint.config.js"]
+  "exclude": ["packages/client/**"],
+  "include": ["packages/*/src/**/*.ts", "packages/*/test/**/*.ts", "packages/*/scripts/**/*.ts", "vitest.config.ts", "eslint.config.js"]
 }

@@ -1,0 +1,8351 @@
+{
+  "meta": {
+    "id": "conquests",
+    "name": "Conquests",
+    "basedOn": "Civilization III Complete, Conquests rules",
+    "version": 1
+  },
+  "general": {
+    "roadMovementRate": 3,
+    "foodPerCitizen": 2,
+    "startingGold": 10,
+    "startUnits": [
+      "settler",
+      "worker"
+    ],
+    "scoutUnit": "scout",
+    "forestClearShields": 10,
+    "fortressDefenceBonus": 50,
+    "fortifiedDefenceBonus": 25,
+    "riverDefenceBonus": 25,
+    "defaultGovernment": "despotism"
+  },
+  "eras": [
+    {
+      "id": "ancient",
+      "name": "Ancient Times"
+    },
+    {
+      "id": "middle",
+      "name": "Middle Ages"
+    },
+    {
+      "id": "industrial",
+      "name": "Industrial Ages"
+    },
+    {
+      "id": "modern",
+      "name": "Modern Times"
+    }
+  ],
+  "terrains": [
+    {
+      "id": "desert",
+      "name": "Desert",
+      "water": false,
+      "food": 0,
+      "shields": 1,
+      "commerce": 0,
+      "irrigationFood": 1,
+      "mineShields": 1,
+      "roadCommerce": 1,
+      "defenceBonus": 10,
+      "movementCost": 1,
+      "canFoundCity": true,
+      "impassable": false,
+      "impassableToWheeled": false,
+      "allowsFortress": true,
+      "allowsAirfield": true,
+      "allowsOutpost": true,
+      "allowsRadarTower": true,
+      "possibleResources": [
+        "saltpeter",
+        "oil",
+        "incense",
+        "oasis"
+      ]
+    },
+    {
+      "id": "plains",
+      "name": "Plains",
+      "water": false,
+      "food": 1,
+      "shields": 1,
+      "commerce": 0,
+      "irrigationFood": 1,
+      "mineShields": 1,
+      "roadCommerce": 1,
+      "defenceBonus": 10,
+      "movementCost": 1,
+      "canFoundCity": true,
+      "impassable": false,
+      "impassableToWheeled": false,
+      "allowsFortress": true,
+      "allowsAirfield": true,
+      "allowsOutpost": true,
+      "allowsRadarTower": true,
+      "possibleResources": [
+        "horses",
+        "wines",
+        "ivory",
+        "cattle",
+        "wheat",
+        "sugar"
+      ],
+      "transform": {
+        "job": "plantForest",
+        "result": "forest"
+      }
+    },
+    {
+      "id": "grassland",
+      "name": "Grassland",
+      "water": false,
+      "food": 2,
+      "shields": 0,
+      "commerce": 0,
+      "irrigationFood": 1,
+      "mineShields": 1,
+      "roadCommerce": 1,
+      "defenceBonus": 10,
+      "movementCost": 1,
+      "canFoundCity": true,
+      "impassable": false,
+      "impassableToWheeled": false,
+      "allowsFortress": true,
+      "allowsAirfield": true,
+      "allowsOutpost": true,
+      "allowsRadarTower": true,
+      "possibleResources": [
+        "horses",
+        "wines",
+        "cattle",
+        "wheat",
+        "tobacco"
+      ],
+      "transform": {
+        "job": "plantForest",
+        "result": "forest"
+      }
+    },
+    {
+      "id": "tundra",
+      "name": "Tundra",
+      "water": false,
+      "food": 1,
+      "shields": 0,
+      "commerce": 0,
+      "irrigationFood": 0,
+      "mineShields": 1,
+      "roadCommerce": 1,
+      "defenceBonus": 10,
+      "movementCost": 1,
+      "canFoundCity": true,
+      "impassable": false,
+      "impassableToWheeled": false,
+      "allowsFortress": true,
+      "allowsAirfield": true,
+      "allowsOutpost": true,
+      "allowsRadarTower": true,
+      "possibleResources": [
+        "oil",
+        "aluminum",
+        "furs",
+        "game"
+      ],
+      "transform": {
+        "job": "plantForest",
+        "result": "forest"
+      }
+    },
+    {
+      "id": "floodPlain",
+      "name": "Flood Plain",
+      "water": false,
+      "food": 3,
+      "shields": 0,
+      "commerce": 0,
+      "irrigationFood": 1,
+      "mineShields": 0,
+      "roadCommerce": 1,
+      "defenceBonus": 10,
+      "movementCost": 1,
+      "canFoundCity": true,
+      "impassable": false,
+      "impassableToWheeled": false,
+      "allowsFortress": true,
+      "allowsAirfield": true,
+      "allowsOutpost": true,
+      "allowsRadarTower": true,
+      "possibleResources": [
+        "wheat"
+      ]
+    },
+    {
+      "id": "hills",
+      "name": "Hills",
+      "water": false,
+      "food": 1,
+      "shields": 1,
+      "commerce": 0,
+      "irrigationFood": 0,
+      "mineShields": 2,
+      "roadCommerce": 1,
+      "defenceBonus": 50,
+      "movementCost": 2,
+      "canFoundCity": true,
+      "impassable": false,
+      "impassableToWheeled": false,
+      "allowsFortress": true,
+      "allowsAirfield": true,
+      "allowsOutpost": true,
+      "allowsRadarTower": true,
+      "possibleResources": [
+        "horses",
+        "iron",
+        "saltpeter",
+        "coal",
+        "aluminum",
+        "wines",
+        "incense",
+        "gold",
+        "sugar",
+        "tobacco"
+      ]
+    },
+    {
+      "id": "mountains",
+      "name": "Mountains",
+      "water": false,
+      "food": 0,
+      "shields": 1,
+      "commerce": 0,
+      "irrigationFood": 0,
+      "mineShields": 2,
+      "roadCommerce": 1,
+      "defenceBonus": 100,
+      "movementCost": 3,
+      "canFoundCity": false,
+      "impassable": false,
+      "impassableToWheeled": true,
+      "allowsFortress": true,
+      "allowsAirfield": true,
+      "allowsOutpost": true,
+      "allowsRadarTower": true,
+      "possibleResources": [
+        "iron",
+        "saltpeter",
+        "coal",
+        "uranium",
+        "gems",
+        "gold"
+      ]
+    },
+    {
+      "id": "forest",
+      "name": "Forest",
+      "water": false,
+      "food": 1,
+      "shields": 2,
+      "commerce": 0,
+      "irrigationFood": 0,
+      "mineShields": 0,
+      "roadCommerce": 1,
+      "defenceBonus": 25,
+      "movementCost": 2,
+      "canFoundCity": true,
+      "impassable": false,
+      "impassableToWheeled": false,
+      "allowsFortress": true,
+      "allowsAirfield": true,
+      "allowsOutpost": true,
+      "allowsRadarTower": true,
+      "possibleResources": [
+        "rubber",
+        "uranium",
+        "furs",
+        "dyes",
+        "spices",
+        "ivory",
+        "silks",
+        "game"
+      ],
+      "transform": {
+        "job": "clearForest",
+        "result": "plains"
+      }
+    },
+    {
+      "id": "jungle",
+      "name": "Jungle",
+      "water": false,
+      "food": 1,
+      "shields": 0,
+      "commerce": 0,
+      "irrigationFood": 0,
+      "mineShields": 0,
+      "roadCommerce": 1,
+      "defenceBonus": 25,
+      "movementCost": 3,
+      "canFoundCity": true,
+      "impassable": false,
+      "impassableToWheeled": true,
+      "allowsFortress": true,
+      "allowsAirfield": true,
+      "allowsOutpost": true,
+      "allowsRadarTower": true,
+      "possibleResources": [
+        "coal",
+        "rubber",
+        "dyes",
+        "spices",
+        "silks",
+        "gems",
+        "tropicalFruit"
+      ],
+      "transform": {
+        "job": "clearWetlands",
+        "result": "grassland"
+      }
+    },
+    {
+      "id": "marsh",
+      "name": "Marsh",
+      "water": false,
+      "food": 1,
+      "shields": 0,
+      "commerce": 0,
+      "irrigationFood": 0,
+      "mineShields": 0,
+      "roadCommerce": 1,
+      "defenceBonus": 20,
+      "movementCost": 2,
+      "canFoundCity": false,
+      "impassable": false,
+      "impassableToWheeled": true,
+      "allowsFortress": false,
+      "allowsAirfield": false,
+      "allowsOutpost": true,
+      "allowsRadarTower": false,
+      "possibleResources": [
+        "oil",
+        "rubber",
+        "game",
+        "fish"
+      ],
+      "transform": {
+        "job": "clearWetlands",
+        "result": "grassland"
+      }
+    },
+    {
+      "id": "volcano",
+      "name": "Volcano",
+      "water": false,
+      "food": 0,
+      "shields": 3,
+      "commerce": 0,
+      "irrigationFood": 0,
+      "mineShields": 0,
+      "roadCommerce": 0,
+      "defenceBonus": 80,
+      "movementCost": 3,
+      "canFoundCity": false,
+      "impassable": false,
+      "impassableToWheeled": true,
+      "allowsFortress": false,
+      "allowsAirfield": false,
+      "allowsOutpost": false,
+      "allowsRadarTower": false,
+      "possibleResources": []
+    },
+    {
+      "id": "coast",
+      "name": "Coast",
+      "water": true,
+      "food": 1,
+      "shields": 0,
+      "commerce": 2,
+      "irrigationFood": 0,
+      "mineShields": 0,
+      "roadCommerce": 0,
+      "defenceBonus": 10,
+      "movementCost": 1,
+      "canFoundCity": false,
+      "impassable": false,
+      "impassableToWheeled": false,
+      "allowsFortress": false,
+      "allowsAirfield": false,
+      "allowsOutpost": false,
+      "allowsRadarTower": false,
+      "possibleResources": [
+        "fish"
+      ]
+    },
+    {
+      "id": "sea",
+      "name": "Sea",
+      "water": true,
+      "food": 1,
+      "shields": 0,
+      "commerce": 1,
+      "irrigationFood": 0,
+      "mineShields": 0,
+      "roadCommerce": 0,
+      "defenceBonus": 10,
+      "movementCost": 1,
+      "canFoundCity": false,
+      "impassable": false,
+      "impassableToWheeled": false,
+      "allowsFortress": false,
+      "allowsAirfield": false,
+      "allowsOutpost": false,
+      "allowsRadarTower": false,
+      "possibleResources": [
+        "whales",
+        "fish"
+      ]
+    },
+    {
+      "id": "ocean",
+      "name": "Ocean",
+      "water": true,
+      "food": 0,
+      "shields": 0,
+      "commerce": 0,
+      "irrigationFood": 0,
+      "mineShields": 0,
+      "roadCommerce": 0,
+      "defenceBonus": 10,
+      "movementCost": 1,
+      "canFoundCity": false,
+      "impassable": false,
+      "impassableToWheeled": false,
+      "allowsFortress": false,
+      "allowsAirfield": false,
+      "allowsOutpost": false,
+      "allowsRadarTower": false,
+      "possibleResources": []
+    }
+  ],
+  "resources": [
+    {
+      "id": "horses",
+      "name": "Horses",
+      "kind": "strategic",
+      "revealedBy": "theWheel",
+      "appearanceRatio": 160,
+      "disappearanceProbability": 0,
+      "food": 0,
+      "shields": 0,
+      "commerce": 1
+    },
+    {
+      "id": "iron",
+      "name": "Iron",
+      "kind": "strategic",
+      "revealedBy": "ironWorking",
+      "appearanceRatio": 160,
+      "disappearanceProbability": 800,
+      "food": 0,
+      "shields": 1,
+      "commerce": 0
+    },
+    {
+      "id": "saltpeter",
+      "name": "Saltpeter",
+      "kind": "strategic",
+      "revealedBy": "gunpowder",
+      "appearanceRatio": 120,
+      "disappearanceProbability": 800,
+      "food": 0,
+      "shields": 0,
+      "commerce": 1
+    },
+    {
+      "id": "coal",
+      "name": "Coal",
+      "kind": "strategic",
+      "revealedBy": "steamPower",
+      "appearanceRatio": 120,
+      "disappearanceProbability": 400,
+      "food": 0,
+      "shields": 2,
+      "commerce": 1
+    },
+    {
+      "id": "oil",
+      "name": "Oil",
+      "kind": "strategic",
+      "revealedBy": "refining",
+      "appearanceRatio": 120,
+      "disappearanceProbability": 200,
+      "food": 0,
+      "shields": 1,
+      "commerce": 2
+    },
+    {
+      "id": "rubber",
+      "name": "Rubber",
+      "kind": "strategic",
+      "revealedBy": "replaceableParts",
+      "appearanceRatio": 120,
+      "disappearanceProbability": 0,
+      "food": 0,
+      "shields": 0,
+      "commerce": 2
+    },
+    {
+      "id": "aluminum",
+      "name": "Aluminum",
+      "kind": "strategic",
+      "revealedBy": "rocketry",
+      "appearanceRatio": 120,
+      "disappearanceProbability": 400,
+      "food": 0,
+      "shields": 2,
+      "commerce": 0
+    },
+    {
+      "id": "uranium",
+      "name": "Uranium",
+      "kind": "strategic",
+      "revealedBy": "fission",
+      "appearanceRatio": 100,
+      "disappearanceProbability": 100,
+      "food": 0,
+      "shields": 2,
+      "commerce": 3
+    },
+    {
+      "id": "wines",
+      "name": "Wines",
+      "kind": "luxury",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 1,
+      "shields": 0,
+      "commerce": 1
+    },
+    {
+      "id": "furs",
+      "name": "Furs",
+      "kind": "luxury",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 0,
+      "shields": 1,
+      "commerce": 1
+    },
+    {
+      "id": "dyes",
+      "name": "Dyes",
+      "kind": "luxury",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 0,
+      "shields": 0,
+      "commerce": 1
+    },
+    {
+      "id": "incense",
+      "name": "Incense",
+      "kind": "luxury",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 0,
+      "shields": 0,
+      "commerce": 2
+    },
+    {
+      "id": "spices",
+      "name": "Spices",
+      "kind": "luxury",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 0,
+      "shields": 0,
+      "commerce": 2
+    },
+    {
+      "id": "ivory",
+      "name": "Ivory",
+      "kind": "luxury",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 0,
+      "shields": 0,
+      "commerce": 2
+    },
+    {
+      "id": "silks",
+      "name": "Silks",
+      "kind": "luxury",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 0,
+      "shields": 0,
+      "commerce": 3
+    },
+    {
+      "id": "gems",
+      "name": "Gems",
+      "kind": "luxury",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 0,
+      "shields": 0,
+      "commerce": 4
+    },
+    {
+      "id": "whales",
+      "name": "Whales",
+      "kind": "bonus",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 1,
+      "shields": 1,
+      "commerce": 2
+    },
+    {
+      "id": "game",
+      "name": "Game",
+      "kind": "bonus",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 2,
+      "shields": 0,
+      "commerce": 0
+    },
+    {
+      "id": "fish",
+      "name": "Fish",
+      "kind": "bonus",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 2,
+      "shields": 0,
+      "commerce": 1
+    },
+    {
+      "id": "cattle",
+      "name": "Cattle",
+      "kind": "bonus",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 2,
+      "shields": 1,
+      "commerce": 0
+    },
+    {
+      "id": "wheat",
+      "name": "Wheat",
+      "kind": "bonus",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 2,
+      "shields": 0,
+      "commerce": 0
+    },
+    {
+      "id": "gold",
+      "name": "Gold",
+      "kind": "bonus",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 0,
+      "shields": 0,
+      "commerce": 4
+    },
+    {
+      "id": "sugar",
+      "name": "Sugar",
+      "kind": "bonus",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 1,
+      "shields": 0,
+      "commerce": 1
+    },
+    {
+      "id": "tropicalFruit",
+      "name": "Tropical Fruit",
+      "kind": "bonus",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 1,
+      "shields": 0,
+      "commerce": 1
+    },
+    {
+      "id": "oasis",
+      "name": "Oasis",
+      "kind": "bonus",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 2,
+      "shields": 0,
+      "commerce": 0
+    },
+    {
+      "id": "tobacco",
+      "name": "Tobacco",
+      "kind": "bonus",
+      "appearanceRatio": 0,
+      "disappearanceProbability": 0,
+      "food": 0,
+      "shields": 0,
+      "commerce": 1
+    }
+  ],
+  "workerJobs": [
+    {
+      "id": "mine",
+      "name": "Mine",
+      "baseTurns": 12,
+      "requiredResources": []
+    },
+    {
+      "id": "irrigation",
+      "name": "Irrigation",
+      "baseTurns": 8,
+      "requiredResources": []
+    },
+    {
+      "id": "fortress",
+      "name": "Fortress",
+      "baseTurns": 16,
+      "requiredTech": "construction",
+      "requiredResources": []
+    },
+    {
+      "id": "road",
+      "name": "Road",
+      "baseTurns": 6,
+      "requiredResources": []
+    },
+    {
+      "id": "railroad",
+      "name": "Railroad",
+      "baseTurns": 12,
+      "requiredTech": "steamPower",
+      "requiredResources": [
+        "iron",
+        "coal"
+      ]
+    },
+    {
+      "id": "plantForest",
+      "name": "Plant Forest",
+      "baseTurns": 18,
+      "requiredTech": "engineering",
+      "requiredResources": []
+    },
+    {
+      "id": "clearForest",
+      "name": "Clear Forest",
+      "baseTurns": 4,
+      "requiredResources": []
+    },
+    {
+      "id": "clearWetlands",
+      "name": "Clear Wetlands",
+      "baseTurns": 16,
+      "requiredResources": []
+    },
+    {
+      "id": "clearDamage",
+      "name": "Clear Damage",
+      "baseTurns": 24,
+      "requiredResources": []
+    },
+    {
+      "id": "airfield",
+      "name": "Airfield",
+      "baseTurns": 1,
+      "requiredTech": "flight",
+      "requiredResources": []
+    },
+    {
+      "id": "radarTower",
+      "name": "Radar Tower",
+      "baseTurns": 1,
+      "requiredTech": "advancedFlight",
+      "requiredResources": []
+    },
+    {
+      "id": "outpost",
+      "name": "Outpost",
+      "baseTurns": 1,
+      "requiredTech": "masonry",
+      "requiredResources": []
+    },
+    {
+      "id": "barricade",
+      "name": "Barricade",
+      "baseTurns": 16,
+      "requiredTech": "construction",
+      "requiredResources": []
+    }
+  ],
+  "units": [
+    {
+      "id": "settler",
+      "name": "Settler",
+      "domain": "land",
+      "attack": 0,
+      "defence": 0,
+      "movement": 1,
+      "shieldCost": 30,
+      "populationCost": 2,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "buildCity",
+        "joinCity"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "settle"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "worker",
+      "name": "Worker",
+      "domain": "land",
+      "attack": 0,
+      "defence": 0,
+      "movement": 1,
+      "shieldCost": 10,
+      "populationCost": 1,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 100,
+      "jobs": [
+        "road",
+        "railroad",
+        "fortress",
+        "mine",
+        "irrigation",
+        "clearForest",
+        "clearWetlands",
+        "plantForest",
+        "clearDamage",
+        "airfield",
+        "radarTower",
+        "outpost",
+        "barricade"
+      ],
+      "ignoresTerrainCost": [],
+      "abilities": [],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "buildColony",
+        "automate",
+        "joinCity"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "terraform"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "scout",
+      "name": "Scout",
+      "domain": "land",
+      "attack": 0,
+      "defence": 0,
+      "movement": 2,
+      "shieldCost": 10,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "upgradeTo": "conquistador",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "pillage",
+        "upgrade"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "explore"
+      ],
+      "availableToMask": 339886400
+    },
+    {
+      "id": "explorer",
+      "name": "Explorer",
+      "domain": "land",
+      "attack": 0,
+      "defence": 0,
+      "movement": 2,
+      "shieldCost": 20,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "astronomy",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "allTerrainAsRoads"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "pillage"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "explore"
+      ],
+      "availableToMask": -262146
+    },
+    {
+      "id": "marine",
+      "name": "Marine",
+      "domain": "land",
+      "attack": 12,
+      "defence": 6,
+      "movement": 1,
+      "shieldCost": 120,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "amphibiousWar",
+      "requiredResources": [
+        "rubber"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "amphibious",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "modernParatrooper",
+      "name": "Modern Paratrooper",
+      "domain": "land",
+      "attack": 6,
+      "defence": 11,
+      "movement": 1,
+      "shieldCost": 110,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 8,
+      "capacity": 0,
+      "zoneOfControl": true,
+      "requiredTech": "syntheticFibers",
+      "requiredResources": [
+        "oil",
+        "rubber"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "airdrop",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "warrior",
+      "name": "Warrior",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 1,
+      "shieldCost": 10,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "upgradeTo": "swordsman",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -33554433
+    },
+    {
+      "id": "archer",
+      "name": "Archer",
+      "domain": "land",
+      "attack": 2,
+      "defence": 1,
+      "movement": 1,
+      "shieldCost": 20,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 1,
+      "bombardRange": 0,
+      "rateOfFire": 1,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "warriorCode",
+      "upgradeTo": "berserk",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 2147483630
+    },
+    {
+      "id": "spearman",
+      "name": "Spearman",
+      "domain": "land",
+      "attack": 1,
+      "defence": 2,
+      "movement": 1,
+      "shieldCost": 20,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "bronzeWorking",
+      "upgradeTo": "numidianMercenary",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "draft"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": -41959434
+    },
+    {
+      "id": "swordsman",
+      "name": "Swordsman",
+      "domain": "land",
+      "attack": 3,
+      "defence": 2,
+      "movement": 1,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "ironWorking",
+      "upgradeTo": "gallicSwordsman",
+      "requiredResources": [
+        "iron"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -2101252
+    },
+    {
+      "id": "chariot",
+      "name": "Chariot",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 20,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "theWheel",
+      "upgradeTo": "horseman",
+      "requiredResources": [
+        "horses"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "wheeled"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -67108870
+    },
+    {
+      "id": "horseman",
+      "name": "Horseman",
+      "domain": "land",
+      "attack": 2,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "horsebackRiding",
+      "upgradeTo": "mountedWarrior",
+      "requiredResources": [
+        "horses"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -32769
+    },
+    {
+      "id": "pikeman",
+      "name": "Pikeman",
+      "domain": "land",
+      "attack": 1,
+      "defence": 3,
+      "movement": 1,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "feudalism",
+      "upgradeTo": "musketman",
+      "requiredResources": [
+        "iron"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "draft"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": -142606346
+    },
+    {
+      "id": "longbowman",
+      "name": "Longbowman",
+      "domain": "land",
+      "attack": 4,
+      "defence": 1,
+      "movement": 1,
+      "shieldCost": 40,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 2,
+      "bombardRange": 0,
+      "rateOfFire": 1,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "invention",
+      "upgradeTo": "guerilla",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -524290
+    },
+    {
+      "id": "musketman",
+      "name": "Musketman",
+      "domain": "land",
+      "attack": 2,
+      "defence": 4,
+      "movement": 1,
+      "shieldCost": 60,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "gunpowder",
+      "upgradeTo": "swissMercenary",
+      "requiredResources": [
+        "saltpeter"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "draft",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": -1026
+    },
+    {
+      "id": "knight",
+      "name": "Knight",
+      "domain": "land",
+      "attack": 4,
+      "defence": 3,
+      "movement": 2,
+      "shieldCost": 70,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "chivalry",
+      "upgradeTo": "keshik",
+      "requiredResources": [
+        "horses",
+        "iron"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -4328066
+    },
+    {
+      "id": "rifleman",
+      "name": "Rifleman",
+      "domain": "land",
+      "attack": 4,
+      "defence": 6,
+      "movement": 1,
+      "shieldCost": 80,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "nationalism",
+      "upgradeTo": "infantry",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "draft",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "cavalry",
+      "name": "Cavalry",
+      "domain": "land",
+      "attack": 6,
+      "defence": 3,
+      "movement": 3,
+      "shieldCost": 80,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": true,
+      "requiredTech": "militaryTradition",
+      "upgradeTo": "sipahi",
+      "requiredResources": [
+        "horses",
+        "saltpeter"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -1048642
+    },
+    {
+      "id": "infantry",
+      "name": "Infantry",
+      "domain": "land",
+      "attack": 6,
+      "defence": 10,
+      "movement": 1,
+      "shieldCost": 90,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "replaceableParts",
+      "upgradeTo": "mechInfantry",
+      "requiredResources": [
+        "rubber"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "draft",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "tank",
+      "name": "Tank",
+      "domain": "land",
+      "attack": 16,
+      "defence": 8,
+      "movement": 2,
+      "shieldCost": 100,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": true,
+      "requiredTech": "motorizedTransportation",
+      "upgradeTo": "modernArmor",
+      "requiredResources": [
+        "oil",
+        "rubber"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "blitz",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -34
+    },
+    {
+      "id": "mechInfantry",
+      "name": "Mech Infantry",
+      "domain": "land",
+      "attack": 12,
+      "defence": 18,
+      "movement": 2,
+      "shieldCost": 110,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": true,
+      "requiredTech": "computers",
+      "requiredResources": [
+        "oil",
+        "rubber"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "draft",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "modernArmor",
+      "name": "Modern Armor",
+      "domain": "land",
+      "attack": 24,
+      "defence": 16,
+      "movement": 3,
+      "shieldCost": 120,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": true,
+      "requiredTech": "syntheticFibers",
+      "requiredResources": [
+        "oil",
+        "rubber",
+        "aluminum"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "blitz",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "catapult",
+      "name": "Catapult",
+      "domain": "land",
+      "attack": 0,
+      "defence": 0,
+      "movement": 1,
+      "shieldCost": 20,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 4,
+      "bombardRange": 1,
+      "rateOfFire": 1,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "mathematics",
+      "upgradeTo": "trebuchet",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "wheeled"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "bombard",
+        "upgrade"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "artillery"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "cannon",
+      "name": "Cannon",
+      "domain": "land",
+      "attack": 0,
+      "defence": 0,
+      "movement": 1,
+      "shieldCost": 40,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 8,
+      "bombardRange": 1,
+      "rateOfFire": 1,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "metallurgy",
+      "upgradeTo": "hwacha",
+      "requiredResources": [
+        "iron",
+        "saltpeter"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "wheeled"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "bombard",
+        "upgrade"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "artillery"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "artillery",
+      "name": "Artillery",
+      "domain": "land",
+      "attack": 0,
+      "defence": 0,
+      "movement": 1,
+      "shieldCost": 80,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 12,
+      "bombardRange": 2,
+      "rateOfFire": 2,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "replaceableParts",
+      "upgradeTo": "radarArtillery",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "bombard",
+        "upgrade"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "artillery"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "radarArtillery",
+      "name": "Radar Artillery",
+      "domain": "land",
+      "attack": 0,
+      "defence": 0,
+      "movement": 2,
+      "shieldCost": 120,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 16,
+      "bombardRange": 2,
+      "rateOfFire": 3,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": true,
+      "requiredTech": "robotics",
+      "requiredResources": [
+        "aluminum"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "radar",
+        "turnToAttack"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "bombard"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "artillery"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "cruiseMissile",
+      "name": "Cruise Missile",
+      "domain": "land",
+      "attack": 0,
+      "defence": 0,
+      "movement": 1,
+      "shieldCost": 60,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 16,
+      "bombardRange": 4,
+      "rateOfFire": 3,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "rocketry",
+      "requiredResources": [
+        "aluminum"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "cruiseMissile",
+        "bit27",
+        "bit28"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "bombard"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "cruiseMissile"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "tacticalNuke",
+      "name": "Tactical Nuke",
+      "domain": "land",
+      "attack": 0,
+      "defence": 0,
+      "movement": 1,
+      "shieldCost": 300,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 6,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "spaceFlight",
+      "requiredResources": [
+        "aluminum",
+        "uranium"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "nuclearWeapon",
+        "tacticalMissile"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "bombard"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "tacticalNuke"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "icbm",
+      "name": "ICBM",
+      "domain": "land",
+      "attack": 0,
+      "defence": 0,
+      "movement": 1,
+      "shieldCost": 500,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "satellites",
+      "requiredResources": [
+        "aluminum",
+        "uranium"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "immobile",
+        "nuclearWeapon",
+        "icbm"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "sentry"
+      ],
+      "specialActions": [
+        "bombard"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "icbm"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "galley",
+      "name": "Galley",
+      "domain": "sea",
+      "attack": 1,
+      "defence": 1,
+      "movement": 3,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 2,
+      "zoneOfControl": false,
+      "requiredTech": "mapMaking",
+      "upgradeTo": "dromon",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "sinksInSea",
+        "sinksInOcean",
+        "rangedAttackAnimations",
+        "turnToAttack"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "unload",
+        "upgrade"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalTransport"
+      ],
+      "availableToMask": -536870914
+    },
+    {
+      "id": "caravel",
+      "name": "Caravel",
+      "domain": "sea",
+      "attack": 1,
+      "defence": 2,
+      "movement": 4,
+      "shieldCost": 40,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 3,
+      "zoneOfControl": false,
+      "requiredTech": "astronomy",
+      "upgradeTo": "carrack",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "sinksInOcean",
+        "rangedAttackAnimations",
+        "turnToAttack"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "unload",
+        "upgrade"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalTransport"
+      ],
+      "availableToMask": -268435458
+    },
+    {
+      "id": "frigate",
+      "name": "Frigate",
+      "domain": "sea",
+      "attack": 2,
+      "defence": 2,
+      "movement": 5,
+      "shieldCost": 60,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 3,
+      "bombardRange": 1,
+      "rateOfFire": 2,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "magnetism",
+      "requiredResources": [
+        "iron",
+        "saltpeter"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "rangedAttackAnimations",
+        "turnToAttack"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "bombard"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalPower"
+      ],
+      "availableToMask": -65538
+    },
+    {
+      "id": "galleon",
+      "name": "Galleon",
+      "domain": "sea",
+      "attack": 1,
+      "defence": 2,
+      "movement": 4,
+      "shieldCost": 50,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 4,
+      "zoneOfControl": false,
+      "requiredTech": "magnetism",
+      "upgradeTo": "transport",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "rangedAttackAnimations",
+        "turnToAttack"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "unload",
+        "upgrade"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalTransport"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "ironclad",
+      "name": "Ironclad",
+      "domain": "sea",
+      "attack": 5,
+      "defence": 6,
+      "movement": 3,
+      "shieldCost": 90,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 6,
+      "bombardRange": 1,
+      "rateOfFire": 2,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "ironclads",
+      "upgradeTo": "destroyer",
+      "requiredResources": [
+        "iron",
+        "coal"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "bombard",
+        "upgrade"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalPower"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "transport",
+      "name": "Transport",
+      "domain": "sea",
+      "attack": 1,
+      "defence": 2,
+      "movement": 6,
+      "shieldCost": 100,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 6,
+      "zoneOfControl": false,
+      "requiredTech": "combustion",
+      "requiredResources": [
+        "oil"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "rangedAttackAnimations",
+        "bit30"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "unload"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalTransport"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "carrier",
+      "name": "Carrier",
+      "domain": "sea",
+      "attack": 1,
+      "defence": 8,
+      "movement": 7,
+      "shieldCost": 180,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 4,
+      "zoneOfControl": false,
+      "requiredTech": "massProduction",
+      "requiredResources": [
+        "oil"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "radar",
+        "aircraftCarrier",
+        "rangedAttackAnimations",
+        "bit30"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "unload"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalCarrier"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "submarine",
+      "name": "Submarine",
+      "domain": "sea",
+      "attack": 8,
+      "defence": 4,
+      "movement": 4,
+      "shieldCost": 100,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "massProduction",
+      "requiredResources": [
+        "oil"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "submarine",
+        "canSeeSubmarines",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "bit16"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalPower"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "destroyer",
+      "name": "Destroyer",
+      "domain": "sea",
+      "attack": 12,
+      "defence": 8,
+      "movement": 8,
+      "shieldCost": 120,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 6,
+      "bombardRange": 1,
+      "rateOfFire": 2,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "combustion",
+      "requiredResources": [
+        "oil"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "canSeeSubmarines",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "bombard"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalPower"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "battleship",
+      "name": "Battleship",
+      "domain": "sea",
+      "attack": 18,
+      "defence": 12,
+      "movement": 5,
+      "shieldCost": 200,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 8,
+      "bombardRange": 2,
+      "rateOfFire": 2,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "massProduction",
+      "requiredResources": [
+        "oil"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "rangedAttackAnimations",
+        "turnToAttack"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "bombard"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalPower"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "aegisCruiser",
+      "name": "AEGIS Cruiser",
+      "domain": "sea",
+      "attack": 15,
+      "defence": 10,
+      "movement": 7,
+      "shieldCost": 160,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 6,
+      "bombardRange": 2,
+      "rateOfFire": 2,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": true,
+      "requiredTech": "robotics",
+      "requiredResources": [
+        "aluminum",
+        "uranium"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "radar",
+        "canSeeSubmarines",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "bombard"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalPower"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "nuclearSubmarine",
+      "name": "Nuclear Submarine",
+      "domain": "sea",
+      "attack": 8,
+      "defence": 4,
+      "movement": 5,
+      "shieldCost": 140,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 1,
+      "zoneOfControl": false,
+      "requiredTech": "fission",
+      "requiredResources": [
+        "uranium"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "submarine",
+        "canSeeSubmarines",
+        "canCarryTacticalMissiles",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "unload",
+        "bit16"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalPower"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "fighter",
+      "name": "Fighter",
+      "domain": "air",
+      "attack": 4,
+      "defence": 2,
+      "movement": 1,
+      "shieldCost": 80,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 3,
+      "bombardRange": 0,
+      "rateOfFire": 1,
+      "operationalRange": 6,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "flight",
+      "upgradeTo": "jetFighter",
+      "requiredResources": [
+        "oil"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "immobile",
+        "bit28"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "upgrade"
+      ],
+      "airMissions": [
+        "bomb",
+        "recon",
+        "intercept",
+        "rebase"
+      ],
+      "aiRoles": [
+        "airDefence"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "bomber",
+      "name": "Bomber",
+      "domain": "air",
+      "attack": 0,
+      "defence": 2,
+      "movement": 1,
+      "shieldCost": 100,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 12,
+      "bombardRange": 0,
+      "rateOfFire": 3,
+      "operationalRange": 10,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "flight",
+      "requiredResources": [
+        "oil"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "immobile",
+        "bit27",
+        "bit28"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [
+        "bomb",
+        "rebase"
+      ],
+      "aiRoles": [
+        "airBombard"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "helicopter",
+      "name": "Helicopter",
+      "domain": "air",
+      "attack": 0,
+      "defence": 2,
+      "movement": 1,
+      "shieldCost": 100,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 6,
+      "capacity": 3,
+      "zoneOfControl": false,
+      "requiredTech": "advancedFlight",
+      "requiredResources": [
+        "oil",
+        "rubber"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "immobile",
+        "carriesFootUnitsOnly"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "sentry"
+      ],
+      "specialActions": [
+        "unload",
+        "airdrop"
+      ],
+      "airMissions": [
+        "recon",
+        "rebase"
+      ],
+      "aiRoles": [
+        "airTransport"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "jetFighter",
+      "name": "Jet Fighter",
+      "domain": "air",
+      "attack": 8,
+      "defence": 4,
+      "movement": 1,
+      "shieldCost": 100,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 3,
+      "bombardRange": 0,
+      "rateOfFire": 1,
+      "operationalRange": 9,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "rocketry",
+      "upgradeTo": "f15",
+      "requiredResources": [
+        "oil",
+        "aluminum"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "immobile",
+        "bit28"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "upgrade"
+      ],
+      "airMissions": [
+        "bomb",
+        "recon",
+        "intercept",
+        "rebase"
+      ],
+      "aiRoles": [
+        "airDefence"
+      ],
+      "availableToMask": -258
+    },
+    {
+      "id": "stealthFighter",
+      "name": "Stealth Fighter",
+      "domain": "air",
+      "attack": 8,
+      "defence": 6,
+      "movement": 1,
+      "shieldCost": 120,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 6,
+      "bombardRange": 0,
+      "rateOfFire": 2,
+      "operationalRange": 12,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "stealth",
+      "requiredResources": [
+        "oil",
+        "aluminum"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "immobile",
+        "stealth",
+        "bit27",
+        "bit28"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "bit16"
+      ],
+      "airMissions": [
+        "bomb",
+        "recon",
+        "rebase",
+        "precisionBomb"
+      ],
+      "aiRoles": [
+        "airBombard"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "stealthBomber",
+      "name": "Stealth Bomber",
+      "domain": "air",
+      "attack": 0,
+      "defence": 5,
+      "movement": 1,
+      "shieldCost": 240,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 18,
+      "bombardRange": 0,
+      "rateOfFire": 3,
+      "operationalRange": 16,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "stealth",
+      "requiredResources": [
+        "oil",
+        "aluminum"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "immobile",
+        "stealth",
+        "bit27",
+        "bit28"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "bit16"
+      ],
+      "airMissions": [
+        "bomb",
+        "rebase",
+        "precisionBomb"
+      ],
+      "aiRoles": [
+        "airBombard"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "leader",
+      "name": "Leader",
+      "domain": "land",
+      "attack": 0,
+      "defence": 0,
+      "movement": 3,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "leader"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "buildArmy",
+        "finishImprovements",
+        "bit21"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "leader"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "army",
+      "name": "Army",
+      "domain": "land",
+      "attack": 0,
+      "defence": 0,
+      "movement": 1,
+      "shieldCost": 400,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 3,
+      "zoneOfControl": true,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "blitz",
+        "radar",
+        "army"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "pillage",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "army"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "jaguarWarrior",
+      "name": "Jaguar Warrior",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 15,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "warriorCode",
+      "upgradeTo": "swordsman",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 8192
+    },
+    {
+      "id": "bowman",
+      "name": "Bowman",
+      "domain": "land",
+      "attack": 2,
+      "defence": 2,
+      "movement": 1,
+      "shieldCost": 20,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 1,
+      "bombardRange": 0,
+      "rateOfFire": 1,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "warriorCode",
+      "upgradeTo": "longbowman",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 16
+    },
+    {
+      "id": "hoplite",
+      "name": "Hoplite",
+      "domain": "land",
+      "attack": 1,
+      "defence": 3,
+      "movement": 1,
+      "shieldCost": 20,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "bronzeWorking",
+      "upgradeTo": "musketman",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": 8
+    },
+    {
+      "id": "impi",
+      "name": "Impi",
+      "domain": "land",
+      "attack": 1,
+      "defence": 2,
+      "movement": 2,
+      "shieldCost": 20,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "bronzeWorking",
+      "upgradeTo": "musketman",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 16384
+    },
+    {
+      "id": "legionary",
+      "name": "Legionary",
+      "domain": "land",
+      "attack": 3,
+      "defence": 3,
+      "movement": 1,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "ironWorking",
+      "upgradeTo": "immortals",
+      "requiredResources": [
+        "iron"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 2
+    },
+    {
+      "id": "immortals",
+      "name": "Immortals",
+      "domain": "land",
+      "attack": 4,
+      "defence": 2,
+      "movement": 1,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "ironWorking",
+      "upgradeTo": "medievalInfantry",
+      "requiredResources": [
+        "iron"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 4096
+    },
+    {
+      "id": "warChariot",
+      "name": "War Chariot",
+      "domain": "land",
+      "attack": 2,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 20,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "theWheel",
+      "upgradeTo": "knight",
+      "requiredResources": [
+        "horses"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "wheeled",
+        "startsGoldenAge",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 4
+    },
+    {
+      "id": "rider",
+      "name": "Rider",
+      "domain": "land",
+      "attack": 4,
+      "defence": 3,
+      "movement": 3,
+      "shieldCost": 70,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "chivalry",
+      "upgradeTo": "samurai",
+      "requiredResources": [
+        "horses",
+        "iron"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 128
+    },
+    {
+      "id": "mountedWarrior",
+      "name": "Mounted Warrior",
+      "domain": "land",
+      "attack": 3,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "horsebackRiding",
+      "upgradeTo": "threeManChariot",
+      "requiredResources": [
+        "horses"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "startsGoldenAge",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 32768
+    },
+    {
+      "id": "musketeer",
+      "name": "Musketeer",
+      "domain": "land",
+      "attack": 2,
+      "defence": 5,
+      "movement": 1,
+      "shieldCost": 60,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 2,
+      "bombardRange": 0,
+      "rateOfFire": 1,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "gunpowder",
+      "upgradeTo": "rifleman",
+      "requiredResources": [
+        "saltpeter"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 1024
+    },
+    {
+      "id": "samurai",
+      "name": "Samurai",
+      "domain": "land",
+      "attack": 4,
+      "defence": 4,
+      "movement": 2,
+      "shieldCost": 70,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "chivalry",
+      "upgradeTo": "warElephant",
+      "requiredResources": [
+        "iron"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 512
+    },
+    {
+      "id": "warElephant",
+      "name": "War Elephant",
+      "domain": "land",
+      "attack": 4,
+      "defence": 3,
+      "movement": 2,
+      "shieldCost": 70,
+      "populationCost": 0,
+      "hitPointBonus": 1,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "chivalry",
+      "upgradeTo": "cavalry",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 2048
+    },
+    {
+      "id": "cossack",
+      "name": "Cossack",
+      "domain": "land",
+      "attack": 6,
+      "defence": 3,
+      "movement": 3,
+      "shieldCost": 90,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": true,
+      "requiredTech": "militaryTradition",
+      "requiredResources": [
+        "horses",
+        "saltpeter"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "blitz",
+        "startsGoldenAge",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 64
+    },
+    {
+      "id": "panzer",
+      "name": "Panzer",
+      "domain": "land",
+      "attack": 16,
+      "defence": 8,
+      "movement": 3,
+      "shieldCost": 100,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": true,
+      "requiredTech": "motorizedTransportation",
+      "upgradeTo": "modernArmor",
+      "requiredResources": [
+        "oil",
+        "rubber"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "blitz",
+        "startsGoldenAge",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 32
+    },
+    {
+      "id": "manOWar",
+      "name": "Man-O-War",
+      "domain": "sea",
+      "attack": 4,
+      "defence": 2,
+      "movement": 5,
+      "shieldCost": 65,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 4,
+      "bombardRange": 1,
+      "rateOfFire": 2,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "magnetism",
+      "requiredResources": [
+        "iron",
+        "saltpeter"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "startsGoldenAge",
+        "rangedAttackAnimations",
+        "turnToAttack"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "bombard",
+        "bit18"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalPower"
+      ],
+      "availableToMask": 65536
+    },
+    {
+      "id": "f15",
+      "name": "F-15",
+      "domain": "air",
+      "attack": 8,
+      "defence": 4,
+      "movement": 1,
+      "shieldCost": 100,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 6,
+      "bombardRange": 0,
+      "rateOfFire": 2,
+      "operationalRange": 9,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "rocketry",
+      "requiredResources": [
+        "oil",
+        "aluminum"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "immobile",
+        "startsGoldenAge",
+        "bit27",
+        "bit28"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "bit16"
+      ],
+      "airMissions": [
+        "bomb",
+        "recon",
+        "intercept",
+        "rebase",
+        "precisionBomb"
+      ],
+      "aiRoles": [
+        "airBombard"
+      ],
+      "availableToMask": 256
+    },
+    {
+      "id": "privateer",
+      "name": "Privateer",
+      "domain": "sea",
+      "attack": 2,
+      "defence": 1,
+      "movement": 5,
+      "shieldCost": 50,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 3,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "magnetism",
+      "requiredResources": [
+        "iron",
+        "saltpeter"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "hiddenNationality",
+        "rangedAttackAnimations",
+        "turnToAttack"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "bit18"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalPower"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "keshik",
+      "name": "Keshik",
+      "domain": "land",
+      "attack": 4,
+      "defence": 2,
+      "movement": 2,
+      "shieldCost": 60,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": true,
+      "requiredTech": "chivalry",
+      "upgradeTo": "ansarWarrior",
+      "requiredResources": [
+        "horses"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [
+        "hills",
+        "mountains"
+      ],
+      "abilities": [
+        "startsGoldenAge",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 131072
+    },
+    {
+      "id": "conquistador",
+      "name": "Conquistador",
+      "domain": "land",
+      "attack": 3,
+      "defence": 2,
+      "movement": 2,
+      "shieldCost": 70,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": true,
+      "requiredTech": "astronomy",
+      "upgradeTo": "explorer",
+      "requiredResources": [
+        "horses"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "allTerrainAsRoads",
+        "startsGoldenAge",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 262144
+    },
+    {
+      "id": "berserk",
+      "name": "Berserk",
+      "domain": "land",
+      "attack": 6,
+      "defence": 2,
+      "movement": 1,
+      "shieldCost": 70,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "invention",
+      "upgradeTo": "longbowman",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "amphibious",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 524288
+    },
+    {
+      "id": "sipahi",
+      "name": "Sipahi",
+      "domain": "land",
+      "attack": 8,
+      "defence": 3,
+      "movement": 3,
+      "shieldCost": 100,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": true,
+      "requiredTech": "militaryTradition",
+      "upgradeTo": "cossack",
+      "requiredResources": [
+        "horses",
+        "saltpeter"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "startsGoldenAge",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 1048576
+    },
+    {
+      "id": "gallicSwordsman",
+      "name": "Gallic Swordsman",
+      "domain": "land",
+      "attack": 3,
+      "defence": 2,
+      "movement": 2,
+      "shieldCost": 40,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "ironWorking",
+      "upgradeTo": "legionary",
+      "requiredResources": [
+        "iron"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 2097152
+    },
+    {
+      "id": "ansarWarrior",
+      "name": "Ansar Warrior",
+      "domain": "land",
+      "attack": 4,
+      "defence": 2,
+      "movement": 3,
+      "shieldCost": 60,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "chivalry",
+      "upgradeTo": "rider",
+      "requiredResources": [
+        "horses",
+        "iron"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 4194304
+    },
+    {
+      "id": "numidianMercenary",
+      "name": "Numidian Mercenary",
+      "domain": "land",
+      "attack": 2,
+      "defence": 3,
+      "movement": 1,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "bronzeWorking",
+      "upgradeTo": "pikeman",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "draft",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 8388608
+    },
+    {
+      "id": "hwacha",
+      "name": "Hwach'a",
+      "domain": "land",
+      "attack": 0,
+      "defence": 0,
+      "movement": 1,
+      "shieldCost": 40,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 8,
+      "bombardRange": 1,
+      "rateOfFire": 1,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "metallurgy",
+      "upgradeTo": "artillery",
+      "requiredResources": [
+        "saltpeter"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "wheeled",
+        "startsGoldenAge",
+        "bit27",
+        "bit28"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "bombard",
+        "upgrade"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "artillery"
+      ],
+      "availableToMask": 16777216
+    },
+    {
+      "id": "medievalInfantry",
+      "name": "Medieval Infantry",
+      "domain": "land",
+      "attack": 4,
+      "defence": 2,
+      "movement": 1,
+      "shieldCost": 40,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "feudalism",
+      "upgradeTo": "guerilla",
+      "requiredResources": [
+        "iron"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "draft"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -4098
+    },
+    {
+      "id": "guerilla",
+      "name": "Guerilla",
+      "domain": "land",
+      "attack": 6,
+      "defence": 6,
+      "movement": 1,
+      "shieldCost": 90,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 3,
+      "bombardRange": 0,
+      "rateOfFire": 1,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "replaceableParts",
+      "upgradeTo": "towInfantry",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "draft"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "princess",
+      "name": "Princess",
+      "domain": "land",
+      "attack": 0,
+      "defence": 0,
+      "movement": 1,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "immobile",
+        "unusedMounted"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "sentry"
+      ],
+      "specialActions": [],
+      "airMissions": [],
+      "aiRoles": [
+        "bit18"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "lincoln",
+      "name": "Lincoln",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "hammurabi",
+      "name": "Hammurabi",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "mao",
+      "name": "Mao",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "bismarck",
+      "name": "Bismarck",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "alexander",
+      "name": "Alexander",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "caesar",
+      "name": "Caesar",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "xerxes",
+      "name": "Xerxes",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "hiawatha",
+      "name": "Hiawatha",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "shaka",
+      "name": "Shaka",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "montezuma",
+      "name": "Montezuma",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "cleopatra",
+      "name": "Cleopatra",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "elizabeth",
+      "name": "Elizabeth",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "catherine",
+      "name": "Catherine",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "abu",
+      "name": "Abu",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "hannibal",
+      "name": "Hannibal",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "osman",
+      "name": "Osman",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "temujin",
+      "name": "Temujin",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "gandhi",
+      "name": "Gandhi",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "ragnar",
+      "name": "Ragnar",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "brennus",
+      "name": "Brennus",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "tokugawa",
+      "name": "Tokugawa",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "joanDarc",
+      "name": "Joan d'Arc",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "wangKon",
+      "name": "Wang Kon",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "isabella",
+      "name": "Isabella",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "enkiduWarrior",
+      "name": "Enkidu Warrior",
+      "domain": "land",
+      "attack": 1,
+      "defence": 2,
+      "movement": 1,
+      "shieldCost": 10,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "upgradeTo": "pikeman",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": 33554432
+    },
+    {
+      "id": "threeManChariot",
+      "name": "Three-Man Chariot",
+      "domain": "land",
+      "attack": 2,
+      "defence": 2,
+      "movement": 2,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "theWheel",
+      "upgradeTo": "knight",
+      "requiredResources": [
+        "horses"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "wheeled",
+        "startsGoldenAge",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 67108864
+    },
+    {
+      "id": "mursilis",
+      "name": "Mursilis",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "gilgamesh",
+      "name": "Gilgamesh",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "henry",
+      "name": "Henry",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "carrack",
+      "name": "Carrack",
+      "domain": "sea",
+      "attack": 2,
+      "defence": 2,
+      "movement": 4,
+      "shieldCost": 40,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 3,
+      "zoneOfControl": false,
+      "requiredTech": "astronomy",
+      "upgradeTo": "galleon",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "startsGoldenAge",
+        "rangedAttackAnimations",
+        "turnToAttack"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "unload",
+        "upgrade"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalPower"
+      ],
+      "availableToMask": 268435456
+    },
+    {
+      "id": "swissMercenary",
+      "name": "Swiss Mercenary",
+      "domain": "land",
+      "attack": 1,
+      "defence": 4,
+      "movement": 1,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "feudalism",
+      "upgradeTo": "musketeer",
+      "requiredResources": [
+        "iron"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "draft",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": 134217728
+    },
+    {
+      "id": "williamOfOrange",
+      "name": "William of Orange",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "trebuchet",
+      "name": "Trebuchet",
+      "domain": "land",
+      "attack": 0,
+      "defence": 0,
+      "movement": 1,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 6,
+      "bombardRange": 1,
+      "rateOfFire": 1,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "engineering",
+      "upgradeTo": "cannon",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "wheeled"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "bombard",
+        "upgrade"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "artillery"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "pachacuti",
+      "name": "Pachacuti",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "smokeJaguar",
+      "name": "Smoke-Jaguar",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "theodora",
+      "name": "Theodora",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 0,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "bit29"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "bit19"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "chasquiScout",
+      "name": "Chasqui Scout",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 20,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "upgradeTo": "conquistador",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [
+        "hills",
+        "mountains"
+      ],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 1073741824
+    },
+    {
+      "id": "javelinThrower",
+      "name": "Javelin Thrower",
+      "domain": "land",
+      "attack": 2,
+      "defence": 2,
+      "movement": 1,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "warriorCode",
+      "upgradeTo": "berserk",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture",
+        "bit18"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -2147483648
+    },
+    {
+      "id": "dromon",
+      "name": "Dromon",
+      "domain": "sea",
+      "attack": 2,
+      "defence": 1,
+      "movement": 3,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 2,
+      "bombardRange": 1,
+      "rateOfFire": 2,
+      "operationalRange": 0,
+      "capacity": 2,
+      "zoneOfControl": false,
+      "requiredTech": "mapMaking",
+      "upgradeTo": "caravel",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "sinksInSea",
+        "sinksInOcean",
+        "startsGoldenAge",
+        "rangedAttackAnimations",
+        "bit28"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "unload",
+        "bombard",
+        "upgrade"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalPower"
+      ],
+      "availableToMask": 536870912
+    },
+    {
+      "id": "cruiser",
+      "name": "Cruiser",
+      "domain": "sea",
+      "attack": 15,
+      "defence": 10,
+      "movement": 6,
+      "shieldCost": 160,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 7,
+      "bombardRange": 1,
+      "rateOfFire": 2,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "combustion",
+      "upgradeTo": "aegisCruiser",
+      "requiredResources": [
+        "oil"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "radar",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "bombard",
+        "upgrade"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalPower"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "crusader",
+      "name": "Crusader",
+      "domain": "land",
+      "attack": 5,
+      "defence": 3,
+      "movement": 1,
+      "shieldCost": 70,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 100,
+      "jobs": [
+        "fortress",
+        "barricade"
+      ],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "ancientCavalry",
+      "name": "Ancient Cavalry",
+      "domain": "land",
+      "attack": 3,
+      "defence": 2,
+      "movement": 2,
+      "shieldCost": 40,
+      "populationCost": 0,
+      "hitPointBonus": 1,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": 0
+    },
+    {
+      "id": "curragh",
+      "name": "Curragh",
+      "domain": "sea",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 15,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "alphabet",
+      "upgradeTo": "galley",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "sinksInSea",
+        "sinksInOcean",
+        "rangedAttackAnimations",
+        "turnToAttack"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "upgrade"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalPower"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "paratrooper",
+      "name": "Paratrooper",
+      "domain": "land",
+      "attack": 4,
+      "defence": 9,
+      "movement": 1,
+      "shieldCost": 90,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 6,
+      "capacity": 0,
+      "zoneOfControl": true,
+      "requiredTech": "advancedFlight",
+      "upgradeTo": "modernParatrooper",
+      "requiredResources": [
+        "oil",
+        "rubber"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "airdrop",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "towInfantry",
+      "name": "TOW Infantry",
+      "domain": "land",
+      "attack": 12,
+      "defence": 14,
+      "movement": 1,
+      "shieldCost": 120,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 6,
+      "bombardRange": 0,
+      "rateOfFire": 1,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "rocketry",
+      "requiredResources": [],
+      "workRate": 100,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "draft"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "offence"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "flak",
+      "name": "Flak",
+      "domain": "land",
+      "attack": 1,
+      "defence": 6,
+      "movement": 1,
+      "shieldCost": 70,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "flight",
+      "upgradeTo": "mobileSam",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "mobileSam",
+      "name": "Mobile SAM",
+      "domain": "land",
+      "attack": 1,
+      "defence": 6,
+      "movement": 2,
+      "shieldCost": 100,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "rocketry",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "rifleman124",
+      "name": "Rifleman",
+      "domain": "land",
+      "attack": 4,
+      "defence": 6,
+      "movement": 1,
+      "shieldCost": 80,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "nationalism",
+      "upgradeTo": "infantry",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "draft",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "infantry125",
+      "name": "Infantry",
+      "domain": "land",
+      "attack": 6,
+      "defence": 10,
+      "movement": 1,
+      "shieldCost": 90,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "replaceableParts",
+      "upgradeTo": "mechInfantry",
+      "requiredResources": [
+        "rubber"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "draft",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "mechInfantry126",
+      "name": "Mech Infantry",
+      "domain": "land",
+      "attack": 12,
+      "defence": 18,
+      "movement": 2,
+      "shieldCost": 110,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": true,
+      "requiredTech": "computers",
+      "requiredResources": [
+        "oil",
+        "rubber"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "draft",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "nuclearSubmarine127",
+      "name": "Nuclear Submarine",
+      "domain": "sea",
+      "attack": 8,
+      "defence": 4,
+      "movement": 5,
+      "shieldCost": 140,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 1,
+      "zoneOfControl": false,
+      "requiredTech": "fission",
+      "requiredResources": [
+        "uranium"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "submarine",
+        "canSeeSubmarines",
+        "canCarryTacticalMissiles",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "unload",
+        "bit16"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalMissileTransport"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "impi128",
+      "name": "Impi",
+      "domain": "land",
+      "attack": 1,
+      "defence": 2,
+      "movement": 2,
+      "shieldCost": 20,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "bronzeWorking",
+      "upgradeTo": "musketman",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": 16384
+    },
+    {
+      "id": "legionary129",
+      "name": "Legionary",
+      "domain": "land",
+      "attack": 3,
+      "defence": 3,
+      "movement": 1,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "ironWorking",
+      "upgradeTo": "immortals",
+      "requiredResources": [
+        "iron"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": 2
+    },
+    {
+      "id": "musketeer130",
+      "name": "Musketeer",
+      "domain": "land",
+      "attack": 2,
+      "defence": 5,
+      "movement": 1,
+      "shieldCost": 60,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 2,
+      "bombardRange": 0,
+      "rateOfFire": 1,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "gunpowder",
+      "upgradeTo": "rifleman",
+      "requiredResources": [
+        "saltpeter"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": 1024
+    },
+    {
+      "id": "samurai131",
+      "name": "Samurai",
+      "domain": "land",
+      "attack": 4,
+      "defence": 4,
+      "movement": 2,
+      "shieldCost": 70,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "chivalry",
+      "upgradeTo": "warElephant",
+      "requiredResources": [
+        "iron"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": 512
+    },
+    {
+      "id": "f15132",
+      "name": "F-15",
+      "domain": "air",
+      "attack": 8,
+      "defence": 4,
+      "movement": 1,
+      "shieldCost": 100,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 6,
+      "bombardRange": 0,
+      "rateOfFire": 2,
+      "operationalRange": 9,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "rocketry",
+      "requiredResources": [
+        "oil",
+        "aluminum"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "immobile",
+        "startsGoldenAge",
+        "bit27",
+        "bit28"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "bit16"
+      ],
+      "airMissions": [
+        "bomb",
+        "recon",
+        "intercept",
+        "rebase",
+        "precisionBomb"
+      ],
+      "aiRoles": [
+        "airDefence"
+      ],
+      "availableToMask": 256
+    },
+    {
+      "id": "conquistador133",
+      "name": "Conquistador",
+      "domain": "land",
+      "attack": 3,
+      "defence": 2,
+      "movement": 2,
+      "shieldCost": 70,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": true,
+      "requiredTech": "astronomy",
+      "upgradeTo": "explorer",
+      "requiredResources": [
+        "horses"
+      ],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "allTerrainAsRoads",
+        "startsGoldenAge",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "explore"
+      ],
+      "availableToMask": 262144
+    },
+    {
+      "id": "numidianMercenary134",
+      "name": "Numidian Mercenary",
+      "domain": "land",
+      "attack": 2,
+      "defence": 3,
+      "movement": 1,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "bronzeWorking",
+      "upgradeTo": "pikeman",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "draft",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": 8388608
+    },
+    {
+      "id": "guerilla135",
+      "name": "Guerilla",
+      "domain": "land",
+      "attack": 6,
+      "defence": 6,
+      "movement": 1,
+      "shieldCost": 90,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 3,
+      "bombardRange": 0,
+      "rateOfFire": 1,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "replaceableParts",
+      "upgradeTo": "towInfantry",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "draft"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": -2
+    },
+    {
+      "id": "carrack136",
+      "name": "Carrack",
+      "domain": "sea",
+      "attack": 2,
+      "defence": 2,
+      "movement": 4,
+      "shieldCost": 40,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 3,
+      "zoneOfControl": false,
+      "requiredTech": "astronomy",
+      "upgradeTo": "galleon",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "startsGoldenAge",
+        "rangedAttackAnimations",
+        "turnToAttack"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "unload",
+        "upgrade"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalTransport"
+      ],
+      "availableToMask": 268435456
+    },
+    {
+      "id": "chasquiScout137",
+      "name": "Chasqui Scout",
+      "domain": "land",
+      "attack": 1,
+      "defence": 1,
+      "movement": 2,
+      "shieldCost": 20,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "upgradeTo": "conquistador",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [
+        "hills",
+        "mountains"
+      ],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "explore"
+      ],
+      "availableToMask": 1073741824
+    },
+    {
+      "id": "javelinThrower138",
+      "name": "Javelin Thrower",
+      "domain": "land",
+      "attack": 2,
+      "defence": 2,
+      "movement": 1,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 0,
+      "bombardRange": 0,
+      "rateOfFire": 0,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "warriorCode",
+      "upgradeTo": "berserk",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "startsGoldenAge",
+        "rangedAttackAnimations"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "upgrade",
+        "capture",
+        "bit18"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": -2147483648
+    },
+    {
+      "id": "dromon139",
+      "name": "Dromon",
+      "domain": "sea",
+      "attack": 2,
+      "defence": 1,
+      "movement": 3,
+      "shieldCost": 30,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 2,
+      "bombardRange": 1,
+      "rateOfFire": 2,
+      "operationalRange": 0,
+      "capacity": 2,
+      "zoneOfControl": false,
+      "requiredTech": "mapMaking",
+      "upgradeTo": "caravel",
+      "requiredResources": [],
+      "workRate": 0,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "sinksInSea",
+        "sinksInOcean",
+        "startsGoldenAge",
+        "rangedAttackAnimations",
+        "bit28"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "unload",
+        "bombard",
+        "upgrade"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "navalTransport"
+      ],
+      "availableToMask": 536870912
+    },
+    {
+      "id": "towInfantry140",
+      "name": "TOW Infantry",
+      "domain": "land",
+      "attack": 12,
+      "defence": 14,
+      "movement": 1,
+      "shieldCost": 120,
+      "populationCost": 0,
+      "hitPointBonus": 0,
+      "bombardStrength": 6,
+      "bombardRange": 0,
+      "rateOfFire": 1,
+      "operationalRange": 0,
+      "capacity": 0,
+      "zoneOfControl": false,
+      "requiredTech": "rocketry",
+      "requiredResources": [],
+      "workRate": 100,
+      "jobs": [],
+      "ignoresTerrainCost": [],
+      "abilities": [
+        "footSoldier",
+        "draft"
+      ],
+      "standardOrders": [
+        "skipTurn",
+        "wait",
+        "fortify",
+        "disband",
+        "goTo",
+        "explore",
+        "sentry"
+      ],
+      "specialActions": [
+        "load",
+        "airlift",
+        "pillage",
+        "capture"
+      ],
+      "airMissions": [],
+      "aiRoles": [
+        "defence"
+      ],
+      "availableToMask": -2
+    }
+  ],
+  "techs": [
+    {
+      "id": "bronzeWorking",
+      "name": "Bronze Working",
+      "era": "ancient",
+      "costFactor": 3,
+      "prerequisites": [],
+      "flags": []
+    },
+    {
+      "id": "masonry",
+      "name": "Masonry",
+      "era": "ancient",
+      "costFactor": 4,
+      "prerequisites": [],
+      "flags": []
+    },
+    {
+      "id": "alphabet",
+      "name": "Alphabet",
+      "era": "ancient",
+      "costFactor": 5,
+      "prerequisites": [],
+      "flags": []
+    },
+    {
+      "id": "pottery",
+      "name": "Pottery",
+      "era": "ancient",
+      "costFactor": 2,
+      "prerequisites": [],
+      "flags": []
+    },
+    {
+      "id": "theWheel",
+      "name": "The Wheel",
+      "era": "ancient",
+      "costFactor": 4,
+      "prerequisites": [],
+      "flags": []
+    },
+    {
+      "id": "warriorCode",
+      "name": "Warrior Code",
+      "era": "ancient",
+      "costFactor": 3,
+      "prerequisites": [],
+      "flags": []
+    },
+    {
+      "id": "ceremonialBurial",
+      "name": "Ceremonial Burial",
+      "era": "ancient",
+      "costFactor": 2,
+      "prerequisites": [],
+      "flags": []
+    },
+    {
+      "id": "ironWorking",
+      "name": "Iron Working",
+      "era": "ancient",
+      "costFactor": 6,
+      "prerequisites": [
+        "bronzeWorking"
+      ],
+      "flags": []
+    },
+    {
+      "id": "writing",
+      "name": "Writing",
+      "era": "ancient",
+      "costFactor": 8,
+      "prerequisites": [
+        "alphabet"
+      ],
+      "flags": [
+        "enablesDiplomats",
+        "enablesMilitaryAlliances"
+      ]
+    },
+    {
+      "id": "mysticism",
+      "name": "Mysticism",
+      "era": "ancient",
+      "costFactor": 4,
+      "prerequisites": [
+        "ceremonialBurial"
+      ],
+      "flags": []
+    },
+    {
+      "id": "mathematics",
+      "name": "Mathematics",
+      "era": "ancient",
+      "costFactor": 8,
+      "prerequisites": [
+        "masonry",
+        "alphabet"
+      ],
+      "flags": []
+    },
+    {
+      "id": "philosophy",
+      "name": "Philosophy",
+      "era": "ancient",
+      "costFactor": 6,
+      "prerequisites": [
+        "writing"
+      ],
+      "flags": [
+        "bit21"
+      ]
+    },
+    {
+      "id": "codeOfLaws",
+      "name": "Code of Laws",
+      "era": "ancient",
+      "costFactor": 10,
+      "prerequisites": [
+        "writing"
+      ],
+      "flags": []
+    },
+    {
+      "id": "literature",
+      "name": "Literature",
+      "era": "ancient",
+      "costFactor": 10,
+      "prerequisites": [
+        "writing"
+      ],
+      "flags": [
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "mapMaking",
+      "name": "Map Making",
+      "era": "ancient",
+      "costFactor": 12,
+      "prerequisites": [
+        "writing",
+        "pottery"
+      ],
+      "flags": [
+        "enablesRightOfPassage"
+      ]
+    },
+    {
+      "id": "horsebackRiding",
+      "name": "Horseback Riding",
+      "era": "ancient",
+      "costFactor": 5,
+      "prerequisites": [
+        "theWheel",
+        "warriorCode"
+      ],
+      "flags": []
+    },
+    {
+      "id": "polytheism",
+      "name": "Polytheism",
+      "era": "ancient",
+      "costFactor": 12,
+      "prerequisites": [
+        "mysticism"
+      ],
+      "flags": []
+    },
+    {
+      "id": "currency",
+      "name": "Currency",
+      "era": "ancient",
+      "costFactor": 16,
+      "prerequisites": [
+        "mathematics"
+      ],
+      "flags": []
+    },
+    {
+      "id": "theRepublic",
+      "name": "The Republic",
+      "era": "ancient",
+      "costFactor": 28,
+      "prerequisites": [
+        "philosophy",
+        "codeOfLaws"
+      ],
+      "flags": [
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "monarchy",
+      "name": "Monarchy",
+      "era": "ancient",
+      "costFactor": 24,
+      "prerequisites": [
+        "warriorCode",
+        "polytheism"
+      ],
+      "flags": [
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "construction",
+      "name": "Construction",
+      "era": "ancient",
+      "costFactor": 20,
+      "prerequisites": [
+        "ironWorking",
+        "mathematics"
+      ],
+      "flags": []
+    },
+    {
+      "id": "monotheism",
+      "name": "Monotheism",
+      "era": "middle",
+      "costFactor": 36,
+      "prerequisites": [],
+      "flags": []
+    },
+    {
+      "id": "feudalism",
+      "name": "Feudalism",
+      "era": "middle",
+      "costFactor": 32,
+      "prerequisites": [],
+      "flags": []
+    },
+    {
+      "id": "engineering",
+      "name": "Engineering",
+      "era": "middle",
+      "costFactor": 36,
+      "prerequisites": [],
+      "flags": [
+        "enablesBridges"
+      ]
+    },
+    {
+      "id": "theology",
+      "name": "Theology",
+      "era": "middle",
+      "costFactor": 40,
+      "prerequisites": [
+        "monotheism"
+      ],
+      "flags": []
+    },
+    {
+      "id": "chivalry",
+      "name": "Chivalry",
+      "era": "middle",
+      "costFactor": 32,
+      "prerequisites": [
+        "monotheism",
+        "feudalism"
+      ],
+      "flags": [
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "invention",
+      "name": "Invention",
+      "era": "middle",
+      "costFactor": 44,
+      "prerequisites": [
+        "feudalism",
+        "engineering"
+      ],
+      "flags": []
+    },
+    {
+      "id": "printingPress",
+      "name": "Printing Press",
+      "era": "middle",
+      "costFactor": 36,
+      "prerequisites": [
+        "theology"
+      ],
+      "flags": [
+        "enablesCommunicationTrading",
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "musicTheory",
+      "name": "Music Theory",
+      "era": "middle",
+      "costFactor": 40,
+      "prerequisites": [
+        "education"
+      ],
+      "flags": [
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "education",
+      "name": "Education",
+      "era": "middle",
+      "costFactor": 44,
+      "prerequisites": [
+        "theology"
+      ],
+      "flags": []
+    },
+    {
+      "id": "gunpowder",
+      "name": "Gunpowder",
+      "era": "middle",
+      "costFactor": 48,
+      "prerequisites": [
+        "invention"
+      ],
+      "flags": []
+    },
+    {
+      "id": "banking",
+      "name": "Banking",
+      "era": "middle",
+      "costFactor": 52,
+      "prerequisites": [
+        "education"
+      ],
+      "flags": []
+    },
+    {
+      "id": "astronomy",
+      "name": "Astronomy",
+      "era": "middle",
+      "costFactor": 56,
+      "prerequisites": [
+        "education"
+      ],
+      "flags": [
+        "enablesSeaTrade"
+      ]
+    },
+    {
+      "id": "chemistry",
+      "name": "Chemistry",
+      "era": "middle",
+      "costFactor": 60,
+      "prerequisites": [
+        "gunpowder"
+      ],
+      "flags": []
+    },
+    {
+      "id": "democracy",
+      "name": "Democracy",
+      "era": "middle",
+      "costFactor": 68,
+      "prerequisites": [
+        "printingPress",
+        "banking"
+      ],
+      "flags": [
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "economics",
+      "name": "Economics",
+      "era": "middle",
+      "costFactor": 56,
+      "prerequisites": [
+        "banking"
+      ],
+      "flags": [
+        "doublesWealth",
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "navigation",
+      "name": "Navigation",
+      "era": "middle",
+      "costFactor": 56,
+      "prerequisites": [
+        "astronomy"
+      ],
+      "flags": [
+        "enablesOceanTrade",
+        "enablesMapTrading",
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "physics",
+      "name": "Physics",
+      "era": "middle",
+      "costFactor": 64,
+      "prerequisites": [
+        "astronomy",
+        "chemistry"
+      ],
+      "flags": []
+    },
+    {
+      "id": "metallurgy",
+      "name": "Metallurgy",
+      "era": "middle",
+      "costFactor": 64,
+      "prerequisites": [
+        "chemistry"
+      ],
+      "flags": []
+    },
+    {
+      "id": "freeArtistry",
+      "name": "Free Artistry",
+      "era": "middle",
+      "costFactor": 52,
+      "prerequisites": [
+        "democracy"
+      ],
+      "flags": [
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "theoryOfGravity",
+      "name": "Theory of Gravity",
+      "era": "middle",
+      "costFactor": 68,
+      "prerequisites": [
+        "physics"
+      ],
+      "flags": []
+    },
+    {
+      "id": "magnetism",
+      "name": "Magnetism",
+      "era": "middle",
+      "costFactor": 68,
+      "prerequisites": [
+        "physics"
+      ],
+      "flags": [
+        "enablesOceanTrade"
+      ]
+    },
+    {
+      "id": "militaryTradition",
+      "name": "Military Tradition",
+      "era": "middle",
+      "costFactor": 64,
+      "prerequisites": [
+        "metallurgy"
+      ],
+      "flags": [
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "nationalism",
+      "name": "Nationalism",
+      "era": "industrial",
+      "costFactor": 120,
+      "prerequisites": [],
+      "flags": [
+        "enablesConscription",
+        "enablesMobilization",
+        "enablesMutualProtectionPacts",
+        "enablesTradeEmbargoes",
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "steamPower",
+      "name": "Steam Power",
+      "era": "industrial",
+      "costFactor": 120,
+      "prerequisites": [],
+      "flags": []
+    },
+    {
+      "id": "medicine",
+      "name": "Medicine",
+      "era": "industrial",
+      "costFactor": 100,
+      "prerequisites": [],
+      "flags": []
+    },
+    {
+      "id": "communism",
+      "name": "Communism",
+      "era": "industrial",
+      "costFactor": 120,
+      "prerequisites": [
+        "nationalism"
+      ],
+      "flags": [
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "industrialization",
+      "name": "Industrialization",
+      "era": "industrial",
+      "costFactor": 120,
+      "prerequisites": [
+        "steamPower"
+      ],
+      "flags": []
+    },
+    {
+      "id": "electricity",
+      "name": "Electricity",
+      "era": "industrial",
+      "costFactor": 140,
+      "prerequisites": [
+        "steamPower"
+      ],
+      "flags": [
+        "irrigationWithoutFreshWater"
+      ]
+    },
+    {
+      "id": "scientificMethod",
+      "name": "Scientific Method",
+      "era": "industrial",
+      "costFactor": 100,
+      "prerequisites": [
+        "medicine",
+        "electricity"
+      ],
+      "flags": []
+    },
+    {
+      "id": "sanitation",
+      "name": "Sanitation",
+      "era": "industrial",
+      "costFactor": 90,
+      "prerequisites": [
+        "medicine"
+      ],
+      "flags": [
+        "disablesFloodPlainDisease",
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "espionage",
+      "name": "Espionage",
+      "era": "industrial",
+      "costFactor": 90,
+      "prerequisites": [
+        "nationalism",
+        "industrialization"
+      ],
+      "flags": [
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "theCorporation",
+      "name": "The Corporation",
+      "era": "industrial",
+      "costFactor": 100,
+      "prerequisites": [
+        "industrialization"
+      ],
+      "flags": []
+    },
+    {
+      "id": "refining",
+      "name": "Refining",
+      "era": "industrial",
+      "costFactor": 160,
+      "prerequisites": [
+        "theCorporation"
+      ],
+      "flags": []
+    },
+    {
+      "id": "steel",
+      "name": "Steel",
+      "era": "industrial",
+      "costFactor": 140,
+      "prerequisites": [
+        "theCorporation"
+      ],
+      "flags": []
+    },
+    {
+      "id": "atomicTheory",
+      "name": "Atomic Theory",
+      "era": "industrial",
+      "costFactor": 200,
+      "prerequisites": [
+        "scientificMethod"
+      ],
+      "flags": []
+    },
+    {
+      "id": "combustion",
+      "name": "Combustion",
+      "era": "industrial",
+      "costFactor": 160,
+      "prerequisites": [
+        "refining",
+        "steel"
+      ],
+      "flags": []
+    },
+    {
+      "id": "replaceableParts",
+      "name": "Replaceable Parts",
+      "era": "industrial",
+      "costFactor": 140,
+      "prerequisites": [
+        "electricity"
+      ],
+      "flags": [
+        "doublesWorkRate"
+      ]
+    },
+    {
+      "id": "flight",
+      "name": "Flight",
+      "era": "industrial",
+      "costFactor": 180,
+      "prerequisites": [
+        "combustion"
+      ],
+      "flags": []
+    },
+    {
+      "id": "amphibiousWar",
+      "name": "Amphibious War",
+      "era": "industrial",
+      "costFactor": 120,
+      "prerequisites": [
+        "massProduction"
+      ],
+      "flags": [
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "massProduction",
+      "name": "Mass Production",
+      "era": "industrial",
+      "costFactor": 140,
+      "prerequisites": [
+        "combustion",
+        "replaceableParts"
+      ],
+      "flags": []
+    },
+    {
+      "id": "electronics",
+      "name": "Electronics",
+      "era": "industrial",
+      "costFactor": 180,
+      "prerequisites": [
+        "atomicTheory"
+      ],
+      "flags": []
+    },
+    {
+      "id": "motorizedTransportation",
+      "name": "Motorized Transportation",
+      "era": "industrial",
+      "costFactor": 140,
+      "prerequisites": [
+        "massProduction"
+      ],
+      "flags": []
+    },
+    {
+      "id": "advancedFlight",
+      "name": "Advanced Flight",
+      "era": "industrial",
+      "costFactor": 180,
+      "prerequisites": [
+        "flight",
+        "electronics",
+        "motorizedTransportation"
+      ],
+      "flags": [
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "rocketry",
+      "name": "Rocketry",
+      "era": "modern",
+      "costFactor": 240,
+      "prerequisites": [],
+      "flags": []
+    },
+    {
+      "id": "fission",
+      "name": "Fission",
+      "era": "modern",
+      "costFactor": 280,
+      "prerequisites": [],
+      "flags": []
+    },
+    {
+      "id": "computers",
+      "name": "Computers",
+      "era": "modern",
+      "costFactor": 260,
+      "prerequisites": [],
+      "flags": []
+    },
+    {
+      "id": "recycling",
+      "name": "Recycling",
+      "era": "modern",
+      "costFactor": 240,
+      "prerequisites": [
+        "ecology"
+      ],
+      "flags": [
+        "enablesRecycling"
+      ]
+    },
+    {
+      "id": "spaceFlight",
+      "name": "Space Flight",
+      "era": "modern",
+      "costFactor": 300,
+      "prerequisites": [
+        "rocketry"
+      ],
+      "flags": []
+    },
+    {
+      "id": "nuclearPower",
+      "name": "Nuclear Power",
+      "era": "modern",
+      "costFactor": 280,
+      "prerequisites": [
+        "fission"
+      ],
+      "flags": []
+    },
+    {
+      "id": "superconductor",
+      "name": "Superconductor",
+      "era": "modern",
+      "costFactor": 300,
+      "prerequisites": [
+        "fission",
+        "spaceFlight"
+      ],
+      "flags": []
+    },
+    {
+      "id": "miniaturization",
+      "name": "Miniaturization",
+      "era": "modern",
+      "costFactor": 320,
+      "prerequisites": [
+        "computers"
+      ],
+      "flags": []
+    },
+    {
+      "id": "ecology",
+      "name": "Ecology",
+      "era": "modern",
+      "costFactor": 260,
+      "prerequisites": [],
+      "flags": []
+    },
+    {
+      "id": "syntheticFibers",
+      "name": "Synthetic Fibers",
+      "era": "modern",
+      "costFactor": 280,
+      "prerequisites": [
+        "ecology"
+      ],
+      "flags": []
+    },
+    {
+      "id": "satellites",
+      "name": "Satellites",
+      "era": "modern",
+      "costFactor": 260,
+      "prerequisites": [
+        "spaceFlight"
+      ],
+      "flags": [
+        "bit22"
+      ]
+    },
+    {
+      "id": "theLaser",
+      "name": "The Laser",
+      "era": "modern",
+      "costFactor": 280,
+      "prerequisites": [
+        "nuclearPower",
+        "computers"
+      ],
+      "flags": []
+    },
+    {
+      "id": "genetics",
+      "name": "Genetics",
+      "era": "modern",
+      "costFactor": 320,
+      "prerequisites": [
+        "miniaturization"
+      ],
+      "flags": []
+    },
+    {
+      "id": "stealth",
+      "name": "Stealth",
+      "era": "modern",
+      "costFactor": 300,
+      "prerequisites": [
+        "syntheticFibers"
+      ],
+      "flags": []
+    },
+    {
+      "id": "smartWeapons",
+      "name": "Smart Weapons",
+      "era": "modern",
+      "costFactor": 280,
+      "prerequisites": [
+        "satellites",
+        "theLaser"
+      ],
+      "flags": [
+        "enablesPrecisionBombing"
+      ]
+    },
+    {
+      "id": "robotics",
+      "name": "Robotics",
+      "era": "modern",
+      "costFactor": 320,
+      "prerequisites": [
+        "theLaser",
+        "miniaturization"
+      ],
+      "flags": []
+    },
+    {
+      "id": "integratedDefense",
+      "name": "Integrated Defense",
+      "era": "modern",
+      "costFactor": 360,
+      "prerequisites": [
+        "superconductor",
+        "satellites",
+        "smartWeapons"
+      ],
+      "flags": []
+    },
+    {
+      "id": "ironclads",
+      "name": "Ironclads",
+      "era": "industrial",
+      "costFactor": 100,
+      "prerequisites": [
+        "steamPower"
+      ],
+      "flags": [
+        "notRequiredForEraAdvance"
+      ]
+    },
+    {
+      "id": "fascism",
+      "name": "Fascism",
+      "era": "industrial",
+      "costFactor": 130,
+      "prerequisites": [
+        "nationalism"
+      ],
+      "flags": [
+        "notRequiredForEraAdvance"
+      ]
+    }
+  ],
+  "governments": [
+    {
+      "id": "anarchy",
+      "name": "Anarchy",
+      "workerRate": 1
+    },
+    {
+      "id": "despotism",
+      "name": "Despotism",
+      "workerRate": 2
+    },
+    {
+      "id": "monarchy",
+      "name": "Monarchy",
+      "requiredTech": "monarchy",
+      "workerRate": 2
+    },
+    {
+      "id": "communism",
+      "name": "Communism",
+      "requiredTech": "communism",
+      "workerRate": 2
+    },
+    {
+      "id": "republic",
+      "name": "Republic",
+      "requiredTech": "theRepublic",
+      "workerRate": 2
+    },
+    {
+      "id": "democracy",
+      "name": "Democracy",
+      "requiredTech": "democracy",
+      "workerRate": 3
+    },
+    {
+      "id": "fascism",
+      "name": "Fascism",
+      "requiredTech": "fascism",
+      "workerRate": 4
+    },
+    {
+      "id": "feudalism",
+      "name": "Feudalism",
+      "requiredTech": "feudalism",
+      "workerRate": 2
+    }
+  ],
+  "worldSizes": [
+    {
+      "id": "tiny",
+      "name": "Tiny",
+      "width": 60,
+      "height": 60,
+      "optimalCities": 14,
+      "techRate": 160,
+      "distanceBetweenCivs": 11,
+      "defaultCivs": 4
+    },
+    {
+      "id": "small",
+      "name": "Small",
+      "width": 80,
+      "height": 80,
+      "optimalCities": 17,
+      "techRate": 200,
+      "distanceBetweenCivs": 11,
+      "defaultCivs": 6
+    },
+    {
+      "id": "standard",
+      "name": "Standard",
+      "width": 100,
+      "height": 100,
+      "optimalCities": 20,
+      "techRate": 240,
+      "distanceBetweenCivs": 12,
+      "defaultCivs": 8
+    },
+    {
+      "id": "large",
+      "name": "Large",
+      "width": 130,
+      "height": 130,
+      "optimalCities": 28,
+      "techRate": 320,
+      "distanceBetweenCivs": 18,
+      "defaultCivs": 12
+    },
+    {
+      "id": "huge",
+      "name": "Huge",
+      "width": 160,
+      "height": 160,
+      "optimalCities": 36,
+      "techRate": 400,
+      "distanceBetweenCivs": 24,
+      "defaultCivs": 16
+    }
+  ],
+  "experienceLevels": [
+    {
+      "id": "conscript",
+      "name": "Conscript",
+      "hitPoints": 2,
+      "retreatChance": 34
+    },
+    {
+      "id": "regular",
+      "name": "Regular",
+      "hitPoints": 3,
+      "retreatChance": 50
+    },
+    {
+      "id": "veteran",
+      "name": "Veteran",
+      "hitPoints": 4,
+      "retreatChance": 58
+    },
+    {
+      "id": "elite",
+      "name": "Elite",
+      "hitPoints": 5,
+      "retreatChance": 66
+    }
+  ]
+}

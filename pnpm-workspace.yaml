@@ -4,3 +4,5 @@ packages:
 # esbuild (used by vitest and tsx) needs its build step to place its native binary.
 allowBuilds:
   esbuild: true
+  # sharp ships prebuilt binaries as optional packages; its install script is not needed.
+  sharp: false

@@ -33,6 +33,16 @@ importers:
         specifier: ^3.2.7
         version: 3.2.7(@types/node@24.19.2)(supports-color@7.2.0)(tsx@4.23.15)
 
+  packages/automation:
+    dependencies:
+      '@civolution/engine':
+        specifier: workspace:*
+        version: link:../engine
+    devDependencies:
+      '@civolution/rules':
+        specifier: workspace:*
+        version: link:../rules
+
   packages/data-schema:
     dependencies:
       zod:
@@ -60,6 +70,18 @@ importers:
       '@civolution/data-schema':
         specifier: workspace:*
         version: link:../data-schema
+
+  packages/sim:
+    dependencies:
+      '@civolution/automation':
+        specifier: workspace:*
+        version: link:../automation
+      '@civolution/engine':
+        specifier: workspace:*
+        version: link:../engine
+      '@civolution/rules':
+        specifier: workspace:*
+        version: link:../rules
 
 packages:
 

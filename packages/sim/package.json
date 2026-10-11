@@ -1,0 +1,14 @@
+{
+  "name": "@civolution/sim",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "sim": "tsx src/cli.ts"
+  },
+  "dependencies": {
+    "@civolution/automation": "workspace:*",
+    "@civolution/engine": "workspace:*",
+    "@civolution/rules": "workspace:*"
+  }
+}

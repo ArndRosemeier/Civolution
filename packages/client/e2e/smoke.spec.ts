@@ -56,7 +56,8 @@ test('new game, found a city, run it, end turns, save and load', async ({ page }
   await expect(turn).toHaveText('Turn 4');
   await page.keyboard.press('Control+KeyL');
   await page.getByRole('button', { name: /^smoke/ }).click();
-  await expect(turn).toHaveText('Turn 3');
+  // Loading rebuilds the 3D world, which is slow on CI's software renderer.
+  await expect(turn).toHaveText('Turn 3', { timeout: 120_000 });
   await expect(page.locator('.city-label')).toHaveCount(1);
 
   await page.screenshot({ path: 'test-results/smoke.png' });

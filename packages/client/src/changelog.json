@@ -1,5 +1,21 @@
 [
   {
+    "version": "0.003",
+    "date": "2026-10-11",
+    "title": "Automation: hand the empire to your advisors",
+    "items": [
+      "The new automation screen (F7) hands whole parts of the game to automation: citizens, builds, workers, research, the treasury, the military and answers to offers. One click delegates everything; changing something by hand pauses automation just there.",
+      "City governors place citizens for a goal: Balanced, Growth, Production, Gold, Science, Culture, Military Pump, Settler Pump or your own weights. They keep cities fed and out of disorder and may rush builds within a budget.",
+      "Build templates (New town, Core city, Coastal, Frontier fortress and more) choose what cities build, with conditions such as \"Temple if unhappy\" or \"best defender if at war\". Copy one to make your own; new and captured cities get one automatically.",
+      "Workers share one pool: they connect resources and cities, irrigate hungry cities, mine weak producers, clean pollution and keep away from enemies. The job board shows who works where and why, and regions keep them off jobs you forbid.",
+      "New unit orders: garrison the nearest city that needs defenders, patrol between two tiles, bombard enemies in range every turn, and rally points for each city.",
+      "Your own rules: \"when a city grows to 12 without a hospital, build one\", \"new scouts explore\". Rules and templates export to a file you can share.",
+      "Each turn opens with a digest: what needs you, most urgent first, and what automation took care of. A 200-city empire now takes seconds a turn.",
+      "Set a research goal in the science advisor and automation takes the steps toward it. Every automated order explains itself in the log.",
+      "Traded luxuries and strategic resources now need a trade route between the two capitals; stealth bombers choose which unit to strike."
+    ]
+  },
+  {
     "version": "0.002",
     "date": "2026-10-11",
     "title": "Rivals: computer leaders, diplomacy and espionage",

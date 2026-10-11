@@ -4,6 +4,7 @@ import { App } from './App.tsx';
 import './styles.css';
 import './cities.css';
 import './war.css';
+import './automation.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

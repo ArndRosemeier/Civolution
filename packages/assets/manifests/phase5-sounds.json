@@ -1,0 +1,16 @@
+{
+  "$comment": "Phase 5 sound effects (ByteDance Seed Audio on OpenRouter). Run: OPEN_ROUTER_KEY=... pnpm --filter @civolution/assets sounds -- --manifest manifests/phase5-sounds.json. Every prompt starts with 'The sound of' (the tool adds it when missing).",
+  "model": "bytedance-seed/seed-audio-1-0",
+  "outDir": "packages/client/public/audio",
+  "items": [
+    { "id": "digest-open", "prompt": "The sound of a parchment scroll being unrolled on a wooden desk, followed by two soft bright chimes, without voices, about one and a half seconds", "variations": 2 },
+    { "id": "digest-clear", "prompt": "The sound of a single warm bell tone ringing out calmly and fading, without voices, about one and a half seconds", "variations": 2 },
+    { "id": "automation-on", "prompt": "The sound of brass clockwork gears engaging one after another with crisp ticks and a satisfying final click, without voices, about one and a half seconds", "variations": 2 },
+    { "id": "automation-off", "prompt": "The sound of a small clockwork mechanism winding down with slowing ticks and a soft stop, without voices, about one and a half seconds", "variations": 2 },
+    { "id": "template-set", "prompt": "The sound of a heavy brass seal stamp pressed firmly onto paper on a wooden table, a single thud with a light papery rustle, without voices, about one second", "variations": 2 },
+    { "id": "rule-fired", "prompt": "The sound of a small brass hand bell rung twice quickly, light and clear, without voices, about one second", "variations": 2 },
+    { "id": "work-started", "prompt": "The sound of a pickaxe striking hard soil twice and a shovel scraping gravel, outdoors, without voices, about one and a half seconds", "variations": 3 },
+    { "id": "rally-call", "prompt": "The sound of a short military bugle call of four rising notes followed by a single snare drum roll, without voices, about two seconds", "variations": 2 },
+    { "id": "garrison", "prompt": "The sound of armoured soldiers marching a few steps on stone and grounding their shields with a solid clank, without voices, about one and a half seconds", "variations": 2 }
+  ]
+}

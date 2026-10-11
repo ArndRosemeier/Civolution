@@ -57,7 +57,7 @@ describe('automation settings', () => {
 
   it('loads alpha 0.002 saves (format 4) with default settings', () => {
     const s = flatGame();
-    const old = JSON.parse(saveGame(s)) as { header: { version: number }; state: GameState & { version: number } };
+    const old = JSON.parse(saveGame(s)) as { header: { version: number }; state: Omit<GameState, 'version'> & { version: number } };
     old.header.version = 4;
     old.state.version = 4;
     for (const p of old.state.players) delete (p as Partial<typeof p>).automation;

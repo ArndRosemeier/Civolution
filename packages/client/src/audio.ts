@@ -51,6 +51,7 @@ const EVENT_SOUNDS: Partial<Record<GameEvent['type'], string>> = {
   governmentChanged: 'government-changed',
   bordersGrew: 'borders-grew',
   cityHurried: 'hurry',
+  workStarted: 'work-started',
 };
 
 let unitFamily: (type: string) => string = () => 'melee';
@@ -135,7 +136,7 @@ export function playEvents(events: readonly GameEvent[], human: number): void {
     play(SKIRMISH_SOUNDS[skirmish.type]!);
     return;
   }
-  const priority = ['eraEntered', 'wonderBuilt', 'anarchyStarted', 'governmentChanged', 'techDiscovered', 'cityFounded', 'cityDisorder', 'cityBuilt', 'cityGrew', 'cityCelebrating', 'bordersGrew', 'cityOrderRestored', 'cityStarved', 'cityHurried'];
+  const priority = ['eraEntered', 'wonderBuilt', 'anarchyStarted', 'governmentChanged', 'techDiscovered', 'cityFounded', 'cityDisorder', 'cityBuilt', 'cityGrew', 'cityCelebrating', 'bordersGrew', 'cityOrderRestored', 'cityStarved', 'cityHurried', 'workStarted'];
   for (const type of priority) {
     const e = mine.find((x) => x.type === type);
     if (!e) continue;

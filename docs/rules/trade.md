@@ -27,8 +27,15 @@ player's cities. Every city on that network can use it: luxuries make people hap
 scenario grants (`player.resources`) count everywhere. Worker jobs that need a resource
 (railroads need Iron and Coal) look at what the capital's network has.
 
-Colonies on resources outside the borders, and trading resources with other
-civilizations, arrive with diplomacy in Phase 4.
+Colonies on resources outside the borders arrive in a later phase.
+
+## Trade between civilizations (Phase 5)
+
+A luxury or strategic resource changes hands in a deal only along a trade route between
+the two capitals (`tradeRoute`): roads, railroads and rivers through either side's
+territory or unclaimed land, or the water between harbour cities of either side (sea and
+ocean as either side's techs allow). A delivered resource reaches the receiver only while
+the route stands; the deal itself runs on, and the turn digest reports the loss.
 
 ## Sources
 

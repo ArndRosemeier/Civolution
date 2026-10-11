@@ -4,7 +4,8 @@
  * back the new state plus what the human player currently sees.
  */
 import * as Comlink from 'comlink';
-import { runRoutines } from '@civolution/automation';
+import { jobBoard, runAutomation, runRoutines, type DigestItem, type JobBoard } from '@civolution/automation';
+import { empireScenario } from '@civolution/sim/scenarios';
 import {
   apply,
   createGame,
@@ -40,10 +41,14 @@ export interface CommandResult {
   snapshot: Snapshot;
   events: GameEvent[];
   error?: string;
+  /** The turn digest, when a new turn began (or automation was switched on). */
+  digest?: DigestItem[];
 }
 
 let state: GameState | null = null;
 let human = 0;
+/** The state when the human's current turn began (the digest compares against it). */
+let turnStart: GameState | null = null;
 
 function snapshot(): Snapshot {
   if (!state) throw new Error('no game');
@@ -79,8 +84,8 @@ function applyCommand(cmd: Command, events: GameEvent[]): string | undefined {
   return undefined;
 }
 
-/** Runs the AI players' turns (@civolution/ai), then the human's routines for the new turn. */
-function finishRound(events: GameEvent[]): void {
+/** Runs the AI players' turns (@civolution/ai), then the human's automation for the new turn. */
+function finishRound(events: GameEvent[]): DigestItem[] {
   current().players.forEach((p, i) => {
     const s = current();
     if (i === human || !s.players[i]!.alive || s.players[i]!.endedTurn || p.barbarian) return;
@@ -91,27 +96,46 @@ function finishRound(events: GameEvent[]): void {
     if (!stillAlive(current(), i)) return;
     applyCommand({ type: 'endTurn', player: i }, events);
   });
-  const run = runRoutines(rules, current(), human);
+  return automate(events);
+}
+
+/** The human's automation pass (PLAN.md §8): governors, templates, workers, routines, policies, digest. */
+function automate(events: GameEvent[], adopt = false): DigestItem[] {
+  const run = runAutomation(rules, current(), human, { events, ...(turnStart ? { prev: turnStart } : {}), adopt });
   state = run.state;
   events.push(...run.events);
+  turnStart = current();
+  return run.digest;
 }
 
 const host = {
   newGame(options: NewGameOptions, humanPlayer = 0): Snapshot {
     state = createGame(rules, options);
     human = humanPlayer;
+    turnStart = state;
     return snapshot();
   },
 
   command(cmd: Command): CommandResult {
     const events: GameEvent[] = [];
+    const before = current();
     const error = applyCommand(cmd, events);
     if (error) return { snapshot: snapshot(), events: [], error };
     // Turning a routine on acts immediately rather than at the next turn.
     if (cmd.type === 'setRoutine' && cmd.routine) {
-      const run = runRoutines(rules, current(), human);
+      const run = runRoutines(rules, current(), human, jobContext());
       state = run.state;
       events.push(...run.events);
+    }
+    // Handing an aspect to automation acts at once too, and takes in the idle units.
+    if (cmd.type === 'setAutomation') {
+      const was = before.players[human]!.automation.delegate;
+      const now = cmd.settings.delegate;
+      const newly = (Object.keys(now) as (keyof typeof now)[]).some((k) => now[k] && !was[k]);
+      if (newly) {
+        const digest = automate(events, true);
+        return { snapshot: snapshot(), events, digest };
+      }
     }
     return { snapshot: snapshot(), events };
   },
@@ -121,8 +145,21 @@ const host = {
     if (r.error) return { snapshot: snapshot(), events: [], error: r.error.message };
     state = r.state;
     const events = [...r.events];
-    finishRound(events);
-    return { snapshot: snapshot(), events };
+    const digest = finishRound(events);
+    return { snapshot: snapshot(), events, digest };
+  },
+
+  /** The worker pool's job board (who works where, and why). */
+  jobBoard(): JobBoard {
+    return jobBoard(rules, current(), human);
+  },
+
+  /** Test scenario (`?scenario=empire`): a 200-city late-game empire to automate. */
+  empire(): Snapshot {
+    state = empireScenario(rules);
+    human = 0;
+    turnStart = state;
+    return snapshot();
   },
 
   /**
@@ -143,6 +180,7 @@ const host = {
     state = loadGame(rules, text);
     human = state.players.findIndex((p) => p.human);
     if (human < 0) human = 0;
+    turnStart = state;
     return snapshot();
   },
 
@@ -226,6 +264,11 @@ const host = {
     return playerUnits(current(), human).map((u) => u.id);
   },
 };
+
+/** The pool's board for routines started by hand (workers then share the job list). */
+function jobContext(): { board?: JobBoard } {
+  return Object.values(current().units).some((u) => u.owner === human && u.routine === 'autoWorker') ? { board: jobBoard(rules, current(), human) } : {};
+}
 
 export type Host = typeof host;
 

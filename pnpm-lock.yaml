@@ -94,6 +94,9 @@ importers:
       '@civolution/rules':
         specifier: workspace:*
         version: link:../rules
+      '@civolution/sim':
+        specifier: workspace:*
+        version: link:../sim
       comlink:
         specifier: ^4.4.2
         version: 4.4.2

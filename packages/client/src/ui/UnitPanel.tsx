@@ -22,6 +22,7 @@ import type { Snapshot } from '../host/client.ts';
 import { rules } from '../rules.ts';
 import { useGame, type AimAction } from '../store.ts';
 import { formatMoves } from './describe.ts';
+import { play } from '../audio.ts';
 
 export interface UnitAction {
   id: string;
@@ -183,6 +184,40 @@ export function unitActions(snap: Snapshot, u: Unit): UnitAction[] {
       advances: u.routine !== 'explore',
       run: () => send({ type: 'setRoutine', unit: u.id, routine: u.routine === 'explore' ? null : 'explore' }),
     });
+    if (rule.defence > 0 && rule.domain === 'land') {
+      out.push({
+        id: 'garrison',
+        label: u.routine === 'garrison' ? 'Stop garrison duty' : 'Garrison',
+        key: 'KeyY',
+        detail: 'nearest city short of defenders',
+        advances: u.routine !== 'garrison',
+        run: () => {
+          if (u.routine !== 'garrison') play('garrison');
+          return send({ type: 'setRoutine', unit: u.id, routine: u.routine === 'garrison' ? null : 'garrison' });
+        },
+      });
+      out.push({
+        id: 'patrol',
+        label: u.routine?.startsWith('patrol:') ? 'Stop patrolling' : 'Patrol',
+        key: 'KeyV',
+        detail: 'between here and a tile',
+        run: () => {
+          if (u.routine?.startsWith('patrol:')) return send({ type: 'setRoutine', unit: u.id, routine: null });
+          useGame.getState().setTilePick({ purpose: 'patrol', unit: u.id });
+          return Promise.resolve();
+        },
+      });
+    }
+    if (rule.specialActions.includes('bombard') && rule.bombardStrength > 0) {
+      out.push({
+        id: 'autoBombard',
+        label: u.routine === 'bombard' ? 'Stop bombarding' : 'Bombard each turn',
+        key: 'KeyB',
+        shift: true,
+        advances: u.routine !== 'bombard',
+        run: () => send({ type: 'setRoutine', unit: u.id, routine: u.routine === 'bombard' ? null : 'bombard' }),
+      });
+    }
   }
   if (u.order || u.routine) out.push({ id: 'wake', label: 'Wake', key: 'KeyZ', run: () => send({ type: 'setRoutine', unit: u.id, routine: null }).then(() => send({ type: 'wake', unit: u.id })) });
   out.push({ id: 'disband', label: 'Disband', key: 'KeyD', shift: true, run: () => (confirm(`Disband this ${rule.name}?`) ? send({ type: 'disband', unit: u.id }) : Promise.resolve(false)) });
@@ -194,6 +229,10 @@ function orderText(u: Unit): string {
   if (u.routine === 'explore') return 'Exploring';
   if (u.routine === 'autoWorker') return u.order?.type === 'work' ? `Automated: ${rules.job(u.order.job).name}` : 'Automated';
   if (u.routine === 'autoSettle') return 'Looking for a city site';
+  if (u.routine === 'garrison') return u.fortified ? 'Garrison' : 'Garrison: on the way';
+  if (u.routine === 'bombard') return 'Bombarding enemies in range';
+  if (u.routine?.startsWith('patrol:')) return 'Patrolling';
+  if (u.routine?.startsWith('rally:')) return 'To the rally point';
   switch (u.order?.type) {
     case 'fortify':
       return 'Fortified';

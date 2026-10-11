@@ -203,7 +203,8 @@ export function jobBoard(rules: Rules, state: GameState, player: number): JobBoa
   for (const u of workers) {
     if (u.order?.type === 'work') {
       taken.add(u.tile);
-      assignments.push({ unit: u.id, tile: u.tile, job: u.order.job, why: `working (${u.order.job})`, travel: 0 });
+      const known = jobs.find((j) => j.tile === u.tile && j.job === (u.order as { job: string }).job);
+      assignments.push({ unit: u.id, tile: u.tile, job: u.order.job, why: known?.why ?? `${rules.job(u.order.job).name.toLowerCase()} here`, travel: 0 });
     }
   }
   for (const u of workers) {

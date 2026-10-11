@@ -85,11 +85,13 @@ export function governCity(rules: Rules, state: GameState, city: City, setting: 
     const left = city.size - worked.length;
     // Short of the target unless every remaining citizen finds an average (2-food) tile.
     const hungry = food + 2 * left < need + profile.food;
+    // Once the target is in reach, more food is worth less (growth goals excepted).
+    const fed = profile.food < 4 && food + 2 * (left - 1) >= need + profile.food + 2;
     let best = -1;
     let bestScore = -Infinity;
     for (let i = 0; i < remaining.length; i++) {
       const y = yields.get(remaining[i]!)!;
-      const score = y.v + (hungry ? y.f * 20 : 0);
+      const score = y.v - (fed ? y.f * w.food * 0.65 : 0) + (hungry ? y.f * 20 : 0);
       if (score > bestScore) {
         best = i;
         bestScore = score;

@@ -1,0 +1,12 @@
+{
+  "name": "@civolution/rules",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "curate": "tsx scripts/curate.ts"
+  },
+  "dependencies": {
+    "@civolution/data-schema": "workspace:*"
+  }
+}

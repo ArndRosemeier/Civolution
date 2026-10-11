@@ -105,11 +105,13 @@ export function crossesRiver(state: GameState, from: number, dir: number): boole
   return riverEdgeBetween(m, from, r, right) || riverEdgeBetween(m, r, to, left);
 }
 
-/** A river on the tile, or a lake or irrigated tile sharing an edge. */
+const ALL_DIRS = [0, 1, 2, 3, 4, 5, 6, 7];
+
+/** A river on the tile, or a lake or irrigated tile next to it (diagonals included). */
 function touchesWater(state: GameState, tile: number, irrigatedBit: number): boolean {
   const m = state.map;
   if (m.rivers[tile] !== 0) return true;
-  for (const dir of [1, 3, 5, 7]) {
+  for (const dir of ALL_DIRS) {
     const j = neighbour(m, tile, dir);
     if (j < 0) continue;
     if (m.flags[j]! & FLAG_LAKE) return true;
@@ -119,16 +121,18 @@ function touchesWater(state: GameState, tile: number, irrigatedBit: number): boo
 }
 
 /**
- * Fresh water next to a tile: a river on its edges, or a lake, irrigated tile or watered
- * city sharing an edge. A city tile counts as irrigated when it has fresh water itself
- * (docs/rules/workers.md).
+ * Fresh water for irrigating a tile: a river on the tile or on any neighbour, or a lake,
+ * irrigated tile or watered city next to it, diagonals included. A city tile counts as
+ * irrigated when it has fresh water itself (docs/rules/workers.md).
  */
 export function hasFreshWaterAccess(state: GameState, tile: number, irrigatedBit: number): boolean {
   if (touchesWater(state, tile, irrigatedBit)) return true;
   const m = state.map;
-  for (const dir of [1, 3, 5, 7]) {
+  for (const dir of ALL_DIRS) {
     const j = neighbour(m, tile, dir);
-    if (j >= 0 && cityAt(state, j) && touchesWater(state, j, irrigatedBit)) return true;
+    if (j < 0) continue;
+    if (m.rivers[j] !== 0) return true;
+    if (cityAt(state, j) && touchesWater(state, j, irrigatedBit)) return true;
   }
   return false;
 }

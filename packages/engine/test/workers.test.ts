@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { apply, checkJob, EDGE_NE, IMP_IRRIGATION, IMP_MINE, IMP_ROAD } from '../src/index.ts';
+import { apply, checkJob, EDGE_NE, FLAG_LAKE, IMP_IRRIGATION, IMP_MINE, IMP_ROAD, neighbours } from '../src/index.ts';
 import { at, endTurnAll, flatGame, place, rules, run, setTerrain } from './helpers.ts';
 
 describe('worker jobs', () => {
@@ -42,7 +42,10 @@ describe('worker jobs', () => {
     s.map.improvements[at(s, 21, 21)] = IMP_IRRIGATION; // shares the SE edge
     expect(checkJob(rules, s, w, 'irrigation')).toMatchObject({ ok: true });
     s.map.improvements[at(s, 21, 21)] = 0;
-    s.map.improvements[at(s, 20, 22)] = IMP_IRRIGATION; // only a corner
+    s.map.improvements[at(s, 20, 22)] = IMP_IRRIGATION; // diagonal neighbour also counts
+    expect(checkJob(rules, s, w, 'irrigation')).toMatchObject({ ok: true });
+    s.map.improvements[at(s, 20, 22)] = 0;
+    s.map.improvements[at(s, 20, 24)] = IMP_IRRIGATION; // two tiles away does not
     expect(checkJob(rules, s, w, 'irrigation')).toMatchObject({ ok: false });
     s.players[0]!.techs = ['electricity'];
     expect(checkJob(rules, s, w, 'irrigation')).toMatchObject({ ok: true });
@@ -56,11 +59,14 @@ describe('worker jobs', () => {
     const next = at(s, 21, 21); // shares the city's SE edge
     const w = place(s, 0, 'worker', next);
     expect(checkJob(rules, s, w, 'irrigation')).toMatchObject({ ok: false }); // dry city
-    s.map.rivers[city] = EDGE_NE; // the river runs past the city, not this tile
-    expect(s.map.rivers[next]).toBe(0);
+    // A lake beside the city that does not touch the worker's tile itself.
+    const near = new Set([next, ...neighbours(s.map, next)]);
+    const lake = neighbours(s.map, city).find((t) => !near.has(t))!;
+    s.map.flags[lake]! |= FLAG_LAKE;
     expect(checkJob(rules, s, w, 'irrigation')).toMatchObject({ ok: true });
-    const corner = place(s, 0, 'worker', at(s, 20, 22)); // only touches the city's corner
-    expect(checkJob(rules, s, corner, 'irrigation')).toMatchObject({ ok: false });
+    s.map.flags[lake]! &= ~FLAG_LAKE;
+    s.map.rivers[city] = EDGE_NE; // a river on the city tile also waters its neighbours
+    expect(checkJob(rules, s, w, 'irrigation')).toMatchObject({ ok: true });
   });
 
   it('clears forest back to its underlying terrain and reports the shields', () => {

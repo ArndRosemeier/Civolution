@@ -136,7 +136,7 @@
   },
   "workerJobs": {
     "mine": "Workers dig shafts and quarries to extract stone, ore and coal. A mine increases the shields of hills, mountains and other suitable terrain, and it replaces any irrigation on the tile. Mined hills are the backbone of a productive city.",
-    "irrigation": "Workers dig channels that carry water to the fields. Irrigation increases food on suitable terrain, but needs fresh water from a river, a lake or another irrigated tile next to it until [Electricity](pedia:techs/electricity) is known. It replaces a mine.",
+    "irrigation": "Workers dig channels that carry water to the fields. Irrigation increases food on suitable terrain, but needs fresh water next to it, diagonals included: a river, a lake, another irrigated tile or a city that has fresh water itself, until [Electricity](pedia:techs/electricity) is known. It replaces a mine.",
     "fortress": "Workers build earthworks and walls in open country. A fortress gives defending units a strong bonus, units inside exert a zone of control, and it is ideal for holding passes and borders. Requires [Construction](pedia:techs/construction).",
     "road": "Workers clear and pave a path across the land. Roads speed up movement greatly, connect cities so that resources and luxuries can be shared, and add commerce on most terrain. They are usually the first thing workers build. See [movement](pedia:concepts/movement).",
     "railroad": "Workers lay iron rails on an existing road. A railroad lets units move along it at no cost and increases the shields of tiles that already produce them. It needs [Steam Power](pedia:techs/steamPower) and access to iron.",

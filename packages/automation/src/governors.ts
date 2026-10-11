@@ -146,7 +146,8 @@ export function governCity(rules: Rules, state: GameState, city: City, setting: 
   // Disorder: entertainers replace tiles, the ones whose loss hurts the goal least and
   // never food the city needs while other tiles can go.
   const ents0 = specialists[fallback] ?? 0;
-  while (worked.length > 0 && cityReport(rules, state, { ...city, worked, specialists }).disorder) {
+  let last: ReturnType<typeof cityReport> | null = null;
+  while (worked.length > 0 && (last = cityReport(rules, state, { ...city, worked: [...worked], specialists: { ...specialists } })).disorder) {
     let drop = 0;
     let dropCost = Infinity;
     for (let i = 0; i < worked.length; i++) {
@@ -163,9 +164,11 @@ export function governCity(rules: Rules, state: GameState, city: City, setting: 
     specialists[fallback] = (specialists[fallback] ?? 0) + 1;
   }
   // Entertainers took tiles: make the most of the food tiles left.
-  if ((specialists[fallback] ?? 0) > ents0) feed(worked.length);
+  const fed = (specialists[fallback] ?? 0) > ents0;
+  if (fed) feed(worked.length);
   const placement = { worked, specialists: Object.fromEntries(Object.entries(specialists).filter(([, n]) => n > 0)) };
-  const report = cityReport(rules, state, { ...city, worked: placement.worked, specialists: placement.specialists });
+  // The last disorder check already looked at this placement unless the city was fed since (empty specialist slots count for nothing).
+  const report = !fed && last && worked.length > 0 ? last : cityReport(rules, state, { ...city, worked: placement.worked, specialists: placement.specialists });
   const parts = [
     `${report.foodSurplus >= 0 ? '+' : ''}${report.foodSurplus} food`,
     `${report.shields.value} shields`,

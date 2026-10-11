@@ -4,6 +4,7 @@
  * §10.2). Colours are swapped in the UI's copy of the state only; saves keep the originals.
  */
 import { StrategyCamera } from '../map/three/camera.ts';
+import { UnitLayer } from '../map/three/units.ts';
 import type { Settings } from '../store.ts';
 
 /**
@@ -22,6 +23,7 @@ export function applySettings(s: Settings): void {
   if (s.reduceMotion) root.dataset['reduceMotion'] = '';
   else delete root.dataset['reduceMotion'];
   StrategyCamera.smooth = !s.reduceMotion;
+  UnitLayer.motion = !s.reduceMotion;
 }
 
 /** The colours players are drawn in. */

@@ -1,5 +1,13 @@
 [
   {
+    "version": "0.008",
+    "date": "2026-10-11",
+    "title": "Workers at work",
+    "items": [
+      "Workers now visibly work on the map while they build roads, mines, irrigation and the rest: they swing their tools in a steady rhythm and each strike throws up earth, stones, wood chips or water, depending on the job. With \"Reduce motion\" switched on they stand still as before."
+    ]
+  },
+  {
     "version": "0.007",
     "date": "2026-10-11",
     "title": "Ground textures fix",

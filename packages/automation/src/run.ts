@@ -152,6 +152,15 @@ export function runAutomation(rules: Rules, state: GameState, player: number, op
   events.push(...run.events);
   commands.push(...run.commands);
   refused.push(...run.refused);
+  // Units the routines turned up this pass (a tribal village's warrior) join too, so they
+  // are not left idle; they start their routines next turn.
+  for (const e of run.events) {
+    if (e.type !== 'unitCreated' || e.player !== player) continue;
+    const u = state.units[e.unit];
+    if (!u || u.routine || u.carriedBy !== null || u.order !== null) continue;
+    const cmd = delegateUnit(rules, state, u);
+    if (cmd) act(cmd);
+  }
   if (a().delegate.military) for (const cmd of policyUpgrades(rules, state, player)) act(cmd);
   const digest = opts.noDigest
     ? []

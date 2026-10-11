@@ -6,7 +6,7 @@
  * "fat cross" that is also the city's work area.
  */
 import { registerCache } from './caches.ts';
-import { tileX, tileY, wrapTile, type Grid } from './grid.ts';
+import { neighbour, tileX, tileY, wrapTile, type Grid } from './grid.ts';
 import type { Rules } from './rules.ts';
 import type { City, GameState } from './state.ts';
 
@@ -66,7 +66,8 @@ export function playerCities(state: GameState, player: number): City[] {
 /**
  * Recomputes who owns every tile (docs/rules/culture.md). Each tile within a city's border
  * ring goes to the city with the most influence on it: city culture ÷ distance in tiles
- * (at least 1). Ties go to the older city. A city's own tile always belongs to it.
+ * (at least 1). Ties go to the older city. A city's own tile always belongs to it. A lone
+ * unclaimed tile squeezed between one player's land on opposite sides becomes theirs too.
  */
 export function computeTerritory(rules: Rules, state: GameState): number[] {
   const n = state.map.territory.length;
@@ -97,5 +98,33 @@ export function computeTerritory(rules: Rules, state: GameState): number[] {
     }
   }
   for (const c of cities) owner[c.tile] = c.owner;
-  return owner;
+  return fillGaps(g, owner);
+}
+
+/**
+ * A one-tile gap between a player's borders is theirs (owner's ruling 2026-10-11): an
+ * unclaimed tile whose neighbours on two opposite sides belong to the same player joins that
+ * player. Gaps are judged on the borders before filling, so they never spread, and a gap
+ * between two different players' land stays unclaimed.
+ */
+function fillGaps(g: Grid, owner: number[]): number[] {
+  const out = owner.slice();
+  for (let t = 0; t < owner.length; t++) {
+    if (owner[t] !== -1) continue;
+    let claim = -1;
+    for (let d = 0; d < 4; d++) {
+      const a = neighbour(g, t, d);
+      const b = neighbour(g, t, d + 4);
+      if (a < 0 || b < 0) continue;
+      const p = owner[a]!;
+      if (p < 0 || owner[b] !== p) continue;
+      if (claim >= 0 && claim !== p) {
+        claim = -2;
+        break;
+      }
+      claim = p;
+    }
+    if (claim >= 0) out[t] = claim;
+  }
+  return out;
 }

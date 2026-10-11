@@ -8,6 +8,7 @@ import { currentHp, maxHp, type GameEvent, type GameState, type Rules, type Unit
 import { applyFog, type FogUniforms } from './fog.ts';
 import type { HeightField } from './heights.ts';
 import { makeInstancedMaterial, MODELS, unitModel, type ModelId, type ModelSet } from './models.ts';
+import { DebrisLayer, STRIKE_AT, swingPhase, swingPose } from './work.ts';
 
 interface Shown {
   unit: Unit;
@@ -45,6 +46,8 @@ const ICON_DISTANCE = 42;
 const LUNGE = 0.42;
 
 export class UnitLayer {
+  /** Off when the player asks for less motion: workers then stand still. */
+  static motion = true;
   readonly group = new THREE.Group();
   private meshes = new Map<ModelId, THREE.InstancedMesh>();
   private readonly material: THREE.MeshStandardMaterial;
@@ -57,6 +60,11 @@ export class UnitLayer {
   private readonly hpFill: THREE.InstancedMesh;
   private lunges = new Map<number, { dx: number; dz: number; t: number }>();
   private ghosts: Ghost[] = [];
+  private readonly debris = new DebrisLayer();
+  /** Per working unit: the swing it last struck in. */
+  private strikes = new Map<number, number>();
+  private readonly lean = new THREE.Quaternion();
+  private readonly side = new THREE.Vector3(1, 0, 0);
   private readonly camQ = new THREE.Quaternion();
   private readonly tmp = new THREE.Matrix4();
   private readonly q = new THREE.Quaternion();
@@ -92,7 +100,7 @@ export class UnitLayer {
     this.hpFill.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(1024 * 3).fill(1), 3);
     this.hpBack.renderOrder = 6;
     this.hpFill.renderOrder = 7;
-    this.group.add(this.ringMesh, this.iconMesh, this.selection, this.hpBack, this.hpFill);
+    this.group.add(this.ringMesh, this.iconMesh, this.selection, this.hpBack, this.hpFill, this.debris.mesh);
   }
 
   /** The camera's orientation, so health bars face the viewer. */
@@ -189,6 +197,7 @@ export class UnitLayer {
       });
     }
     this.shown = next;
+    for (const id of this.strikes.keys()) if (next.get(id)?.unit.order?.type !== 'work') this.strikes.delete(id);
   }
 
   setSelected(id: number | null): void {
@@ -237,7 +246,22 @@ export class UnitLayer {
         used.set(s.model, i + 1);
         this.q.setFromAxisAngle(this.up, s.heading);
         const scale = s.unit.order?.type === 'sentry' ? 0.92 : 1;
-        this.tmp.compose(new THREE.Vector3(wx, ground + bob, wz), this.q, new THREE.Vector3(scale, scale, scale));
+        let dip = 0;
+        const order = s.unit.order;
+        if (order?.type === 'work' && s.domain === 'land' && UnitLayer.motion) {
+          const phase = swingPhase(s.unit.id, time);
+          const pose = swingPose(phase);
+          this.q.multiply(this.lean.setFromAxisAngle(this.side, pose.lean));
+          dip = pose.dip;
+          const swing = Math.floor(phase - STRIKE_AT);
+          const last = this.strikes.get(s.unit.id);
+          if (last !== undefined && last !== swing) {
+            const reach = MODELS[s.model]!.size * 0.3;
+            this.debris.strike(wx + Math.sin(s.heading) * reach, ground + 0.01, wz + Math.cos(s.heading) * reach, s.heading, order.job);
+          }
+          this.strikes.set(s.unit.id, swing);
+        }
+        this.tmp.compose(new THREE.Vector3(wx, ground + bob + dip, wz), this.q, new THREE.Vector3(scale, scale, scale));
         mesh.setMatrixAt(i, this.tmp);
         mesh.setColorAt(i, s.color);
         // Health bar over the front unit when it is hurt or selected.
@@ -284,6 +308,8 @@ export class UnitLayer {
         mesh.setColorAt(i, new THREE.Color(g.color).lerp(new THREE.Color(0x222222), f));
       }
     }
+    if (icons || !UnitLayer.motion) this.debris.clear();
+    else this.debris.update(dt, hf);
     this.hpBack.count = icons ? 0 : bars;
     this.hpFill.count = icons ? 0 : bars;
     this.hpBack.instanceMatrix.needsUpdate = true;

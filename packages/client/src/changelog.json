@@ -1,5 +1,21 @@
 [
   {
+    "version": "0.004",
+    "date": "2026-10-11",
+    "title": "Civilizations, golden ages and every way to win",
+    "items": [
+      "Every civilization plays differently: two traits each (militaristic, religious, commercial, industrious, expansionist, scientific, agricultural, seafaring), its own unique unit, two free advances and its own city names. The new-game screen shows them.",
+      "Golden ages: your unique unit's first victory, or wonders matching both your traits, bring 20 turns of extra shields and commerce.",
+      "Great scientists join scientific civilizations that are first to an advance, and every great leader has a name.",
+      "Conquered cities may resist, and cities can change sides when a neighbour's culture outshines yours. Watch the badges on the city screen.",
+      "Pollution, nuclear meltdowns and global warming arrive with industry.",
+      "The space race, the United Nations, domination, culture and the histograph: the new victory screen (F8) shows how close everyone is, with the score history and the spaceship.",
+      "New game modes: regicide, mass regicide, elimination and victory points, and each victory can be switched off.",
+      "The remaining wonder effects work: the Great Library, Wall Street, the Great Lighthouse, Magellan's Voyage and wonders that draw visitors.",
+      "Rivals use their unique units, build wonders for their golden age, race to space, and keep their armies affordable so their cities grow."
+    ]
+  },
+  {
     "version": "0.003",
     "date": "2026-10-11",
     "title": "Automation: hand the empire to your advisors",

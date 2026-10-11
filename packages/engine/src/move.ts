@@ -137,9 +137,14 @@ export function canHostBarbarian(rules: Rules, tx: Tx, t: number): boolean {
   return !Object.values(tx.state.units).some((x) => x.tile === t);
 }
 
-/** Moves a unit along its goto order as far as its movement allows. */
+/**
+ * Moves a unit along its goto order as far as its movement allows. The planned route is
+ * kept on the order between turns and only planned again when its next step is refused,
+ * so a long march costs one path search instead of one a turn.
+ */
 export function continueGoto(rules: Rules, tx: Tx, unitId: number): void {
-  let route: number[] = [];
+  const planned = tx.state.units[unitId]?.order;
+  let route: number[] = planned?.type === 'goto' ? (planned.route ?? []) : [];
   for (let guard = 0; guard < 1000; guard++) {
     const u = tx.state.units[unitId];
     if (!u || u.order?.type !== 'goto') return;
@@ -149,7 +154,10 @@ export function continueGoto(rules: Rules, tx: Tx, unitId: number): void {
       tx.emit({ type: 'gotoFinished', unit: unitId, player: u.owner, arrived: true });
       return;
     }
-    if (u.movesLeft <= 0) return;
+    if (u.movesLeft <= 0) {
+      if (u.order.route !== route) tx.unit(unitId).order = { type: 'goto', target, route };
+      return;
+    }
     // Follow the planned route; plan (again) when there is none or the next step is refused.
     let next = route[0];
     let check = next === undefined ? null : checkMove(rules, tx.state, u, next);

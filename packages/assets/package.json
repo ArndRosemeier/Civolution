@@ -9,7 +9,8 @@
     "manifest:phase3": "tsx scripts/phase3-manifest.ts",
     "manifest:phase4": "tsx scripts/phase4-manifest.ts",
     "manifest:phase5": "tsx scripts/phase5-manifest.ts",
-    "manifest:phase6": "tsx scripts/phase6-manifest.ts"
+    "manifest:phase6": "tsx scripts/phase6-manifest.ts",
+    "manifest:phase7": "tsx scripts/phase7-manifest.ts"
   },
   "dependencies": {
     "sharp": "^0.34.5",

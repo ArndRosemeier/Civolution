@@ -1,6 +1,8 @@
 /**
  * The game calendar (docs/rules/turns.md): turn 1 is the rule set's start year, and
- * each span of turns advances a fixed number of years per turn.
+ * each span of turns advances a fixed number of years per turn. After the last span the
+ * calendar runs one year a turn, as Civ3 does: the rule file's spans cover 440 turns up to
+ * AD 1951, and the last 100 turns of a 540-turn game end in AD 2050.
  */
 import type { Rules } from './rules.ts';
 
@@ -9,12 +11,13 @@ export function yearOf(rules: Rules, turn: number): number {
   const cal = rules.set.calendar;
   let year = cal.startYear;
   let left = turn - 1;
-  for (let i = 0; left > 0; i++) {
-    const span = cal.spans[Math.min(i, cal.spans.length - 1)]!;
-    const n = i < cal.spans.length - 1 ? Math.min(left, span.turns) : left;
+  for (const span of cal.spans) {
+    if (left <= 0) break;
+    const n = Math.min(left, span.turns);
     year += n * span.years;
     left -= n;
   }
+  year += Math.max(0, left);
   // Skip the year 0 that the calendar does not have.
   return year >= 0 && cal.startYear < 0 ? year + 1 : year;
 }

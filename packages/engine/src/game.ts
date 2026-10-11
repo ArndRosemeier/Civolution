@@ -322,9 +322,10 @@ export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult
     }
     case 'goto': {
       if (cmd.to === existing.tile) return err(state, 'invalid', 'The unit is already there.');
-      if (!findPath(rules, state, existing, cmd.to)) return err(state, 'cannotEnter', 'No known route to that tile.');
+      const path = findPath(rules, state, existing, cmd.to);
+      if (!path) return err(state, 'cannotEnter', 'No known route to that tile.');
       const u = tx.unit(cmd.unit);
-      u.order = { type: 'goto', target: cmd.to };
+      u.order = { type: 'goto', target: cmd.to, route: path.tiles };
       u.fortified = false;
       continueGoto(rules, tx, u.id);
       break;

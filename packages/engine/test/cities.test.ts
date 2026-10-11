@@ -390,6 +390,13 @@ describe('calendar', () => {
     expect(formatYear(yearOf(rules, 128))).toBe('10 BC');
     expect(formatYear(yearOf(rules, 129))).toBe('AD 11');
   });
+
+  it('runs one year a turn after the last span and ends in AD 2050', () => {
+    expect(formatYear(yearOf(rules, 441))).toBe('AD 1951');
+    expect(formatYear(yearOf(rules, 442))).toBe('AD 1952');
+    expect(rules.set.general.lastTurn).toBe(540);
+    expect(formatYear(yearOf(rules, 540))).toBe('AD 2050');
+  });
 });
 
 describe('forest clearing', () => {

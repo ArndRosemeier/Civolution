@@ -155,19 +155,21 @@ export function proposeExplore(rules: Rules, state: GameState, u: Unit): Proposa
     // Already heading somewhere useful; the engine continues the goto at turn start.
     return { command: { type: 'skip', player: u.owner, unit: u.id, reason: 'Exploring: travelling on' } };
   }
-  const field = costField(rules, state, u, rules.moveScale * 60);
   let best = -1;
   let bestScore = 0;
-  for (const [tile, cost] of field) {
-    if (tile === u.tile) continue;
+  // Tiles come cheapest first; stop once even eight unknown neighbours could not win.
+  costField(rules, state, u, rules.moveScale * 60, (tile, cost) => {
+    if (Math.floor(8000 / (cost + rules.moveScale)) < bestScore) return true;
+    if (tile === u.tile) return false;
     const unknown = unexploredAround(state, u.owner, tile);
-    if (unknown === 0) continue;
+    if (unknown === 0) return false;
     const score = Math.floor((unknown * 1000) / (cost + rules.moveScale));
     if (score > bestScore || (score === bestScore && tile < best)) {
       best = tile;
       bestScore = score;
     }
-  }
+    return false;
+  });
   if (best < 0) {
     // With military delegated, an explorer that is done goes back to guarding cities.
     const military = state.players[u.owner]!.automation.delegate.military && rules.unit(u.type).defence > 0;

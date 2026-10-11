@@ -139,8 +139,10 @@ export function reachableThisTurn(rules: Rules, state: GameState, u: Unit): numb
 /**
  * Cost from the unit to every explored tile it can reach (Dijkstra without a target),
  * with the same step rule as findPath. Used by automation to pick destinations.
+ * `settled` sees each tile once, cheapest first, when its cost is final; returning true
+ * ends the search early.
  */
-export function costField(rules: Rules, state: GameState, u: Unit, maxCost = Infinity): Map<number, number> {
+export function costField(rules: Rules, state: GameState, u: Unit, maxCost = Infinity, settled?: (tile: number, cost: number) => boolean): Map<number, number> {
   const owner = state.players[u.owner]!;
   const cap = Math.max(1, maxMoves(rules, u));
   const dist = new Map<number, number>([[u.tile, 0]]);
@@ -148,7 +150,9 @@ export function costField(rules: Rules, state: GameState, u: Unit, maxCost = Inf
   heap.push(0, u.tile);
   while (heap.size > 0) {
     const [d, tile] = heap.pop();
-    if (d > (dist.get(tile) ?? Infinity) || d > maxCost) continue;
+    if (d > (dist.get(tile) ?? Infinity)) continue;
+    if (settled?.(tile, d)) break;
+    if (d > maxCost) continue;
     for (const next of neighbours(state.map, tile)) {
       if (!isExplored(owner, next)) continue;
       const step = stepValue(rules, state, u, tile, next);

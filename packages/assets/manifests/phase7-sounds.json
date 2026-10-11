@@ -1,0 +1,192 @@
+{
+  "$comment": "Phase 7 sound effects, music beds and ambiences (ByteDance Seed Audio on OpenRouter). Run: OPEN_ROUTER_KEY=... pnpm --filter @civolution/assets sounds -- --manifest manifests/phase7-sounds.json. Every prompt starts with 'The sound of' (the tool adds it when missing).",
+  "model": "bytedance-seed/seed-audio-1-0",
+  "outDir": "packages/client/public/audio",
+  "items": [
+    {
+      "id": "move-foot",
+      "prompt": "The sound of a small group of soldiers marching a few steps on a dirt road, boots and light gear rattling, without voices, about one second",
+      "variations": 3
+    },
+    {
+      "id": "move-mounted",
+      "prompt": "The sound of horses trotting a few strides on hard ground with harness jingling, without voices, about one second",
+      "variations": 3
+    },
+    {
+      "id": "move-wheeled",
+      "prompt": "The sound of a heavy vehicle rolling forward a short way, engine rumbling and tracks or wheels crunching gravel, without voices, about one and a half seconds",
+      "variations": 3
+    },
+    {
+      "id": "move-ship",
+      "prompt": "The sound of a ship cutting through waves, water rushing along the hull and wood creaking, without voices, about one and a half seconds",
+      "variations": 3
+    },
+    {
+      "id": "move-air",
+      "prompt": "The sound of an aircraft passing overhead with a rising and falling engine whoosh, without voices, about one and a half seconds",
+      "variations": 3
+    },
+    {
+      "id": "unit-lost",
+      "prompt": "The sound of a soldier falling: armour and weapons clattering to the ground followed by a short low drum beat, without voices, about one and a half seconds",
+      "variations": 3
+    },
+    {
+      "id": "unit-upgraded",
+      "prompt": "The sound of a blacksmith hammer striking an anvil twice followed by a short bright brass flourish, without voices, about two seconds",
+      "variations": 2
+    },
+    {
+      "id": "unload",
+      "prompt": "The sound of a wooden gangplank dropping onto a pier with a thud and boots stepping off into shallow water, without voices, about one and a half seconds",
+      "variations": 2
+    },
+    {
+      "id": "join-army",
+      "prompt": "The sound of a marching drum roll with a banner snapping in the wind and soldiers falling into step, without voices, about two seconds",
+      "variations": 2
+    },
+    {
+      "id": "disband",
+      "prompt": "The sound of soldiers laying down their weapons and walking away, footsteps fading, without voices, about one and a half seconds",
+      "variations": 2
+    },
+    {
+      "id": "unit-woke",
+      "prompt": "The sound of a short sharp warning horn call from a sentry post, without voices, about one second",
+      "variations": 2
+    },
+    {
+      "id": "arrived",
+      "prompt": "The sound of a soft leather drum tap and a light jingle as a unit halts, without voices, under one second",
+      "variations": 2
+    },
+    {
+      "id": "order",
+      "prompt": "The sound of a wooden shield set down firmly with a muffled thump, without voices, under one second",
+      "variations": 2
+    },
+    {
+      "id": "zoc-strike",
+      "prompt": "The sound of a quick clash of two swords and a shield bash, without voices, under one second",
+      "variations": 2
+    },
+    {
+      "id": "work-done",
+      "prompt": "The sound of tools being set down on the ground and a small bright chime of a finished job, without voices, about one second",
+      "variations": 2
+    },
+    {
+      "id": "timber",
+      "prompt": "The sound of a tree creaking and crashing to the ground through branches, without voices, about two seconds",
+      "variations": 2
+    },
+    {
+      "id": "hut-map",
+      "prompt": "The sound of an old parchment map being unrolled on a wooden table, without voices, about one second",
+      "variations": 2
+    },
+    {
+      "id": "hut-empty",
+      "prompt": "The sound of wind blowing through an abandoned village of empty huts, a loose door knocking softly, without voices, about one and a half seconds",
+      "variations": 2
+    },
+    {
+      "id": "warning",
+      "prompt": "The sound of a low two-note bronze bell signalling a problem, calm but clear, without voices, about one second",
+      "variations": 2
+    },
+    {
+      "id": "quill",
+      "prompt": "The sound of a quill pen scratching quickly on parchment, without voices, under one second",
+      "variations": 2
+    },
+    {
+      "id": "turn-start",
+      "prompt": "The sound of a single soft temple bell with a gentle warm ring, without voices, about one and a half seconds",
+      "variations": 2
+    },
+    {
+      "id": "golden-age-ended",
+      "prompt": "The sound of a harp glissando that slowly descends and fades, warm and wistful, without voices, about two seconds",
+      "variations": 2
+    },
+    {
+      "id": "treaty-expired",
+      "prompt": "The sound of a parchment scroll being rolled up and a wax seal cracking, without voices, about one second",
+      "variations": 2
+    },
+    {
+      "id": "city-ceded",
+      "prompt": "The sound of a heavy ring of iron keys jingling and a stamp pressed onto a document, without voices, about one and a half seconds",
+      "variations": 2
+    },
+    {
+      "id": "expelled",
+      "prompt": "The sound of a drum beating a slow retreat as soldiers march away into the distance, without voices, about two seconds",
+      "variations": 2
+    },
+    {
+      "id": "ui-select",
+      "prompt": "The sound of a short soft click of a leather strap and a metal buckle, without voices, under half a second",
+      "variations": 2
+    },
+    {
+      "id": "music-ancient",
+      "prompt": "The sound of a calm instrumental theme for an ancient civilization: lyre, frame drum and a soft reed flute over a warm drone, slow and spacious, no singing, about thirty seconds",
+      "variations": 3
+    },
+    {
+      "id": "music-medieval",
+      "prompt": "The sound of a calm instrumental theme for a medieval kingdom: lute, recorder and a gentle string section with a slow pulse, no singing, about thirty seconds",
+      "variations": 3
+    },
+    {
+      "id": "music-industrial",
+      "prompt": "The sound of a calm instrumental theme for the industrial age: piano and a romantic string orchestra with soft horns, hopeful and steady, no singing, about thirty seconds",
+      "variations": 3
+    },
+    {
+      "id": "music-modern",
+      "prompt": "The sound of a calm instrumental theme for the modern age: ambient synthesizer pads, light piano and soft strings, wide and thoughtful, no singing, about thirty seconds",
+      "variations": 3
+    },
+    {
+      "id": "music-title",
+      "prompt": "The sound of a grand but gentle orchestral main theme for a game about the history of civilization: strings, horns and timpani building slowly, no singing, about thirty seconds",
+      "variations": 1
+    },
+    {
+      "id": "ambience-grassland",
+      "prompt": "The sound of a peaceful open meadow: a light breeze through grass, distant birdsong and insects, without voices, about twenty seconds",
+      "variations": 2
+    },
+    {
+      "id": "ambience-forest",
+      "prompt": "The sound of a deep forest: leaves rustling, woodpecker and songbirds, a creaking branch, without voices, about twenty seconds",
+      "variations": 2
+    },
+    {
+      "id": "ambience-desert",
+      "prompt": "The sound of a desert: a dry hot wind with sand hissing over dunes, without voices, about twenty seconds",
+      "variations": 2
+    },
+    {
+      "id": "ambience-snow",
+      "prompt": "The sound of a cold snowy tundra: a hollow howling wind and snow crunching faintly, without voices, about twenty seconds",
+      "variations": 2
+    },
+    {
+      "id": "ambience-ocean",
+      "prompt": "The sound of the open sea: rolling waves, gentle surf and distant gulls, without voices, about twenty seconds",
+      "variations": 2
+    },
+    {
+      "id": "ambience-city",
+      "prompt": "The sound of a busy old town market heard from a distance: indistinct murmur of a crowd without clear words, carts, hammering and a dog barking, about twenty seconds",
+      "variations": 2
+    }
+  ]
+}

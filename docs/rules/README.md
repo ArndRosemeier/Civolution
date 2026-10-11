@@ -24,9 +24,17 @@ interpreted.
 | [governments.md](governments.md) | Government table, revolution and anarchy, unit support | draft (Phase 2) |
 | [culture.md](culture.md) | Culture points, border growth, the calendar | draft (Phase 2; flips in 6) |
 | [trade.md](trade.md) | Trade network, connected resources | draft (Phase 2) |
-| combat.md | Round-based combat, hit points, retreat, bombard, defensive bonuses | to do (Phase 3) |
+| [combat.md](combat.md) | Round-based combat, hit points, defence bonuses, retreat, promotion, healing | draft (Phase 3) |
+| [bombard.md](bombard.md) | Bombardment and lethal bombard | draft (Phase 3) |
+| [air.md](air.md) | Air missions, interception, air defence | draft (Phase 3) |
+| [naval.md](naval.md) | Ships, ports, transports and cargo | draft (Phase 3) |
+| [armies.md](armies.md) | Great leaders and armies | draft (Phase 3) |
+| [capture.md](capture.md) | Capturing and razing cities, prizes, elimination | draft (Phase 3) |
+| [war-weariness.md](war-weariness.md) | War, peace and war weariness | draft (Phase 3) |
+| [nukes.md](nukes.md) | Nuclear weapons and missile defence | draft (Phase 3) |
+| [barbarians.md](barbarians.md) | Camps, raiders, tribal villages | draft (Phase 3) |
 | golden-age.md | Triggers and effects | to do (Phase 6) |
-| leaders.md | Military and scientific great leaders | to do (Phase 3/6) |
+| leaders.md | Scientific great leaders | to do (Phase 6) |
 | pollution.md | Pollution and global warming | to do (Phase 6) |
 | ai-handicaps.md | Difficulty-level handicaps | to do (Phase 4) |
 

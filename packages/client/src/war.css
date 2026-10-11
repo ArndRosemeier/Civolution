@@ -225,3 +225,52 @@ img.thumb {
     transform: translate(-50%, 0);
   }
 }
+
+/* Title screen: version and "What's new". */
+.version-tag {
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  background: rgba(10, 14, 20, 0.6);
+  border-color: rgba(233, 185, 73, 0.25);
+}
+.version-tag:hover {
+  color: var(--accent);
+}
+.whats-new {
+  max-height: min(64vh, 640px);
+  overflow-y: auto;
+  padding-right: 6px;
+}
+.whats-new section {
+  padding: 12px 0 16px;
+  border-bottom: 1px solid var(--panel-border);
+}
+.whats-new section:last-child {
+  border-bottom: 0;
+}
+.whats-new header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+.whats-new .version {
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+.whats-new h3 {
+  margin: 6px 0 8px;
+}
+.whats-new ul {
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.55;
+}
+.whats-new li + li {
+  margin-top: 3px;
+}

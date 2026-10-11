@@ -4,8 +4,10 @@ import { NewGameDialog } from './ui/NewGameDialog.tsx';
 import { SavesDialog } from './ui/SavesDialog.tsx';
 import { useGame } from './store.ts';
 import { BenchScreen } from './bench/BenchScreen.tsx';
+import { WhatsNew } from './ui/WhatsNew.tsx';
+import { VERSION } from './version.ts';
 
-type Screen = 'title' | 'new' | 'load' | 'game';
+type Screen = 'title' | 'new' | 'load' | 'news' | 'game';
 
 export function App() {
   const params = new URLSearchParams(location.search);
@@ -31,11 +33,16 @@ export function App() {
         <div className="title-actions">
           <button className="primary" onClick={() => setScreen('new')}>New game</button>
           <button onClick={() => setScreen('load')}>Load game</button>
+          <button onClick={() => setScreen('news')}>What’s new</button>
           <a className="button" href="?bench">Map benchmark</a>
         </div>
       </div>
+      <button className="version-tag" onClick={() => setScreen('news')} title="Version history">
+        Alpha {VERSION}
+      </button>
       {screen === 'new' && <NewGameDialog onClose={() => setScreen('title')} />}
       {screen === 'load' && <SavesDialog mode="load" onClose={() => setScreen('title')} />}
+      {screen === 'news' && <WhatsNew onClose={() => setScreen('title')} />}
     </div>
   );
 }

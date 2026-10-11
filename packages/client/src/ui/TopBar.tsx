@@ -2,6 +2,7 @@ import { formatYear, playerUnits, yearOf } from '@civolution/engine';
 import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
 import { empireSummary, signed } from './empire.ts';
+import { VERSION } from '../version.ts';
 
 export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => void }) {
   const snap = useGame((s) => s.snapshot)!;
@@ -16,7 +17,7 @@ export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => v
   const pct = sum.researchCost ? Math.min(100, Math.round((p.research.beakers * 100) / sum.researchCost)) : 0;
   return (
     <div className="top-bar panel">
-      <div className="brand">Civolution</div>
+      <div className="brand" title={`Civolution alpha ${VERSION}`}>Civolution</div>
       <div className="stat" title={`Turn ${state.turn}`}>
         <span className="label">{formatYear(yearOf(rules, state.turn))}</span>
         <strong>Turn {state.turn}</strong>

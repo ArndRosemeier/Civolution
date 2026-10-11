@@ -1,0 +1,198 @@
+{
+  "packages/client/public/art/style-bible.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "A style reference sheet (no text) for a game's art direction. Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Show, arranged on one sheet: a small coastal landscape vignette with grassland, forest, hills and a snowy mountain; three round game icons (a wheat sheaf, a horse head, a gemstone) on medallions with bronze rims; a colour swatch row of the palette.",
+    "hash": "0be50e161f0c5a80",
+    "date": "2026-10-11",
+    "costUsd": 0.009
+  },
+  "packages/client/public/art/resources/horses.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a proud brown horse head in profile with a flowing mane. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "35a23fe4274c6f0c",
+    "date": "2026-10-11",
+    "costUsd": 0.018608
+  },
+  "packages/client/public/art/resources/iron.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a stack of dark grey iron ingots with a rough ore lump. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "414701f629099399",
+    "date": "2026-10-11",
+    "costUsd": 0.018618
+  },
+  "packages/client/public/art/resources/saltpeter.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: white saltpeter crystals heaped in a small clay bowl. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "88b7fe391c95bebc",
+    "date": "2026-10-11",
+    "costUsd": 0.018613
+  },
+  "packages/client/public/art/resources/coal.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: glossy black coal lumps. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "613d67e60e3c6dd2",
+    "date": "2026-10-11",
+    "costUsd": 0.011283
+  },
+  "packages/client/public/art/resources/oil.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a dark oil barrel with a glistening black drop. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "3cfbc42da66296ce",
+    "date": "2026-10-11",
+    "costUsd": 0.011318
+  },
+  "packages/client/public/art/resources/rubber.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a rubber tree trunk with a cut dripping white latex into a cup. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "e013d962acadaa33",
+    "date": "2026-10-11",
+    "costUsd": 0.011328
+  },
+  "packages/client/public/art/resources/aluminum.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a stack of bright silver aluminium bars. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "d2d63c45d49a1fd6",
+    "date": "2026-10-11",
+    "costUsd": 0.018588
+  },
+  "packages/client/public/art/resources/uranium.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a glowing green uranium ore chunk. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "c397aed1ce66b6c1",
+    "date": "2026-10-11",
+    "costUsd": 0.018583
+  },
+  "packages/client/public/art/resources/wines.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a cluster of purple grapes with a vine leaf beside a clay amphora. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "70646e5729abe1fa",
+    "date": "2026-10-11",
+    "costUsd": 0.018623
+  },
+  "packages/client/public/art/resources/furs.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a folded soft brown fur pelt. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "c5ae879efc103183",
+    "date": "2026-10-11",
+    "costUsd": 0.011298
+  },
+  "packages/client/public/art/resources/dyes.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: three small pots of vivid red, blue and yellow dye. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "3a5508c410492deb",
+    "date": "2026-10-11",
+    "costUsd": 0.011318
+  },
+  "packages/client/public/art/resources/incense.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a bronze censer with curling fragrant smoke. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "638daefe179aff94",
+    "date": "2026-10-11",
+    "costUsd": 0.058103
+  },
+  "packages/client/public/art/resources/spices.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a pile of colourful spices: cinnamon sticks, peppercorns, star anise. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "10eb7a7820b3ea55",
+    "date": "2026-10-11",
+    "costUsd": 0.011343
+  },
+  "packages/client/public/art/resources/ivory.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a pair of curved ivory tusks. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "1cfc3ecb2c665a39",
+    "date": "2026-10-11",
+    "costUsd": 0.018588
+  },
+  "packages/client/public/art/resources/silks.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a shimmering bolt of folded crimson silk. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "ad242203d754975a",
+    "date": "2026-10-11",
+    "costUsd": 0.018588
+  },
+  "packages/client/public/art/resources/gems.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a cluster of cut sparkling gemstones in red, blue and green. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "e54ac0c2ddea9ba6",
+    "date": "2026-10-11",
+    "costUsd": 0.058123
+  },
+  "packages/client/public/art/resources/whales.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a blue whale breaching from ocean waves. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "873a59f113845061",
+    "date": "2026-10-11",
+    "costUsd": 0.011303
+  },
+  "packages/client/public/art/resources/game.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a deer with antlers in a forest clearing. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "2350f0672d7f40af",
+    "date": "2026-10-11",
+    "costUsd": 0.018598
+  },
+  "packages/client/public/art/resources/fish.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: two silver fish leaping over a wave. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "91592c8e25849fe8",
+    "date": "2026-10-11",
+    "costUsd": 0.011303
+  },
+  "packages/client/public/art/resources/cattle.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a sturdy brown and white cow head. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "1846a729ec6d93a9",
+    "date": "2026-10-11",
+    "costUsd": 0.011298
+  },
+  "packages/client/public/art/resources/wheat.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: golden bundled wheat sheaf. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "b2350faeb41f91aa",
+    "date": "2026-10-11",
+    "costUsd": 0.018578
+  },
+  "packages/client/public/art/resources/gold.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: shining gold nuggets. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "022b0e8a7a7c4cae",
+    "date": "2026-10-11",
+    "costUsd": 0.018568
+  },
+  "packages/client/public/art/resources/sugar.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: green sugar cane stalks with sugar cubes. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "0792ae1a0a853246",
+    "date": "2026-10-11",
+    "costUsd": 0.018593
+  },
+  "packages/client/public/art/resources/tropicalFruit.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a bunch of bananas with a pineapple and mango. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "a2f4f0c186b7ba62",
+    "date": "2026-10-11",
+    "costUsd": 0.018598
+  },
+  "packages/client/public/art/resources/oasis.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: a small desert oasis pool with two palm trees. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "4db88db80f48d172",
+    "date": "2026-10-11",
+    "costUsd": 0.018598
+  },
+  "packages/client/public/art/resources/tobacco.png": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Game icon: broad green tobacco leaves drying on a cord. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "76152e9c0520e777",
+    "date": "2026-10-11",
+    "costUsd": 0.011303
+  },
+  "packages/client/public/art/title.jpg": {
+    "model": "openai/gpt-image-2",
+    "prompt": "Wide establishing painting for the game's title screen: at dawn, a river valley with an early settlement of clay houses and a stone temple, fields, a coast with galleys in the distance, mountains behind under a vast glowing sky; generous calm empty sky on the upper half for the title text. No text, no logos.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text.",
+    "hash": "63da781a3c70d817",
+    "date": "2026-10-11",
+    "costUsd": 0.037763
+  }
+}

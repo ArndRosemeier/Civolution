@@ -1,6 +1,7 @@
 {
   "$comment": "Phase 1 art. Generate with: OPEN_ROUTER_KEY=... pnpm --filter @civolution/assets gen -- --manifest manifests/phase1.json. Model per class is the first entry of modelPreference that the live /images/models list offers.",
   "modelPreference": [
+    "openai/gpt-image-2",
     "google/gemini-2.5-flash-image",
     "google/gemini-3-pro-image-preview",
     "openai/gpt-image-1",
@@ -20,7 +21,7 @@
   "items": [
     {
       "id": "resource-horses",
-      "prompt": "Game icon: a proud brown horse head in profile with a flowing mane. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a proud brown horse head in profile with a flowing mane. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/horses.png",
       "post": {
@@ -33,7 +34,7 @@
     },
     {
       "id": "resource-iron",
-      "prompt": "Game icon: a stack of dark grey iron ingots with a rough ore lump. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a stack of dark grey iron ingots with a rough ore lump. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/iron.png",
       "post": {
@@ -46,7 +47,7 @@
     },
     {
       "id": "resource-saltpeter",
-      "prompt": "Game icon: white saltpeter crystals heaped in a small clay bowl. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: white saltpeter crystals heaped in a small clay bowl. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/saltpeter.png",
       "post": {
@@ -59,7 +60,7 @@
     },
     {
       "id": "resource-coal",
-      "prompt": "Game icon: glossy black coal lumps. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: glossy black coal lumps. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/coal.png",
       "post": {
@@ -72,7 +73,7 @@
     },
     {
       "id": "resource-oil",
-      "prompt": "Game icon: a dark oil barrel with a glistening black drop. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a dark oil barrel with a glistening black drop. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/oil.png",
       "post": {
@@ -85,7 +86,7 @@
     },
     {
       "id": "resource-rubber",
-      "prompt": "Game icon: a rubber tree trunk with a cut dripping white latex into a cup. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a rubber tree trunk with a cut dripping white latex into a cup. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/rubber.png",
       "post": {
@@ -98,7 +99,7 @@
     },
     {
       "id": "resource-aluminum",
-      "prompt": "Game icon: a stack of bright silver aluminium bars. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a stack of bright silver aluminium bars. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/aluminum.png",
       "post": {
@@ -111,7 +112,7 @@
     },
     {
       "id": "resource-uranium",
-      "prompt": "Game icon: a glowing green uranium ore chunk. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a glowing green uranium ore chunk. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/uranium.png",
       "post": {
@@ -124,7 +125,7 @@
     },
     {
       "id": "resource-wines",
-      "prompt": "Game icon: a cluster of purple grapes with a vine leaf beside a clay amphora. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a cluster of purple grapes with a vine leaf beside a clay amphora. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/wines.png",
       "post": {
@@ -137,7 +138,7 @@
     },
     {
       "id": "resource-furs",
-      "prompt": "Game icon: a folded soft brown fur pelt. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a folded soft brown fur pelt. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/furs.png",
       "post": {
@@ -150,7 +151,7 @@
     },
     {
       "id": "resource-dyes",
-      "prompt": "Game icon: three small pots of vivid red, blue and yellow dye. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: three small pots of vivid red, blue and yellow dye. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/dyes.png",
       "post": {
@@ -163,7 +164,7 @@
     },
     {
       "id": "resource-incense",
-      "prompt": "Game icon: a bronze censer with curling fragrant smoke. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a bronze censer with curling fragrant smoke. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/incense.png",
       "post": {
@@ -176,7 +177,7 @@
     },
     {
       "id": "resource-spices",
-      "prompt": "Game icon: a pile of colourful spices: cinnamon sticks, peppercorns, star anise. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a pile of colourful spices: cinnamon sticks, peppercorns, star anise. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/spices.png",
       "post": {
@@ -189,7 +190,7 @@
     },
     {
       "id": "resource-ivory",
-      "prompt": "Game icon: a pair of curved ivory tusks. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a pair of curved ivory tusks. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/ivory.png",
       "post": {
@@ -202,7 +203,7 @@
     },
     {
       "id": "resource-silks",
-      "prompt": "Game icon: a shimmering bolt of folded crimson silk. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a shimmering bolt of folded crimson silk. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/silks.png",
       "post": {
@@ -215,7 +216,7 @@
     },
     {
       "id": "resource-gems",
-      "prompt": "Game icon: a cluster of cut sparkling gemstones in red, blue and green. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a cluster of cut sparkling gemstones in red, blue and green. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/gems.png",
       "post": {
@@ -228,7 +229,7 @@
     },
     {
       "id": "resource-whales",
-      "prompt": "Game icon: a blue whale breaching from ocean waves. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a blue whale breaching from ocean waves. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/whales.png",
       "post": {
@@ -241,7 +242,7 @@
     },
     {
       "id": "resource-game",
-      "prompt": "Game icon: a deer with antlers in a forest clearing. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a deer with antlers in a forest clearing. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/game.png",
       "post": {
@@ -254,7 +255,7 @@
     },
     {
       "id": "resource-fish",
-      "prompt": "Game icon: two silver fish leaping over a wave. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: two silver fish leaping over a wave. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/fish.png",
       "post": {
@@ -267,7 +268,7 @@
     },
     {
       "id": "resource-cattle",
-      "prompt": "Game icon: a sturdy brown and white cow head. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a sturdy brown and white cow head. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/cattle.png",
       "post": {
@@ -280,7 +281,7 @@
     },
     {
       "id": "resource-wheat",
-      "prompt": "Game icon: golden bundled wheat sheaf. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: golden bundled wheat sheaf. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/wheat.png",
       "post": {
@@ -293,7 +294,7 @@
     },
     {
       "id": "resource-gold",
-      "prompt": "Game icon: shining gold nuggets. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: shining gold nuggets. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/gold.png",
       "post": {
@@ -306,7 +307,7 @@
     },
     {
       "id": "resource-sugar",
-      "prompt": "Game icon: green sugar cane stalks with sugar cubes. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: green sugar cane stalks with sugar cubes. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/sugar.png",
       "post": {
@@ -319,7 +320,7 @@
     },
     {
       "id": "resource-tropicalFruit",
-      "prompt": "Game icon: a bunch of bananas with a pineapple and mango. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a bunch of bananas with a pineapple and mango. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/tropicalFruit.png",
       "post": {
@@ -332,7 +333,7 @@
     },
     {
       "id": "resource-oasis",
-      "prompt": "Game icon: a small desert oasis pool with two palm trees. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: a small desert oasis pool with two palm trees. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/oasis.png",
       "post": {
@@ -345,7 +346,7 @@
     },
     {
       "id": "resource-tobacco",
-      "prompt": "Game icon: broad green tobacco leaves drying on a cord. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, nothing outside the circle (plain dark background around it). Square image.",
+      "prompt": "Game icon: broad green tobacco leaves drying on a cord. Centered on a round medallion with a soft circular background in muted parchment tones and a thin bronze rim, the subject filling most of the circle, the bronze rim touching all four edges of the image so the medallion fills the whole square. Square image.",
       "aspectRatio": "1:1",
       "out": "packages/client/public/art/resources/tobacco.png",
       "post": {

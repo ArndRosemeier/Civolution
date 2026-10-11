@@ -7,12 +7,15 @@ import { BenchScreen } from './bench/BenchScreen.tsx';
 import { WhatsNew } from './ui/WhatsNew.tsx';
 import { VERSION } from './version.ts';
 import { setMusic } from './audio.ts';
+import { Civilopedia } from './ui/Civilopedia.tsx';
+import { SettingsDialog } from './ui/SettingsDialog.tsx';
 
-type Screen = 'title' | 'new' | 'load' | 'news' | 'game';
+type Screen = 'title' | 'new' | 'load' | 'news' | 'settings' | 'game';
 
 export function App() {
   const params = new URLSearchParams(location.search);
   const snapshot = useGame((s) => s.snapshot);
+  const pedia = useGame((s) => s.pedia);
   const [screen, setScreen] = useState<Screen>('title');
   const [art, setArt] = useState(false);
   useEffect(() => {
@@ -37,6 +40,8 @@ export function App() {
         <div className="title-actions">
           <button className="primary" onClick={() => setScreen('new')}>New game</button>
           <button onClick={() => setScreen('load')}>Load game</button>
+          <button onClick={() => useGame.getState().openPedia('')}>Civilopedia</button>
+          <button onClick={() => setScreen('settings')}>Settings</button>
           <button onClick={() => setScreen('news')}>What’s new</button>
           <a className="button" href="?bench">Map benchmark</a>
         </div>
@@ -47,6 +52,8 @@ export function App() {
       {screen === 'new' && <NewGameDialog onClose={() => setScreen('title')} />}
       {screen === 'load' && <SavesDialog mode="load" onClose={() => setScreen('title')} />}
       {screen === 'news' && <WhatsNew onClose={() => setScreen('title')} />}
+      {screen === 'settings' && <SettingsDialog onClose={() => setScreen('title')} />}
+      {pedia !== null && <Civilopedia />}
     </div>
   );
 }

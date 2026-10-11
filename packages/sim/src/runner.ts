@@ -155,6 +155,8 @@ export interface SimReport {
   diplomacy: { wars: number; peaces: number; ceasefires: number; deals: number; proposals: number; rejected: number; treatiesBroken: number; contacts: number; missions: number; eliminated: number };
   /** Commands lenient controllers sent that the engine refused. */
   refused: number;
+  /** Refusals by command and reason (numbers taken out), most common first. */
+  refusals: Record<string, number>;
   finalHash: string;
   msPerTurn: number;
   /** Slowest turn, in milliseconds (a stall shows here). */
@@ -179,11 +181,14 @@ export function runGame(opts: SimOptions, clock: () => number = () => 0): SimRes
   const war: SimReport['war'] = { battles: 0, attackerWins: 0, citiesCaptured: 0, citiesDestroyed: 0, unitsLost: 0, leaders: 0, barbarianCamps: 0 };
   const diplomacy: SimReport['diplomacy'] = { wars: 0, peaces: 0, ceasefires: 0, deals: 0, proposals: 0, rejected: 0, treatiesBroken: 0, contacts: 0, missions: 0, eliminated: 0 };
   let refused = 0;
+  const refusals: Record<string, number> = {};
   const act = (cmd: Command, lenient = false): GameState => {
     const r = apply(rules, state, cmd);
     if (r.error) {
       if (lenient) {
         refused++;
+        const key = `${cmd.type}: ${r.error.message.replace(/\d+/g, 'N')}`;
+        refusals[key] = (refusals[key] ?? 0) + 1;
         return state;
       }
       throw new Error(`turn ${state.turn}: ${cmd.type} by player ${cmd.player} rejected: ${r.error.message}`);
@@ -281,6 +286,7 @@ export function runGame(opts: SimOptions, clock: () => number = () => 0): SimRes
       war,
       diplomacy,
       refused,
+      refusals: Object.fromEntries(Object.entries(refusals).sort((a, b) => b[1] - a[1])),
       finalHash: stateHash(state),
       msPerTurn: played > 0 ? Math.round(((clock() - started) / played) * 10) / 10 : 0,
       maxMsPerTurn: Math.round(slowest * 10) / 10,

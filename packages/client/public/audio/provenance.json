@@ -1450,5 +1450,47 @@
     "prompt": "The sound of a grand but gentle orchestral main theme for a game about the history of civilization: strings, horns and timpani building slowly, no singing, about thirty seconds",
     "hash": "3e718fb33d984f8d",
     "date": "2026-10-11"
+  },
+  "hint-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a soft, friendly two-note wooden chime, like a gentle nudge for attention, without voices, under one second",
+    "hash": "911c033f6ef6db42",
+    "date": "2026-10-11"
+  },
+  "hint-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a soft, friendly two-note wooden chime, like a gentle nudge for attention, without voices, under one second",
+    "hash": "7b8d117ffce85bc7",
+    "date": "2026-10-11"
+  },
+  "pedia-open-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a heavy leather-bound book being opened on a wooden desk, pages fluttering briefly, without voices, about one second",
+    "hash": "9616213705789511",
+    "date": "2026-10-11"
+  },
+  "pedia-open-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a heavy leather-bound book being opened on a wooden desk, pages fluttering briefly, without voices, about one second",
+    "hash": "e46de0ad978f9145",
+    "date": "2026-10-11"
+  },
+  "page-turn-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a single crisp paper page being turned in a large book, without voices, under one second",
+    "hash": "e9951541110869e8",
+    "date": "2026-10-11"
+  },
+  "page-turn-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a single crisp paper page being turned in a large book, without voices, under one second",
+    "hash": "4a11d4140652dc56",
+    "date": "2026-10-11"
+  },
+  "page-turn-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a single crisp paper page being turned in a large book, without voices, under one second",
+    "hash": "759b1c6bc0be40da",
+    "date": "2026-10-11"
   }
 }

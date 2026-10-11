@@ -12,6 +12,7 @@ import {
   cargoOf,
   cityAt,
   cityReport,
+  draftBlocker,
   launchBlocker,
   unitAvailable,
   researchBlocker,
@@ -169,6 +170,10 @@ function runCities(ctx: Ctx, needs: BuildNeeds): void {
       const q = hurryQuote(rules, ctx.state(), after);
       if (q.kind === 'gold' && ctx.state().players[view.player]!.gold >= q.gold + 20) ctx.act({ type: 'hurry', player: view.player, city, reason: why('buying a defender for a threatened city') });
     }
+    // Draft a defender where enemies are close, the garrison is thin and the city can spare a citizen.
+    const now = ctx.state().cities[city]!;
+    if ((view.threat.get(city) ?? 0) > 0 && now.size >= 4 && defendersIn(view, ctx.state(), now) < 2 && draftBlocker(rules, ctx.state(), now) === null)
+      ctx.act({ type: 'draft', player: view.player, city, reason: why('drafting a defender for a threatened city') });
   }
 }
 
@@ -182,7 +187,9 @@ function runGovernors(ctx: Ctx): void {
     const s = ctx.state();
     const city = s.cities[c.id]!;
     const danger = (view.threat.get(city.id) ?? 0) > 0;
-    const plan = governCity(view.rules, s, city, { preset: danger ? 'production' : 'balanced', hurry: false });
+    // A city raising settlers or workers wants food above all (the citizens they take regrow).
+    const raising = city.build?.kind === 'unit' && view.rules.unit(city.build.id).populationCost > 0;
+    const plan = governCity(view.rules, s, city, { preset: danger ? 'production' : raising ? 'growth' : 'balanced', hurry: false });
     if (samePlacement(city, plan)) continue;
     ctx.act({ type: 'setCitizens', player: view.player, city: city.id, worked: plan.worked, specialists: plan.specialists, reason: why(plan.reason) });
   }

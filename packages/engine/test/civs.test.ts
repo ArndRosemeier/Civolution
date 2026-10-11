@@ -166,6 +166,8 @@ describe('traits', () => {
     const last = ancient.find((t) => rules.tech(t).prerequisites.length > 0 && !ancient.some((o) => rules.tech(o).prerequisites.includes(t)))!;
     s.players[0]!.techs = ancient.filter((t) => t !== last);
     s.players[0]!.research = { tech: last, beakers: 100000, turns: 10 };
+    // Someone else knows Philosophy already, so its first-discoverer bonus (bit21) stays out of this count.
+    s.players[1]!.techs = [...s.players[1]!.techs, 'philosophy'];
     const before = s.players[0]!.techs.length;
     s = endTurnAll(s);
     expect(s.players[0]!.era).toBe(1);

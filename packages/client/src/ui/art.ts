@@ -18,6 +18,6 @@ export function kingCiv(type: string): string | undefined {
 export function unitArt(type: string): string {
   const civ = kingCiv(type);
   if (civ) return base(`leaders/${civ}.jpg`);
-  const original = type.replace(/\d+$/, '');
+  const original = type.replace(/\d{3}$/, '');
   return base(`units/${original && rules.hasUnit(original) ? original : type}.png`);
 }

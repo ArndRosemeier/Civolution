@@ -39,17 +39,34 @@ function crowded(state: GameState): Uint8Array {
   return mask;
 }
 
-/** Site scores already worked out for a state, keyed by player and tile. */
-const scoreCache = new WeakMap<GameState, Map<number, number>>();
+/**
+ * Site scores worked out this turn, per player and tile. A score only reads the land, the
+ * borders and what the player knows, so it is kept for the rest of the turn while the
+ * borders stay the same (a new border is a new territory array); whether a city has been
+ * founded nearby since is checked on every call.
+ */
+const scoreCache = new WeakMap<GameState['map']['territory'], { turn: number; scores: Map<number, number> }>();
 
 /** How good a city site `tile` is for `player` (0 when it cannot be settled). */
 export function siteScore(rules: Rules, state: GameState, player: number, tile: number): number {
-  let scores = scoreCache.get(state);
-  if (!scores) scoreCache.set(state, (scores = new Map<number, number>()));
+  if (crowded(state)[tile]) return 0;
+  let entry = scoreCache.get(state.map.territory);
+  if (!entry || entry.turn !== state.turn) scoreCache.set(state.map.territory, (entry = { turn: state.turn, scores: new Map<number, number>() }));
   const key = player * state.map.terrain.length + tile;
-  let score = scores.get(key);
-  if (score === undefined) scores.set(key, (score = computeSiteScore(rules, state, player, tile)));
+  let score = entry.scores.get(key);
+  if (score === undefined) entry.scores.set(key, (score = computeSiteScore(rules, state, player, tile)));
   return score;
+}
+
+/** What each tile is worth to a city site this turn, per player (-1 until worked out). */
+const valueCache = new WeakMap<GameState['map']['terrain'], { turn: number; values: Map<number, Int16Array> }>();
+
+function tileValues(state: GameState, player: number): Int16Array {
+  let entry = valueCache.get(state.map.terrain);
+  if (!entry || entry.turn !== state.turn) valueCache.set(state.map.terrain, (entry = { turn: state.turn, values: new Map() }));
+  let values = entry.values.get(player);
+  if (!values) entry.values.set(player, (values = new Int16Array(state.map.terrain.length).fill(-1)));
+  return values;
 }
 
 function computeSiteScore(rules: Rules, state: GameState, player: number, tile: number): number {
@@ -58,14 +75,18 @@ function computeSiteScore(rules: Rules, state: GameState, player: number, tile: 
   if (!t.canFoundCity || t.water) return 0;
   const owner = m.territory[tile]!;
   if (owner >= 0 && owner !== player) return 0;
-  if (crowded(state)[tile]) return 0;
+  const values = tileValues(state, player);
   let score = 0;
   for (const x of cityRadiusTiles(m, tile)) {
     const o = m.territory[x]!;
     if (o >= 0 && o !== player) continue;
-    const y = tileYield(rules, state, x, (r) => resourceVisibleTo(rules, state, player, r));
-    const terrain = rules.terrains[m.terrain[x]!]!;
-    score += y.food.value * 3 + y.shields.value * 2 + y.commerce.value + (terrain.irrigationFood > 0 ? 1 : 0);
+    let v = values[x]!;
+    if (v < 0) {
+      const y = tileYield(rules, state, x, (r) => resourceVisibleTo(rules, state, player, r));
+      const terrain = rules.terrains[m.terrain[x]!]!;
+      values[x] = v = y.food.value * 3 + y.shields.value * 2 + y.commerce.value + (terrain.irrigationFood > 0 ? 1 : 0);
+    }
+    score += v;
   }
   if (hasFreshWater(state, tile)) score += 12;
   if (isCoastal(rules, state, tile)) score += 6;
@@ -117,16 +138,23 @@ export function bestSite(rules: Rules, state: GameState, player: number, from: n
   const owners = tileOwners(state);
   const home = known[from]!;
   const water = rules.terrains[state.map.terrain[from]!]!.water;
+  const full = crowded(state);
   for (const tile of tilesInRadius(state.map, from, range)) {
-    const d = distance(state.map, from, tile);
+    // Cheap tests first: most tiles near an empire are too close to a city.
+    if (full[tile] || !((p.explored[tile >> 5]! >>> (tile & 31)) & 1)) continue;
     if (!water && known[tile] !== home) continue;
-    if ((owners.get(tile) ?? []).some((o) => o !== player)) continue;
-    if (!((p.explored[tile >> 5]! >>> (tile & 31)) & 1)) continue;
+    const others = owners.get(tile);
+    if (others && others.some((o) => o !== player)) continue;
     const base = siteScore(rules, state, player, tile);
     if (base <= 0) continue;
+    const d = distance(state.map, from, tile);
+    // The distance penalty below never raises a score, so a site that cannot win without it is skipped.
+    const upper = base * 4 - d * 6;
+    if (upper < bestScore || upper <= 0) continue;
     // Prefer compact empires: close to existing cities, but not overlapping too much.
-    const near = own.length === 0 ? 0 : Math.min(...own.map((c) => distance(state.map, c.tile, tile)));
-    const score = base * 4 - d * 6 - (near > 6 ? (near - 6) * 10 : 0);
+    let near = own.length === 0 ? 0 : Infinity;
+    for (const c of own) near = Math.min(near, distance(state.map, c.tile, tile));
+    const score = upper - (near > 6 ? (near - 6) * 10 : 0);
     if (score > bestScore || (score === bestScore && tile < best)) {
       best = tile;
       bestScore = score;
@@ -193,10 +221,11 @@ export function planBuild(rules: Rules, state: GameState, city: City, opts: Plan
     if (best) return { build: { kind: 'unit', id: best.id }, reason: 'No defender in the city' };
   }
   const settler = rules.set.units.find((u) => u.specialActions.includes('buildCity'));
-  // With `growFirst`, settlers (two citizens) come only from cities of size 4 or more (3 while
-  // the empire has two cities or fewer), so cities keep growing while the empire expands.
+  // With `growFirst`, settlers (two citizens) come only from cities of size 4 or more, so
+  // cities keep growing while the empire expands; the first few cities start them at any
+  // size (the settler waits for the city to grow while its shields pile up, the usual opening).
   const cities0 = playerCities(state, city.owner).length;
-  const bigEnough = !opts.growFirst || city.size >= 4 || (cities0 <= 2 && city.size >= 3);
+  const bigEnough = !opts.growFirst || city.size >= 4 || cities0 <= 3;
   if (settler && !opts.noSettlers && bigEnough && report.foodSurplus >= 1 && wantsMoreCities(rules, state, city.owner) && ok({ kind: 'unit', id: settler.id })) {
     const settling = bestSite(rules, state, city.owner, city.tile, 12);
     if (settling >= 0) return { build: { kind: 'unit', id: settler.id }, reason: 'Room for another city nearby' };

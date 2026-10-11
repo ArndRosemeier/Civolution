@@ -255,7 +255,20 @@ export const TOURIST_YEARS = 2000;
 /** Luxury-resource happy faces with and without a Marketplace (Civilopedia table). */
 const MARKET_LUXURY = [0, 1, 2, 4, 6, 9, 12, 16, 20];
 
+/** Reports already worked out for a state, per city object (a changed city is a new object). */
+const reportCache = new WeakMap<GameState, WeakMap<City, CityReport>>();
+registerCache((s) => reportCache.delete(s));
+
+/** Everything about a city this turn, explained; cached per state and city object, so treat it as read-only. */
 export function cityReport(rules: Rules, state: GameState, city: City): CityReport {
+  let reports = reportCache.get(state);
+  if (!reports) reportCache.set(state, (reports = new WeakMap()));
+  let report = reports.get(city);
+  if (!report) reports.set(city, (report = computeCityReport(rules, state, city)));
+  return report;
+}
+
+function computeCityReport(rules: Rules, state: GameState, city: City): CityReport {
   const p = state.players[city.owner]!;
   const gov = rules.government(p.government);
   const g = rules.set.general;

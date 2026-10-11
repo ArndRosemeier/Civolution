@@ -61,6 +61,8 @@ export type Command =
   | (Base & { type: 'setCitizens'; city: number; worked: number[]; specialists: Record<string, number> })
   | (Base & { type: 'autoCitizens'; city: number })
   | (Base & { type: 'hurry'; city: number })
+  /** Drafts the best draftable unit, at the cost of a citizen (docs/rules/governments.md). */
+  | (Base & { type: 'draft'; city: number })
   | (Base & { type: 'renameCity'; city: number; name: string })
   | (Base & { type: 'setRates'; rates: Rates })
   | (Base & { type: 'setResearch'; tech: string })

@@ -9,6 +9,7 @@ import { rules } from './rules.ts';
 import { host, type Snapshot } from './host/client.ts';
 import { concernsHuman, describeEvent } from './ui/describe.ts';
 import { play, playEvents } from './audio.ts';
+import { displayColours } from './ui/a11y.ts';
 
 /** A command without its player; the store fills in the human player. */
 export type CommandInput = Command extends infer C ? (C extends Command ? Omit<C, 'player'> : never) : never;
@@ -78,7 +79,18 @@ export interface Settings {
   shadows: boolean;
   /** Automation lens: badges for automated units and cities. */
   lens: boolean;
+  /** Size of the interface (0.8–1.5). */
+  uiScale: number;
+  /** Civilization colours chosen to stay apart for colour-blind players. */
+  colourBlind: boolean;
+  /** Fewer animations: no camera glides, panel fades or pulsing buttons. */
+  reduceMotion: boolean;
+  /** Advisors' tutorial hints. */
+  hints: boolean;
+  theme: 'dark' | 'light';
 }
+
+export const DEFAULT_SETTINGS: Settings = { grid: false, perf: false, shadows: true, lens: false, uiScale: 1, colourBlind: false, reduceMotion: typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches, hints: typeof navigator === 'undefined' || !navigator.webdriver, theme: 'dark' };
 
 interface Store {
   snapshot: Snapshot | null;
@@ -100,6 +112,9 @@ interface Store {
   digestOpen: boolean;
   tilePick: TilePick | null;
   panel: Panel;
+  /** The open Civilopedia page ("units/warrior", "" for the contents), over everything else. */
+  pedia: string | null;
+  openPedia: (key: string | null) => void;
   setDigestOpen: (open: boolean) => void;
   setTilePick: (pick: TilePick | null) => void;
   open: (panel: Panel) => void;
@@ -121,11 +136,11 @@ interface Store {
 function readSettings(): Settings {
   try {
     const raw = localStorage.getItem('civolution.settings');
-    if (raw) return { grid: false, perf: false, shadows: true, lens: false, ...(JSON.parse(raw) as Partial<Settings>) };
+    if (raw) return { ...DEFAULT_SETTINGS, ...(JSON.parse(raw) as Partial<Settings>) };
   } catch {
     // Private mode or blocked storage: defaults are fine.
   }
-  return { grid: false, perf: false, shadows: true, lens: false };
+  return { ...DEFAULT_SETTINGS };
 }
 
 /** Cities of the human player with nothing to build. */
@@ -180,6 +195,14 @@ function headlines(snapshot: Snapshot, events: readonly GameEvent[]): News[] {
   return out.slice(0, 4);
 }
 
+/** The snapshot as the worker sent it; the store shows it with the player's colour choice applied. */
+let raw: Snapshot | null = null;
+
+function present(snapshot: Snapshot, colourBlind: boolean): Snapshot {
+  raw = snapshot;
+  return colourBlind ? { ...snapshot, state: { ...snapshot.state, players: displayColours(snapshot.state.players, true) } } : snapshot;
+}
+
 export const useGame = create<Store>((set, get) => {
   const absorb = (snapshot: Snapshot, events: GameEvent[], digest?: DigestItem[]) => {
     if (digest) set({ digest, digestOpen: digest.some((d) => d.priority <= 2) });
@@ -207,7 +230,7 @@ export const useGame = create<Store>((set, get) => {
     const captured = events.find((e) => e.type === 'cityCaptured' && e.player === snapshot.human);
     const fresh = headlines(snapshot, events);
     set((st) => ({
-      snapshot,
+      snapshot: present(snapshot, st.settings.colourBlind),
       lastEvents: events,
       log: [...st.log, ...entries].slice(-200),
       news: [...st.news, ...fresh].slice(-6),
@@ -236,6 +259,14 @@ export const useGame = create<Store>((set, get) => {
     digestOpen: false,
     tilePick: null,
     panel: null,
+    pedia: null,
+    openPedia(key) {
+      const was = get().pedia;
+      if (key !== null && was === null) play('pedia-open');
+      else if (key !== null && key !== was) play('page-turn');
+      else if (key === null && was !== null) play('ui-close');
+      set({ pedia: key });
+    },
     setDigestOpen(open) {
       set({ digestOpen: open });
     },
@@ -254,7 +285,7 @@ export const useGame = create<Store>((set, get) => {
       const scenario = params.get('scenario');
       if (scenario === 'skirmish') snapshot = await host().skirmish();
       if (scenario === 'empire') snapshot = await host().empire(Number(params.get('cities') ?? 200));
-      set({ snapshot, busy: false, lastEvents: [] });
+      set({ snapshot: present(snapshot, get().settings.colourBlind), busy: false, lastEvents: [] });
       get().selectNext();
     },
     async send(cmd) {
@@ -289,7 +320,7 @@ export const useGame = create<Store>((set, get) => {
       set({ busy: true });
       try {
         const snapshot = await host().load(text);
-        set({ snapshot, log: [{ turn: snapshot.state.turn, text: 'Game loaded.' }], selected: null, lastEvents: [], panel: null, digest: [], digestOpen: false, tilePick: null });
+        set({ snapshot: present(snapshot, get().settings.colourBlind), log: [{ turn: snapshot.state.turn, text: 'Game loaded.' }], selected: null, lastEvents: [], panel: null, digest: [], digestOpen: false, tilePick: null });
         get().selectNext();
       } catch (e) {
         get().showToast(e instanceof Error ? e.message : String(e));
@@ -318,7 +349,7 @@ export const useGame = create<Store>((set, get) => {
     },
     setSettings(s) {
       const settings = { ...get().settings, ...s };
-      set({ settings });
+      set({ settings, ...(raw && settings.colourBlind !== get().settings.colourBlind ? { snapshot: present(raw, settings.colourBlind) } : {}) });
       try {
         localStorage.setItem('civolution.settings', JSON.stringify(settings));
       } catch {

@@ -3148,5 +3148,390 @@
     "hash": "ffa3c7dfb8e25624",
     "date": "2026-10-11",
     "costUsd": 0.01
+  },
+  "packages/client/public/art/advisors/domestic.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted head-and-shoulders portrait for a strategy game's advisor panel: a calm, practical woman in her forties, the steward of the realm, in a dark green coat with a brass chain of office, holding a ledger closed against her chest, a granary and rooftops softly blurred behind her. Facing the viewer with a friendly, attentive expression, softly lit from the upper left, the face in the upper middle of the image with space around it. Hand-painted, stylised, not a caricature, not a real or famous person. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. No frame. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "762846131d7f53b6",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/advisors/trade.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted head-and-shoulders portrait for a strategy game's advisor panel: a cheerful merchant in his fifties with a trimmed grey beard, in a rich ochre robe with a coin purse at his belt, a busy harbour with sailing ships softly blurred behind him. Facing the viewer with a friendly, attentive expression, softly lit from the upper left, the face in the upper middle of the image with space around it. Hand-painted, stylised, not a caricature, not a real or famous person. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. No frame. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "0075042155464f66",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/advisors/military.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted head-and-shoulders portrait for a strategy game's advisor panel: a weathered general in her fifties with short grey hair and a scar over one eyebrow, in a navy uniform coat with simple bronze buttons, a fortress wall and banners without emblems softly blurred behind her. Facing the viewer with a friendly, attentive expression, softly lit from the upper left, the face in the upper middle of the image with space around it. Hand-painted, stylised, not a caricature, not a real or famous person. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. No frame. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "8c3cf2b63337bef5",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/advisors/foreign.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted head-and-shoulders portrait for a strategy game's advisor panel: a poised diplomat in his thirties with a neat moustache, in a deep terracotta coat with a silver brooch, holding a sealed letter, a grand hall with tall windows softly blurred behind him. Facing the viewer with a friendly, attentive expression, softly lit from the upper left, the face in the upper middle of the image with space around it. Hand-painted, stylised, not a caricature, not a real or famous person. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. No frame. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "d9908dc240486067",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/advisors/science.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted head-and-shoulders portrait for a strategy game's advisor panel: an eager young scholar in her twenties with round spectacles and ink-stained fingers, in a sea-turquoise robe, a brass astrolabe and a shelf of blank-spined books softly blurred behind her. Facing the viewer with a friendly, attentive expression, softly lit from the upper left, the face in the upper middle of the image with space around it. Hand-painted, stylised, not a caricature, not a real or famous person. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. No frame. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "1c3823639ec938f7",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/advisors/culture.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted head-and-shoulders portrait for a strategy game's advisor panel: a warm, thoughtful artist in his sixties with a white beard and a paint-flecked smock over a burgundy shirt, a theatre stage and marble statues softly blurred behind him. Facing the viewer with a friendly, attentive expression, softly lit from the upper left, the face in the upper middle of the image with space around it. Hand-painted, stylised, not a caricature, not a real or famous person. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. No frame. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "2ab5c58a3befee91",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/jobs/mine.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game icon of a worker job: a mine entrance with timber supports cut into a rocky hillside, a pickaxe and a cart of ore beside it, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "2265f7bed560f0fc",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/jobs/irrigation.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game icon of a worker job: a straight irrigation channel of clear water running between rows of green crops, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "f4c689c82cb724be",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/jobs/fortress.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game icon of a worker job: a squat square stone fortress with four corner towers on a grassy rise, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "f9ab817ace0eb38f",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/jobs/road.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game icon of a worker job: a dirt road winding across green fields, wagon ruts in it, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "13c8b0bf2f660156",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/jobs/railroad.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game icon of a worker job: a railway track with wooden sleepers curving across a plain, steam in the distance, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "ad372669e943f1a3",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/jobs/plantForest.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game icon of a worker job: a worker kneeling to plant a young tree sapling, with rows of saplings behind, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "2d0baf40387a1cf7",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/jobs/clearForest.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game icon of a worker job: felled tree trunks stacked beside fresh stumps and an axe in a log, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "1019628086594cfc",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/jobs/clearWetlands.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game icon of a worker job: a marsh being drained by a ditch, reeds giving way to dry ground, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "a688ab06d5bba0eb",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/jobs/clearDamage.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game icon of a worker job: workers shovelling away dark soot and debris from a field, the earth clean behind them, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "8bf79fb1045b5d40",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/jobs/airfield.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game icon of a worker job: a small airstrip with a windsock and a propeller plane parked beside a hangar, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "90a18c957fe51198",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/jobs/radarTower.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game icon of a worker job: a tall lattice radar tower with a rotating dish on a hilltop, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "e221a517204e00ef",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/jobs/outpost.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game icon of a worker job: a wooden watchtower on stilts with a ladder, overlooking a valley, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "1fc21b5cfae7b080",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/jobs/barricade.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game icon of a worker job: a low wall of sandbags and timber stakes across a field, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "22a7459be7a0690d",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/cities.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a young town on a river bend growing outward, new houses being raised at its edge, fields around it. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "dc2cc2e84880a5e2",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/tiles.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a patchwork landscape seen from a hill: farmed grassland, a forest, rolling hills with a mine, a river and the sea, a small town in the middle. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "c06c89c767418114",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/production.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a busy workshop yard where carpenters and smiths build a wooden siege engine, sparks and sawdust in the air. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "ac881e6f96726a92",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/trade.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a caravan of camels and carts arriving at a city gate on a paved road, a harbour with ships beyond. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "f777b6aafc9dcc0a",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/science.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a scholar's study at night, a telescope at an open window, brass instruments and blank parchment on a desk lit by a lamp. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "5bb4faa78e1c49d2",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/corruption.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a shady official in a back room quietly sliding gold coins off a counting table into his sleeve, a clerk looking away. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "50813fef2e35077d",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/happiness.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: townspeople dancing in a sunny square with garlands, musicians playing, a fountain in the middle. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "93e0d704ab5c4685",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/governments.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a grand council chamber with an empty throne at one end and benches of delegates in a half circle. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "a9b22fea73651934",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/culture.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: an amphitheatre on a hillside at sunset with a play on stage, a marble temple and statues nearby. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "7d18ce40610e996a",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/cultureFlips.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: citizens of a walled town lowering one plain banner and raising another of a different colour, onlookers cheering. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "c612b27243832f01",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/movement.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a column of soldiers and wagons crossing a river ford, a road leading on into hills. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "77f0cef140bcd3d9",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/workers.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: workers in simple clothes digging an irrigation ditch and laying a road beside green fields. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "45e80673b260852c",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/combat.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: two lines of ancient soldiers clashing with spears and shields on a dusty plain, dramatic but not gory. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "06ff8ec0dfadccdd",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/bombard.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: catapults on a ridge hurling stones toward a distant city wall, dust rising where they land. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "379c8a3e7e7f7c58",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/experience.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a grizzled veteran soldier showing young recruits how to hold their spears on a training ground. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "3553a2296be89907",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/leaders.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a heroic commander on a white horse on a hilltop, raising a sword as troops rally below. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "6d0ecd48ba4321bb",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/armies.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: three regiments marching together under one large plain standard, a commander at their head. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "fcb7e9efa897e9be",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/naval.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: two wooden warships exchanging cannon fire on a rolling sea, smoke drifting across the water. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "dab76ac2e37aa07e",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/air.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: propeller fighter planes flying in formation over clouds above a coastline. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "3a40ffc2c0599c81",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/nukes.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a distant mushroom cloud on the horizon seen from a quiet hill at dusk, an empty field in front. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "f92bdc40eacc198f",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/barbarians.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: fur-clad raiders on horseback galloping out of a misty forest toward a farm. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "d513a2bf8a2f2216",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/capture.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: soldiers marching through the open gate of a conquered city, its defenders laying down weapons. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "6082ca57647ac341",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/warWeariness.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a weary crowd of citizens in a grey street holding plain blank placards, a column of tired soldiers passing. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "67738ffdcc7c5447",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/diplomacy.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: two rulers shaking hands across a long table with an unrolled blank treaty between them, advisors standing behind. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "1831d0d1cf1a6a98",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/espionage.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a cloaked spy climbing over a palace balcony at night under a crescent moon. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "f063d904df4eb89f",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/goldenAges.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a shining city at golden sunset with scaffolding on new domes, crowds and banners in the streets. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "b1b0d08d4a096765",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/pollution.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: smoking factory chimneys over a grey river, dead trees on the bank. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "e5c3457a150b5ea9",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/spaceship.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a tall rocket on a launch pad at dawn, steam billowing, gantry towers around it. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "43e086e787d43cac",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/victory.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a triumphant procession entering a great capital under an arch, crowds throwing petals. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "4094fbad8ae5eec8",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/automation.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: an orderly city seen from above with workers, carts and soldiers each going about their tasks along neat roads, like clockwork. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "f7be0949849b88fe",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/difficulty.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for an encyclopedia page in a strategy game: a lone traveller at the foot of a steep mountain path, the peak far above in clouds. Wide cinematic composition, warm and readable, not gory, no close-up faces. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "e227544b6b0e9c6a",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/eras/ancient.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted panorama for an era in a strategy game about history: an ancient river valley city with ziggurat-like stepped temples, palm trees and reed boats on the river. Wide cinematic composition, golden light, no people in close-up. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "f5ee43549fc1233c",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/eras/middle.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted panorama for an era in a strategy game about history: a medieval walled town with a castle and a cathedral on a hill, farmland and a windmill around it. Wide cinematic composition, golden light, no people in close-up. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "8b542b5778b1535a",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/eras/industrial.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted panorama for an era in a strategy game about history: an industrial city with brick factories, a railway bridge and a steam train crossing a river. Wide cinematic composition, golden light, no people in close-up. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "fcbe2d052f8b9081",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/eras/modern.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted panorama for an era in a strategy game about history: a modern city skyline of glass towers by the sea at dusk, highways and an airport beyond. Wide cinematic composition, golden light, no people in close-up. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "053d65a9669ff63e",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/pedia/cover.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted illustration for the cover of an in-game encyclopedia: a grand old library hall with tall shelves of leather books with blank spines, a globe, a brass orrery and an open book on a lectern with blank pages, warm light through high windows. Wide cinematic composition. Absolutely no text: no letters, words, numbers, runes, labels, captions, banners with writing, book titles, map labels, signatures or watermarks anywhere in the image. Any book, scroll, map or sign shows only blank pages or abstract marks. Landscape image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "17df8ce36c43c55a",
+    "date": "2026-10-11",
+    "costUsd": 0.01
   }
 }

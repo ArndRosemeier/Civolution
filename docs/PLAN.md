@@ -367,6 +367,50 @@ Defaults picked where the plan left a choice ([assets.md](assets.md),
   bestSite from the AI's land-full check (about 15 %) and city reports in the governors.
   The Chinese leader portrait is Arnd's call and unchanged.
 
+### Phase 8 notes (polish and fidelity, alpha 0.006)
+
+Defaults picked where the plan left a choice ([rules/README.md](rules/README.md) "Known
+deviations", [ai.md](ai.md), [assets.md](assets.md)):
+- Civilopedia (F10, a "?" beside names, right-click in build lists and the science
+  advisor): a page for every rule-set entity plus 31 game-concept articles. Facts are read
+  from the rule set; the prose (`packages/client/src/pedia/text`) is written new for this
+  project. Numbered rule-file copies of a unit share the original's page.
+- Tutorial hints: six advisors (generated portraits) speak once per situation (founding,
+  research, workers, disorder, contact, war, government, corruption, culture, pollution,
+  …); seen hints live in the browser; off under browser automation so tests stay stable.
+- Accessibility: interface size 80–150 % (panels only, not the map), light theme,
+  Okabe–Ito civilization colours for colour-blind players (applied to the UI's copy of the
+  state; saves keep the originals), reduce motion (follows the system setting by default),
+  visible keyboard focus. Q and E give the unit's order when it has one, else turn the camera.
+- Rule fidelity: drafting (Nationalism, the government's draft limit, conscripts, 20
+  turns of unhappiness), SAM batteries, wall and coastal-fortress bombard defence,
+  Philosophy's free advance, Satellites' map, unique units in the starting set, half the
+  shields back for disbanding in a city, harbour water trade and second seats read from
+  data. Rate caps stay at 100 %: the Conquests file has no lower ones. Unused fields are
+  listed as known deviations (submarine stealth, airfields/outposts/radar towers,
+  resource depletion, xenophobia, mobilisation and a few more).
+- Villages release no barbarians while a civilization has one city (our default: two
+  village warriors used to end games around turn 15).
+- AI: the first three cities start settlers at any size, cities raising settlers use the
+  Growth governor, threatened cities draft. Balance against Civ3 (Standard, 8 civs,
+  Monarch, two seeds): the first AI reaches the Middle Ages around turn 165–170
+  (AD 500), the industrial era around turn 265–290 (AD 1360–1490), and in one game of two
+  the modern era at turn 383 (AD 1835). Civ3's AIs are earlier, mostly because their
+  empires are bigger by turn 100 (here 3–4 cities on average). Expansion is the next lever.
+- Speed: city reports are cached per state, site scores and tile values per turn, the
+  site search tests cheap things first, governors reuse their last report, a march tries
+  one route search. Huge with 16 AIs is about 28 ms a turn without invariant checks
+  (45 ms with them) while the AIs now run bigger empires.
+- Exit test: a Standard map with eight AI civilizations plays to its end with invariants
+  checked every turn (`sim.test.ts`, about 30 s); refused commands are reported by reason.
+- Art and sound: advisors, worker-job medallions, a picture per Civilopedia topic and
+  era, the Civilopedia cover, hint and page sounds (`manifests/phase8*.json`). Seed
+  Audio's moderation rejected the two extra modern-era music beds again (eight tries,
+  two prompts), so the modern era keeps one track.
+- Still open: AI gotos towards targets it cannot reach (refused, about 5 % of AI
+  commands), more sentry wake conditions, the AI's expansion pace, the Chinese leader
+  portrait (Arnd's call).
+
 ## 13. Deferred
 
 Mods and rule-set editing UI, scenarios (custom BIQs, maps, Conquests campaigns), multiplayer (hotseat, PBEM, online), loading original `.SAV`/`.BIQ` maps as starting positions, mobile layout beyond basic responsiveness.

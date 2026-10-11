@@ -44,6 +44,46 @@ interpreted.
 | [espionage.md](espionage.md) | Embassies and espionage missions | draft (Phase 4) |
 | [ai-handicaps.md](ai-handicaps.md) | Difficulty-level handicaps for computer players | draft (Phase 4) |
 
+## Known deviations
+
+Curated rule data (`packages/rules/data/conquests.json`) the engine does not honour, or
+honours only through an equivalent, as of Phase 8. Fields used only for presentation
+(`civs[].adjective`, `noun`, `leaderTitle`, `leaderFemale`, `cultureGroup`,
+`worldSizes[].defaultCivs`, `meta`) or only by the computer players (`civs[].buildOften`,
+`buildNever`, `favoriteGovernment`, `shunnedGovernment`, `difficulties[].aiTradeRate`,
+`units[].aiRoles`, the `requiresEscort` ability) are not listed.
+
+Honoured through an equivalent (no gameplay difference with the Conquests data):
+- `buildings[].effects` `centerOfEmpire`: the capital is the city with the building `palace`.
+- `capitalization`: the Wealth build is recognised by `kind: 'wealth'`.
+
+Not modelled:
+- **Governments `xenophobic` and `forcedResettlement`** (Fascism): Civ3's treatment of
+  foreign citizens in captured cities. Citizens carry no nationality of their own here
+  (only the city does), so there is nothing to resettle.
+- **Draft penalty**: the rule file's `draftTurnPenalty` is not curated; drafting reuses
+  `forcedLaborUnhappyTurns` ([governments.md](governments.md#the-draft)).
+- **`general.futureTechCost`**: there are no Future Techs; research ends with the last
+  advance.
+- **`resources[].disappearanceProbability`**: strategic resources never run out.
+- **Terrain `allowsAirfield`, `allowsOutpost`, `allowsRadarTower`** and the worker jobs
+  `airfield`, `outpost`, `radarTower`: these terrain improvements cannot be built.
+- **Unit `standardOrders`**: every unit may take every standard order (skip, wait, go to,
+  fortify where the order itself allows it), whatever its list says.
+- **Unit `specialActions` `buildColony`** (colonies on resources) and the unnamed `bit21`
+  on the Leader; `automate` is handled by `@civolution/automation` for any worker.
+- **Unit abilities** `submarine` / `canSeeSubmarines` (submarines are visible to all),
+  `hiddenNationality` (the Privateer attacks under its own flag),
+  `turnToAttack`, `rangedAttackAnimations` and `unusedMounted` (presentation or unused).
+- **Tech flags** `enablesMobilization` (no war mobilization), `enablesRecycling` (no
+  effect beyond the buildings that require the advance), `disablesFloodPlainDisease`
+  (plague and disease are out of scope, PLAN.md §7).
+
+Engine defaults where the rule file has no number (each marked on its page): the SAM
+Missile Battery's +100 % ([air.md](air.md)), how Walls' `bombardDefence` enters
+bombardment ([bombard.md](bombard.md)), the meaning of tech flags `bit21` / `bit22`
+([science.md](science.md)), the per-city draft limit ([governments.md](governments.md)).
+
 ## Rules checklist (PLAN.md §7)
 
 | Group | Pages |

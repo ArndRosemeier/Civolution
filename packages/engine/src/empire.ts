@@ -102,9 +102,13 @@ function computeEmpire(rules: Rules, state: GameState, player: number): EmpireIn
   const cities = playerCities(state, player);
   const gov = rules.government(p.government);
   const capital = cities.find((c) => 'palace' in c.buildings) ?? null;
-  const seats = cities.filter(
-    (c) => c !== capital && ('forbiddenPalace' in c.buildings || ('secretPoliceHq' in c.buildings && gov.id === 'communism')),
-  );
+  // Second seats of government: small wonders that reduce corruption (Forbidden Palace; the
+  // Secret Police HQ only under the government it needs).
+  const seat = (b: string) => {
+    const r = rules.building(b);
+    return r.kind === 'smallWonder' && r.effects.includes('reducesCorruption') && (!r.requiredGovernment || r.requiredGovernment === gov.id);
+  };
+  const seats = cities.filter((c) => c !== capital && Object.keys(c.buildings).some(seat));
   const centres = capital ? [capital, ...seats] : seats;
 
   const ws = rules.set.worldSizes.find((w) => w.id === state.settings.worldSize);
@@ -186,7 +190,7 @@ function cachedNetwork(
     hasTechFlag(rules, p, 'enablesOceanTrade') ? 1 : 0,
     p.techs.length,
     granted.join(','),
-    cities.map((c) => `${c.tile}${effective.get(c.id)!.has('harbor') ? 'h' : ''}`).join(','),
+    cities.map((c) => `${c.tile}${waterTrade(rules, effective.get(c.id)!) ? 'h' : ''}`).join(','),
   ].join('|');
   let net = entry.byKey.get(key);
   if (!net) {
@@ -234,6 +238,12 @@ export function tradeRoute(rules: Rules, state: GameState, a: number, b: number)
   return ok;
 }
 
+/** Whether any of these buildings lets its city trade over water (`allowsWaterTrade`: the Harbor). */
+function waterTrade(rules: Rules, buildings: Iterable<string>): boolean {
+  for (const b of buildings) if (rules.building(b).effects.includes('allowsWaterTrade')) return true;
+  return false;
+}
+
 function computeRoute(rules: Rules, state: GameState, a: number, b: number): boolean {
   const m = state.map;
   const capitalOf = (p: number) => playerCities(state, p).find((c) => 'palace' in c.buildings) ?? null;
@@ -252,7 +262,7 @@ function computeRoute(rules: Rules, state: GameState, a: number, b: number): boo
   };
   // Harbours by their own buildings (wonders acting as harbours are left out here: the
   // empire facts would need this route for their own resources).
-  const harbour = (c: City) => 'harbor' in c.buildings;
+  const harbour = (c: City) => waterTrade(rules, Object.keys(c.buildings));
   const land = (t: number) => {
     const o = m.territory[t]!;
     return cityTile.has(t) || ((o === a || o === b || o === -1) && ((m.improvements[t]! & (IMP_ROAD | IMP_RAIL)) !== 0 || m.rivers[t] !== 0));
@@ -330,7 +340,7 @@ function tradeNetwork(
     const id = rules.terrains[m.terrain[t]!]!.id;
     return id === 'coast' || (id === 'sea' && (seaOk || oceanOk)) || (id === 'ocean' && oceanOk);
   };
-  const harbour = (c: City) => effective.get(c.id)!.has('harbor');
+  const harbour = (c: City) => waterTrade(rules, effective.get(c.id)!);
 
   let next = 0;
   const stack: number[] = [];

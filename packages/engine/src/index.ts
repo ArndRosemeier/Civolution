@@ -37,12 +37,13 @@ export {
   type SizeClass,
   type TileOutput,
 } from './city.ts';
-export { foundBlocker, placeableTiles, unitSupportCost } from './cities.ts';
+export { foundBlocker, placeableTiles, unitSupportCost, TECH_BONUS_ADVANCE, TECH_REVEALS_MAP } from './cities.ts';
 export { availableResources, cityResources, connectedToCapital, empireInfo, landMasses, tradeRoute, type EmpireInfo } from './empire.ts';
 export { avoidDisorder, defaultSpecialist, placeCitizens, type Placement } from './governor.ts';
-export { buildBlocker, buildCategory, buildCost, buildName, buildOptions, hurryQuote, isCommonUnit, type BuildCategory, type BuildOption, type HurryQuote } from './production.ts';
+export { buildBlocker, buildCategory, buildCost, buildName, buildOptions, draftBlocker, draftedThisTurn, draftUnit, hurryQuote, isCommonUnit, type BuildCategory, type BuildOption, type HurryQuote } from './production.ts';
 export {
   civOf,
+  civVersionOf,
   hasTrait,
   inGoldenAge,
   isUnitVariant,
@@ -72,8 +73,8 @@ export { eraFor, requiredTechs, researchableTechs, researchBlocker, techCost } f
 export { borderRadius, cityAt, cityRadiusTiles, computeTerritory, playerCities, ringTiles, CITY_RADIUS } from './territory.ts';
 export { CITY_NAMES } from './names.ts';
 export { makeRng, hash3, type Rng, type RngState } from './rng.ts';
-export { attackStrength, battleOdds, defenceStrength, fight, pickDefender, attackSide, defenceSide, isCombatant, retreatChance, type Strength, type Odds, type Side, type CombatKind, type BattleResult } from './combat.ts';
-export { armyCount, armyLimit, attackBlocker, previewAttack, upgradeQuote, wearinessFaces, nukesEnabled, PROMOTION_ODDS, LEADER_ODDS, type AttackPreview } from './war.ts';
+export { SAM_DEFENCE_PERCENT, attackStrength, battleOdds, defenceStrength, fight, pickDefender, attackSide, defenceSide, isCombatant, retreatChance, type Strength, type Odds, type Side, type CombatKind, type BattleResult } from './combat.ts';
+export { armyCount, armyLimit, attackBlocker, cityBombardDefence, previewAttack, upgradeQuote, wearinessFaces, nukesEnabled, PROMOTION_ODDS, LEADER_ODDS, type AttackPreview } from './war.ts';
 export { cargoOf, cargoSpace, currentHp, isArmy, levelHp, maxHp, unitMaxMoves, canCarry, transportFor } from './units.ts';
 export { barbarianPlayer, campTiles, BARBARIAN_START_TURN } from './barbarians.ts';
 export { boardingTransport } from './movement.ts';

@@ -42,7 +42,14 @@ const CITY_BUILDING_DEFENCE: Record<string, CombatKind[]> = {
   walls: ['land'],
   civilDefense: ['bombard', 'air'],
   coastalFortress: ['sea'],
+  samMissileBattery: ['air'],
 };
+
+/**
+ * The SAM Missile Battery doubles its city's defence against air strikes (docs/rules/air.md).
+ * The rule file stores no number for it (its defence fields are 0), so this is our default.
+ */
+export const SAM_DEFENCE_PERCENT = 100;
 
 function hasActiveEffect(rules: Rules, state: GameState, player: number, effect: string): boolean {
   if (state.players[player]?.barbarian) return false;
@@ -105,7 +112,7 @@ export function defenceStrength(rules: Rules, state: GameState, defender: Unit, 
       if (!have.has(b) || !kinds.includes(ctx.kind) || !rules.hasBuilding(b)) continue;
       const br = rules.building(b);
       if (b === 'walls' && cls !== 'town') continue;
-      const amount = ctx.kind === 'sea' ? br.navalDefenceBonus : br.defenceBonus;
+      const amount = b === 'samMissileBattery' ? SAM_DEFENCE_PERCENT : ctx.kind === 'sea' ? br.navalDefenceBonus : br.defenceBonus;
       if (amount) mods.push({ label: br.name, amount });
     }
   }

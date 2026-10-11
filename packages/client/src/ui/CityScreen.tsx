@@ -5,6 +5,9 @@
  */
 import { useMemo, useState } from 'react';
 import {
+  draftBlocker,
+  draftedThisTurn,
+  draftUnit,
   flipOdds,
   PERCENT_PER_POINT,
   inGoldenAge,
@@ -28,6 +31,8 @@ import {
   type City,
 } from '@civolution/engine';
 import { TERRAIN_COLORS } from '../map/palette.ts';
+import { pediaKey } from '../pedia/index.ts';
+import { PediaLink } from './Civilopedia.tsx';
 import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
 import { Dialog } from './Dialog.tsx';
@@ -44,6 +49,9 @@ function art(path: string) {
 }
 
 /** Small picture for a build (generated icons, docs/assets.md); hidden until the file exists. */
+/** The Civilopedia page of something a city can build. */
+const buildPage = (b: Build) => (b.kind === 'unit' ? pediaKey.unit(b.id) : pediaKey.building(b.id));
+
 export function BuildIcon({ build }: { build: Build }) {
   const src = build.kind === 'unit' ? unitArt(build.id) : art(`buildings/${build.id}.png`);
   return <img className="build-icon" src={src} alt="" onError={(e) => (e.currentTarget.style.visibility = 'hidden')} />;
@@ -245,6 +253,7 @@ export function CityScreen({ cityId, onClose }: { cityId: number; onClose: () =>
                 <div className="current-build">
                   <BuildIcon build={city.build} />
                   <strong>{buildName(rules, city.build)}</strong>
+                  <PediaLink to={buildPage(city.build)} />
                   <span className="muted">{turns !== null ? `${turns} turn${turns === 1 ? '' : 's'}` : 'stalled'}</span>
                 </div>
                 <Bar value={city.shields} max={cost} className="shields" />
@@ -252,6 +261,7 @@ export function CityScreen({ cityId, onClose }: { cityId: number; onClose: () =>
                   {city.shields} / {cost}
                 </div>
                 {mine && <HurryButton city={city} />}
+                {mine && <DraftButton city={city} />}
               </>
             ) : (
               <div className="warn">Nothing is being built.</div>
@@ -324,6 +334,7 @@ export function CityScreen({ cityId, onClose }: { cityId: number; onClose: () =>
                     <li key={b} title={[r.upkeep ? `Upkeep ${r.upkeep}` : '', r.culture ? `Culture ${r.culture}` : '', r.contentFaces ? `Content +${r.contentFaces}` : ''].filter(Boolean).join(' · ')}>
                       <BuildIcon build={{ kind: 'building', id: b }} />
                       {r.name}
+                      <PediaLink to={pediaKey.building(b)} />
                     </li>
                   );
                 })}
@@ -365,6 +376,26 @@ function HurryButton({ city }: { city: City }) {
   );
 }
 
+/** The draft: a citizen becomes a conscript defender (governments that allow it, after Nationalism). */
+function DraftButton({ city }: { city: City }) {
+  const snap = useGame((s) => s.snapshot)!;
+  const send = useGame((s) => s.send);
+  const gov = rules.government(snap.state.players[city.owner]!.government);
+  if (gov.draftLimit <= 0) return null;
+  const blocker = draftBlocker(rules, snap.state, city);
+  const unit = draftUnit(rules, snap.state, city.owner, city);
+  const label = unit ? `Draft ${rules.unit(unit).name}` : 'Draft';
+  return (
+    <button
+      className={blocker ? 'disabled' : ''}
+      title={blocker ?? `One citizen becomes a conscript ${unit ? rules.unit(unit).name : 'unit'}; the city stays unhappy about it for a while. ${draftedThisTurn(snap.state, city)} of ${gov.draftLimit} drafted this turn.`}
+      onClick={() => !blocker && confirm(`${label}? The city loses a citizen.`) && void send({ type: 'draft', city: city.id })}
+    >
+      {label}
+    </button>
+  );
+}
+
 function BuildList({ city, perTurn, showAll }: { city: City; perTurn: number; showAll: boolean }) {
   const snap = useGame((s) => s.snapshot)!;
   const send = useGame((s) => s.send);
@@ -394,8 +425,13 @@ function BuildList({ city, perTurn, showAll }: { city: City; perTurn: number; sh
                   <li key={`${o.build.kind}:${o.build.id}`}>
                     <button
                       className={`${o.blocker ? 'disabled' : ''} ${sameBuild(city.build, o.build) ? 'on' : ''}`}
-                      title={o.blocker ?? buildTip(o.build)}
+                      title={`${o.blocker ?? buildTip(o.build)}
+Right-click: Civilopedia`}
                       onClick={(e) => !o.blocker && pick(o.build, e.shiftKey)}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        useGame.getState().openPedia(buildPage(o.build));
+                      }}
                     >
                       <BuildIcon build={o.build} />
                       <span className="name">{buildName(rules, o.build)}</span>

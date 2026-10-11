@@ -13,7 +13,7 @@ Specialists add their gold, beakers and luxury. Then buildings multiply:
 - luxury: +50 % with a Marketplace.
 
 No single rate may exceed the government's cap (100 % for every Conquests government in the
-rule file). During Anarchy all commerce goes to luxury and there is no research.
+rule file; see [governments.md](governments.md#rate-cap)). During Anarchy all commerce goes to luxury and there is no research.
 
 ## Treasury
 
@@ -41,6 +41,16 @@ rule file. A player enters the next era once they know every tech of their curre
 flagged "not required for era advance"; techs of later eras cannot be researched before.
 The Theory of Evolution grants two free advances.
 
+**Conquests tech flags the importer leaves unnamed** (`flags` holds them as `bitN`):
+
+- `bit21` (Philosophy), the "bonus tech": the first civilization to discover it gets a
+  free advance (the cheapest it can research; `learn` in `packages/engine/src/cities.ts`).
+- `bit22` (Satellites), "reveal map": its discoverer sees the whole map once.
+
+*Confidence: medium.* The Conquests editor lists these two flags after the 19 the importer
+names (with "cannot be traded" and "permits sacrifice", which no Conquests advance sets);
+which advances carry them matches the games' Philosophy and Satellites behaviour.
+
 ## Sources
 
 Rule file: tech costs, eras, prerequisites and flags, difficulty cost factors, world-size
@@ -57,4 +67,4 @@ reaches the Modern era.
 ## Open questions
 
 - Whether Conquests' cost formula has an extra term per tech already known.
-- The real rate caps per government (the rule file stores 100 % for all).
+- Rate caps: settled, the rule file stores 100 % for all governments (governments.md).

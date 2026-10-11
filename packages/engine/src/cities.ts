@@ -5,14 +5,14 @@
 import { cityReport, foodBox, sizeLimit, workableTiles } from './city.ts';
 import type { Command, CommandError } from './commands.ts';
 import { empireInfo } from './empire.ts';
-import { distance, tilesInRadius } from './grid.ts';
+import { distance, tileCount, tilesInRadius } from './grid.ts';
 import { avoidDisorder, defaultSpecialist, placeCitizens } from './governor.ts';
 import { checkWonderGoldenAge, hasTrait, nextCityName, SCIENTIFIC_LEADER_PERCENT } from './civs.ts';
 import { maybeMeltdown, rollPollution } from './pollution.ts';
 import { addSpaceshipPart } from './space.ts';
 import { addVictoryPoints } from './victory.ts';
 import { bearLeader } from './war.ts';
-import { buildBlocker, buildCategory, buildCost, hurryQuote } from './production.ts';
+import { buildBlocker, buildCategory, buildCost, draftBlocker, draftedThisTurn, draftUnit, hurryQuote } from './production.ts';
 import { knowsTech } from './queries.ts';
 import type { Rules } from './rules.ts';
 import { eraFor, researchBlocker, techCost } from './science.ts';
@@ -255,6 +255,28 @@ export function applyCityCommand(rules: Rules, tx: Tx, cmd: Command): CommandErr
         replaceCitizens(rules, tx, c.id);
       }
       tx.emit({ type: 'cityHurried', city: c.id, player: c.owner, tile: c.tile, gold: q.kind === 'gold' ? q.gold : 0, citizens: q.kind === 'forcedLabor' ? q.citizens : 0 });
+      return null;
+    }
+    case 'draft': {
+      const c = ownCity(state, cmd);
+      if (isFail(c)) return c.error;
+      const why = draftBlocker(rules, state, c);
+      if (why) return { code: 'invalid', message: why };
+      const type = draftUnit(rules, state, c.owner, c)!;
+      const already = draftedThisTurn(state, c);
+      // Drafted units are conscripts (the lowest experience level) when the rule set has that level.
+      const level = rules.set.experienceLevels.some((l) => l.id === 'conscript') ? 'conscript' : 'regular';
+      const drafted = tx.addUnit(newUnit(rules, c.owner, type, c.tile, level));
+      tx.emit({ type: 'unitCreated', unit: drafted.id, player: c.owner, unitType: type, tile: c.tile });
+      const city = tx.city(c.id);
+      city.size = c.size - 1;
+      city.food = Math.min(c.food, foodBox(rules, city.size));
+      city.draftedOn = state.turn;
+      city.drafted = already + 1;
+      // The drafted citizen's family stays unhappy as long as after forced labour (draftTurnPenalty is not curated).
+      city.forcedLabor.push(state.turn + rules.set.general.forcedLaborUnhappyTurns);
+      replaceCitizens(rules, tx, c.id);
+      tx.emit({ type: 'cityChanged', city: c.id, player: c.owner, tile: c.tile });
       return null;
     }
     case 'renameCity': {
@@ -642,13 +664,22 @@ function produce(rules: Rules, tx: Tx, cityId: number, shields: number): void {
   c.shieldsFor = c.shields > 0 && c.build ? buildCategory(rules, c.build) : null;
 }
 
+/** Tech flag bits the importer has no name for (docs/rules/science.md): the free advance and the revealed map. */
+export const TECH_BONUS_ADVANCE = 'bit21';
+export const TECH_REVEALS_MAP = 'bit22';
+
 export function learn(rules: Rules, tx: Tx, player: number, tech: string): void {
   if (tx.state.players[player]!.techs.includes(tech)) return;
   const first = !tx.state.players.some((o) => o.id !== player && !o.barbarian && o.techs.includes(tech));
   const p = tx.player(player);
   p.techs = [...p.techs, tech];
   tx.emit({ type: 'techDiscovered', player, tech });
+  const flags = rules.tech(tech).flags;
+  // Conquests' "reveal map" advance (bit 22 in the rule file: Satellites) shows its discoverer the whole world.
+  if (flags.includes(TECH_REVEALS_MAP)) reveal(tx, player, Array.from({ length: tileCount(tx.state.map) }, (_, t) => t), rules.tech(tech).name);
   if (first) firstDiscovery(rules, tx, player, tech);
+  // Conquests' "bonus tech" (bit 21: Philosophy) gives the first civilization to discover it a free advance.
+  if (first && flags.includes(TECH_BONUS_ADVANCE)) grantNextTech(rules, tx, player);
   const era = eraFor(rules, p.techs);
   if (era > p.era) {
     p.era = era;

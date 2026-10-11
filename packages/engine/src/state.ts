@@ -219,8 +219,14 @@ export interface City {
   /** Consecutive turns in civil disorder. */
   disorder: number;
   celebrating: boolean;
-  /** Turns on which forced-labour unhappiness ends, one entry per sacrificed citizen. */
+  /** Turns on which forced-labour (or draft) unhappiness ends, one entry per sacrificed citizen. */
   forcedLabor: number[];
+  /**
+   * The last turn citizens were drafted here and how many (docs/rules/governments.md).
+   * Optional so states from before drafting need no upgrade; absent means never.
+   */
+  draftedOn?: number;
+  drafted?: number;
   /** A hurry was paid this turn; the build completes at the end of the turn. */
   hurried: boolean;
   /** Turns until the next free unit from a wonder such as the Statue of Zeus. */

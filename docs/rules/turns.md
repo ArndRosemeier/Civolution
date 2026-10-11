@@ -31,8 +31,19 @@ reason attached (PLAN.md §8).
 
 ## Tribal villages
 
-Entering a village with a land unit opens it once: 35 % gold (25, 50 or 75), 20 % a map
-of the surroundings, 20 % a free Warrior, 25 % nothing. Free techs, settlers and barbarian
-uprisings join when research and combat exist; the odds will be rebalanced then.
+Entering a village with a land unit opens it once (`enterHut` in
+`packages/engine/src/move.ts`), on one roll out of 100:
+
+| Roll | Outcome |
+|---|---|
+| 0–29 (30 %) | gold: 25, 50 or 75 |
+| 30–44 (15 %) | a map of the tiles within 6 |
+| 45–61 (17 %) | a free Warrior |
+| 62–76 (15 %) | a free advance: one of the three cheapest the player can research (not a starting one) |
+| 77–89 (13 %) | 1–2 barbarian warriors next to the village, only after turn 5, away from the player's cities (within 3 tiles) while barbarians are in the game, and only once the player has two cities (our default) |
+| 90–99 (10 %) | nothing |
+
+An outcome that cannot happen (no advance to give, barbarians not allowed) falls through to
+the next row and ends as nothing. Free settlers are not given.
 
 **Confidence:** low for the village odds (Civ3's are difficulty-dependent and undocumented).

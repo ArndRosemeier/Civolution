@@ -19,6 +19,7 @@ import {
 import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
 import { AttackPreview } from './AttackPreview.tsx';
+import { PediaLink } from './Civilopedia.tsx';
 import { formatMoves } from './describe.ts';
 
 function Yield({ label, value, className }: { label: string; value: Explained; className: string }) {
@@ -65,10 +66,12 @@ export function TilePanel({ tile, unitId, pathTurns }: { tile: number | null; un
     <div className="tile-panel panel">
       <div className="tile-title">
         <strong>{terrain.name}</strong>
+        <PediaLink to={`terrains/${terrain.id}`} />
         {resource && (
           <span className={`res res-${resource.kind}`}>
             <img src={`${import.meta.env.BASE_URL}art/resources/${resource.id}.png`} alt="" onError={(e) => (e.currentTarget.style.display = 'none')} />
             {resource.name}
+            <PediaLink to={`resources/${resource.id}`} />
           </span>
         )}
       </div>

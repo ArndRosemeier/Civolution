@@ -1,3 +1,4 @@
+import { Worker } from 'node:worker_threads';
 import { describe, expect, it } from 'vitest';
 import { indexRules, stateHash } from '@civolution/engine';
 import { conquests } from '@civolution/rules';
@@ -19,8 +20,8 @@ describe('headless games', () => {
   it('keeps a golden hash for a fixed seed', () => {
     const game = { seed: 11, map: { worldSize: 'tiny' }, players: defaultPlayers(2), startUnits: withScouts };
     const { report } = runGame({ rules, game, controllers: [explorer, explorer], turns: 15 });
-    // Changing this hash needs a stated reason in the commit (PLAN.md §11).
-    expect(report.finalHash).toMatchInlineSnapshot(`"d919a4f1d2ca7220"`);
+    // Changing this hash needs a stated reason in the commit (PLAN.md §11). Phase 8: villages hold no barbarians for a civilization with fewer than two cities.
+    expect(report.finalHash).toMatchInlineSnapshot(`"d8b667b7527c3fc0"`);
   });
 
   it('explores a Huge map with 16 players and builds roads (Phase 1 exit criterion)', () => {
@@ -89,6 +90,26 @@ describe('headless games', () => {
     expect(state.players.filter((p) => !p.barbarian).every((p) => p.civ !== null)).toBe(true);
     expect(stateHash(replay(rules, game, log))).toBe(stateHash(state));
   }, 240_000);
+
+  it('plays a full game on a Standard map from start to finish (Phase 8 exit criterion)', async () => {
+    // Eight AI civilizations, every rule on, invariants checked every turn, until the game is decided (by turn 540 at the latest).
+    // The game runs in a worker thread so the test runner is not starved for a minute.
+    type Result = { victory: unknown; turn: number; lastTurn: number; invariantFailures: unknown[]; refusals: Record<string, number>; commands: number };
+    const r = await new Promise<Result>((done, fail) => {
+      const w = new Worker(new URL('./fullgame.worker.ts', import.meta.url), { execArgv: ['--import', 'tsx'] });
+      w.once('message', (m: Result) => {
+        done(m);
+        void w.terminate();
+      });
+      w.once('error', fail);
+    });
+    expect(r.invariantFailures).toEqual([]);
+    expect(r.victory).not.toBeNull();
+    expect(r.turn).toBeLessThanOrEqual(r.lastTurn + 1);
+    // Gotos towards land the unit cannot reach are refused and cost nothing; anything else refused would point at an AI that misreads the rules.
+    const misread = Object.entries(r.refusals).filter(([k]) => !k.startsWith('goto: No known route'));
+    expect(misread.reduce((a, [, n]) => a + n, 0)).toBeLessThan(r.commands / 500);
+  }, 600_000);
 
   it('beats a passive player at Monarch (Phase 4 exit criterion)', () => {
     const games = runTournament({ rules, size: 'tiny', players: 2, turns: 300, seeds: [1, 5], difficulty: 'monarch', passive: true });

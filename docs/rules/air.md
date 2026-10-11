@@ -28,6 +28,13 @@ defence. A destroyed intruder aborts the mission.
 air defence against the bomber's defence; a hit costs a hit point, and a bomber on its
 last hit point is shot down.
 
+**SAM Missile Battery.** In a city with a SAM Missile Battery the anti-air shot is doubled,
+and units defending the city against the bombing get +100 % (`SAM_DEFENCE_PERCENT` in
+`packages/engine/src/combat.ts`). The battery itself does not fire: a city needs an air
+defence unit (or warship) to shoot. *Our default:* the rule file gives the battery no
+numbers (its defence fields are 0), so the doubling follows the Civilopedia's description
+of its effect; *confidence medium*.
+
 ## Not yet
 
 Airdrops, airlifts, helicopters carrying troops, air superiority over a stack, and

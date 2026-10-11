@@ -8,7 +8,7 @@ import { cityRadiusTiles } from './territory.ts';
 import type { Tx } from './tx.ts';
 import type { Explained, Part } from './yields.ts';
 
-/** Shields per point of building pollution (a Factory city making 40 shields: 4 points). */
+/** Half the shields per point of building pollution: points = Σ building pollution × shields ÷ (2 × this) (a Factory city making 40 shields: 2 points). */
 export const SHIELDS_PER_POINT = 20;
 /** Citizens above this size pollute once the owner knows Industrialization… */
 export const POPULATION_FREE_SIZE = 12;

@@ -234,6 +234,10 @@
   "government-changed": [
     "government-changed-1.mp3"
   ],
+  "hint": [
+    "hint-1.mp3",
+    "hint-2.mp3"
+  ],
   "hurry": [
     "hurry-1.mp3",
     "hurry-2.mp3"
@@ -316,6 +320,11 @@
   "order-restored": [
     "order-restored-1.mp3"
   ],
+  "page-turn": [
+    "page-turn-1.mp3",
+    "page-turn-2.mp3",
+    "page-turn-3.mp3"
+  ],
   "parachute": [
     "parachute-1.mp3",
     "parachute-2.mp3"
@@ -323,6 +332,10 @@
   "peace": [
     "peace-1.mp3",
     "peace-2.mp3"
+  ],
+  "pedia-open": [
+    "pedia-open-1.mp3",
+    "pedia-open-2.mp3"
   ],
   "pillage": [
     "pillage-1.mp3",

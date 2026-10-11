@@ -8,7 +8,8 @@ Two cities of a player are connected when (`empire.ts`, `tradeNetwork`):
 - a chain of road or railroad tiles links them (city tiles count as road), through tiles
   that are not another civilization's territory; or
 - a chain of river tiles links them (rivers carry trade as roads do); or
-- both have a Harbor and a water route joins them: coast always, sea once a tech with
+- both have a building with `allowsWaterTrade` (the Harbor, or what acts as one) and a
+  water route joins them: coast always, sea once a tech with
   "enables sea trade" is known (Astronomy), ocean with "enables ocean trade" (Navigation,
   Magnetism).
 

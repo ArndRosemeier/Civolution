@@ -1,5 +1,20 @@
 [
   {
+    "version": "0.006",
+    "date": "2026-10-11",
+    "title": "Civilopedia, advisors and polish",
+    "items": [
+      "The Civilopedia (F10, or the small ? next to a name): a page for every unit, building, wonder, advance, government, terrain, resource and civilization, and thirty articles on how the game works. Search with the / key; right-click anything in the build list or the science advisor to look it up.",
+      "Your advisors speak up: short tips the first time something comes up, from founding your capital to pollution. Switch them off or hear them all again in Settings.",
+      "Settings for everyone: interface size, a light theme, colours that colour-blind players can tell apart, and less motion.",
+      "The draft: once you know Nationalism, cities can turn a citizen into a conscript defender (the city screen has the button).",
+      "Closer to the original rules: SAM batteries guard against air strikes, walls protect people and buildings from bombardment, Philosophy gives its discoverer a free advance, Satellites reveal the map, disbanding in a city helps its build, and every civilization starts with its own scout where it has one.",
+      "Rival civilizations settle faster in the early game and draft defenders when threatened, and big maps play faster between turns.",
+      "Tribal villages no longer release barbarians while you have only one city.",
+      "Q and E now give the Reinforce front and Escort orders when a unit has them; otherwise they still turn the camera."
+    ]
+  },
+  {
     "version": "0.005",
     "date": "2026-10-11",
     "title": "Art and sound",

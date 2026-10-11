@@ -40,6 +40,11 @@ territory or unclaimed land, or the water between harbour cities of either side 
 ocean as either side's techs allow). A delivered resource reaches the receiver only while
 the route stands; the deal itself runs on, and the turn digest reports the loss.
 
+A civilization may trade away every copy it holds, its last one included
+(`resourceTradable`); when the copies it has promised in running deals reach the copies
+inside its borders, it goes without the resource itself until the deals end, unless it
+also receives it from someone else. Source: owner's ruling 2026-10-11.
+
 ## Sources
 
 Civilopedia *Trade* ("Domestic Trade", "Trade Route Connections", "Water Routes") and

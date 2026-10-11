@@ -201,7 +201,38 @@ function cachedNetwork(
   }
   const component = new Map<number, number>();
   for (const c of cities) component.set(c.id, net.comp[c.tile]!);
-  return { component, resources: net.resources };
+  const lost = tradedAway(rules, state, player, granted);
+  if (lost.size === 0) return { component, resources: net.resources };
+  const resources = new Map<number, Set<string>>();
+  for (const [k, v] of net.resources) resources.set(k, new Set([...v].filter((r) => !lost.has(r))));
+  return { component, resources };
+}
+
+/** Copies of a resource inside `player`'s borders. */
+export function resourceCopies(rules: Rules, state: GameState, player: number, resource: string): number {
+  const m = state.map;
+  const idx = rules.resourceIndex(resource);
+  let count = 0;
+  for (let t = 0; t < m.resource.length; t++) if (m.resource[t] === idx && m.territory[t] === player) count++;
+  return count;
+}
+
+/** Copies of each resource `player` has promised to others in running deals. */
+export function resourcesExported(state: GameState, player: number): Map<string, number> {
+  const out = new Map<string, number>();
+  for (const o of state.diplomacy.ongoing) if (o.from === player && o.item.kind === 'resource') out.set(o.item.resource, (out.get(o.item.resource) ?? 0) + 1);
+  return out;
+}
+
+/**
+ * Resources `player` has traded away down to its last copy (docs/rules/trade.md, owner's
+ * ruling 2026-10-11): it has none left for itself while the deals run, unless it also
+ * gets the resource from somewhere else (`granted`: deals in, scenario grants).
+ */
+function tradedAway(rules: Rules, state: GameState, player: number, granted: readonly string[]): Set<string> {
+  const lost = new Set<string>();
+  for (const [r, n] of resourcesExported(state, player)) if (!granted.includes(r) && n >= resourceCopies(rules, state, player, r)) lost.add(r);
+  return lost;
 }
 
 /**

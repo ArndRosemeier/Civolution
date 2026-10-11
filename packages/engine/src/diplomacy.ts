@@ -7,11 +7,11 @@
 import { registerCache } from './caches.ts';
 import { learn, replaceCitizens, updateTerritory } from './cities.ts';
 import type { CommandError } from './commands.ts';
-import { empireInfo, tradeRoute } from './empire.ts';
+import { empireInfo, resourceCopies, resourcesExported, tradeRoute } from './empire.ts';
 import { distance } from './grid.ts';
 import { atWar, hasTechFlag, tileOwners } from './queries.ts';
 import type { Rules } from './rules.ts';
-import type { Deal, DealItem, GameState, Player, Treaty, TreatyKind } from './state.ts';
+import type { Deal, DealItem, Demand, GameState, Player, Treaty, TreatyKind, Unit } from './state.ts';
 import { playerCities } from './territory.ts';
 import type { Tx } from './tx.ts';
 import { carryAlong, isArmy } from './units.ts';
@@ -32,8 +32,17 @@ export const BREACH_PENALTY: Record<TreatyKind, number> = {
   alliance: 40,
   embargo: 0,
 };
-/** Reputation lost when a per-turn payment cannot be made. */
-export const DEFAULT_PENALTY = 10;
+/** Reputation lost for breaking running trade deals: cancelling them by war, or defaulting on a payment. */
+export const TRADE_BREACH_PENALTY = 20;
+/** Reputation lost when a per-turn payment cannot be made (a broken trade deal). */
+export const DEFAULT_PENALTY = TRADE_BREACH_PENALTY;
+/** Turns before a civilization may make the same kind of demand of the same rival again. */
+export const DEMAND_COOLDOWN: Record<Demand['kind'], number> = { withdraw: 8, tribute: 20 };
+/** Trespassing armed units within THREAT_RANGE tiles of a city that make a serious threat. */
+export const THREAT_UNITS = 3;
+export const THREAT_RANGE = 3;
+/** Trespassers' attack within two tiles of a city above this multiple of its defence is a serious threat. */
+export const THREAT_ODDS = 1.5;
 /** How much a civilization holds a declaration of war against it. */
 export const WAR_GRUDGE = 50;
 
@@ -99,6 +108,46 @@ export function militaryPower(rules: Rules, state: GameState, player: number): n
     power += (r.attack + r.defence) * Math.max(1, r.hitPointBonus + 3);
   }
   return power;
+}
+
+/** Whether `u` is an armed unit standing in `owner`'s territory without leave (right of passage or alliance). */
+function trespassing(rules: Rules, state: GameState, u: Unit, owner: number): boolean {
+  if (u.carriedBy !== null || u.owner === owner || state.map.territory[u.tile] !== owner) return false;
+  if (state.players[u.owner]!.barbarian || atWar(state, u.owner, owner)) return false;
+  const r = rules.unit(u.type);
+  if (r.attack === 0 || r.domain === 'air') return false;
+  return !hasTreaty(state, u.owner, owner, 'rightOfPassage') && !hasTreaty(state, u.owner, owner, 'alliance');
+}
+
+/** `intruder`'s armed units inside `owner`'s territory without leave, by id. */
+export function trespassers(rules: Rules, state: GameState, owner: number, intruder: number): Unit[] {
+  return Object.values(state.units)
+    .filter((u) => u.owner === intruder && trespassing(rules, state, u, owner))
+    .sort((a, b) => a.id - b.id);
+}
+
+/**
+ * The city of `owner` that `intruder`'s trespassers seriously threaten, or null
+ * (docs/rules/diplomacy.md): at least THREAT_UNITS of them within THREAT_RANGE tiles of
+ * it, or their attack within two tiles more than THREAT_ODDS times the defence inside.
+ * `visible` limits the count to what `owner` can see.
+ */
+export function trespassThreat(rules: Rules, state: GameState, owner: number, intruder: number, visible?: Uint8Array): number | null {
+  const units = trespassers(rules, state, owner, intruder).filter((u) => !visible || visible[u.tile]);
+  if (units.length === 0) return null;
+  for (const c of playerCities(state, owner).sort((a, b) => a.id - b.id)) {
+    let near = 0;
+    let attack = 0;
+    for (const u of units) {
+      const d = distance(state.map, u.tile, c.tile);
+      if (d <= THREAT_RANGE) near++;
+      if (d <= 2) attack += rules.unit(u.type).attack;
+    }
+    let defence = 0;
+    for (const u of Object.values(state.units)) if (u.owner === owner && u.tile === c.tile && u.carriedBy === null) defence += rules.unit(u.type).defence;
+    if (near >= THREAT_UNITS || attack > Math.max(1, defence) * THREAT_ODDS) return c.id;
+  }
+  return null;
 }
 
 const landCache = new WeakMap<number[], number[]>();
@@ -212,6 +261,16 @@ function loseReputation(tx: Tx, player: number, amount: number): void {
   if (next !== p.reputation) tx.player(player).reputation = next;
 }
 
+/**
+ * `breaker` broke a treaty or a trade deal: it loses `penalty` reputation, and every
+ * civilization that knows it, the victim included, remembers the full penalty
+ * (owner's ruling 2026-10-11).
+ */
+function breakFaith(tx: Tx, breaker: number, penalty: number): void {
+  loseReputation(tx, breaker, penalty);
+  for (const o of civilizations(tx.state)) if (o.id !== breaker && o.contacts.includes(breaker)) remember(tx, o.id, breaker, -penalty);
+}
+
 // ---------------------------------------------------------------------------
 // Contact
 // ---------------------------------------------------------------------------
@@ -254,12 +313,20 @@ function sweepContacts(rules: Rules, tx: Tx): void {
 // War
 // ---------------------------------------------------------------------------
 
+/** Why a war is declared, when it is not simply the declarer's choice. */
+export interface WarCause {
+  /** Honouring a mutual protection pact: breaks nothing. */
+  honouring?: boolean;
+  /** `b` refused a demand: to withdraw its troops (breaks nothing: the intruder provoked it) or to pay tribute. */
+  refused?: Demand['kind'];
+}
+
 /**
- * `a` declares war on `b`. Treaties between them end; breaking a binding one costs
- * reputation with everyone. Partners of `b` in a mutual protection pact answer by
- * declaring war on `a` (`honouring` marks such a declaration, which breaks nothing).
+ * `a` declares war on `b`. Treaties and running deals between them end; breaking a
+ * binding treaty or a trade deal costs reputation with everyone. Partners of `b` in a
+ * mutual protection pact answer by declaring war on `a`.
  */
-export function declareWar(tx: Tx, a: number, b: number, honouring = false, seen = new Set<number>()): CommandError | null {
+export function declareWar(tx: Tx, a: number, b: number, cause: WarCause = {}, seen = new Set<number>()): CommandError | null {
   const state = tx.state;
   const pb = state.players[b];
   if (!pb?.alive || a === b) return err('invalid', 'Pick another living civilization.');
@@ -269,7 +336,7 @@ export function declareWar(tx: Tx, a: number, b: number, honouring = false, seen
   seen.add(a);
   const broken = treatiesBetween(state, a, b);
   let penalty = 0;
-  let worst: TreatyKind | null = null;
+  let worst: TreatyKind | 'trade' | null = null;
   for (const t of broken) {
     const p = t.kind === 'peace' && !(t.until !== null && t.until > state.turn) ? 0 : BREACH_PENALTY[t.kind];
     if (p > penalty) {
@@ -277,7 +344,13 @@ export function declareWar(tx: Tx, a: number, b: number, honouring = false, seen
       worst = t.kind;
     }
   }
-  if (honouring) penalty = 0;
+  // Running payments and deliveries are trade deals: cancelling them by war breaks them.
+  if (TRADE_BREACH_PENALTY > penalty && state.diplomacy.ongoing.some((o) => (o.from === a && o.to === b) || (o.from === b && o.to === a))) {
+    penalty = TRADE_BREACH_PENALTY;
+    worst = 'trade';
+  }
+  const honouring = cause.honouring === true;
+  if (honouring || cause.refused === 'withdraw') penalty = 0;
   const d = tx.diplomacy();
   const [x, y] = pair(a, b);
   d.treaties = d.treaties.filter((t) => !(t.parties[0] === x && t.parties[1] === y));
@@ -286,18 +359,24 @@ export function declareWar(tx: Tx, a: number, b: number, honouring = false, seen
   setWar(tx, a, b, true);
   remember(tx, b, a, -WAR_GRUDGE);
   if (penalty > 0 && worst) {
-    loseReputation(tx, a, penalty);
-    for (const o of civilizations(tx.state)) if (o.id !== a && o.contacts.includes(a)) remember(tx, o.id, a, -Math.ceil(penalty / 4));
+    breakFaith(tx, a, penalty);
     tx.emit({ type: 'treatyBroken', player: a, target: b, treaty: worst });
   }
-  tx.emit({ type: 'warDeclared', player: a, target: b, ...(honouring ? { reason: 'Honouring a mutual protection pact' } : {}) });
+  const refused = cause.refused === 'withdraw' ? 'withdrawRefused' : cause.refused === 'tribute' ? 'tributeRefused' : null;
+  tx.emit({
+    type: 'warDeclared',
+    player: a,
+    target: b,
+    ...(honouring ? { reason: 'Honouring a mutual protection pact' } : {}),
+    ...(refused ? { cause: refused } : {}),
+  });
   // Mutual protection: everyone with a pact with b joins against a.
   for (const t of tx.state.diplomacy.treaties) {
     if (t.kind !== 'mutualProtection' || !t.parties.includes(b)) continue;
     const ally = t.parties[0] === b ? t.parties[1] : t.parties[0];
     if (ally === a || seen.has(ally) || !tx.state.players[ally]?.alive || atWar(tx.state, ally, a)) continue;
     if (!hasContact(tx.state, ally, a)) meet(tx, ally, a);
-    declareWar(tx, ally, a, true, seen);
+    declareWar(tx, ally, a, { honouring: true }, seen);
   }
   return null;
 }
@@ -393,22 +472,22 @@ export function isTreatyItem(item: DealItem): boolean {
   return TREATY_ITEMS.has(item.kind);
 }
 
-/** Copies of a resource the player has beyond the one it uses (only a surplus can be traded away). */
-export function resourceSurplus(rules: Rules, state: GameState, player: number, resource: string): number {
+/**
+ * Copies of a resource the player can still promise in a deal: every copy inside its
+ * borders not promised already, its own last one included, while its trade network has
+ * the resource (owner's ruling 2026-10-11: giving the last copy away loses it at home).
+ */
+export function resourceTradable(rules: Rules, state: GameState, player: number, resource: string): number {
   const info = empireInfo(rules, state, player);
   const home = info.capital ?? info.cities[0];
   if (!home) return 0;
-  const comp = info.component.get(home.id);
-  let count = 0;
-  const m = state.map;
-  const idx = rules.resourceIndex(resource);
-  for (let t = 0; t < m.resource.length; t++) {
-    if (m.resource[t] !== idx || m.territory[t] !== player) continue;
-    count++;
-  }
-  if (!info.resources.get(comp ?? -1)?.has(resource)) return 0;
-  const out = state.diplomacy.ongoing.filter((o) => o.from === player && o.item.kind === 'resource' && o.item.resource === resource).length;
-  return Math.max(0, count - 1 - out);
+  if (!info.resources.get(info.component.get(home.id) ?? -1)?.has(resource)) return 0;
+  return Math.max(0, resourceCopies(rules, state, player, resource) - (resourcesExported(state, player).get(resource) ?? 0));
+}
+
+/** Copies of a resource the player has beyond the one it uses: trading more than these away costs it the resource. */
+export function resourceSurplus(rules: Rules, state: GameState, player: number, resource: string): number {
+  return Math.max(0, resourceTradable(rules, state, player, resource) - 1);
 }
 
 /** Resources flowing in to `player` from deals. */
@@ -448,6 +527,8 @@ function itemLabel(rules: Rules, state: GameState, item: DealItem): string {
       return `alliance against ${nameOf(state, item.against)}`;
     case 'embargo':
       return `embargo against ${nameOf(state, item.against)}`;
+    case 'withdraw':
+      return 'withdrawal of troops';
   }
 }
 
@@ -485,7 +566,7 @@ function itemBlocker(rules: Rules, state: GameState, giver: number, receiver: nu
       return r.embassies.includes(giver) ? `${r.name} already has an embassy there.` : null;
     case 'resource': {
       if (!rules.resources.some((x) => x.id === item.resource)) return 'Unknown resource.';
-      if (resourceSurplus(rules, state, giver, item.resource) <= 0) return `${g.name} has no spare ${rules.resources[rules.resourceIndex(item.resource)]!.name}.`;
+      if (resourceTradable(rules, state, giver, item.resource) <= 0) return `${g.name} has no ${rules.resources[rules.resourceIndex(item.resource)]!.name} left to trade.`;
       if (!tradeRoute(rules, state, giver, receiver)) return `No trade route joins the two capitals (roads, rivers or harbours).`;
       return null;
     }
@@ -521,6 +602,8 @@ function itemBlocker(rules: Rules, state: GameState, giver: number, receiver: nu
       if (!t?.alive || t.barbarian || item.against === giver || item.against === receiver) return 'Pick a civilization to embargo.';
       return bothKnow('enablesTradeEmbargoes', 'embargoes');
     }
+    case 'withdraw':
+      return war ? 'Not while at war.' : null;
   }
 }
 
@@ -536,6 +619,12 @@ export function dealBlocker(rules: Rules, state: GameState, deal: Deal): string 
   const all = [...deal.give, ...deal.take];
   if (war && !all.some((i) => i.kind === 'peace' || i.kind === 'ceasefire')) return 'At war, only peace or a ceasefire opens talks.';
   if (all.some((i) => i.kind === 'peace') && all.some((i) => i.kind === 'ceasefire')) return 'Peace or a ceasefire, not both.';
+  if (all.some((i) => i.kind === 'withdraw') && deal.demand?.kind !== 'withdraw') return 'Troops are withdrawn only on demand.';
+  if (deal.demand) {
+    if (deal.give.length > 0) return 'A demand offers nothing in return.';
+    if (deal.demand.kind === 'withdraw' && (deal.take.length !== 1 || deal.take[0]!.kind !== 'withdraw')) return 'Demand the withdrawal of troops and nothing else.';
+    if (deal.demand.kind === 'tribute' && deal.take.some((i) => i.kind !== 'gold' && i.kind !== 'tech')) return 'Tribute is gold or an advance.';
+  }
   const keys = new Set<string>();
   for (const [list, giver, receiver] of [
     [deal.give, deal.from, deal.to],
@@ -549,6 +638,23 @@ export function dealBlocker(rules: Rules, state: GameState, deal: Deal): string 
       if (why) return why;
     }
   }
+  return null;
+}
+
+const demandKey = (from: number, to: number, kind: Demand['kind']) => `${from}:${to}:${kind}`;
+
+/**
+ * Why `deal` (a demand) cannot be made now, or null: everything `dealBlocker` checks,
+ * troops to withdraw, and the cooldown since the last demand of its kind (DEMAND_COOLDOWN).
+ */
+export function demandBlocker(rules: Rules, state: GameState, deal: Deal): string | null {
+  if (!deal.demand) return 'Not a demand.';
+  const why = dealBlocker(rules, state, deal);
+  if (why) return why;
+  const them = nameOf(state, deal.to);
+  if (deal.demand.kind === 'withdraw' && trespassers(rules, state, deal.from, deal.to).length === 0) return `${them} has no troops in your territory.`;
+  const last = state.diplomacy.demands?.[demandKey(deal.from, deal.to, deal.demand.kind)];
+  if (last !== undefined && state.turn - last < DEMAND_COOLDOWN[deal.demand.kind]) return `Too soon to make another demand of ${them}.`;
   return null;
 }
 
@@ -614,6 +720,9 @@ function giveItem(rules: Rules, tx: Tx, giver: number, receiver: number, item: D
     case 'city':
       transferCity(rules, tx, item.city, receiver);
       return;
+    case 'withdraw':
+      expel(rules, tx, giver, receiver);
+      return;
     default:
       return;
   }
@@ -656,8 +765,14 @@ export function executeDeal(rules: Rules, tx: Tx, deal: Deal): void {
   for (const item of deal.give) if (!isTreatyItem(item)) giveItem(rules, tx, deal.from, deal.to, item);
   for (const item of deal.take) if (!isTreatyItem(item)) giveItem(rules, tx, deal.to, deal.from, item);
   for (const item of [...deal.give, ...deal.take]) if (isTreatyItem(item)) applyTreatyItem(rules, tx, deal.from, deal.to, item);
-  // A gift (nothing asked back) is remembered warmly.
-  if (deal.take.length === 0 && deal.give.length > 0 && !deal.give.every(isTreatyItem)) remember(tx, deal.to, deal.from, 8);
+  if (deal.demand) {
+    // A demand met pleases the demander; tribute paid under threat is resented.
+    remember(tx, deal.from, deal.to, 5);
+    if (deal.demand.kind === 'tribute') remember(tx, deal.to, deal.from, -5);
+  } else if (deal.take.length === 0 && deal.give.length > 0 && !deal.give.every(isTreatyItem)) {
+    // A gift (nothing asked back) is remembered warmly.
+    remember(tx, deal.to, deal.from, 8);
+  }
   else {
     remember(tx, deal.from, deal.to, 2);
     remember(tx, deal.to, deal.from, 2);
@@ -667,14 +782,23 @@ export function executeDeal(rules: Rules, tx: Tx, deal: Deal): void {
 
 /** The `proposeDeal` and `answerDeal` commands. */
 export function proposeDeal(rules: Rules, tx: Tx, deal: Deal, reason?: string): CommandError | null {
-  const why = dealBlocker(rules, tx.state, deal);
+  const why = deal.demand ? demandBlocker(rules, tx.state, deal) : dealBlocker(rules, tx.state, deal);
   if (why) return err('invalid', why);
   const d = tx.diplomacy();
   const id = d.nextId;
   d.nextId = id + 1;
   d.proposals.push({ ...deal, id, turn: tx.state.turn });
-  tx.emit({ type: 'dealProposed', proposal: id, player: deal.from, target: deal.to, ...(reason ? { reason } : {}) });
+  if (deal.demand) d.demands = { ...d.demands, [demandKey(deal.from, deal.to, deal.demand.kind)]: tx.state.turn };
+  tx.emit({ type: 'dealProposed', proposal: id, player: deal.from, target: deal.to, ...(deal.demand ? { demand: deal.demand.kind } : {}), ...(reason ? { reason } : {}) });
   return null;
+}
+
+/** A demand refused (or left unanswered): the demander resents it and, if it threatened war, declares it. */
+function refuseDemand(tx: Tx, p: Deal): void {
+  if (!p.demand) return;
+  remember(tx, p.from, p.to, -10);
+  const s = tx.state;
+  if (p.demand.war && s.players[p.from]!.alive && s.players[p.to]!.alive && !atWar(s, p.from, p.to)) declareWar(tx, p.from, p.to, { refused: p.demand.kind });
 }
 
 export function answerDeal(rules: Rules, tx: Tx, player: number, proposalId: number, accept: boolean): CommandError | null {
@@ -685,6 +809,7 @@ export function answerDeal(rules: Rules, tx: Tx, player: number, proposalId: num
   d.proposals = d.proposals.filter((x) => x.id !== proposalId);
   if (!accept) {
     tx.emit({ type: 'dealRejected', proposal: proposalId, player: p.to, target: p.from });
+    refuseDemand(tx, p);
     return null;
   }
   const why = dealBlocker(rules, tx.state, p);
@@ -693,11 +818,17 @@ export function answerDeal(rules: Rules, tx: Tx, player: number, proposalId: num
   return null;
 }
 
-/** Offers to `player` lapse when it ends its turn without answering. */
+/** Offers to `player` lapse when it ends its turn without answering; a demand left unanswered is refused. */
 export function dropProposalsTo(tx: Tx, player: number): void {
   if (!tx.state.diplomacy.proposals.some((p) => p.to === player || p.from === player)) return;
   const d = tx.diplomacy();
+  const lapsed = d.proposals.filter((p) => p.to === player);
   d.proposals = d.proposals.filter((p) => p.to !== player);
+  for (const p of lapsed) {
+    if (!p.demand) continue;
+    tx.emit({ type: 'dealRejected', proposal: p.id, player: p.to, target: p.from });
+    refuseDemand(tx, p);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -749,9 +880,9 @@ export function runDiplomacyTurn(rules: Rules, tx: Tx): void {
         tx.player(o.to).gold = tx.state.players[o.to]!.gold + pay;
       }
       if (pay < o.item.amount) {
+        // Defaulting breaks a trade deal: everyone who knows the payer remembers.
         end();
-        loseReputation(tx, o.from, DEFAULT_PENALTY);
-        remember(tx, o.to, o.from, -15);
+        breakFaith(tx, o.from, DEFAULT_PENALTY);
         tx.emit({ type: 'dealCancelled', player: o.from, target: o.to, why: 'The treasury could not pay.' });
         continue;
       }
@@ -768,12 +899,8 @@ export function runDiplomacyTurn(rules: Rules, tx: Tx): void {
   const trespass = new Map<string, number>();
   const terr = tx.state.map.territory;
   for (const u of Object.values(tx.state.units)) {
-    if (u.carriedBy !== null) continue;
     const owner = terr[u.tile]!;
-    if (owner < 0 || owner === u.owner || tx.state.players[u.owner]!.barbarian || atWar(tx.state, u.owner, owner)) continue;
-    const r = rules.unit(u.type);
-    if (r.attack === 0 || r.domain === 'air') continue;
-    if (hasTreaty(tx.state, u.owner, owner, 'rightOfPassage') || hasTreaty(tx.state, u.owner, owner, 'alliance')) continue;
+    if (owner < 0 || !trespassing(rules, tx.state, u, owner)) continue;
     const key = `${owner}:${u.owner}`;
     trespass.set(key, (trespass.get(key) ?? 0) + 1);
   }

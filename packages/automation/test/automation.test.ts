@@ -218,6 +218,9 @@ describe('policies, rules and the digest', () => {
     expect(dealAnswer(s, 0, { ...base, give: [{ kind: 'gold', amount: 10 }], take: [] })?.accept).toBe(true);
     expect(dealAnswer(s, 0, { ...base, give: [], take: [{ kind: 'gold', amount: 10 }] })?.accept).toBe(false);
     expect(dealAnswer(s, 0, { ...base, give: [{ kind: 'worldMap' }], take: [{ kind: 'gold', amount: 10 }] })).toBeNull();
+    // A demand backed by a threat of war is always left to the player.
+    expect(dealAnswer(s, 0, { ...base, give: [], take: [{ kind: 'gold', amount: 10 }], demand: { kind: 'tribute', war: true } })).toBeNull();
+    expect(dealAnswer(s, 0, { ...base, give: [], take: [{ kind: 'withdraw' }], demand: { kind: 'withdraw', war: true } })).toBeNull();
   });
 
   it("run the player's rules, which export and import", () => {

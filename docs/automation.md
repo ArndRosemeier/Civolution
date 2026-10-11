@@ -76,7 +76,19 @@ the nearest city when one comes close.
 
 `explore`, `autoWorker`, `autoSettle`, `garrison` (to the nearest city on its land short of
 defenders, then fortify), `patrol:<a>:<b>`, `rally:<tile>` and `bombard` (fire at the
-strongest enemy stack or city in range every turn).
+strongest enemy stack or city in range every turn), and since Phase 7:
+
+- `front`: reinforce the city on this land that visible enemies press hardest. A city's
+  need is the attack of visible enemy land units within three tiles less the defence
+  inside; the unit holds a city while it is threatened and waits in the nearest city as a
+  reserve when nothing is.
+- `escort:<unit>`: keep to another of the player's units (a transport, a settler, a
+  great leader), moving onto its tile each turn; it ends when that unit is gone.
+- `airDefence`, the interception schedule: on interception duty every turn while at war
+  with a civilization, standing down to repair when damaged and at peace. Delegated
+  military gives it to new fighters.
+
+The map's automation lens (L) marks every automated unit and city with its routine.
 
 ## The digest and the exit criterion
 

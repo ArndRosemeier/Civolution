@@ -5,6 +5,7 @@
  */
 export { runAutomation, runRoutines, type AutomationOptions, type AutomationRun, type RoutineRun } from './run.ts';
 export { proposeRoutine, proposeExplore, proposeAutoWorker, proposeAutoSettle, homeTile, type Proposal, type RoutineId, type RoutineContext } from './routines.ts';
+export { frontNeeds } from './routines.ts';
 export { bestSite, knownLand, siteScore, planBuild, planResearch, planGovernment, planRates, planEmpire, type PlannedBuild, type PlanBuildOptions } from './empire.ts';
 export { GOVERNORS, governCity, governorName, samePlacement, type GovernorPlan } from './governors.ts';
 export { BUILT_IN_TEMPLATES, allTemplates, buildNeeds, chooseBuild, findTemplate, templateBuild, templateForNewCity, templatePreview, type BuildNeeds, type TemplatePick } from './templates.ts';

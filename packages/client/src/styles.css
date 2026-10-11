@@ -675,3 +675,28 @@ kbd {
   border: 2px solid;
   object-fit: cover;
 }
+
+/* Map lens badges (map/three/markers.ts). */
+.map-marker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-size: 11px;
+  line-height: 16px;
+  white-space: nowrap;
+  pointer-events: auto;
+  color: var(--text);
+  background: rgba(20, 60, 70, 0.86);
+  border: 1px solid rgba(95, 179, 201, 0.6);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+.map-marker.city {
+  background: rgba(60, 48, 16, 0.88);
+  border-color: rgba(233, 185, 73, 0.65);
+}
+.map-marker.front {
+  border-color: var(--warn);
+  color: #ffd9b8;
+}

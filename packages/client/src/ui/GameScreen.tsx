@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { cityAt, distance, findPath, neighbour, pathTurns, stealthTargets, stepCost, type GameState, type Unit } from '@civolution/engine';
 import { play, setAmbience, setMusic, setSoundContext } from '../audio.ts';
 import { AMBIENCE } from '../sounds.ts';
+import { automationMarkers } from './lens.ts';
 import { host } from '../host/client.ts';
 import { loadModels, type ModelSet } from '../map/three/models.ts';
 import { ThreeMapView } from '../map/three/ThreeMapView.ts';
@@ -90,6 +91,15 @@ function finishTilePick(tile: number): void {
     void editAutomation((a) => {
       a.rally[pick.city] = tile;
     }, `Rally point set for ${city?.name ?? 'the city'}.`);
+  } else if (pick.purpose === 'escort') {
+    const u = snap.state.units[pick.unit];
+    // The unit to escort: a transport on that tile first, else any other unit of ours there.
+    const others = Object.values(snap.state.units).filter((x) => x.tile === tile && x.owner === snap.human && x.id !== pick.unit && x.carriedBy === null);
+    const charge = others.find((x) => rules.unit(x.type).capacity > 0) ?? others[0];
+    if (u && charge) {
+      play('rally-call');
+      void s.send({ type: 'setRoutine', unit: u.id, routine: `escort:${charge.id}` }).then(() => useGame.getState().selectNext());
+    } else s.showToast('Pick a tile with another of your units.');
   } else if (pick.purpose === 'patrol') {
     const u = snap.state.units[pick.unit];
     if (u && tile !== u.tile) {
@@ -182,6 +192,7 @@ export function GameScreen() {
 
   useEffect(() => view?.setSelectedUnit(selected), [view, selected]);
   useEffect(() => view?.setGrid(settings.grid), [view, settings.grid]);
+  useEffect(() => view?.setMarkers(settings.lens ? automationMarkers(snapshot) : []), [view, settings.lens, snapshot]);
   useEffect(() => view?.setHoverTile(hover), [view, hover]);
 
   // Centre on the selected unit when the selection changes.
@@ -278,6 +289,10 @@ export function GameScreen() {
       }
       if (ctrl && code === 'KeyL') {
         setDialog('load');
+        return true;
+      }
+      if (ctrl && code === 'KeyK') {
+        s.setSettings({ lens: !s.settings.lens });
         return true;
       }
       if (ctrl && code === 'KeyG') {
@@ -493,7 +508,7 @@ export function GameScreen() {
       )}
       {tilePick && (
         <div className="aim-hint panel">
-          {tilePick.purpose === 'rally' ? 'Click the rally point' : tilePick.purpose === 'patrol' ? 'Click the far end of the patrol route' : 'Click the centre of the worker region'} · Esc or right-click to cancel
+          {tilePick.purpose === 'rally' ? 'Click the rally point' : tilePick.purpose === 'patrol' ? 'Click the far end of the patrol route' : tilePick.purpose === 'escort' ? 'Click the unit to escort' : 'Click the centre of the worker region'} · Esc or right-click to cancel
         </div>
       )}
       <TurnDigest onJump={(tile) => view?.centerOn(tile)} />

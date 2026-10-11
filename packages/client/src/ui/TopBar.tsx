@@ -80,6 +80,9 @@ export function TopBar({ onSave, onLoad }: { onSave: () => void; onLoad: () => v
       <button className={digestOpen ? 'on' : ''} onClick={() => setDigestOpen(!digestOpen)} title="Turn digest (F9)">
         Digest{needs > 0 ? ` · ${needs}` : ''}
       </button>
+      <button className={settings.lens ? 'on' : ''} onClick={() => setSettings({ lens: !settings.lens })} title="Automation lens: what every automated unit and city is doing (Ctrl+K)">
+        Lens
+      </button>
       <button className={settings.grid ? 'on' : ''} onClick={() => setSettings({ grid: !settings.grid })} title="Tile grid (Ctrl+G)">
         Grid
       </button>

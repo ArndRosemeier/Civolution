@@ -1,5 +1,20 @@
 [
   {
+    "version": "0.005",
+    "date": "2026-10-11",
+    "title": "Art and sound",
+    "items": [
+      "The land is painted: grassland, plains, desert, tundra, hills, mountains, forests, jungles, marshes and beaches now have hand-painted ground instead of flat colour.",
+      "Music for every era and the title screen, and the sounds of the land under the camera: meadows, forests, deserts, snow, the sea and busy towns.",
+      "Every event in the game has a sound now, from marching feet and hoofbeats to fallen soldiers, upgrades, timber, treaties and warnings. The Sound menu sets effects, music and ambience apart (Ctrl+M mutes).",
+      "Every unit has a portrait, including all unique units; kings show their ruler, and the barbarians have a chieftain.",
+      "Fortresses and barricades stand on the map, and the Indian war elephant and the Arab camel riders have their own models.",
+      "New unit orders: Reinforce front (Q) sends a unit to the city enemies press hardest, Escort (E) keeps a unit beside another, and Interception duty (Shift+I) keeps a fighter on watch every turn of a war.",
+      "The automation lens (Lens, Ctrl+K) shows what every automated unit and city is doing.",
+      "The calendar now ends in AD 2050 on the last turn, as it should, and big maps play faster between turns."
+    ]
+  },
+  {
     "version": "0.004",
     "date": "2026-10-11",
     "title": "Civilizations, golden ages and every way to win",

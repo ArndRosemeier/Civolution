@@ -6,7 +6,9 @@
  * Routines: `explore`, `autoWorker` (the worker pool's job board when one is given,
  * else jobs around the worker's home city), `autoSettle`, `garrison` (to the nearest own
  * city short of defenders, then fortify), `patrol:<a>:<b>` (back and forth),
- * `rally:<tile>` (walk there and fortify) and `bombard` (fire at enemies in range).
+ * `rally:<tile>` (walk there and fortify), `bombard` (fire at enemies in range), `front`
+ * (reinforce the city visible enemies press hardest), `escort:<unit>` (keep to another
+ * unit) and `airDefence` (interception duty while at war, standing down to repair).
  */
 import { bestSite, siteScore } from './empire.ts';
 import { defenders } from './conditions.ts';
@@ -28,13 +30,17 @@ import {
   isExplored,
   neighbours,
   tileOwners,
+  unitsAt,
+  visibleTiles,
+  maxHp,
+  type City,
   type Command,
   type GameState,
   type Rules,
   type Unit,
 } from '@civolution/engine';
 
-export type RoutineId = 'explore' | 'autoWorker' | 'autoSettle' | 'garrison' | 'bombard' | `patrol:${number}:${number}` | `rally:${number}`;
+export type RoutineId = 'explore' | 'autoWorker' | 'autoSettle' | 'garrison' | 'bombard' | 'front' | 'airDefence' | `patrol:${number}:${number}` | `rally:${number}` | `escort:${number}`;
 
 export interface Proposal {
   command: Command;
@@ -49,8 +55,11 @@ export interface RoutineContext {
 
 /** Next command for this unit's routine, or null if it should wait for next turn. */
 export function proposeRoutine(rules: Rules, state: GameState, u: Unit, ctx: RoutineContext = {}): Proposal | null {
-  if (u.movesLeft <= 0) return null;
   const routine = u.routine ?? '';
+  // Interceptors on duty have spent their moves but still check the schedule each turn.
+  if (routine === 'airDefence') return proposeAirDefence(rules, state, u);
+  if (u.movesLeft <= 0) return null;
+  if (routine.startsWith('escort:')) return proposeEscort(rules, state, u, Number(routine.slice(7)));
   if (routine.startsWith('patrol:')) return proposePatrol(u, routine);
   if (routine.startsWith('rally:')) return proposeRally(u, Number(routine.slice(6)));
   switch (routine) {
@@ -64,6 +73,8 @@ export function proposeRoutine(rules: Rules, state: GameState, u: Unit, ctx: Rou
       return proposeGarrison(rules, state, u);
     case 'bombard':
       return proposeBombard(rules, state, u);
+    case 'front':
+      return proposeFront(rules, state, u);
     default:
       return null;
   }
@@ -105,6 +116,89 @@ function proposeGarrison(rules: Rules, state: GameState, u: Unit): Proposal | nu
   const nearest = options.sort((a, b) => a.d - b.d || a.c.id - b.c.id)[0];
   if (nearest) return { command: { type: 'goto', player: u.owner, unit: u.id, to: nearest.c.tile, reason: `Garrison: every city is guarded; reserve in ${nearest.c.name}` } };
   return { command: { type: 'setRoutine', player: u.owner, unit: u.id, routine: null, reason: 'Garrison: no city to guard on this land' }, finished: true };
+}
+
+/** What each player's units can see, per state (a front looks at visible enemies only). */
+const sightCache = new WeakMap<GameState, Map<number, Uint8Array>>();
+
+function sight(rules: Rules, state: GameState, player: number): Uint8Array {
+  let byPlayer = sightCache.get(state);
+  if (!byPlayer) sightCache.set(state, (byPlayer = new Map<number, Uint8Array>()));
+  let seen = byPlayer.get(player);
+  if (!seen) byPlayer.set(player, (seen = visibleTiles(rules, state, player)));
+  return seen;
+}
+
+/**
+ * How hard each of the player's cities is pressed: the attack of visible enemy land units
+ * within three tiles, less the defence already inside. Positive means it needs help.
+ */
+export function frontNeeds(rules: Rules, state: GameState, player: number): { city: City; need: number; enemies: number }[] {
+  const seen = sight(rules, state, player);
+  const enemies = Object.values(state.units).filter(
+    (x) => x.owner !== player && x.carriedBy === null && seen[x.tile] === 1 && atWar(state, player, x.owner) && rules.unit(x.type).domain === 'land' && rules.unit(x.type).attack > 0,
+  );
+  if (enemies.length === 0) return [];
+  const out: { city: City; need: number; enemies: number }[] = [];
+  for (const c of playerCities(state, player)) {
+    const near = enemies.filter((x) => distance(state.map, x.tile, c.tile) <= 3);
+    if (near.length === 0) continue;
+    const threat = near.reduce((s, x) => s + rules.unit(x.type).attack, 0);
+    const guard = unitsAt(state, c.tile)
+      .filter((x) => x.owner === player)
+      .reduce((s, x) => s + rules.unit(x.type).defence, 0);
+    out.push({ city: c, need: threat - guard, enemies: near.length });
+  }
+  return out;
+}
+
+/** Front: reinforce the city on this land that visible enemies press hardest; reserve otherwise. */
+function proposeFront(rules: Rules, state: GameState, u: Unit): Proposal | null {
+  const masses = landMasses(rules, state);
+  const fronts = frontNeeds(rules, state, u.owner).filter((f) => masses[f.city.tile] === masses[u.tile]);
+  const here = cityAt(state, u.tile);
+  const holding = here ? fronts.find((f) => f.city.id === here.id) : undefined;
+  const units = (n: number) => `${n} enemy unit${n === 1 ? '' : 's'}`;
+  // Stay where the fight is while this city is still threatened.
+  if (here && holding) return u.fortified ? null : { command: { type: 'fortify', player: u.owner, unit: u.id, reason: `Front: holding ${here.name} against ${units(holding.enemies)}` } };
+  const pick = fronts
+    .filter((f) => f.need > 0)
+    .sort((a, b) => b.need - a.need || distance(state.map, u.tile, a.city.tile) - distance(state.map, u.tile, b.city.tile) || a.city.id - b.city.id)[0];
+  if (pick) {
+    if (u.order?.type === 'goto' && u.order.target === pick.city.tile) return { command: { type: 'skip', player: u.owner, unit: u.id, reason: `Front: on the way to ${pick.city.name}` } };
+    return { command: { type: 'goto', player: u.owner, unit: u.id, to: pick.city.tile, reason: `Front: reinforcing ${pick.city.name} (${units(pick.enemies)} near)` } };
+  }
+  if (here?.owner === u.owner) return u.fortified ? null : { command: { type: 'fortify', player: u.owner, unit: u.id, reason: `Front: no city under threat; reserve in ${here.name}` } };
+  if (u.order?.type === 'goto') return { command: { type: 'skip', player: u.owner, unit: u.id, reason: 'Front: returning to a city' } };
+  const home = playerCities(state, u.owner)
+    .filter((c) => masses[c.tile] === masses[u.tile])
+    .sort((a, b) => distance(state.map, u.tile, a.tile) - distance(state.map, u.tile, b.tile) || a.id - b.id)[0];
+  if (home) return { command: { type: 'goto', player: u.owner, unit: u.id, to: home.tile, reason: `Front: no city under threat; reserve in ${home.name}` } };
+  return null;
+}
+
+/** Escort: keep to another unit of the same player, moving onto its tile each turn. */
+function proposeEscort(rules: Rules, state: GameState, u: Unit, id: number): Proposal | null {
+  const charge = id in state.units ? state.units[id]! : null;
+  if (!charge || charge.owner !== u.owner) return { command: { type: 'setRoutine', player: u.owner, unit: u.id, routine: null, reason: 'Escort: the escorted unit is gone' }, finished: true };
+  const name = rules.unit(charge.type).name;
+  if (charge.tile === u.tile) return { command: { type: 'skip', player: u.owner, unit: u.id, reason: `Escort: alongside the ${name}` } };
+  if (u.order?.type === 'goto' && u.order.target === charge.tile) return { command: { type: 'skip', player: u.owner, unit: u.id, reason: `Escort: catching up with the ${name}` } };
+  return { command: { type: 'goto', player: u.owner, unit: u.id, to: charge.tile, reason: `Escort: following the ${name}` } };
+}
+
+/** Interception schedule: on duty while at war, standing down to repair when damaged. */
+function proposeAirDefence(rules: Rules, state: GameState, u: Unit): Proposal | null {
+  const rule = rules.unit(u.type);
+  if (!rule.airMissions.includes('intercept'))
+    return { command: { type: 'setRoutine', player: u.owner, unit: u.id, routine: null, reason: 'Interception: this unit cannot intercept' }, finished: true };
+  const onDuty = u.order?.type === 'intercept';
+  const damaged = u.hp < maxHp(rules, state, u);
+  const war = state.players[u.owner]!.atWarWith.some((e) => atWar(state, u.owner, e) && !state.players[e]!.barbarian);
+  if (onDuty && (damaged || !war))
+    return { command: { type: 'wake', player: u.owner, unit: u.id, reason: damaged ? 'Interception: standing down to repair' : 'Interception: at peace, standing down' } };
+  if (onDuty || damaged || !war || u.attacked || u.movesLeft <= 0) return null;
+  return { command: { type: 'airMission', player: u.owner, unit: u.id, mission: 'intercept', reason: 'Interception: on duty while at war' } };
 }
 
 /** Patrol between two tiles. */

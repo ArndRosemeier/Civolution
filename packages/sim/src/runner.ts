@@ -3,7 +3,7 @@
  * invariant checks after every turn, a command log for replays and a machine-readable
  * report.
  */
-import { runRoutines } from '@civolution/automation';
+import { planEmpire, runRoutines } from '@civolution/automation';
 import {
   apply,
   checkInvariants,
@@ -11,7 +11,9 @@ import {
   exploredCount,
   IMP_ROAD,
   PLAYER_COLORS,
+  playerCities,
   playerUnits,
+  yearOf,
   stateHash,
   tileCount,
   type Command,
@@ -46,7 +48,37 @@ export const explorer: Controller = {
   },
 };
 
-export const CONTROLLERS: Record<string, Controller> = { idle, explorer };
+/**
+ * Builder: a single empire-builder that settles, builds, researches and changes
+ * government with the automation helpers (the same ones the player will get).
+ */
+export const builder: Controller = {
+  id: 'builder',
+  takeTurn(rules, state, player, act) {
+    for (const cmd of planEmpire(rules, state, player)) state = act(cmd);
+    const garrisoned = new Set<number>();
+    for (const u of playerUnits(state, player)) if (u.order?.type === 'fortify') garrisoned.add(u.tile);
+    for (const u of playerUnits(state, player)) {
+      if (u.routine || u.order) continue;
+      const rule = rules.unit(u.type);
+      const military = rule.attack + rule.defence > 0;
+      const inCity = playerCities(state, player).some((c) => c.tile === u.tile);
+      let routine: string | null = null;
+      if (rule.specialActions.includes('buildCity')) routine = 'autoSettle';
+      else if (rule.jobs.length > 0) routine = 'autoWorker';
+      else if (!military || !inCity || garrisoned.has(u.tile)) routine = u.fortified ? null : 'explore';
+      if (routine) state = act({ type: 'setRoutine', player, unit: u.id, routine, reason: 'Scripted builder player' });
+      else if (rule.domain === 'land' && military && inCity) {
+        garrisoned.add(u.tile);
+        state = act({ type: 'fortify', player, unit: u.id, reason: 'Scripted builder player: garrison' });
+      }
+    }
+    const run = runRoutines(rules, state, player);
+    for (const cmd of run.commands) act(cmd);
+  },
+};
+
+export const CONTROLLERS: Record<string, Controller> = { idle, explorer, builder };
 
 export interface SimOptions {
   rules: Rules;
@@ -55,13 +87,30 @@ export interface SimOptions {
   turns: number;
   /** Check invariants after every turn (default true). */
   invariants?: boolean;
+  /** Stops early once this returns true (checked after every turn). */
+  until?: (state: GameState) => boolean;
 }
 
 export interface SimReport {
   seed: number;
   worldSize: string;
   turns: number;
-  players: { name: string; controller: string; explored: number; exploredPercent: number; units: number; gold: number }[];
+  players: {
+    name: string;
+    controller: string;
+    explored: number;
+    exploredPercent: number;
+    units: number;
+    gold: number;
+    cities: number;
+    population: number;
+    techs: number;
+    era: string;
+    government: string;
+    culture: number;
+  }[];
+  /** Year at the end of the run. */
+  year: number;
   roads: number;
   commands: number;
   invariantFailures: { turn: number; problems: string[] }[];
@@ -88,7 +137,9 @@ export function runGame(opts: SimOptions, clock: () => number = () => 0): SimRes
     return state;
   };
   const started = clock();
+  let played = 0;
   for (let t = 0; t < opts.turns; t++) {
+    played++;
     state.players.forEach((p, i) => {
       if (!p.alive) return;
       const controller = opts.controllers[i] ?? idle;
@@ -100,6 +151,7 @@ export function runGame(opts: SimOptions, clock: () => number = () => 0): SimRes
       const problems = checkInvariants(rules, state);
       if (problems.length > 0) failures.push({ turn: state.turn, problems: problems.slice(0, 20) });
     }
+    if (opts.until?.(state)) break;
   }
   const n = tileCount(state.map);
   return {
@@ -108,7 +160,7 @@ export function runGame(opts: SimOptions, clock: () => number = () => 0): SimRes
     report: {
       seed: opts.game.seed,
       worldSize: opts.game.map.worldSize,
-      turns: opts.turns,
+      turns: played,
       players: state.players.map((p, i) => ({
         name: p.name,
         controller: (opts.controllers[i] ?? idle).id,
@@ -116,12 +168,19 @@ export function runGame(opts: SimOptions, clock: () => number = () => 0): SimRes
         exploredPercent: Math.round((exploredCount(p) * 1000) / n) / 10,
         units: playerUnits(state, i).length,
         gold: p.gold,
+        cities: playerCities(state, i).length,
+        population: playerCities(state, i).reduce((a, c) => a + c.size, 0),
+        techs: p.techs.length,
+        era: rules.set.eras[p.era]!.id,
+        government: p.government,
+        culture: p.culture,
       })),
+      year: yearOf(rules, state.turn),
       roads: state.map.improvements.filter((x) => x & IMP_ROAD).length,
       commands: log.length,
       invariantFailures: failures,
       finalHash: stateHash(state),
-      msPerTurn: opts.turns > 0 ? Math.round(((clock() - started) / opts.turns) * 10) / 10 : 0,
+      msPerTurn: played > 0 ? Math.round(((clock() - started) / played) * 10) / 10 : 0,
     },
   };
 }

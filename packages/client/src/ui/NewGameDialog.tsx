@@ -66,6 +66,7 @@ export function NewGameDialog({ onClose }: { onClose: () => void }) {
   const [rivals, setRivals] = useState(sizeRule.defaultCivs - 1);
   const [scout, setScout] = useState(true);
   const [seed, setSeed] = useState(() => Math.floor(Math.random() * 1_000_000));
+  const [difficulty, setDifficulty] = useState(rules.set.general.defaultDifficulty);
 
   const start = async () => {
     const players = Array.from({ length: rivals + 1 }, (_, i) => ({
@@ -84,6 +85,7 @@ export function NewGameDialog({ onClose }: { onClose: () => void }) {
         age: age as 4,
       },
       players,
+      difficulty,
       ...(scout ? { startUnits: [...rules.set.general.startUnits, rules.set.general.scoutUnit] } : {}),
     });
   };
@@ -113,6 +115,7 @@ export function NewGameDialog({ onClose }: { onClose: () => void }) {
       <Segmented label="Climate" options={CLIMATE} value={climate} onChange={setClimate} />
       <Segmented label="Temperature" options={TEMP} value={temp} onChange={setTemp} />
       <Segmented label="Age" options={AGE} value={age} onChange={setAge} />
+      <Segmented label="Difficulty" options={rules.set.difficulties.map((d) => ({ value: d.id, label: d.name }))} value={difficulty} onChange={setDifficulty} />
       <div className="field row">
         <label>
           <span className="field-label">Rivals</span>
@@ -127,7 +130,7 @@ export function NewGameDialog({ onClose }: { onClose: () => void }) {
           Start with a scout
         </label>
       </div>
-      <p className="hint">Cities, research and diplomacy arrive in later phases; this build covers the map, exploration, movement and workers.</p>
+      <p className="hint">Rivals build their own empires but cannot meet you yet: contact, combat and diplomacy arrive in later phases.</p>
       <div className="dialog-actions">
         <button onClick={onClose}>Cancel</button>
         <button className="primary" disabled={busy} onClick={() => void start()}>

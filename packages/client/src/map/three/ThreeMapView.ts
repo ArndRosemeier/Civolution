@@ -2,9 +2,10 @@
  * The 3D map (three.js). See PLAN.md §10.1 and docs/rendering.md.
  */
 import * as THREE from 'three';
-import { isExplored, tileCount, type GameEvent, type Rules } from '@civolution/engine';
+import { buildCost, buildName, cityReport, isExplored, tileCount, type GameEvent, type Rules } from '@civolution/engine';
 import type { MapSnapshot, MapStats, MapView } from '../MapView.ts';
 import { StrategyCamera } from './camera.ts';
+import { CityLayer, type CityLabelInfo } from './cities.ts';
 import { Chunk, makeChunks, type DressingMaterials } from './chunks.ts';
 import { applyFog, type FogUniforms } from './fog.ts';
 import { HeightField } from './heights.ts';
@@ -18,6 +19,9 @@ export interface ThreeMapOptions {
   /** Terrain vertices per map unit (3 default, 4 for high quality). */
   terrainDetail?: number;
   shadows?: boolean;
+  /** Element that holds the city name plates (positioned over the canvas). */
+  labelLayer?: HTMLElement;
+  onCityClick?: (city: number) => void;
 }
 
 export class ThreeMapView implements MapView {
@@ -29,6 +33,9 @@ export class ThreeMapView implements MapView {
   private hf: HeightField | null = null;
   private snapshot: MapSnapshot | null = null;
   private units: UnitLayer | null = null;
+  private cities: CityLayer | null = null;
+  private readonly labelLayer: HTMLElement | null;
+  private readonly onCityClick: (city: number) => void;
   private water: THREE.Mesh[] = [];
   private readonly world = new THREE.Group();
   private readonly overlay = new THREE.Group();
@@ -58,6 +65,8 @@ export class ThreeMapView implements MapView {
     options: ThreeMapOptions = {},
   ) {
     this.detail = options.terrainDetail ?? 3;
+    this.labelLayer = options.labelLayer ?? null;
+    this.onCityClick = options.onCityClick ?? (() => undefined);
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -109,6 +118,10 @@ export class ThreeMapView implements MapView {
     }
     for (const w of this.water) this.world.remove(w);
     if (this.units) this.world.remove(this.units.group);
+    if (this.cities) {
+      this.world.remove(this.cities.group);
+      this.cities.dispose();
+    }
     this.hf = new HeightField(state.map, this.rules);
     const mapSize = new THREE.Vector2(W, H);
     this.fogData = new Uint8Array(W * H);
@@ -183,6 +196,8 @@ export class ThreeMapView implements MapView {
     for (const w of this.water) this.world.add(w);
     this.units = new UnitLayer(this.models, fog, W);
     this.world.add(this.units.group);
+    this.cities = new CityLayer(this.models, fog, W, this.labelLayer, (id) => this.onCityClick(id));
+    this.world.add(this.cities.group);
     this.cam.setBounds(W, H);
     this.previous = null;
     this.snapshot = snapshot;
@@ -264,6 +279,21 @@ export class ThreeMapView implements MapView {
     for (const c of dirty) c.buildDressing(state, this.rules, human, this.hf!, this.models, this.mats);
     this.previous = { explored: [...player.explored], improvements: m.improvements, terrain: m.terrain, flags: m.flags, resource: m.resource };
     this.units!.setUnits(state, this.rules, visible, human);
+    const info = new Map<number, CityLabelInfo>();
+    for (const c of Object.values(state.cities)) {
+      if (c.owner !== human) continue;
+      const r = cityReport(this.rules, state, c);
+      const remaining = c.build ? Math.max(0, buildCost(this.rules, c.build) - c.shields) : 0;
+      info.set(c.id, {
+        city: c,
+        production: c.build ? buildName(this.rules, c.build) : 'Choose production',
+        turns: c.build && r.shields.value > 0 ? Math.max(1, Math.ceil(remaining / r.shields.value)) : null,
+        growth: r.growth,
+        disorder: r.disorder,
+        celebrating: c.celebrating,
+      });
+    }
+    this.cities!.setCities(state, this.rules, human, this.hf!, info);
   }
 
   setSelectedUnit(id: number | null): void {
@@ -480,6 +510,7 @@ export class ThreeMapView implements MapView {
     this.water.forEach((w, i) => (w.position.x = base + (i - 1) * W));
     this.showcase.position.x = Math.round((tx - W / 2) / W) * W;
     this.units!.update(dt, this.hf, tx, this.cam.distance, this.time);
+    this.cities!.update(this.hf, this.cam.camera, tx, this.cam.distance, this.canvas);
     this.placeHover();
     // Shadows follow the view and switch off at strategic zoom.
     const d = this.cam.distance;
@@ -508,6 +539,7 @@ export class ThreeMapView implements MapView {
     this.disposed = true;
     cancelAnimationFrame(this.raf);
     for (const c of this.chunks) c.dispose();
+    this.cities?.dispose();
     this.renderer.dispose();
   }
 }

@@ -3,7 +3,10 @@
  * indices into the rule set's lists; everything else uses string ids.
  */
 import type {
+  BuildingRule,
+  DifficultyRule,
   GovernmentRule,
+  SpecialistRule,
   ResourceRule,
   RuleSet,
   TechRule,
@@ -25,6 +28,12 @@ export interface Rules {
   tech(id: string): TechRule;
   government(id: string): GovernmentRule;
   hasUnit(id: string): boolean;
+  building(id: string): BuildingRule;
+  hasBuilding(id: string): boolean;
+  specialist(id: string): SpecialistRule;
+  difficulty(id: string): DifficultyRule;
+  /** Index of an era id in rules.set.eras. */
+  eraIndex(id: string): number;
   /** Movement points per tile on flat terrain, in thirds (3 for Conquests). */
   readonly moveScale: number;
   /** Terrain index constants used by the map generator and renderer. */
@@ -44,6 +53,7 @@ export function indexRules(set: RuleSet): Rules {
   const terrainIdx = new Map(set.terrains.map((t, i) => [t.id, i]));
   const resourceIdx = new Map(set.resources.map((r, i) => [r.id, i]));
   const units = new Set(set.units.map((u) => u.id));
+  const buildingIds = new Set(set.buildings.map((b) => b.id));
   const t: Record<string, number> = {};
   for (const [id, i] of terrainIdx) t[id] = i;
   return {
@@ -66,6 +76,15 @@ export function indexRules(set: RuleSet): Rules {
     tech: byId(set.techs, 'tech'),
     government: byId(set.governments, 'government'),
     hasUnit: (id) => units.has(id),
+    building: byId(set.buildings, 'building'),
+    hasBuilding: (id) => buildingIds.has(id),
+    specialist: byId(set.specialists, 'specialist'),
+    difficulty: byId(set.difficulties, 'difficulty'),
+    eraIndex: (id) => {
+      const i = set.eras.findIndex((e) => e.id === id);
+      if (i < 0) throw new Error(`unknown era "${id}"`);
+      return i;
+    },
     moveScale: set.general.roadMovementRate,
     t,
   };

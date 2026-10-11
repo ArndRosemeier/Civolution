@@ -1,1 +1,1 @@
-export { runGame, replay, defaultPlayers, idle, explorer, CONTROLLERS, type Controller, type SimOptions, type SimReport, type SimResult } from './runner.ts';
+export { runGame, replay, defaultPlayers, idle, explorer, builder, CONTROLLERS, type Controller, type SimOptions, type SimReport, type SimResult } from './runner.ts';

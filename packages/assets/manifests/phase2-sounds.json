@@ -1,0 +1,107 @@
+{
+  "$comment": "Phase 2 sound effects (ByteDance Seed Audio on OpenRouter). Run: OPEN_ROUTER_KEY=... pnpm --filter @civolution/assets sounds -- --manifest manifests/phase2-sounds.json. Prompts get a 'The sound of' prefix automatically.",
+  "model": "bytedance-seed/seed-audio-1-0",
+  "outDir": "packages/client/public/audio",
+  "items": [
+    {
+      "id": "city-founded",
+      "prompt": "settlers driving a wooden stake into the ground, a cheerful crowd and a short rising horn call, festive and hopeful, about three seconds",
+      "variations": 3
+    },
+    {
+      "id": "city-grew",
+      "prompt": "a busy small town square growing livelier: footsteps, cart wheels, a hammer and happy voices murmuring without words, about three seconds",
+      "variations": 2
+    },
+    {
+      "id": "city-starved",
+      "prompt": "an empty cracked clay bowl set down on stone and a hungry crowd groaning softly without words, about two seconds",
+      "variations": 2
+    },
+    {
+      "id": "building-complete",
+      "prompt": "masons finishing a stone building: a final chisel tap, a heavy block settling into place and a short bright brass chord, about three seconds",
+      "variations": 3
+    },
+    {
+      "id": "unit-trained",
+      "prompt": "a soldier stepping forward, armour and gear rattling, boots stamping twice on packed earth, about two seconds",
+      "variations": 3
+    },
+    {
+      "id": "wonder-complete",
+      "prompt": "a triumphant orchestral fanfare with timpani and choir swelling over a cheering crowd, grand and majestic, about six seconds",
+      "variations": 2
+    },
+    {
+      "id": "tech-discovered",
+      "prompt": "a scholar's discovery: a quill scratching, a book closing, then a shimmering bright bell chime, about three seconds",
+      "variations": 3
+    },
+    {
+      "id": "era-entered",
+      "prompt": "a deep resonant gong followed by a slow rising orchestral swell announcing a new age, about six seconds",
+      "variations": 1
+    },
+    {
+      "id": "disorder",
+      "prompt": "an angry crowd shouting and chanting without words, glass breaking and a wooden door being banged, about three seconds",
+      "variations": 2
+    },
+    {
+      "id": "order-restored",
+      "prompt": "a crowd calming down and dispersing, murmurs fading, a single soft bell, about three seconds",
+      "variations": 1
+    },
+    {
+      "id": "celebration",
+      "prompt": "a joyful street festival: drums, flutes, clapping and cheering, about four seconds",
+      "variations": 2
+    },
+    {
+      "id": "revolution",
+      "prompt": "a crowd storming a palace: shouting without words, a bell ringing in alarm and heavy doors bursting open, about four seconds",
+      "variations": 1
+    },
+    {
+      "id": "government-changed",
+      "prompt": "a ceremonial proclamation: three trumpet calls and a crowd applauding politely, about four seconds",
+      "variations": 1
+    },
+    {
+      "id": "borders-grew",
+      "prompt": "a soft magical shimmer spreading outward like a ripple, with a warm low drone, about two seconds",
+      "variations": 2
+    },
+    {
+      "id": "gold-coins",
+      "prompt": "a handful of gold coins poured onto a wooden table, about one second",
+      "variations": 3
+    },
+    {
+      "id": "hurry",
+      "prompt": "workers rushing: hammers pounding quickly, a whip crack and a creaking crane, about two seconds",
+      "variations": 2
+    },
+    {
+      "id": "ui-click",
+      "prompt": "a short crisp wooden click of a game interface button, under half a second",
+      "variations": 3
+    },
+    {
+      "id": "ui-open",
+      "prompt": "a soft paper scroll unrolling for a game menu opening, under one second",
+      "variations": 2
+    },
+    {
+      "id": "ui-close",
+      "prompt": "a soft paper scroll rolling up for a game menu closing, under one second",
+      "variations": 2
+    },
+    {
+      "id": "end-turn",
+      "prompt": "a deep wooden drum hit with a soft brass swell signalling the end of a turn, about two seconds",
+      "variations": 2
+    }
+  ]
+}

@@ -1,0 +1,254 @@
+{
+  "city-founded-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of settlers driving a wooden stake into the ground, a cheerful crowd and a short rising horn call, festive and hopeful, about three seconds",
+    "hash": "fa14c1c1f67a3ae1",
+    "date": "2026-10-11"
+  },
+  "city-founded-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of settlers driving a wooden stake into the ground, a cheerful crowd and a short rising horn call, festive and hopeful, about three seconds",
+    "hash": "1c87bc12c0cc4eec",
+    "date": "2026-10-11"
+  },
+  "city-founded-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of settlers driving a wooden stake into the ground, a cheerful crowd and a short rising horn call, festive and hopeful, about three seconds",
+    "hash": "e2bb4facc014bb42",
+    "date": "2026-10-11"
+  },
+  "city-grew-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a busy small town square growing livelier: footsteps, cart wheels, a hammer and happy voices murmuring without words, about three seconds",
+    "hash": "b193b339fbc2f2b6",
+    "date": "2026-10-11"
+  },
+  "city-grew-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a busy small town square growing livelier: footsteps, cart wheels, a hammer and happy voices murmuring without words, about three seconds",
+    "hash": "28124be28dea3843",
+    "date": "2026-10-11"
+  },
+  "city-starved-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of an empty cracked clay bowl set down on stone and a hungry crowd groaning softly without words, about two seconds",
+    "hash": "a1109e413e6c7ed5",
+    "date": "2026-10-11"
+  },
+  "city-starved-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of an empty cracked clay bowl set down on stone and a hungry crowd groaning softly without words, about two seconds",
+    "hash": "3d631b830b8fdc7b",
+    "date": "2026-10-11"
+  },
+  "building-complete-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of masons finishing a stone building: a final chisel tap, a heavy block settling into place and a short bright brass chord, about three seconds",
+    "hash": "728c6e6a957cf02f",
+    "date": "2026-10-11"
+  },
+  "building-complete-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of masons finishing a stone building: a final chisel tap, a heavy block settling into place and a short bright brass chord, about three seconds",
+    "hash": "0fa9a5b9586e6936",
+    "date": "2026-10-11"
+  },
+  "building-complete-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of masons finishing a stone building: a final chisel tap, a heavy block settling into place and a short bright brass chord, about three seconds",
+    "hash": "9acc93f1cf2355a1",
+    "date": "2026-10-11"
+  },
+  "unit-trained-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a soldier stepping forward, armour and gear rattling, boots stamping twice on packed earth, about two seconds",
+    "hash": "be5403d8eaffa2ee",
+    "date": "2026-10-11"
+  },
+  "unit-trained-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a soldier stepping forward, armour and gear rattling, boots stamping twice on packed earth, about two seconds",
+    "hash": "5c5eaf0bb87b9ad4",
+    "date": "2026-10-11"
+  },
+  "unit-trained-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a soldier stepping forward, armour and gear rattling, boots stamping twice on packed earth, about two seconds",
+    "hash": "4a9df888830c054a",
+    "date": "2026-10-11"
+  },
+  "wonder-complete-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a triumphant orchestral fanfare with timpani and choir swelling over a cheering crowd, grand and majestic, about six seconds",
+    "hash": "eee8edd3e1abe1ce",
+    "date": "2026-10-11"
+  },
+  "wonder-complete-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a triumphant orchestral fanfare with timpani and choir swelling over a cheering crowd, grand and majestic, about six seconds",
+    "hash": "0573ded7d2b51949",
+    "date": "2026-10-11"
+  },
+  "tech-discovered-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a scholar's discovery: a quill scratching, a book closing, then a shimmering bright bell chime, about three seconds",
+    "hash": "5922a54b75f2e1b7",
+    "date": "2026-10-11"
+  },
+  "tech-discovered-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a scholar's discovery: a quill scratching, a book closing, then a shimmering bright bell chime, about three seconds",
+    "hash": "de9b2e6c98d6ae02",
+    "date": "2026-10-11"
+  },
+  "tech-discovered-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a scholar's discovery: a quill scratching, a book closing, then a shimmering bright bell chime, about three seconds",
+    "hash": "363406edd10db425",
+    "date": "2026-10-11"
+  },
+  "era-entered-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a deep resonant gong followed by a slow rising orchestral swell announcing a new age, about six seconds",
+    "hash": "9c373e4511b1e6ef",
+    "date": "2026-10-11"
+  },
+  "disorder-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of an angry crowd shouting and chanting without words, glass breaking and a wooden door being banged, about three seconds",
+    "hash": "29334e18572fd56e",
+    "date": "2026-10-11"
+  },
+  "disorder-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of an angry crowd shouting and chanting without words, glass breaking and a wooden door being banged, about three seconds",
+    "hash": "513bf8ffc5f80fdd",
+    "date": "2026-10-11"
+  },
+  "order-restored-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a crowd calming down and dispersing, murmurs fading, a single soft bell, about three seconds",
+    "hash": "2d3e831001e1d185",
+    "date": "2026-10-11"
+  },
+  "celebration-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a joyful street festival: drums, flutes, clapping and cheering, about four seconds",
+    "hash": "f5535417634dd5bd",
+    "date": "2026-10-11"
+  },
+  "celebration-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a joyful street festival: drums, flutes, clapping and cheering, about four seconds",
+    "hash": "80b9cb205c04fc42",
+    "date": "2026-10-11"
+  },
+  "revolution-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a crowd storming a palace: shouting without words, a bell ringing in alarm and heavy doors bursting open, about four seconds",
+    "hash": "0a9dde7fae23cb0f",
+    "date": "2026-10-11"
+  },
+  "government-changed-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a ceremonial proclamation: three trumpet calls and a crowd applauding politely, about four seconds",
+    "hash": "f94ebde958900b8c",
+    "date": "2026-10-11"
+  },
+  "borders-grew-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a soft magical shimmer spreading outward like a ripple, with a warm low drone, about two seconds",
+    "hash": "c9f61ff7e8e6e198",
+    "date": "2026-10-11"
+  },
+  "borders-grew-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a soft magical shimmer spreading outward like a ripple, with a warm low drone, about two seconds",
+    "hash": "1a426f46789620e2",
+    "date": "2026-10-11"
+  },
+  "gold-coins-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a handful of gold coins poured onto a wooden table, about one second",
+    "hash": "deae8f3fa1a61128",
+    "date": "2026-10-11"
+  },
+  "gold-coins-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a handful of gold coins poured onto a wooden table, about one second",
+    "hash": "9c05bd7be9a04f37",
+    "date": "2026-10-11"
+  },
+  "gold-coins-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a handful of gold coins poured onto a wooden table, about one second",
+    "hash": "214045ceb4c662c8",
+    "date": "2026-10-11"
+  },
+  "hurry-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of workers rushing: hammers pounding quickly, a whip crack and a creaking crane, about two seconds",
+    "hash": "a61981fd3db87123",
+    "date": "2026-10-11"
+  },
+  "hurry-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of workers rushing: hammers pounding quickly, a whip crack and a creaking crane, about two seconds",
+    "hash": "ec241c57aa733c82",
+    "date": "2026-10-11"
+  },
+  "ui-click-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a short crisp wooden click of a game interface button, under half a second",
+    "hash": "8c45d27e05542a98",
+    "date": "2026-10-11"
+  },
+  "ui-click-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a short crisp wooden click of a game interface button, under half a second",
+    "hash": "4be74e36b9ea57e2",
+    "date": "2026-10-11"
+  },
+  "ui-click-3.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a short crisp wooden click of a game interface button, under half a second",
+    "hash": "e80129b0c5855dd8",
+    "date": "2026-10-11"
+  },
+  "ui-open-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a soft paper scroll unrolling for a game menu opening, under one second",
+    "hash": "e8fe24bfd5f41733",
+    "date": "2026-10-11"
+  },
+  "ui-open-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a soft paper scroll unrolling for a game menu opening, under one second",
+    "hash": "f0638e4309b91ccc",
+    "date": "2026-10-11"
+  },
+  "ui-close-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a soft paper scroll rolling up for a game menu closing, under one second",
+    "hash": "f6a7eeae3ee767d0",
+    "date": "2026-10-11"
+  },
+  "ui-close-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a soft paper scroll rolling up for a game menu closing, under one second",
+    "hash": "b5688b388d94ada8",
+    "date": "2026-10-11"
+  },
+  "end-turn-1.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a deep wooden drum hit with a soft brass swell signalling the end of a turn, about two seconds",
+    "hash": "3b8067e89c3b4b8b",
+    "date": "2026-10-11"
+  },
+  "end-turn-2.mp3": {
+    "model": "bytedance-seed/seed-audio-1-0",
+    "prompt": "The sound of a deep wooden drum hit with a soft brass swell signalling the end of a turn, about two seconds",
+    "hash": "0d1082a0cab14e81",
+    "date": "2026-10-11"
+  }
+}

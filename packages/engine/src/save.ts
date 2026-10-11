@@ -9,7 +9,7 @@ import type { GameState } from './state.ts';
 
 export interface SaveHeader {
   format: 'civolution-save';
-  version: 1;
+  version: 2;
   rulesHash: string;
   turn: number;
   players: string[];
@@ -18,7 +18,7 @@ export interface SaveHeader {
 export function saveGame(state: GameState): string {
   const header: SaveHeader = {
     format: 'civolution-save',
-    version: 1,
+    version: 2,
     rulesHash: state.rulesHash,
     turn: state.turn,
     players: state.players.map((p) => p.name),
@@ -37,12 +37,13 @@ export function loadGame(rules: Rules, text: string): GameState {
   }
   const { header, state } = (parsed ?? {}) as { header?: Partial<SaveHeader>; state?: GameState };
   if (header?.format !== 'civolution-save' || !state) throw new SaveError('This is not a Civolution save.');
-  if (header.version !== 1 || (state.version as number) !== 1) throw new SaveError(`Unsupported save version ${String(header.version)}.`);
+  if (header.version !== 2 || (state.version as number) !== 2)
+    throw new SaveError(`This save comes from an older version of the game (format ${String(header.version)}) and cannot be loaded.`);
   if (state.rulesHash !== rules.hash)
     throw new SaveError('This save was made with a different rule set.');
   const n = tileCount(state.map);
   const m = state.map;
-  for (const key of ['terrain', 'underlying', 'rivers', 'resource', 'improvements', 'flags'] as const) {
+  for (const key of ['terrain', 'underlying', 'rivers', 'resource', 'improvements', 'flags', 'territory'] as const) {
     if (!Array.isArray(m[key]) || m[key].length !== n) throw new SaveError(`The save's map is damaged (${key}).`);
   }
   return state;

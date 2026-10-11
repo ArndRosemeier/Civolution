@@ -25,7 +25,8 @@ then copy `assets/out/civ_*.glb` to `packages/client/public/models/`.
 |---|---|
 | civ_unit_warrior, spearman, archer, settler, worker, scout, explorer | foot units (other land units borrow the warrior until their own models exist) |
 | civ_unit_galley | ships |
-| civ_city_ancient | cities (benchmark showcase until Phase 2) |
+| civ_city_ancient | benchmark showcase |
+| civ_city_{ancient,medieval,industrial,modern}_{town,city,metro} | cities on the map, by the owner's era and the city's size class (generator `civ.city`) |
 | civ_tribal_village | tribal villages |
 | civ_nature_pine, broadleaf, palm, jungle, reed | forest, jungle, marsh dressing |
 | civ_nature_mine | mines |
@@ -49,3 +50,25 @@ so the set stays consistent. Outputs go to `packages/client/public/art/` with
 `provenance.json` (model, prompt, date, cost) per file. Unchanged items are skipped.
 
 `manifests/phase1.json`: style bible, 26 resource medallion icons, title-screen painting.
+
+`manifests/phase2.json` (229 items, written by `pnpm --filter @civolution/assets manifest:phase2`
+from hand-written subjects): building and wonder icons (`art/buildings`), tech medallions
+(`art/techs`), government emblems (`art/governments`), citizen and specialist portraits
+(`art/people`), unit portraits for the build list (`art/units`). The UI hides a picture
+until its file exists.
+
+## Sound effects (OpenRouter, ByteDance Seed Audio)
+
+`src/sounds.ts` calls `POST /audio/speech` with `bytedance-seed/seed-audio-1-0` and writes
+MP3s plus `provenance.json` and `index.json` (variations per sound) to
+`packages/client/public/audio/`. Prompts are prefixed with "The sound of" automatically;
+without it the model reads the words aloud.
+
+```bash
+OPEN_ROUTER_KEY=… pnpm --filter @civolution/assets sounds -- --manifest manifests/phase2-sounds.json
+```
+
+`manifests/phase2-sounds.json`: 20 sounds, 42 clips (city founded and grown, building,
+unit and wonder complete, tech and era, disorder and celebration, revolution, borders,
+gold, hurry, UI clicks, end of turn). The client (`src/audio.ts`) plays one per batch of
+events and stays silent without the files.

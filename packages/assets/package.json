@@ -3,10 +3,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "gen": "tsx src/generate.ts"
+    "gen": "tsx src/generate.ts",
+    "sounds": "tsx src/sounds.ts",
+    "manifest:phase2": "tsx scripts/phase2-manifest.ts"
   },
   "dependencies": {
     "sharp": "^0.34.5",
-    "zod": "^4.1.0"
+    "zod": "^4.1.0",
+    "@civolution/engine": "workspace:*",
+    "@civolution/rules": "workspace:*"
   }
 }

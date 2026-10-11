@@ -4,6 +4,9 @@
  * workRate (100 for a Worker) × the government's worker rate every turn. Workers on
  * the same tile doing the same job pool their work.
  */
+import { availableResources } from './empire.ts';
+import { distance } from './grid.ts';
+import { cityRadiusTiles, playerCities } from './territory.ts';
 import { hasFreshWaterAccess, hasTechFlag, knowsTech, unitsAt } from './queries.ts';
 import type { Rules } from './rules.ts';
 import {
@@ -45,7 +48,8 @@ export function jobBlocker(rules: Rules, state: GameState, player: number, tile:
   const rule = rules.job(job);
   if (terrain.water) return 'Workers cannot work water tiles.';
   if (rule.requiredTech && !knowsTech(p, rule.requiredTech)) return `Requires ${rules.tech(rule.requiredTech).name}.`;
-  const missing = rule.requiredResources.filter((r) => !p.resources.includes(r));
+  const have = rule.requiredResources.length > 0 ? availableResources(rules, state, player) : new Set<string>();
+  const missing = rule.requiredResources.filter((r) => !have.has(r));
   if (missing.length > 0)
     return `Requires access to ${missing.map((r) => rules.resources[rules.resourceIndex(r)]!.name).join(' and ')}.`;
   switch (job) {
@@ -164,7 +168,15 @@ function completeJob(rules: Rules, tx: Tx, tile: number, job: string, player: nu
       const under = m.underlying[tile]!;
       setTerrain(under >= 0 ? under : rules.terrainIndex(before.transform!.result));
       tx.mapArray('underlying')[tile] = -1;
-      if (job === 'clearForest') tx.emit({ type: 'forestCleared', tile, player, shields: rules.set.general.forestClearShields });
+      if (job === 'clearForest') {
+        // The timber goes to the nearest of the player's cities whose work area holds the tile.
+        const shields = rules.set.general.forestClearShields;
+        const city = playerCities(tx.state, player)
+          .filter((c) => cityRadiusTiles(m, c.tile).includes(tile))
+          .sort((a, b) => distance(m, a.tile, tile) - distance(m, b.tile, tile) || a.id - b.id)[0];
+        if (city) tx.city(city.id).shields = city.shields + shields;
+        tx.emit({ type: 'forestCleared', tile, player, shields: city ? shields : 0, ...(city ? { city: city.id } : {}) });
+      }
       break;
     }
   }

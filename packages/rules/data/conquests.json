@@ -18,7 +18,28 @@
     "fortressDefenceBonus": 50,
     "fortifiedDefenceBonus": 25,
     "riverDefenceBonus": 25,
-    "defaultGovernment": "despotism"
+    "defaultGovernment": "despotism",
+    "defaultDifficulty": "regent",
+    "maxTownSize": 6,
+    "maxCitySize": 12,
+    "celebrationMinimumSize": 6,
+    "shieldCostInGold": 4,
+    "shieldValueInGold": 4,
+    "citizenValueInShields": 20,
+    "forcedLaborUnhappyTurns": 20,
+    "minimumResearchTime": 4,
+    "maximumResearchTime": 50,
+    "futureTechCost": 400,
+    "goldenAgeDuration": 20,
+    "borderThresholds": [
+      10,
+      100,
+      1000,
+      10000,
+      20000,
+      40000,
+      80000
+    ]
   },
   "eras": [
     {
@@ -8226,48 +8247,192 @@
     {
       "id": "anarchy",
       "name": "Anarchy",
-      "workerRate": 1
+      "workerRate": 1,
+      "transitional": true,
+      "corruption": "catastrophic",
+      "tilePenalty": true,
+      "commerceBonus": false,
+      "hurry": "none",
+      "rateCap": 100,
+      "buildingUpkeep": false,
+      "draftLimit": 0,
+      "militaryPoliceLimit": 0,
+      "freeUnits": {
+        "town": 0,
+        "city": 0,
+        "metropolis": 0
+      },
+      "unitCost": 1,
+      "warWeariness": "none",
+      "xenophobic": false,
+      "forcedResettlement": false
     },
     {
       "id": "despotism",
       "name": "Despotism",
-      "workerRate": 2
+      "workerRate": 2,
+      "transitional": false,
+      "corruption": "rampant",
+      "tilePenalty": true,
+      "commerceBonus": false,
+      "hurry": "forcedLabor",
+      "rateCap": 100,
+      "buildingUpkeep": true,
+      "draftLimit": 2,
+      "militaryPoliceLimit": 2,
+      "freeUnits": {
+        "town": 4,
+        "city": 4,
+        "metropolis": 4
+      },
+      "unitCost": 1,
+      "warWeariness": "none",
+      "xenophobic": false,
+      "forcedResettlement": false
     },
     {
       "id": "monarchy",
       "name": "Monarchy",
       "requiredTech": "monarchy",
-      "workerRate": 2
+      "workerRate": 2,
+      "transitional": false,
+      "corruption": "problematic",
+      "tilePenalty": false,
+      "commerceBonus": false,
+      "hurry": "gold",
+      "rateCap": 100,
+      "buildingUpkeep": true,
+      "draftLimit": 2,
+      "militaryPoliceLimit": 3,
+      "freeUnits": {
+        "town": 2,
+        "city": 4,
+        "metropolis": 8
+      },
+      "unitCost": 1,
+      "warWeariness": "none",
+      "xenophobic": false,
+      "forcedResettlement": false
     },
     {
       "id": "communism",
       "name": "Communism",
       "requiredTech": "communism",
-      "workerRate": 2
+      "workerRate": 2,
+      "transitional": false,
+      "corruption": "communal",
+      "tilePenalty": false,
+      "commerceBonus": false,
+      "hurry": "forcedLabor",
+      "rateCap": 100,
+      "buildingUpkeep": true,
+      "draftLimit": 2,
+      "militaryPoliceLimit": 4,
+      "freeUnits": {
+        "town": 6,
+        "city": 6,
+        "metropolis": 6
+      },
+      "unitCost": 1,
+      "warWeariness": "none",
+      "xenophobic": false,
+      "forcedResettlement": false
     },
     {
       "id": "republic",
       "name": "Republic",
       "requiredTech": "theRepublic",
-      "workerRate": 2
+      "workerRate": 2,
+      "transitional": false,
+      "corruption": "nuisance",
+      "tilePenalty": false,
+      "commerceBonus": true,
+      "hurry": "gold",
+      "rateCap": 100,
+      "buildingUpkeep": true,
+      "draftLimit": 1,
+      "militaryPoliceLimit": 0,
+      "freeUnits": {
+        "town": 1,
+        "city": 3,
+        "metropolis": 4
+      },
+      "unitCost": 2,
+      "warWeariness": "low",
+      "xenophobic": false,
+      "forcedResettlement": false
     },
     {
       "id": "democracy",
       "name": "Democracy",
       "requiredTech": "democracy",
-      "workerRate": 3
+      "workerRate": 3,
+      "transitional": false,
+      "corruption": "minimal",
+      "tilePenalty": false,
+      "commerceBonus": true,
+      "hurry": "gold",
+      "rateCap": 100,
+      "buildingUpkeep": true,
+      "draftLimit": 1,
+      "militaryPoliceLimit": 0,
+      "freeUnits": {
+        "town": 0,
+        "city": 0,
+        "metropolis": 0
+      },
+      "unitCost": 1,
+      "warWeariness": "high",
+      "xenophobic": false,
+      "forcedResettlement": false
     },
     {
       "id": "fascism",
       "name": "Fascism",
       "requiredTech": "fascism",
-      "workerRate": 4
+      "workerRate": 4,
+      "transitional": false,
+      "corruption": "nuisance",
+      "tilePenalty": false,
+      "commerceBonus": false,
+      "hurry": "forcedLabor",
+      "rateCap": 100,
+      "buildingUpkeep": true,
+      "draftLimit": 2,
+      "militaryPoliceLimit": 4,
+      "freeUnits": {
+        "town": 4,
+        "city": 7,
+        "metropolis": 10
+      },
+      "unitCost": 1,
+      "warWeariness": "none",
+      "xenophobic": true,
+      "forcedResettlement": true
     },
     {
       "id": "feudalism",
       "name": "Feudalism",
       "requiredTech": "feudalism",
-      "workerRate": 2
+      "workerRate": 2,
+      "transitional": false,
+      "corruption": "problematic",
+      "tilePenalty": false,
+      "commerceBonus": false,
+      "hurry": "forcedLabor",
+      "rateCap": 100,
+      "buildingUpkeep": true,
+      "draftLimit": 2,
+      "militaryPoliceLimit": 3,
+      "freeUnits": {
+        "town": 5,
+        "city": 2,
+        "metropolis": 1
+      },
+      "unitCost": 3,
+      "warWeariness": "low",
+      "xenophobic": false,
+      "forcedResettlement": false
     }
   ],
   "worldSizes": [
@@ -8347,5 +8512,2509 @@
       "hitPoints": 5,
       "retreatChance": 66
     }
-  ]
+  ],
+  "buildings": [
+    {
+      "id": "palace",
+      "name": "Palace",
+      "kind": "improvement",
+      "cost": 100,
+      "upkeep": 0,
+      "culture": 1,
+      "requiredTech": "masonry",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "centerOfEmpire"
+      ],
+      "tags": []
+    },
+    {
+      "id": "barracks",
+      "name": "Barracks",
+      "kind": "improvement",
+      "cost": 40,
+      "upkeep": 1,
+      "culture": 0,
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "veteranGroundUnits"
+      ],
+      "tags": [
+        "militaryInstallation"
+      ]
+    },
+    {
+      "id": "granary",
+      "name": "Granary",
+      "kind": "improvement",
+      "cost": 60,
+      "upkeep": 1,
+      "culture": 0,
+      "requiredTech": "pottery",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "doublesCityGrowth"
+      ],
+      "tags": []
+    },
+    {
+      "id": "temple",
+      "name": "Temple",
+      "kind": "improvement",
+      "cost": 60,
+      "upkeep": 1,
+      "culture": 2,
+      "requiredTech": "ceremonialBurial",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 1,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": [
+        "placeOfWorship"
+      ]
+    },
+    {
+      "id": "marketplace",
+      "name": "Marketplace",
+      "kind": "improvement",
+      "cost": 100,
+      "upkeep": 1,
+      "culture": 0,
+      "requiredTech": "currency",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "tax50",
+        "increasesLuxuryTrade"
+      ],
+      "tags": [
+        "tradeInstallation"
+      ]
+    },
+    {
+      "id": "library",
+      "name": "Library",
+      "kind": "improvement",
+      "cost": 80,
+      "upkeep": 1,
+      "culture": 3,
+      "requiredTech": "literature",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "research50"
+      ],
+      "tags": [
+        "researchInstallation"
+      ]
+    },
+    {
+      "id": "courthouse",
+      "name": "Courthouse",
+      "kind": "improvement",
+      "cost": 80,
+      "upkeep": 1,
+      "culture": 0,
+      "requiredTech": "codeOfLaws",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "resistantToBribery",
+        "reducesCorruption"
+      ],
+      "tags": []
+    },
+    {
+      "id": "walls",
+      "name": "Walls",
+      "kind": "improvement",
+      "cost": 20,
+      "upkeep": 0,
+      "culture": 0,
+      "requiredTech": "masonry",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 50,
+      "bombardDefence": 8,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": [
+        "militaryInstallation"
+      ]
+    },
+    {
+      "id": "aqueduct",
+      "name": "Aqueduct",
+      "kind": "improvement",
+      "cost": 100,
+      "upkeep": 1,
+      "culture": 0,
+      "requiredTech": "construction",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "allowsCitySize2"
+      ],
+      "tags": []
+    },
+    {
+      "id": "bank",
+      "name": "Bank",
+      "kind": "improvement",
+      "cost": 160,
+      "upkeep": 1,
+      "culture": 0,
+      "requiredTech": "banking",
+      "requiredBuilding": "marketplace",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "tax50"
+      ],
+      "tags": [
+        "tradeInstallation"
+      ]
+    },
+    {
+      "id": "cathedral",
+      "name": "Cathedral",
+      "kind": "improvement",
+      "cost": 160,
+      "upkeep": 2,
+      "culture": 3,
+      "requiredTech": "monotheism",
+      "requiredBuilding": "temple",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 3,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": [
+        "placeOfWorship"
+      ]
+    },
+    {
+      "id": "university",
+      "name": "University",
+      "kind": "improvement",
+      "cost": 200,
+      "upkeep": 2,
+      "culture": 4,
+      "requiredTech": "education",
+      "requiredBuilding": "library",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "research50"
+      ],
+      "tags": [
+        "researchInstallation"
+      ]
+    },
+    {
+      "id": "colosseum",
+      "name": "Colosseum",
+      "kind": "improvement",
+      "cost": 120,
+      "upkeep": 2,
+      "culture": 2,
+      "requiredTech": "construction",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 2,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": []
+    },
+    {
+      "id": "factory",
+      "name": "Factory",
+      "kind": "improvement",
+      "cost": 240,
+      "upkeep": 3,
+      "culture": 0,
+      "requiredTech": "industrialization",
+      "requiredCount": 1,
+      "requiredResources": [
+        "iron"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 50,
+      "pollution": 2,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": []
+    },
+    {
+      "id": "manufacturingPlant",
+      "name": "Manufacturing Plant",
+      "kind": "improvement",
+      "cost": 320,
+      "upkeep": 3,
+      "culture": 0,
+      "requiredTech": "robotics",
+      "requiredBuilding": "factory",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 50,
+      "pollution": 2,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": []
+    },
+    {
+      "id": "recyclingCenter",
+      "name": "Recycling Center",
+      "kind": "improvement",
+      "cost": 200,
+      "upkeep": 2,
+      "culture": 0,
+      "requiredTech": "recycling",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "reducesBuildingPollution"
+      ],
+      "tags": []
+    },
+    {
+      "id": "coalPlant",
+      "name": "Coal Plant",
+      "kind": "improvement",
+      "cost": 160,
+      "upkeep": 3,
+      "culture": 0,
+      "requiredTech": "industrialization",
+      "requiredBuilding": "factory",
+      "requiredCount": 1,
+      "requiredResources": [
+        "coal"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 50,
+      "pollution": 2,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "replacesOtherBuildings"
+      ],
+      "tags": []
+    },
+    {
+      "id": "hydroPlant",
+      "name": "Hydro Plant",
+      "kind": "improvement",
+      "cost": 240,
+      "upkeep": 3,
+      "culture": 0,
+      "requiredTech": "electronics",
+      "requiredBuilding": "factory",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 50,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "replacesOtherBuildings",
+        "mustBeNearRiver"
+      ],
+      "tags": []
+    },
+    {
+      "id": "nuclearPlant",
+      "name": "Nuclear Plant",
+      "kind": "improvement",
+      "cost": 240,
+      "upkeep": 3,
+      "culture": 0,
+      "requiredTech": "nuclearPower",
+      "requiredBuilding": "factory",
+      "requiredCount": 1,
+      "requiredResources": [
+        "uranium"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 100,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "replacesOtherBuildings",
+        "mustBeNearWater",
+        "canMeltDown"
+      ],
+      "tags": []
+    },
+    {
+      "id": "hospital",
+      "name": "Hospital",
+      "kind": "improvement",
+      "cost": 160,
+      "upkeep": 2,
+      "culture": 0,
+      "requiredTech": "sanitation",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "allowsCitySize3"
+      ],
+      "tags": []
+    },
+    {
+      "id": "researchLab",
+      "name": "Research Lab",
+      "kind": "improvement",
+      "cost": 200,
+      "upkeep": 2,
+      "culture": 2,
+      "requiredTech": "computers",
+      "requiredBuilding": "university",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 1,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "research50"
+      ],
+      "tags": [
+        "researchInstallation"
+      ]
+    },
+    {
+      "id": "massTransitSystem",
+      "name": "Mass Transit System",
+      "kind": "improvement",
+      "cost": 200,
+      "upkeep": 2,
+      "culture": 0,
+      "requiredTech": "ecology",
+      "requiredCount": 1,
+      "requiredResources": [
+        "rubber"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "removesPopulationPollution"
+      ],
+      "tags": []
+    },
+    {
+      "id": "samMissileBattery",
+      "name": "SAM Missile Battery",
+      "kind": "improvement",
+      "cost": 80,
+      "upkeep": 2,
+      "culture": 0,
+      "requiredTech": "rocketry",
+      "requiredCount": 1,
+      "requiredResources": [
+        "aluminum"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": [
+        "militaryInstallation"
+      ]
+    },
+    {
+      "id": "coastalFortress",
+      "name": "Coastal Fortress",
+      "kind": "improvement",
+      "cost": 40,
+      "upkeep": 0,
+      "culture": 0,
+      "requiredTech": "metallurgy",
+      "requiredCount": 1,
+      "requiredResources": [
+        "iron",
+        "saltpeter"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 50,
+      "navalBombardDefence": 8,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": [
+        "coastalInstallation",
+        "militaryInstallation"
+      ]
+    },
+    {
+      "id": "solarPlant",
+      "name": "Solar Plant",
+      "kind": "improvement",
+      "cost": 320,
+      "upkeep": 3,
+      "culture": 0,
+      "requiredTech": "ecology",
+      "requiredBuilding": "factory",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 50,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "replacesOtherBuildings"
+      ],
+      "tags": []
+    },
+    {
+      "id": "harbor",
+      "name": "Harbor",
+      "kind": "improvement",
+      "cost": 60,
+      "upkeep": 1,
+      "culture": 0,
+      "requiredTech": "mapMaking",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "veteranSeaUnits",
+        "allowsWaterTrade",
+        "increasesFoodInWater"
+      ],
+      "tags": [
+        "coastalInstallation",
+        "militaryInstallation",
+        "tradeInstallation"
+      ]
+    },
+    {
+      "id": "offshorePlatform",
+      "name": "Offshore Platform",
+      "kind": "improvement",
+      "cost": 240,
+      "upkeep": 3,
+      "culture": 0,
+      "requiredTech": "miniaturization",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 2,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "increasesShieldsInWater"
+      ],
+      "tags": [
+        "coastalInstallation"
+      ]
+    },
+    {
+      "id": "airport",
+      "name": "Airport",
+      "kind": "improvement",
+      "cost": 160,
+      "upkeep": 2,
+      "culture": 0,
+      "requiredTech": "flight",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 1,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "veteranAirUnits",
+        "allowsAirTrade"
+      ],
+      "tags": [
+        "militaryInstallation",
+        "tradeInstallation"
+      ]
+    },
+    {
+      "id": "policeStation",
+      "name": "Police Station",
+      "kind": "improvement",
+      "cost": 160,
+      "upkeep": 2,
+      "culture": 0,
+      "requiredTech": "communism",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "reducesCorruption",
+        "reducesWarWeariness"
+      ],
+      "tags": []
+    },
+    {
+      "id": "wealth",
+      "name": "Wealth",
+      "kind": "wealth",
+      "cost": 0,
+      "upkeep": 0,
+      "culture": 0,
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "capitalization"
+      ],
+      "tags": []
+    },
+    {
+      "id": "pyramids",
+      "name": "The Pyramids",
+      "kind": "wonder",
+      "cost": 400,
+      "upkeep": 0,
+      "culture": 4,
+      "requiredTech": "masonry",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "actsAsOnContinent": "granary",
+      "unitEvery": 0,
+      "effects": [
+        "touristAttraction"
+      ],
+      "tags": [
+        "placeOfWorship",
+        "constructionInstallation"
+      ]
+    },
+    {
+      "id": "hangingGardens",
+      "name": "The Hanging Gardens",
+      "kind": "wonder",
+      "cost": 300,
+      "upkeep": 0,
+      "culture": 4,
+      "requiredTech": "monarchy",
+      "obsoletedBy": "steamPower",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 3,
+      "contentFacesElsewhere": 1,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "touristAttraction"
+      ],
+      "tags": [
+        "constructionInstallation"
+      ]
+    },
+    {
+      "id": "colossus",
+      "name": "The Colossus",
+      "kind": "wonder",
+      "cost": 200,
+      "upkeep": 0,
+      "culture": 3,
+      "requiredTech": "bronzeWorking",
+      "obsoletedBy": "flight",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "plusOneTradePerTile",
+        "touristAttraction"
+      ],
+      "tags": [
+        "coastalInstallation",
+        "tradeInstallation",
+        "explorationInstallation"
+      ]
+    },
+    {
+      "id": "greatLighthouse",
+      "name": "The Great Lighthouse",
+      "kind": "wonder",
+      "cost": 300,
+      "upkeep": 0,
+      "culture": 2,
+      "requiredTech": "mapMaking",
+      "obsoletedBy": "magnetism",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "safeSeaTravel",
+        "plusOneShipMovement",
+        "touristAttraction"
+      ],
+      "tags": [
+        "coastalInstallation",
+        "tradeInstallation",
+        "explorationInstallation"
+      ]
+    },
+    {
+      "id": "greatLibrary",
+      "name": "The Great Library",
+      "kind": "wonder",
+      "cost": 400,
+      "upkeep": 0,
+      "culture": 6,
+      "requiredTech": "literature",
+      "obsoletedBy": "education",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "gainAdvancesKnownByTwoCivs",
+        "touristAttraction"
+      ],
+      "tags": [
+        "researchInstallation"
+      ]
+    },
+    {
+      "id": "oracle",
+      "name": "The Oracle",
+      "kind": "wonder",
+      "cost": 300,
+      "upkeep": 0,
+      "culture": 4,
+      "requiredTech": "mysticism",
+      "obsoletedBy": "theology",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "doublesContentOf": "temple",
+      "unitEvery": 0,
+      "effects": [
+        "touristAttraction"
+      ],
+      "tags": [
+        "placeOfWorship"
+      ]
+    },
+    {
+      "id": "greatWall",
+      "name": "The Great Wall",
+      "kind": "wonder",
+      "cost": 300,
+      "upkeep": 0,
+      "culture": 2,
+      "requiredTech": "construction",
+      "obsoletedBy": "metallurgy",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "actsAsOnContinent": "walls",
+      "unitEvery": 0,
+      "effects": [
+        "doubleCombatVsBarbarians",
+        "touristAttraction"
+      ],
+      "tags": [
+        "militaryInstallation",
+        "constructionInstallation"
+      ]
+    },
+    {
+      "id": "sunTzusArtOfWar",
+      "name": "Sun Tzu's Art of War",
+      "kind": "wonder",
+      "cost": 600,
+      "upkeep": 0,
+      "culture": 2,
+      "requiredTech": "feudalism",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "actsAsOnContinent": "barracks",
+      "unitEvery": 0,
+      "effects": [],
+      "tags": [
+        "militaryInstallation"
+      ]
+    },
+    {
+      "id": "sistineChapel",
+      "name": "Sistine Chapel",
+      "kind": "wonder",
+      "cost": 600,
+      "upkeep": 0,
+      "culture": 6,
+      "requiredTech": "theology",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "doublesContentOf": "cathedral",
+      "unitEvery": 0,
+      "effects": [
+        "touristAttraction"
+      ],
+      "tags": [
+        "placeOfWorship"
+      ]
+    },
+    {
+      "id": "magellansVoyage",
+      "name": "Magellan's Voyage",
+      "kind": "wonder",
+      "cost": 400,
+      "upkeep": 0,
+      "culture": 3,
+      "requiredTech": "navigation",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "plusOneShipMovement"
+      ],
+      "tags": [
+        "coastalInstallation",
+        "tradeInstallation",
+        "explorationInstallation"
+      ]
+    },
+    {
+      "id": "copernicusObservatory",
+      "name": "Copernicus' Observatory",
+      "kind": "wonder",
+      "cost": 400,
+      "upkeep": 0,
+      "culture": 4,
+      "requiredTech": "astronomy",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "doublesResearch",
+        "touristAttraction"
+      ],
+      "tags": [
+        "explorationInstallation"
+      ]
+    },
+    {
+      "id": "shakespearesTheater",
+      "name": "Shakespeare's Theater",
+      "kind": "wonder",
+      "cost": 450,
+      "upkeep": 0,
+      "culture": 8,
+      "requiredTech": "freeArtistry",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 8,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "allowsCitySize3",
+        "touristAttraction"
+      ],
+      "tags": []
+    },
+    {
+      "id": "leonardosWorkshop",
+      "name": "Leonardo's Workshop",
+      "kind": "wonder",
+      "cost": 600,
+      "upkeep": 0,
+      "culture": 2,
+      "requiredTech": "invention",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "halvesUpgradeCost",
+        "touristAttraction"
+      ],
+      "tags": [
+        "militaryInstallation"
+      ]
+    },
+    {
+      "id": "jsBachsCathedral",
+      "name": "JS Bach's Cathedral",
+      "kind": "wonder",
+      "cost": 600,
+      "upkeep": 0,
+      "culture": 6,
+      "requiredTech": "musicTheory",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 2,
+      "contentFacesElsewhere": 2,
+      "continental": true,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "touristAttraction"
+      ],
+      "tags": [
+        "placeOfWorship"
+      ]
+    },
+    {
+      "id": "newtonsUniversity",
+      "name": "Newton's University",
+      "kind": "wonder",
+      "cost": 400,
+      "upkeep": 0,
+      "culture": 6,
+      "requiredTech": "theoryOfGravity",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "doublesResearch",
+        "touristAttraction"
+      ],
+      "tags": [
+        "researchInstallation"
+      ]
+    },
+    {
+      "id": "smithsTradingCompany",
+      "name": "Smith's Trading Company",
+      "kind": "wonder",
+      "cost": 600,
+      "upkeep": 0,
+      "culture": 3,
+      "requiredTech": "economics",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "paysTradeMaintenance"
+      ],
+      "tags": [
+        "tradeInstallation"
+      ]
+    },
+    {
+      "id": "universalSuffrage",
+      "name": "Universal Suffrage",
+      "kind": "wonder",
+      "cost": 800,
+      "upkeep": 0,
+      "culture": 4,
+      "requiredTech": "industrialization",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "reducesWarWearinessAll"
+      ],
+      "tags": []
+    },
+    {
+      "id": "hooverDam",
+      "name": "Hoover Dam",
+      "kind": "wonder",
+      "cost": 800,
+      "upkeep": 0,
+      "culture": 2,
+      "requiredTech": "electronics",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "actsAsOnContinent": "hydroPlant",
+      "unitEvery": 0,
+      "effects": [
+        "mustBeNearRiver",
+        "touristAttraction"
+      ],
+      "tags": [
+        "constructionInstallation"
+      ]
+    },
+    {
+      "id": "theoryOfEvolution",
+      "name": "Theory of Evolution",
+      "kind": "wonder",
+      "cost": 600,
+      "upkeep": 0,
+      "culture": 3,
+      "requiredTech": "scientificMethod",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "twoFreeAdvances"
+      ],
+      "tags": [
+        "researchInstallation"
+      ]
+    },
+    {
+      "id": "unitedNations",
+      "name": "The United Nations",
+      "kind": "wonder",
+      "cost": 1000,
+      "upkeep": 0,
+      "culture": 4,
+      "requiredTech": "fission",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "allowsDiplomaticVictory",
+        "touristAttraction"
+      ],
+      "tags": [
+        "tradeInstallation"
+      ]
+    },
+    {
+      "id": "manhattanProject",
+      "name": "The Manhattan Project",
+      "kind": "wonder",
+      "cost": 800,
+      "upkeep": 0,
+      "culture": 2,
+      "requiredTech": "fission",
+      "requiredCount": 1,
+      "requiredResources": [
+        "uranium"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "allowsAllCivsNukes"
+      ],
+      "tags": [
+        "militaryInstallation",
+        "constructionInstallation"
+      ]
+    },
+    {
+      "id": "cureForCancer",
+      "name": "Cure for Cancer",
+      "kind": "wonder",
+      "cost": 1000,
+      "upkeep": 0,
+      "culture": 3,
+      "requiredTech": "genetics",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 1,
+      "contentFacesElsewhere": 1,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": [
+        "researchInstallation"
+      ]
+    },
+    {
+      "id": "longevity",
+      "name": "Longevity",
+      "kind": "wonder",
+      "cost": 1000,
+      "upkeep": 0,
+      "culture": 3,
+      "requiredTech": "genetics",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "cityGrowthTwoCitizens"
+      ],
+      "tags": [
+        "researchInstallation"
+      ]
+    },
+    {
+      "id": "setiProgram",
+      "name": "SETI program",
+      "kind": "wonder",
+      "cost": 1000,
+      "upkeep": 0,
+      "culture": 3,
+      "requiredTech": "computers",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "doublesResearch"
+      ],
+      "tags": [
+        "explorationInstallation"
+      ]
+    },
+    {
+      "id": "heroicEpic",
+      "name": "Heroic Epic",
+      "kind": "smallWonder",
+      "cost": 200,
+      "upkeep": 0,
+      "culture": 4,
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "increasesLeaderChance",
+        "requiresVictoriousArmy"
+      ],
+      "tags": [
+        "placeOfWorship"
+      ]
+    },
+    {
+      "id": "ironWorks",
+      "name": "Iron Works",
+      "kind": "smallWonder",
+      "cost": 300,
+      "upkeep": 0,
+      "culture": 2,
+      "requiredCount": 1,
+      "requiredResources": [
+        "iron",
+        "coal"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 100,
+      "pollution": 4,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": []
+    },
+    {
+      "id": "forbiddenPalace",
+      "name": "Forbidden Palace",
+      "kind": "smallWonder",
+      "cost": 200,
+      "upkeep": 0,
+      "culture": 2,
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "reducesCorruption"
+      ],
+      "tags": [
+        "placeOfWorship"
+      ]
+    },
+    {
+      "id": "militaryAcademy",
+      "name": "Military Academy",
+      "kind": "smallWonder",
+      "cost": 400,
+      "upkeep": 0,
+      "culture": 1,
+      "requiredTech": "militaryTradition",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "buildArmiesWithoutLeader",
+        "requiresVictoriousArmy"
+      ],
+      "tags": [
+        "militaryInstallation"
+      ]
+    },
+    {
+      "id": "pentagon",
+      "name": "The Pentagon",
+      "kind": "smallWonder",
+      "cost": 400,
+      "upkeep": 0,
+      "culture": 1,
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "buildLargerArmies"
+      ],
+      "tags": [
+        "militaryInstallation"
+      ]
+    },
+    {
+      "id": "wallStreet",
+      "name": "Wall Street",
+      "kind": "smallWonder",
+      "cost": 300,
+      "upkeep": 0,
+      "culture": 2,
+      "requiredBuilding": "stockExchange",
+      "requiredCount": 5,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "treasuryEarnsInterest"
+      ],
+      "tags": []
+    },
+    {
+      "id": "apolloProgram",
+      "name": "Apollo Program",
+      "kind": "smallWonder",
+      "cost": 500,
+      "upkeep": 0,
+      "culture": 2,
+      "requiredTech": "spaceFlight",
+      "requiredCount": 1,
+      "requiredResources": [
+        "aluminum"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "buildSpaceshipParts"
+      ],
+      "tags": [
+        "researchInstallation"
+      ]
+    },
+    {
+      "id": "strategicMissileDefense",
+      "name": "Strategic Missile Defense",
+      "kind": "smallWonder",
+      "cost": 500,
+      "upkeep": 0,
+      "culture": 1,
+      "requiredTech": "integratedDefense",
+      "requiredBuilding": "samMissileBattery",
+      "requiredCount": 5,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "decreasesMissileSuccess"
+      ],
+      "tags": [
+        "militaryInstallation"
+      ]
+    },
+    {
+      "id": "intelligenceAgency",
+      "name": "Intelligence Agency",
+      "kind": "smallWonder",
+      "cost": 400,
+      "upkeep": 0,
+      "culture": 1,
+      "requiredTech": "espionage",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "allowsSpyMissions"
+      ],
+      "tags": [
+        "militaryInstallation",
+        "researchInstallation"
+      ]
+    },
+    {
+      "id": "battlefieldMedicine",
+      "name": "Battlefield Medicine",
+      "kind": "smallWonder",
+      "cost": 500,
+      "upkeep": 0,
+      "culture": 1,
+      "requiredBuilding": "hospital",
+      "requiredCount": 5,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "allowsHealingInEnemyTerritory"
+      ],
+      "tags": [
+        "militaryInstallation"
+      ]
+    },
+    {
+      "id": "ssThrusters",
+      "name": "SS Thrusters",
+      "kind": "improvement",
+      "cost": 320,
+      "upkeep": 0,
+      "culture": 0,
+      "requiredTech": "satellites",
+      "requiredCount": 1,
+      "requiredResources": [
+        "aluminum"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": []
+    },
+    {
+      "id": "ssEngine",
+      "name": "SS Engine",
+      "kind": "improvement",
+      "cost": 640,
+      "upkeep": 0,
+      "culture": 0,
+      "requiredTech": "spaceFlight",
+      "requiredCount": 1,
+      "requiredResources": [
+        "aluminum"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": []
+    },
+    {
+      "id": "ssDockingBay",
+      "name": "SS Docking Bay",
+      "kind": "improvement",
+      "cost": 160,
+      "upkeep": 0,
+      "culture": 0,
+      "requiredTech": "spaceFlight",
+      "requiredCount": 1,
+      "requiredResources": [
+        "aluminum"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": []
+    },
+    {
+      "id": "ssCockpit",
+      "name": "SS Cockpit",
+      "kind": "improvement",
+      "cost": 320,
+      "upkeep": 0,
+      "culture": 0,
+      "requiredTech": "spaceFlight",
+      "requiredCount": 1,
+      "requiredResources": [
+        "aluminum"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": []
+    },
+    {
+      "id": "ssFuelCells",
+      "name": "SS Fuel Cells",
+      "kind": "improvement",
+      "cost": 160,
+      "upkeep": 0,
+      "culture": 0,
+      "requiredTech": "superconductor",
+      "requiredCount": 1,
+      "requiredResources": [
+        "uranium"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": []
+    },
+    {
+      "id": "ssLifeSupportSystem",
+      "name": "SS Life Support System",
+      "kind": "improvement",
+      "cost": 320,
+      "upkeep": 0,
+      "culture": 0,
+      "requiredTech": "superconductor",
+      "requiredCount": 1,
+      "requiredResources": [
+        "aluminum"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": []
+    },
+    {
+      "id": "ssStasisChamber",
+      "name": "SS Stasis Chamber",
+      "kind": "improvement",
+      "cost": 320,
+      "upkeep": 0,
+      "culture": 0,
+      "requiredTech": "robotics",
+      "requiredCount": 1,
+      "requiredResources": [
+        "aluminum",
+        "uranium"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": []
+    },
+    {
+      "id": "ssStorageSupply",
+      "name": "SS Storage/Supply",
+      "kind": "improvement",
+      "cost": 160,
+      "upkeep": 0,
+      "culture": 0,
+      "requiredTech": "syntheticFibers",
+      "requiredCount": 1,
+      "requiredResources": [
+        "aluminum"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": []
+    },
+    {
+      "id": "ssPlanetaryPartyLounge",
+      "name": "SS Planetary Party Lounge",
+      "kind": "improvement",
+      "cost": 160,
+      "upkeep": 0,
+      "culture": 0,
+      "requiredTech": "theLaser",
+      "requiredCount": 1,
+      "requiredResources": [
+        "aluminum"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": []
+    },
+    {
+      "id": "ssExteriorCasing",
+      "name": "SS Exterior Casing",
+      "kind": "improvement",
+      "cost": 640,
+      "upkeep": 0,
+      "culture": 0,
+      "requiredTech": "syntheticFibers",
+      "requiredCount": 1,
+      "requiredResources": [
+        "aluminum",
+        "rubber"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": []
+    },
+    {
+      "id": "internet",
+      "name": "The Internet",
+      "kind": "wonder",
+      "cost": 1000,
+      "upkeep": 0,
+      "culture": 4,
+      "requiredTech": "miniaturization",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "actsAsOnContinent": "researchLab",
+      "unitEvery": 0,
+      "effects": [],
+      "tags": [
+        "militaryInstallation",
+        "researchInstallation",
+        "tradeInstallation",
+        "explorationInstallation",
+        "placeOfWorship",
+        "constructionInstallation"
+      ]
+    },
+    {
+      "id": "civilDefense",
+      "name": "Civil Defense",
+      "kind": "improvement",
+      "cost": 120,
+      "upkeep": 1,
+      "culture": 0,
+      "requiredTech": "electronics",
+      "requiredBuilding": "barracks",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 50,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [],
+      "tags": [
+        "militaryInstallation"
+      ]
+    },
+    {
+      "id": "stockExchange",
+      "name": "Stock Exchange",
+      "kind": "improvement",
+      "cost": 200,
+      "upkeep": 3,
+      "culture": 0,
+      "requiredTech": "theCorporation",
+      "requiredBuilding": "bank",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "tax50"
+      ],
+      "tags": [
+        "tradeInstallation"
+      ]
+    },
+    {
+      "id": "commercialDock",
+      "name": "Commercial Dock",
+      "kind": "improvement",
+      "cost": 160,
+      "upkeep": 2,
+      "culture": 0,
+      "requiredTech": "massProduction",
+      "requiredBuilding": "harbor",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 1,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "increasesCommerceInWater"
+      ],
+      "tags": [
+        "tradeInstallation"
+      ]
+    },
+    {
+      "id": "templeOfArtemis",
+      "name": "The Temple of Artemis",
+      "kind": "wonder",
+      "cost": 500,
+      "upkeep": 0,
+      "culture": 4,
+      "requiredTech": "polytheism",
+      "obsoletedBy": "education",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "actsAsOnContinent": "temple",
+      "unitEvery": 0,
+      "effects": [
+        "touristAttraction"
+      ],
+      "tags": [
+        "placeOfWorship"
+      ]
+    },
+    {
+      "id": "statueOfZeus",
+      "name": "The Statue of Zeus",
+      "kind": "wonder",
+      "cost": 200,
+      "upkeep": 0,
+      "culture": 4,
+      "requiredTech": "mathematics",
+      "obsoletedBy": "metallurgy",
+      "requiredCount": 1,
+      "requiredResources": [
+        "ivory"
+      ],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitProduced": "ancientCavalry",
+      "unitEvery": 5,
+      "effects": [
+        "touristAttraction"
+      ],
+      "tags": [
+        "militaryInstallation",
+        "placeOfWorship"
+      ]
+    },
+    {
+      "id": "mausoleumOfMausollos",
+      "name": "The Mausoleum of Mausollos",
+      "kind": "wonder",
+      "cost": 200,
+      "upkeep": 0,
+      "culture": 2,
+      "requiredTech": "philosophy",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 3,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "touristAttraction"
+      ],
+      "tags": [
+        "researchInstallation"
+      ]
+    },
+    {
+      "id": "knightsTemplar",
+      "name": "Knights Templar",
+      "kind": "wonder",
+      "cost": 300,
+      "upkeep": 0,
+      "culture": 2,
+      "requiredTech": "chivalry",
+      "obsoletedBy": "steamPower",
+      "requiredCount": 1,
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitProduced": "crusader",
+      "unitEvery": 5,
+      "effects": [],
+      "tags": [
+        "militaryInstallation",
+        "placeOfWorship"
+      ]
+    },
+    {
+      "id": "secretPoliceHq",
+      "name": "Secret Police HQ",
+      "kind": "smallWonder",
+      "cost": 200,
+      "upkeep": 0,
+      "culture": 0,
+      "requiredTech": "espionage",
+      "requiredCount": 1,
+      "requiredGovernment": "communism",
+      "requiredResources": [],
+      "contentFaces": 0,
+      "contentFacesElsewhere": 0,
+      "continental": false,
+      "productionPercent": 0,
+      "pollution": 0,
+      "defenceBonus": 0,
+      "bombardDefence": 0,
+      "navalDefenceBonus": 0,
+      "navalBombardDefence": 0,
+      "unitEvery": 0,
+      "effects": [
+        "reducesCorruption"
+      ],
+      "tags": []
+    }
+  ],
+  "specialists": [
+    {
+      "id": "laborer",
+      "name": "Laborer",
+      "pluralName": "Laborers",
+      "laborer": true,
+      "luxury": 0,
+      "science": 0,
+      "gold": 0,
+      "corruption": 0,
+      "shields": 0
+    },
+    {
+      "id": "entertainer",
+      "name": "Entertainer",
+      "pluralName": "Entertainers",
+      "laborer": false,
+      "luxury": 1,
+      "science": 0,
+      "gold": 0,
+      "corruption": 0,
+      "shields": 0
+    },
+    {
+      "id": "taxCollector",
+      "name": "Tax Collector",
+      "pluralName": "Tax Collectors",
+      "laborer": false,
+      "luxury": 0,
+      "science": 0,
+      "gold": 2,
+      "corruption": 0,
+      "shields": 0
+    },
+    {
+      "id": "scientist",
+      "name": "Scientist",
+      "pluralName": "Scientists",
+      "laborer": false,
+      "luxury": 0,
+      "science": 3,
+      "gold": 0,
+      "corruption": 0,
+      "shields": 0
+    },
+    {
+      "id": "policeman",
+      "name": "Policeman",
+      "pluralName": "Policemen",
+      "laborer": false,
+      "requiredTech": "nationalism",
+      "luxury": 0,
+      "science": 0,
+      "gold": 0,
+      "corruption": 1,
+      "shields": 0
+    },
+    {
+      "id": "civilEngineer",
+      "name": "Civil Engineer",
+      "pluralName": "Civil Engineers",
+      "laborer": false,
+      "requiredTech": "replaceableParts",
+      "luxury": 0,
+      "science": 0,
+      "gold": 0,
+      "corruption": 0,
+      "shields": 2
+    }
+  ],
+  "difficulties": [
+    {
+      "id": "chieftain",
+      "name": "Chieftain",
+      "contentCitizens": 4,
+      "maxAnarchyTurns": 0,
+      "costFactor": 20,
+      "optimalCitiesPercent": 100,
+      "corruptionPercent": 100,
+      "aiDefensiveStartUnits": 0,
+      "aiOffensiveStartUnits": 0,
+      "aiExtraStartUnits": [
+        0,
+        0
+      ],
+      "aiFreeUnitSupport": 0,
+      "aiBonusPerCity": 0,
+      "aiTradeRate": 110,
+      "attackBonusVsBarbarians": 800
+    },
+    {
+      "id": "warlord",
+      "name": "Warlord",
+      "contentCitizens": 3,
+      "maxAnarchyTurns": 0,
+      "costFactor": 12,
+      "optimalCitiesPercent": 95,
+      "corruptionPercent": 100,
+      "aiDefensiveStartUnits": 0,
+      "aiOffensiveStartUnits": 0,
+      "aiExtraStartUnits": [
+        0,
+        0
+      ],
+      "aiFreeUnitSupport": 0,
+      "aiBonusPerCity": 0,
+      "aiTradeRate": 120,
+      "attackBonusVsBarbarians": 400
+    },
+    {
+      "id": "regent",
+      "name": "Regent",
+      "contentCitizens": 2,
+      "maxAnarchyTurns": 0,
+      "costFactor": 10,
+      "optimalCitiesPercent": 90,
+      "corruptionPercent": 100,
+      "aiDefensiveStartUnits": 0,
+      "aiOffensiveStartUnits": 0,
+      "aiExtraStartUnits": [
+        0,
+        0
+      ],
+      "aiFreeUnitSupport": 0,
+      "aiBonusPerCity": 0,
+      "aiTradeRate": 130,
+      "attackBonusVsBarbarians": 200
+    },
+    {
+      "id": "monarch",
+      "name": "Monarch",
+      "contentCitizens": 2,
+      "maxAnarchyTurns": 4,
+      "costFactor": 9,
+      "optimalCitiesPercent": 85,
+      "corruptionPercent": 100,
+      "aiDefensiveStartUnits": 2,
+      "aiOffensiveStartUnits": 1,
+      "aiExtraStartUnits": [
+        0,
+        0
+      ],
+      "aiFreeUnitSupport": 4,
+      "aiBonusPerCity": 1,
+      "aiTradeRate": 140,
+      "attackBonusVsBarbarians": 100
+    },
+    {
+      "id": "emperor",
+      "name": "Emperor",
+      "contentCitizens": 1,
+      "maxAnarchyTurns": 3,
+      "costFactor": 8,
+      "optimalCitiesPercent": 80,
+      "corruptionPercent": 100,
+      "aiDefensiveStartUnits": 4,
+      "aiOffensiveStartUnits": 2,
+      "aiExtraStartUnits": [
+        0,
+        1
+      ],
+      "aiFreeUnitSupport": 8,
+      "aiBonusPerCity": 2,
+      "aiTradeRate": 150,
+      "attackBonusVsBarbarians": 50
+    },
+    {
+      "id": "demigod",
+      "name": "Demigod",
+      "contentCitizens": 1,
+      "maxAnarchyTurns": 2,
+      "costFactor": 7,
+      "optimalCitiesPercent": 70,
+      "corruptionPercent": 100,
+      "aiDefensiveStartUnits": 6,
+      "aiOffensiveStartUnits": 3,
+      "aiExtraStartUnits": [
+        1,
+        2
+      ],
+      "aiFreeUnitSupport": 12,
+      "aiBonusPerCity": 3,
+      "aiTradeRate": 160,
+      "attackBonusVsBarbarians": 25
+    },
+    {
+      "id": "deity",
+      "name": "Deity",
+      "contentCitizens": 1,
+      "maxAnarchyTurns": 2,
+      "costFactor": 6,
+      "optimalCitiesPercent": 60,
+      "corruptionPercent": 100,
+      "aiDefensiveStartUnits": 8,
+      "aiOffensiveStartUnits": 4,
+      "aiExtraStartUnits": [
+        1,
+        2
+      ],
+      "aiFreeUnitSupport": 16,
+      "aiBonusPerCity": 4,
+      "aiTradeRate": 170,
+      "attackBonusVsBarbarians": 0
+    },
+    {
+      "id": "sid",
+      "name": "Sid",
+      "contentCitizens": 1,
+      "maxAnarchyTurns": 1,
+      "costFactor": 4,
+      "optimalCitiesPercent": 50,
+      "corruptionPercent": 100,
+      "aiDefensiveStartUnits": 12,
+      "aiOffensiveStartUnits": 6,
+      "aiExtraStartUnits": [
+        2,
+        4
+      ],
+      "aiFreeUnitSupport": 24,
+      "aiBonusPerCity": 8,
+      "aiTradeRate": 200,
+      "attackBonusVsBarbarians": 0
+    }
+  ],
+  "calendar": {
+    "startYear": -4000,
+    "spans": [
+      {
+        "turns": 25,
+        "years": 50
+      },
+      {
+        "turns": 25,
+        "years": 40
+      },
+      {
+        "turns": 40,
+        "years": 25
+      },
+      {
+        "turns": 50,
+        "years": 20
+      },
+      {
+        "turns": 100,
+        "years": 10
+      },
+      {
+        "turns": 100,
+        "years": 5
+      },
+      {
+        "turns": 100,
+        "years": 2
+      }
+    ]
+  }
 }

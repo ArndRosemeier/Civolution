@@ -15,13 +15,16 @@ interpreted.
 | [movement.md](movement.md) | Movement costs, roads, rails, rivers, goto, zones of control | draft (Phase 1) |
 | [vision.md](vision.md) | Sight radius and fog of war | draft (Phase 1) |
 | [workers.md](workers.md) | Worker job timing and effects | draft (Phase 1) |
-| [turns.md](turns.md) | Turn pipeline, orders, tribal villages | draft (Phase 1) |
+| [turns.md](turns.md) | Turn pipeline, orders, tribal villages | draft (Phase 1–2) |
+| [cities.md](cities.md) | Founding, work area, tile yields, citizen placement, growth, specialists | draft (Phase 2) |
+| [production.md](production.md) | Shields, what can be built, hurrying, building upkeep | draft (Phase 2) |
+| [corruption.md](corruption.md) | Corruption and waste: distance, rank, optimal city number, government | draft (Phase 2) |
+| [happiness.md](happiness.md) | Content base, luxuries, buildings, military police, disorder, WLTKD | draft (Phase 2) |
+| [science.md](science.md) | Commerce split, treasury, tech cost, research time, eras | draft (Phase 2) |
+| [governments.md](governments.md) | Government table, revolution and anarchy, unit support | draft (Phase 2) |
+| [culture.md](culture.md) | Culture points, border growth, the calendar | draft (Phase 2; flips in 6) |
+| [trade.md](trade.md) | Trade network, connected resources | draft (Phase 2) |
 | combat.md | Round-based combat, hit points, retreat, bombard, defensive bonuses | to do (Phase 3) |
-| corruption.md | Corruption and waste: distance, rank, optimal city number, government | to do (Phase 2) |
-| culture.md | Culture points, border growth, culture flips | to do (Phase 2/6) |
-| happiness.md | Content base, luxuries, war weariness, disorder, WLTKD | to do (Phase 2) |
-| growth.md | Food box, city size limits, specialists | to do (Phase 2) |
-| science.md | Tech cost, research limits, era advance | to do (Phase 2) |
 | golden-age.md | Triggers and effects | to do (Phase 6) |
 | leaders.md | Military and scientific great leaders | to do (Phase 3/6) |
 | pollution.md | Pollution and global warming | to do (Phase 6) |

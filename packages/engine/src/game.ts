@@ -1,6 +1,7 @@
 /**
  * New games, the command dispatcher and the turn pipeline.
  */
+import { applyCityCommand, runCityTurn } from './cities.ts';
 import type { Command, CommandError, GameEvent, HutOutcome } from './commands.ts';
 import { tileCount, tilesInRadius } from './grid.ts';
 import { generateMap } from './map/generate.ts';
@@ -22,6 +23,8 @@ import {
   type Unit,
 } from './state.ts';
 import { beginTx, type Tx } from './tx.ts';
+import { invalidateCaches } from './caches.ts';
+import { eraFor } from './science.ts';
 import { reveal, unitSight } from './vision.ts';
 import { advanceWork, checkJob, turnsLeft } from './workers.ts';
 
@@ -43,6 +46,8 @@ export interface NewGameOptions {
   startUnits?: string[];
   /** Techs every player starts with (for tests and scenarios). */
   startTechs?: string[];
+  /** Difficulty level id; defaults to the rule set's default. */
+  difficulty?: string;
 }
 
 export const PLAYER_COLORS = [
@@ -69,6 +74,9 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
   const map = generateMap(rules, settings, options.players.length, options.seed);
   const startUnits = options.startUnits ?? rules.set.general.startUnits;
   for (const t of startUnits) rules.unit(t);
+  const difficulty = options.difficulty ?? rules.set.general.defaultDifficulty;
+  rules.difficulty(difficulty);
+  const startTechs = [...(options.startTechs ?? [])];
   const players: Player[] = options.players.map((p, id) => ({
     id,
     name: p.name,
@@ -77,15 +85,20 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
     alive: true,
     gold: rules.set.general.startingGold,
     government: rules.set.general.defaultGovernment,
-    techs: [...(options.startTechs ?? [])],
+    techs: [...startTechs],
     resources: [],
     explored: emptyBitset(map),
     atWarWith: [],
     endedTurn: false,
+    rates: { tax: 4, science: 6, luxury: 0 },
+    research: { tech: null, beakers: 0, turns: 0 },
+    era: eraFor(rules, startTechs),
+    revolution: null,
+    culture: 0,
   }));
   const base: GameState = {
     format: 'civolution-state',
-    version: 1,
+    version: 2,
     rulesHash: rules.hash,
     seed: options.seed >>> 0,
     rng: seedRng(options.seed ^ 0x67616d65),
@@ -96,6 +109,10 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
     units: {},
     nextUnitId: 1,
     work: {},
+    difficulty,
+    cities: {},
+    nextCityId: 1,
+    wonders: {},
   };
   const tx = beginTx(base);
   players.forEach((p, i) => {
@@ -143,7 +160,13 @@ export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult
     tx.player(cmd.player).endedTurn = true;
     tx.emit({ type: 'playerEndedTurn', player: cmd.player });
     if (tx.state.players.every((p) => !p.alive || p.endedTurn)) runEndOfTurn(rules, tx);
-    return { state: tx.state, events: tx.events };
+    return done(tx);
+  }
+
+  if (!('unit' in cmd) || cmd.type === 'foundCity' || cmd.type === 'joinCity') {
+    const error = applyCityCommand(rules, tx, cmd);
+    if (error) return { state, events: [], error };
+    return done(tx);
   }
 
   const existing = state.units[cmd.unit];
@@ -232,6 +255,12 @@ export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult
       break;
     }
   }
+  return done(tx);
+}
+
+/** Finishes a command: derived-data caches built during it are dropped. */
+function done(tx: Tx): ApplyResult {
+  invalidateCaches(tx.state);
   return { state: tx.state, events: tx.events };
 }
 
@@ -301,6 +330,7 @@ function continueGoto(rules: Rules, tx: Tx, unitId: number): void {
 /** Runs once every player has ended the turn (docs/rules/turns.md). */
 function runEndOfTurn(rules: Rules, tx: Tx): void {
   advanceWork(rules, tx);
+  runCityTurn(rules, tx);
   tx.state.turn = tx.state.turn + 1;
   for (const p of tx.state.players) if (p.alive) tx.player(p.id).endedTurn = false;
   const units = Object.values(tx.state.units).sort((a, b) => a.id - b.id);

@@ -1,0 +1,84 @@
+{
+  "borders-grew": [
+    "borders-grew-1.mp3",
+    "borders-grew-2.mp3"
+  ],
+  "building-complete": [
+    "building-complete-1.mp3",
+    "building-complete-2.mp3",
+    "building-complete-3.mp3"
+  ],
+  "celebration": [
+    "celebration-1.mp3",
+    "celebration-2.mp3"
+  ],
+  "city-founded": [
+    "city-founded-1.mp3",
+    "city-founded-2.mp3",
+    "city-founded-3.mp3"
+  ],
+  "city-grew": [
+    "city-grew-1.mp3",
+    "city-grew-2.mp3"
+  ],
+  "city-starved": [
+    "city-starved-1.mp3",
+    "city-starved-2.mp3"
+  ],
+  "disorder": [
+    "disorder-1.mp3",
+    "disorder-2.mp3"
+  ],
+  "end-turn": [
+    "end-turn-1.mp3",
+    "end-turn-2.mp3"
+  ],
+  "era-entered": [
+    "era-entered-1.mp3"
+  ],
+  "gold-coins": [
+    "gold-coins-1.mp3",
+    "gold-coins-2.mp3",
+    "gold-coins-3.mp3"
+  ],
+  "government-changed": [
+    "government-changed-1.mp3"
+  ],
+  "hurry": [
+    "hurry-1.mp3",
+    "hurry-2.mp3"
+  ],
+  "order-restored": [
+    "order-restored-1.mp3"
+  ],
+  "revolution": [
+    "revolution-1.mp3"
+  ],
+  "tech-discovered": [
+    "tech-discovered-1.mp3",
+    "tech-discovered-2.mp3",
+    "tech-discovered-3.mp3"
+  ],
+  "ui-click": [
+    "ui-click-1.mp3",
+    "ui-click-2.mp3",
+    "ui-click-3.mp3"
+  ],
+  "ui-close": [
+    "ui-close-1.mp3",
+    "ui-close-2.mp3"
+  ],
+  "ui-open": [
+    "ui-open-1.mp3",
+    "ui-open-2.mp3"
+  ],
+  "unit-trained": [
+    "unit-trained-1.mp3",
+    "unit-trained-2.mp3",
+    "unit-trained-3.mp3"
+  ],
+  "wonder-complete": [
+    "wonder-complete-1.mp3",
+    "wonder-complete-2.mp3"
+  ]
+}

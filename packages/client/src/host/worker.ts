@@ -21,7 +21,7 @@ import {
   type Unit,
 } from '@civolution/engine';
 import { conquests } from '@civolution/rules';
-import { explorer } from '@civolution/sim';
+import { builder } from '@civolution/sim';
 
 const rules = indexRules(conquests);
 
@@ -56,7 +56,7 @@ function finishRound(events: GameEvent[]): void {
   let s = current();
   s.players.forEach((p, i) => {
     if (i === human || !p.alive || p.endedTurn) return;
-    explorer.takeTurn(rules, s, i, (cmd) => {
+    builder.takeTurn(rules, s, i, (cmd) => {
       const r = apply(rules, s, cmd);
       if (!r.error) s = r.state;
       return s;

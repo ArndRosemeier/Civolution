@@ -63,6 +63,25 @@ const TRANSFORM_RESULT: Record<string, string> = {
 
 const WATER = new Set(['coast', 'sea', 'ocean']);
 
+const CORRUPTION = ['minimal', 'nuisance', 'problematic', 'rampant', 'catastrophic', 'communal', 'off'] as const;
+const HURRY = ['none', 'forcedLabor', 'gold'] as const;
+const WEARINESS = ['none', 'low', 'high'] as const;
+
+/** Building flag bits whose names the importer does not know; these are our reading of them. */
+const BUILDING_BIT_NAMES: Record<string, string> = {
+  'improvement:bit25': 'increasesCommerceInWater',
+  'wonder:bit17': 'touristAttraction',
+};
+
+/** Building flags that say what kind of building it is rather than what it does. */
+const BUILDING_TAGS = new Set([
+  'militaryInstallation', 'tradeInstallation', 'researchInstallation', 'explorationInstallation',
+  'constructionInstallation', 'coastalInstallation', 'placeOfWorship',
+]);
+
+/** Border growth thresholds in city culture points (not stored in the rule file; docs/rules/culture.md). */
+const BORDER_THRESHOLDS = [10, 100, 1000, 10000, 20000, 40000, 80000];
+
 export function curate(raw: ImportedRules): RuleSet {
   const terrainIds = idList(raw.terrains.map((t) => t.name));
   const resourceIds = idList(raw.resources.map((r) => r.name));
@@ -70,6 +89,8 @@ export function curate(raw: ImportedRules): RuleSet {
   const unitIds = idList(raw.units.map((u) => u.name));
   const eraIds = idList(raw.eras.map((e) => e.name.replace(/ (Times|Ages)$/, '')));
   const govIds = idList(raw.governments.map((g) => g.name));
+  const buildingIds = idList(raw.buildings.map((b) => b.name.replace(/^The /, '')));
+  const difficultyIds = idList(raw.difficulties.map((d) => d.name));
   if (raw.workerJobs.length !== JOB_IDS.length) throw new Error('unexpected worker job count');
 
   const ref = (list: readonly string[], i: number): string | undefined => (i >= 0 ? list[i] : undefined);
@@ -93,6 +114,19 @@ export function curate(raw: ImportedRules): RuleSet {
       fortifiedDefenceBonus: g.fortificationsDefenceBonus,
       riverDefenceBonus: g.riverDefenceBonus,
       defaultGovernment: 'despotism',
+      defaultDifficulty: difficultyIds[g.defaultDifficulty]!,
+      maxTownSize: g.maxCityLevel1Size,
+      maxCitySize: g.maxCityLevel2Size,
+      celebrationMinimumSize: g.wltkdMinimumPopulation,
+      shieldCostInGold: g.shieldCostInGold,
+      shieldValueInGold: g.shieldValueInGold,
+      citizenValueInShields: g.citizenValueInShields,
+      forcedLaborUnhappyTurns: g.hurrySacrificeTurnPenalty,
+      minimumResearchTime: g.minimumResearchTime,
+      maximumResearchTime: g.maximumResearchTime,
+      futureTechCost: g.futureTechCost,
+      goldenAgeDuration: g.goldenAgeDuration,
+      borderThresholds: BORDER_THRESHOLDS,
     },
     eras: raw.eras.map((e, i) => ({ id: eraIds[i]!, name: e.name })),
     terrains: raw.terrains.map((t, i) => {
@@ -190,6 +224,21 @@ export function curate(raw: ImportedRules): RuleSet {
       name: gv.name,
       ...opt('requiredTech', ref(techIds, gv.prerequisiteTech)),
       workerRate: gv.workerRate,
+      transitional: gv.transitionType === 1,
+      corruption: CORRUPTION[gv.corruption]!,
+      tilePenalty: gv.tilePenalty === 1,
+      commerceBonus: gv.commerceBonus === 1,
+      hurry: HURRY[gv.hurrying]!,
+      // Stored in tens of percent.
+      rateCap: gv.scienceCap * 10,
+      buildingUpkeep: gv.requiresMaintenance === 1,
+      draftLimit: gv.draftLimit,
+      militaryPoliceLimit: gv.militaryPoliceLimit,
+      freeUnits: { town: gv.freeUnitsPerTown, city: gv.freeUnitsPerCity, metropolis: gv.freeUnitsPerMetropolis },
+      unitCost: gv.costPerUnit,
+      warWeariness: WEARINESS[gv.warWeariness]!,
+      xenophobic: gv.xenophobic === 1,
+      forcedResettlement: gv.forceResettle === 1,
     })),
     worldSizes: raw.worldSizes.map((w, i) => ({
       id: idList(raw.worldSizes.map((x) => x.name))[i]!,
@@ -207,5 +256,82 @@ export function curate(raw: ImportedRules): RuleSet {
       hitPoints: x.baseHitPoints,
       retreatChance: x.retreatBonus,
     })),
+    buildings: raw.buildings.map((b, i) => {
+      const effects = (['improvement', 'smallWonder', 'wonder'] as const).flatMap((k) =>
+        b.traits[k].flatMap((f) => (/^bit\d+$/.test(f) ? (BUILDING_BIT_NAMES[`${k}:${f}`] ?? []) : [f])),
+      );
+      const other = b.traits.other.filter((f) => !/^bit\d+$/.test(f));
+      const kind = other.includes('wonder')
+        ? 'wonder'
+        : other.includes('smallWonder')
+          ? 'smallWonder'
+          : effects.includes('capitalization')
+            ? 'wealth'
+            : 'improvement';
+      return {
+        id: buildingIds[i]!,
+        name: b.name,
+        kind,
+        // Stored in tens of shields.
+        cost: b.cost * 10,
+        upkeep: Math.max(0, b.maintenanceCost),
+        culture: b.culture,
+        ...opt('requiredTech', ref(techIds, b.reqAdvance)),
+        ...opt('obsoletedBy', ref(techIds, b.obsoleteBy)),
+        ...opt('requiredBuilding', ref(buildingIds, b.reqImprovement)),
+        requiredCount: Math.max(1, b.numReqBuildings),
+        ...opt('requiredGovernment', ref(govIds, b.reqGovernment)),
+        requiredResources: refs(resourceIds, [b.reqResource1, b.reqResource2]),
+        contentFaces: b.happy,
+        contentFacesElsewhere: b.happyAll,
+        continental: other.includes('continentalMoodEffects'),
+        // Stored in quarters: 2 is +50 % (docs/rules/production.md).
+        productionPercent: b.production * 25,
+        pollution: b.pollution,
+        defenceBonus: b.defenceBonus,
+        bombardDefence: b.bombardDefence,
+        navalDefenceBonus: b.navalDefenceBonus,
+        navalBombardDefence: b.navalBombardDefence,
+        ...opt('doublesContentOf', ref(buildingIds, b.doublesHappinessOf)),
+        ...opt('actsAsOnContinent', ref(buildingIds, b.gainOnContinent)),
+        ...opt('actsAsEverywhere', ref(buildingIds, b.gainInEveryCity)),
+        ...opt('unitProduced', ref(unitIds, b.unitProduced)),
+        unitEvery: b.unitProduced >= 0 ? b.unitFrequency : 0,
+        effects,
+        tags: other.filter((f) => BUILDING_TAGS.has(f)),
+      };
+    }),
+    specialists: raw.citizens.map((c) => ({
+      id: toId(c.name),
+      name: c.name,
+      pluralName: c.pluralName,
+      laborer: c.defaultCitizen === 1,
+      ...opt('requiredTech', ref(techIds, c.prerequisite)),
+      luxury: c.luxuries,
+      science: c.research,
+      gold: c.taxes,
+      corruption: c.corruption,
+      shields: c.construction,
+    })),
+    difficulties: raw.difficulties.map((d, i) => ({
+      id: difficultyIds[i]!,
+      name: d.name,
+      contentCitizens: d.contentCitizens,
+      maxAnarchyTurns: d.maxGovtTransitionTime,
+      costFactor: d.costFactor,
+      optimalCitiesPercent: d.percentOptimalCities,
+      corruptionPercent: d.corruptionPercent,
+      aiDefensiveStartUnits: d.aiDefensiveStartUnits,
+      aiOffensiveStartUnits: d.aiOffensiveStartUnits,
+      aiExtraStartUnits: [d.extraStartUnit1, d.extraStartUnit2],
+      aiFreeUnitSupport: d.additionalFreeSupport,
+      aiBonusPerCity: d.bonusPerCity,
+      aiTradeRate: d.aiToAiTradeRate,
+      attackBonusVsBarbarians: d.attackBonusVsBarbarians,
+    })),
+    calendar: {
+      startYear: raw.game.startYear,
+      spans: raw.game.turnsPerTimescalePart.map((turns, i) => ({ turns, years: raw.game.timeUnitsPerTurn[i]! })),
+    },
   };
 }

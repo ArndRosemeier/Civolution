@@ -306,13 +306,15 @@ export function generateMap(rules: Rules, settings: MapSettings, players: number
     });
   const siteScore = (i: number) => {
     const t = rules.terrains[terrain[i]!]!;
-    if (t.water || !t.canFoundCity || terrain[i] === TUNDRA || terrain[i] === DESERT) return -1;
+    // Not on tundra or desert, and not inside forest, jungle or marsh.
+    if (t.water || !t.canFoundCity || terrain[i] === TUNDRA || terrain[i] === DESERT || underlying[i]! >= 0) return -1;
     let score = 0;
     let landNear = 0;
     for (const j of cityRadius(i)) {
       const tj = rules.terrains[terrain[j]!]!;
       if (!tj.water) landNear++;
-      score += tj.food * 3 + tj.shields * 2 + tj.commerce;
+      // Food first: a start must be able to grow (forest and tundra feed nobody).
+      score += tj.food * 4 + tj.shields * 2 + tj.commerce + (tj.irrigationFood > 0 ? 2 : 0) - (!tj.water && tj.food < 2 ? 2 : 0);
       if (resource[j]! >= 0) score += 4;
       if (rivers[j] !== 0) score += 1;
     }
@@ -365,6 +367,7 @@ export function generateMap(rules: Rules, settings: MapSettings, players: number
     resource,
     improvements: new Array<number>(n).fill(0),
     flags,
+    territory: new Array<number>(n).fill(-1),
     starts,
     revision: 0,
   };

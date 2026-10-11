@@ -1,4 +1,4 @@
-import { checkJob, type Unit } from '@civolution/engine';
+import { cityAt, checkJob, foundBlocker, type Unit } from '@civolution/engine';
 import type { Snapshot } from '../host/client.ts';
 import { rules } from '../rules.ts';
 import { useGame } from '../store.ts';
@@ -38,6 +38,14 @@ export function unitActions(snap: Snapshot, u: Unit): UnitAction[] {
   const rule = rules.unit(u.type);
   const out: UnitAction[] = [];
   const noMoves = u.movesLeft <= 0 ? 'No movement left this turn.' : undefined;
+  if (rule.specialActions.includes('buildCity')) {
+    const why = foundBlocker(rules, snap.state, u);
+    out.push({ id: 'found', label: 'Found city', key: 'KeyB', advances: true, run: () => send({ type: 'foundCity', unit: u.id }), ...(why ? { disabled: why } : {}) });
+  }
+  const here = cityAt(snap.state, u.tile);
+  if (rule.specialActions.includes('joinCity') && rule.populationCost > 0 && here?.owner === u.owner) {
+    out.push({ id: 'join', label: `Join ${here.name}`, key: 'KeyJ', advances: true, run: () => send({ type: 'joinCity', unit: u.id }) });
+  }
   if (rule.domain === 'land') {
     out.push({ id: 'fortify', label: 'Fortify', key: 'KeyF', run: () => send({ type: 'fortify', unit: u.id }), advances: true, ...(u.fortified ? { disabled: 'Already fortified.' } : {}) });
   }
@@ -73,6 +81,15 @@ export function unitActions(snap: Snapshot, u: Unit): UnitAction[] {
       advances: u.routine !== 'autoWorker',
       run: () => send({ type: 'setRoutine', unit: u.id, routine: u.routine === 'autoWorker' ? null : 'autoWorker' }),
     });
+  } else if (rule.specialActions.includes('buildCity')) {
+    out.push({
+      id: 'autoSettle',
+      label: u.routine === 'autoSettle' ? 'Stop automation' : 'Automate',
+      key: 'KeyA',
+      detail: 'find a site',
+      advances: u.routine !== 'autoSettle',
+      run: () => send({ type: 'setRoutine', unit: u.id, routine: u.routine === 'autoSettle' ? null : 'autoSettle' }),
+    });
   } else {
     out.push({
       id: 'explore',
@@ -90,6 +107,7 @@ export function unitActions(snap: Snapshot, u: Unit): UnitAction[] {
 function orderText(u: Unit): string {
   if (u.routine === 'explore') return 'Exploring';
   if (u.routine === 'autoWorker') return u.order?.type === 'work' ? `Automated: ${rules.job(u.order.job).name}` : 'Automated';
+  if (u.routine === 'autoSettle') return 'Looking for a city site';
   switch (u.order?.type) {
     case 'fortify':
       return 'Fortified';

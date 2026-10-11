@@ -1,10 +1,18 @@
 [
   {
-    "version": "0.013",
+    "version": "0.014",
     "date": "2026-10-11",
     "title": "Village gold",
     "items": [
       "Tribal villages give 25 gold in the first era and 25 or 50 later, never more."
+    ]
+  },
+  {
+    "version": "0.013",
+    "date": "2026-10-11",
+    "title": "Shield grassland you can see",
+    "items": [
+      "Grassland that gives a bonus shield now shows a small shield badge in the corner of the tile, so you can tell it apart from plain grassland at a glance."
     ]
   },
   {

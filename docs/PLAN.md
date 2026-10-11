@@ -332,6 +332,41 @@ Defaults picked where the plan left a choice ([civilizations.md](rules/civilizat
   per turn are the next wins. Still open from Phase 5: automation map lenses, front
   reinforcement, transport escorts, interception schedules.
 
+### Phase 7 notes (art and audio, alpha 0.005)
+
+Defaults picked where the plan left a choice ([assets.md](assets.md),
+[automation.md](automation.md)):
+- Art: the earlier phases had already made every building, advance, resource, leader and
+  most unit pictures, so Phase 7 filled the gaps (`manifests/phase7.json`): portraits for
+  the unique units, the princess, the crusader and the ancient cavalry; kings show their
+  civilization's leader portrait and the rule file's numbered copies of a unit
+  (`impi128`, …) show the original's; a barbarian chieftain portrait.
+- Terrain: thirteen generated seamless ground textures (a new `seamless` post-step in the
+  generator) packed into one texture array and sampled at two scales; the palette shading
+  stays for slopes, snow, shores and fog, and shows if the textures are missing.
+- 3D: fortresses and barricades are now on the map; the war elephant and the camel rider
+  are new `civ.mounted` kinds. Other unique units keep the closest standard model (the
+  hoplite the spearman's, the panzer the tank's), and leaders share the great leader.
+  The strategic zoom keeps its flat team-coloured tokens by design (§10.1).
+- Sound: `sounds.ts` gives every engine event a sound (or names the one that covers it,
+  like the end-turn button for `playerEndedTurn`), one per batch by tier; move sounds per
+  unit class; UI click, open, close and select. Music: an era bed (three variations each)
+  and a title theme; ambience follows the terrain under the camera (cities override it)
+  and goes quiet at strategic zoom. Music and ambiences come from Seed Audio, not Sound
+  Studio, so the whole set is generated one way. Volumes per channel live in the browser.
+- Calendar: the rule file's seven spans cover 440 turns to AD 1951; after them the
+  calendar runs one year a turn (Civ3's behaviour), so turn 540 is AD 2050.
+- Speed: goto orders keep their planned route between turns (golden hash changed for
+  that), site scores are cached per state, and explorers stop searching once no tile can
+  beat the best. Huge with 16 AI civilizations: about 42 ms a turn over 300 turns (was
+  about 70), slowest turn about 0.2 s.
+- Automation carry-overs done: `front`, `escort:<unit>` and `airDefence` routines with
+  unit-panel orders (Q, E, Shift+I) and the automation lens (Ctrl+K). Sentry wake
+  conditions beyond "a foreign unit in sight" are still open.
+- For Phase 8: AI economies are still slower than Civ3's; the next profile targets are
+  bestSite from the AI's land-full check (about 15 %) and city reports in the governors.
+  The Chinese leader portrait is Arnd's call and unchanged.
+
 ## 13. Deferred
 
 Mods and rule-set editing UI, scenarios (custom BIQs, maps, Conquests campaigns), multiplayer (hotseat, PBEM, online), loading original `.SAV`/`.BIQ` maps as starting positions, mobile layout beyond basic responsiveness.

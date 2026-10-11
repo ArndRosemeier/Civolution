@@ -4,6 +4,8 @@
  */
 import type {
   BuildingRule,
+  CivRule,
+  EspionageMissionRule,
   DifficultyRule,
   GovernmentRule,
   SpecialistRule,
@@ -32,6 +34,9 @@ export interface Rules {
   hasBuilding(id: string): boolean;
   specialist(id: string): SpecialistRule;
   difficulty(id: string): DifficultyRule;
+  civ(id: string): CivRule;
+  hasCiv(id: string): boolean;
+  mission(id: string): EspionageMissionRule;
   /** Index of an era id in rules.set.eras. */
   eraIndex(id: string): number;
   /** Movement points per tile on flat terrain, in thirds (3 for Conquests). */
@@ -80,6 +85,9 @@ export function indexRules(set: RuleSet): Rules {
     hasBuilding: (id) => buildingIds.has(id),
     specialist: byId(set.specialists, 'specialist'),
     difficulty: byId(set.difficulties, 'difficulty'),
+    civ: byId(set.civs, 'civilization'),
+    hasCiv: (id) => set.civs.some((c) => c.id === id),
+    mission: byId(set.espionageMissions, 'espionage mission'),
     eraIndex: (id) => {
       const i = set.eras.findIndex((e) => e.id === id);
       if (i < 0) throw new Error(`unknown era "${id}"`);

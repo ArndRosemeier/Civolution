@@ -103,8 +103,15 @@ const BUILDING_PRIORITY: { id: string; when: (r: ReturnType<typeof cityReport>, 
   { id: 'policeStation', when: (r) => r.corruptionRate.value >= 30, why: 'corruption' },
 ];
 
+export interface PlanBuildOptions {
+  /** Leave settlers out (the caller has enough on the way). */
+  noSettlers?: boolean;
+  /** Leave great wonders out. */
+  noWonders?: boolean;
+}
+
 /** What a city should build next (simple priorities; the full governors come in Phase 5). */
-export function planBuild(rules: Rules, state: GameState, city: City): PlannedBuild {
+export function planBuild(rules: Rules, state: GameState, city: City, opts: PlanBuildOptions = {}): PlannedBuild {
   const ok = (b: Build) => buildBlocker(rules, state, city, b) === null;
   const report = cityReport(rules, state, city);
   const defenders = Object.values(state.units).filter((u) => u.tile === city.tile && u.owner === city.owner && rules.unit(u.type).defence > 0);
@@ -116,7 +123,7 @@ export function planBuild(rules: Rules, state: GameState, city: City): PlannedBu
   }
   const settler = rules.set.units.find((u) => u.specialActions.includes('buildCity'));
   // Shields wait in the box until the city is big enough to give up the settlers.
-  if (settler && report.foodSurplus >= 1 && wantsMoreCities(rules, state, city.owner) && ok({ kind: 'unit', id: settler.id })) {
+  if (settler && !opts.noSettlers && report.foodSurplus >= 1 && wantsMoreCities(rules, state, city.owner) && ok({ kind: 'unit', id: settler.id })) {
     const settling = bestSite(rules, state, city.owner, city.tile, 12);
     if (settling >= 0) return { build: { kind: 'unit', id: settler.id }, reason: 'Room for another city nearby' };
     // No known site: send someone to look, unless someone already is.
@@ -136,7 +143,7 @@ export function planBuild(rules: Rules, state: GameState, city: City): PlannedBu
     return { build: { kind: 'building', id: b.id }, reason: `${rules.building(b.id).name}: ${b.why}` };
   }
   // Wonders in the capital when nothing else is needed.
-  if ('palace' in city.buildings) {
+  if ('palace' in city.buildings && !opts.noWonders) {
     // Wonders that hand out units every few turns would bury a builder in upkeep.
     const wonder = rules.set.buildings
       .filter((b) => b.kind === 'wonder' && !b.unitProduced && ok({ kind: 'building', id: b.id }))
@@ -153,7 +160,7 @@ export function planResearch(rules: Rules, state: GameState, player: number): st
   if (options.length === 0) return null;
   const govTechs = new Set(rules.set.governments.map((g) => g.requiredTech).filter((t): t is string => !!t));
   const required = (t: string) => !rules.tech(t).flags.includes('notRequiredForEraAdvance');
-  const score = (t: string) => techCost(rules, state, t) * (govTechs.has(t) ? 0.5 : required(t) ? 1 : 1.6);
+  const score = (t: string) => techCost(rules, state, t, player) * (govTechs.has(t) ? 0.5 : required(t) ? 1 : 1.6);
   return [...options].sort((a, b) => score(a) - score(b) || a.localeCompare(b))[0]!;
 }
 

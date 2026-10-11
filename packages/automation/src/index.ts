@@ -6,7 +6,7 @@ import { apply, playerUnits, type Command, type GameEvent, type GameState, type 
 import { proposeRoutine } from './routines.ts';
 
 export { proposeRoutine, proposeExplore, proposeAutoWorker, proposeAutoSettle, homeTile, type Proposal, type RoutineId } from './routines.ts';
-export { bestSite, siteScore, planBuild, planResearch, planGovernment, planRates, planEmpire, type PlannedBuild } from './empire.ts';
+export { bestSite, siteScore, planBuild, planResearch, planGovernment, planRates, planEmpire, type PlannedBuild, type PlanBuildOptions } from './empire.ts';
 
 export interface RoutineRun {
   state: GameState;

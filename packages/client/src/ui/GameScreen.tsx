@@ -10,6 +10,8 @@ import { idleCities, idleUnits, useGame } from '../store.ts';
 import { CityScreen } from './CityScreen.tsx';
 import { DomesticAdvisor } from './DomesticAdvisor.tsx';
 import { ForeignAdvisor } from './ForeignAdvisor.tsx';
+import { DiplomacyScreen, OfferDialog } from './Diplomacy.tsx';
+import { bestStealthTarget } from './AttackPreview.tsx';
 import { NewsCards, RazeDialog } from './WarCards.tsx';
 import { ScienceAdvisor } from './ScienceAdvisor.tsx';
 import { LogPanel } from './LogPanel.tsx';
@@ -44,6 +46,8 @@ function fireAt(u: Unit, tile: number): void {
     if (ok && (!after || after.movesLeft <= 0)) useGame.getState().selectNext();
   };
   if (aim.action === 'bombard') void s.send({ type: 'bombard', unit: u.id, target: tile }).then(done);
+  else if (aim.action === 'airdrop') void s.send({ type: 'airdrop', unit: u.id, target: tile }).then(done);
+  else if (aim.action === 'airlift') void s.send({ type: 'airlift', unit: u.id, target: tile }).then(done);
   else if (aim.action === 'nuke') {
     if (confirm('Launch a nuclear strike? Every unit on and around the target is destroyed, and cities there lose half their people.')) void s.send({ type: 'nuke', unit: u.id, target: tile }).then(done);
   } else void s.send({ type: 'airMission', unit: u.id, mission: aim.action, target: tile }).then(done);
@@ -163,8 +167,12 @@ export function GameScreen() {
         s.open({ kind: 'science' });
         return true;
       }
-      if (code === 'F4') {
+      if (code === 'F3') {
         s.open({ kind: 'foreign' });
+        return true;
+      }
+      if (code === 'F4') {
+        s.open({ kind: 'diplomacy' });
         return true;
       }
       if (code === 'Escape' && (s.aim || s.gotoMode)) {
@@ -299,7 +307,8 @@ export function GameScreen() {
     }
     if ((d.button === 2 || s.gotoMode) && u && u.owner === snap.human && hostileStep(snap.state, u, tile)) {
       s.setGotoMode(false);
-      void s.send({ type: 'moveUnit', unit: u.id, to: tile }).then((ok) => {
+      const defender = bestStealthTarget(snap.state, u, tile);
+      void s.send({ type: 'moveUnit', unit: u.id, to: tile, ...(defender === undefined ? {} : { defender }) }).then((ok) => {
         const after = useGame.getState().snapshot?.state.units[u.id];
         if (ok && (!after || after.movesLeft <= 0)) useGame.getState().selectNext();
       });
@@ -372,7 +381,21 @@ export function GameScreen() {
       {settings.perf && view && <PerfHud view={view} />}
       {aim && (
         <div className="aim-hint panel">
-          Pick a target for {aim.action === 'bombard' ? 'bombardment' : aim.action === 'nuke' ? 'the nuclear strike' : aim.action === 'recon' ? 'reconnaissance' : aim.action === 'rebase' ? 'rebasing' : 'the air strike'} · Esc or right-click to cancel
+          Pick a target for{' '}
+          {aim.action === 'bombard'
+            ? 'bombardment'
+            : aim.action === 'nuke'
+              ? 'the nuclear strike'
+              : aim.action === 'recon'
+                ? 'reconnaissance'
+                : aim.action === 'rebase'
+                  ? 'rebasing'
+                  : aim.action === 'airdrop'
+                    ? 'the parachute drop'
+                    : aim.action === 'airlift'
+                      ? 'the airlift (a city with an airport)'
+                      : 'the air strike'}{' '}
+          · Esc or right-click to cancel
         </div>
       )}
       <NewsCards onJump={(tile) => view?.centerOn(tile)} />
@@ -383,6 +406,8 @@ export function GameScreen() {
       {panel?.kind === 'domestic' && <DomesticAdvisor onClose={() => useGame.getState().open(null)} />}
       {panel?.kind === 'science' && <ScienceAdvisor onClose={() => useGame.getState().open(null)} />}
       {panel?.kind === 'foreign' && <ForeignAdvisor onClose={() => useGame.getState().open(null)} />}
+      {panel?.kind === 'diplomacy' && <DiplomacyScreen {...(panel.with === undefined ? {} : { initial: panel.with })} onClose={() => useGame.getState().open(null)} />}
+      {!panel && <OfferDialog />}
     </div>
   );
 }

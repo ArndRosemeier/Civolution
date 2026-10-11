@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 type Civ = { store: { getState(): { snapshot: { state: { units: Record<string, { id: number; owner: number; type: string; tile: number }> }; human: number; visible: Uint8Array }; send(c: object): Promise<boolean>; select(id: number): void } } };
 
-test('version history, then a skirmish: odds, an attack, the war room', async ({ page }) => {
+test('version history, then a skirmish: odds, an attack, the war room and diplomacy', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('/?scenario=skirmish');
@@ -31,9 +31,20 @@ test('version history, then a skirmish: odds, an attack, the war room', async ({
   expect(result).toBe(true);
   await expect(page.locator('.log-panel')).toContainText(/Victory|Defeat|withdrew/);
 
-  await page.keyboard.press('F4');
+  await page.keyboard.press('F3');
   await expect(page.getByRole('dialog', { name: 'War room' })).toBeVisible();
   await expect(page.getByRole('dialog')).toContainText('At war');
+  await page.keyboard.press('Escape');
+
+  // Diplomacy: the enemy leader, their mood, and a peace offer they may refuse.
+  await page.keyboard.press('F4');
+  const dip = page.getByRole('dialog', { name: 'Diplomacy' });
+  await expect(dip).toBeVisible();
+  await expect(dip.locator('.badge.rel-war')).toContainText('At war');
+  await dip.getByLabel('Add an item').first().selectOption({ label: 'peace treaty' });
+  await dip.getByRole('button', { name: 'Propose' }).click();
+  await expect(dip.locator('.leader-reply')).toBeVisible();
+  await page.screenshot({ path: 'test-results/diplomacy.png' });
   await page.keyboard.press('Escape');
   await page.keyboard.press('Enter');
   await expect(page.locator('.top-bar .stat strong').filter({ hasText: /^Turn / })).toHaveText('Turn 2', { timeout: 60_000 });

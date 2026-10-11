@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { indexRules, stateHash } from '@civolution/engine';
 import { conquests } from '@civolution/rules';
-import { builder, conqueror, defaultPlayers, explorer, idle, replay, runGame } from '../src/index.ts';
+import { ai, builder, defaultPlayers, explorer, idle, replay, runGame } from '../src/index.ts';
 
 const rules = indexRules(conquests);
 const withScouts = [...rules.set.general.startUnits, rules.set.general.scoutUnit];
@@ -43,9 +43,9 @@ describe('headless games', () => {
     expect(report.turns).toBeLessThan(540);
   }, 120_000);
 
-  it('fights wars between four conquerors with barbarians about (Phase 3)', () => {
+  it('fights wars between four AI civilizations with barbarians about (Phase 3)', () => {
     const game = { seed: 1, map: { worldSize: 'small' }, players: defaultPlayers(4) };
-    const { state, log, report } = runGame({ rules, game, controllers: [conqueror, conqueror, conqueror, conqueror], turns: 150 });
+    const { state, log, report } = runGame({ rules, game, controllers: [ai, ai, ai, ai], turns: 150 });
     expect(report.invariantFailures).toEqual([]);
     expect(report.war.battles).toBeGreaterThan(20);
     expect(report.war.citiesCaptured + report.war.citiesDestroyed).toBeGreaterThan(0);

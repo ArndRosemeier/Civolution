@@ -459,7 +459,8 @@ describe('healing, weariness and peace', () => {
     // 60 points under high weariness (÷ 20) = 3 content citizens turn unhappy.
     const report = cityReport(rules, s, s.cities[c.id]!);
     expect(report.moods.find((m) => m.label === 'War weariness')).toBeTruthy();
-    s = run(s, { type: 'makePeace', player: 0, target: 1 });
+    s = run(s, { type: 'proposeDeal', player: 0, target: 1, give: [{ kind: 'peace' }], take: [] });
+    s = run(s, { type: 'answerDeal', player: 1, proposal: s.diplomacy.proposals[0]!.id, accept: true });
     expect(s.players[0]!.weariness).toEqual({});
     expect(s.players[0]!.atWarWith).toEqual([]);
     expect(s.players[1]!.atWarWith).toEqual([]);

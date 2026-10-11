@@ -5,7 +5,7 @@
  * is echoed on the resulting events so the UI can show why something happened.
  */
 
-import type { Build, Rates } from './state.ts';
+import type { Build, DealItem, Rates, TreatyKind } from './state.ts';
 
 interface Base {
   player: number;
@@ -13,8 +13,15 @@ interface Base {
 }
 
 export type Command =
-  /** Moving onto enemy units attacks them; onto an undefended enemy city captures it (or razes it with `raze`). */
-  | (Base & { type: 'moveUnit'; unit: number; to: number; raze?: boolean })
+  /**
+   * Moving onto enemy units attacks them; onto an undefended enemy city captures it (or
+   * razes it with `raze`). A unit able to stealth attack may pick the `defender`.
+   */
+  | (Base & { type: 'moveUnit'; unit: number; to: number; raze?: boolean; defender?: number })
+  /** Paratroopers jump from a city to a land tile in range. */
+  | (Base & { type: 'airdrop'; unit: number; target: number })
+  /** A unit flies from a city with an airport to another (one airlift per airport and turn). */
+  | (Base & { type: 'airlift'; unit: number; target: number })
   | (Base & { type: 'bombard'; unit: number; target: number })
   | (Base & { type: 'airMission'; unit: number; mission: AirMission; target?: number })
   | (Base & { type: 'nuke'; unit: number; target: number })
@@ -27,7 +34,12 @@ export type Command =
   /** Burns a city taken this turn to the ground. */
   | (Base & { type: 'razeCity'; city: number })
   | (Base & { type: 'declareWar'; target: number })
-  | (Base & { type: 'makePeace'; target: number })
+  /** Offers a deal: `give` goes to the target, `take` comes back (docs/rules/diplomacy.md). */
+  | (Base & { type: 'proposeDeal'; target: number; give: DealItem[]; take: DealItem[] })
+  /** The recipient of an offer accepts or declines it (allowed after the recipient ended its turn). */
+  | (Base & { type: 'answerDeal'; proposal: number; accept: boolean })
+  /** An espionage mission against `target` (docs/rules/espionage.md). */
+  | (Base & { type: 'espionage'; target: number; mission: string; city?: number })
   | (Base & { type: 'goto'; unit: number; to: number })
   | (Base & { type: 'fortify'; unit: number })
   | (Base & { type: 'sentry'; unit: number })
@@ -153,6 +165,22 @@ export type GameEvent = { reason?: string } & (
   | { type: 'nuclearStrike'; unit: number; player: number; tile: number; stopped: boolean }
   | { type: 'warDeclared'; player: number; target: number }
   | { type: 'peaceMade'; player: number; target: number }
+  | { type: 'contactMade'; player: number; other: number }
+  | { type: 'treatyBroken'; player: number; target: number; treaty: TreatyKind }
+  | { type: 'unitsExpelled'; player: number; from: number; units: number }
+  | { type: 'ceasefireAgreed'; player: number; target: number; until: number }
+  | { type: 'ceasefireEnded'; player: number; target: number }
+  | { type: 'dealProposed'; proposal: number; player: number; target: number }
+  | { type: 'dealRejected'; proposal: number; player: number; target: number }
+  | { type: 'dealMade'; player: number; target: number; give: string[]; take: string[] }
+  | { type: 'dealCancelled'; player: number; target: number; why: string }
+  | { type: 'dealExpired'; player: number; target: number }
+  | { type: 'cityTraded'; city: number; player: number; from: number; tile: number; name: string }
+  | { type: 'cityRevolted'; city: number; player: number; from: number; tile: number; name: string }
+  | { type: 'espionage'; player: number; target: number; mission: string; success: boolean; cost: number; city?: number; detail: string }
+  | { type: 'airdrop'; unit: number; player: number; from: number; tile: number }
+  | { type: 'airlift'; unit: number; player: number; from: number; tile: number }
+  | { type: 'barbarianLanding'; tile: number; units: number; near: number }
   | { type: 'playerEliminated'; player: number; by: number | null }
   | { type: 'campDestroyed'; tile: number; player: number; gold: number }
   | { type: 'campAppeared'; tile: number }

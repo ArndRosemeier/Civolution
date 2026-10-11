@@ -244,6 +244,53 @@ export const BuildingRuleSchema = z.strictObject({
   notes,
 });
 
+/** A civilization: its leader and the character the AI plays it with (docs/rules/ai.md). */
+export const CivRuleSchema = z.strictObject({
+  id,
+  /** The country ("Rome"), the adjective ("Roman") and the people ("Romans"). */
+  name: z.string(),
+  adjective: z.string(),
+  noun: z.string(),
+  leader: z.string(),
+  leaderTitle: z.string(),
+  leaderFemale: z.boolean(),
+  cultureGroup: z.enum(['american', 'european', 'mediterranean', 'middleEastern', 'asian']),
+  /** −2 (peaceful) … +2 (aggressive). */
+  aggression: z.int().min(-2).max(2),
+  favoriteGovernment: id.optional(),
+  shunnedGovernment: id.optional(),
+  /** Civilization traits (effects arrive in Phase 6). */
+  traits: z.array(id),
+  /** What the AI builds often or never (offensiveLandUnits, growth, wonders, …). */
+  buildOften: z.array(id),
+  buildNever: z.array(id),
+  /** Index of the civilization's default colour in the rule file's palette. */
+  color: nonNeg,
+  notes,
+});
+
+/** An espionage mission (docs/rules/espionage.md). */
+export const EspionageMissionRuleSchema = z.strictObject({
+  id,
+  name: z.string(),
+  /** Who can carry it out: an embassy, a planted spy, or either. */
+  needs: z.enum(['embassy', 'spy', 'either']),
+  /** Base cost before the era multiplier. */
+  baseCost: nonNeg,
+  notes,
+});
+
+/** How a city's people see a rival culture, by culture ratio (propaganda now, flips in Phase 6). */
+export const CultureOpinionRuleSchema = z.strictObject({
+  id,
+  name: z.string(),
+  /** The rival's culture as a percentage of the city owner's at which this opinion starts. */
+  ratioPercent: nonNeg,
+  propagandaSuccess: percent,
+  initialResistanceChance: percent,
+  continuedResistanceChance: percent,
+});
+
 export const CalendarRuleSchema = z.strictObject({
   startYear: z.int(),
   /** Consecutive spans: `turns` turns of `years` years each; the last one repeats. */
@@ -340,6 +387,9 @@ export const RuleSetSchema = z.strictObject({
   buildings: z.array(BuildingRuleSchema),
   specialists: z.array(SpecialistRuleSchema),
   difficulties: z.array(DifficultyRuleSchema),
+  civs: z.array(CivRuleSchema),
+  espionageMissions: z.array(EspionageMissionRuleSchema),
+  cultureOpinions: z.array(CultureOpinionRuleSchema),
   calendar: CalendarRuleSchema,
 });
 
@@ -355,4 +405,7 @@ export type GeneralRules = z.infer<typeof CuratedGeneralSchema>;
 export type BuildingRule = z.infer<typeof BuildingRuleSchema>;
 export type SpecialistRule = z.infer<typeof SpecialistRuleSchema>;
 export type DifficultyRule = z.infer<typeof DifficultyRuleSchema>;
+export type CivRule = z.infer<typeof CivRuleSchema>;
+export type EspionageMissionRule = z.infer<typeof EspionageMissionRuleSchema>;
+export type CultureOpinionRule = z.infer<typeof CultureOpinionRuleSchema>;
 export type CorruptionLevel = (typeof CORRUPTION_LEVELS)[number];

@@ -84,6 +84,15 @@ export function unitActions(snap: Snapshot, u: Unit): UnitAction[] {
   } else if (!air && rule.specialActions.includes('bombard') && rule.bombardStrength > 0) {
     out.push({ id: 'bombard', label: 'Bombard…', key: 'KeyB', run: aim('bombard'), detail: `strength ${rule.bombardStrength}, range ${Math.max(1, rule.bombardRange)}`, ...(noMoves ?? fired ? { disabled: noMoves ?? fired! } : {}) });
   }
+  if (rule.specialActions.includes('airdrop')) {
+    const why = here0?.owner !== u.owner ? 'Paratroopers jump from one of your cities.' : u.acted ? 'Paratroopers jump before moving.' : undefined;
+    out.push({ id: 'airdrop', label: 'Parachute drop…', key: 'KeyD', shift: true, run: aim('airdrop'), detail: `${Math.max(1, rule.operationalRange)} tiles`, ...(why ? { disabled: why } : {}) });
+  }
+  if (rule.specialActions.includes('airlift') && here0?.owner === u.owner) {
+    const airport = [...(Object.keys(here0.buildings))].some((b) => rules.building(b).effects.includes('allowsAirTrade'));
+    const why = !airport ? 'Needs an airport in this city.' : here0.airliftedOn === snap.state.turn ? 'This airport has flown a unit out this turn.' : u.acted ? 'The unit has already moved this turn.' : undefined;
+    out.push({ id: 'airlift', label: 'Airlift…', key: 'KeyT', shift: true, run: aim('airlift'), ...(why ? { disabled: why } : {}) });
+  }
   if (rule.specialActions.includes('pillage')) {
     const imp = snap.state.map.improvements[u.tile]!;
     const any = imp & (IMP_MINE | IMP_IRRIGATION | IMP_RAIL | IMP_FORTRESS) || (imp & IMP_ROAD && !here0);

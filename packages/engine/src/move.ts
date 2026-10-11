@@ -17,6 +17,7 @@ import { cityAt } from './territory.ts';
 import type { Tx } from './tx.ts';
 import { carryAlong, cargoOf, isArmy, newUnit, transportFor } from './units.ts';
 import { reveal, unitSight } from './vision.ts';
+import { meetAround } from './diplomacy.ts';
 
 /** Gold for destroying a barbarian camp (docs/rules/barbarians.md). */
 export const CAMP_GOLD = 25;
@@ -44,7 +45,9 @@ export function moveUnitTo(rules: Rules, tx: Tx, unitId: number, to: number, cos
     tx.emit({ type: 'zoneOfControl', unit: unitId, player: u.owner, from, to, by: zoc });
     zocShots(rules, tx, unitId, zoc);
   }
-  reveal(tx, u.owner, unitSight(rules, tx.state, u));
+  const sight = unitSight(rules, tx.state, u);
+  reveal(tx, u.owner, sight);
+  meetAround(tx, u.owner, sight);
   const flags = tx.state.map.flags[to]!;
   if (rule.domain === 'land' && !water) {
     if (flags & FLAG_HUT) enterHut(rules, tx, unitId, to);

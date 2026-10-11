@@ -23,7 +23,8 @@ import { distance, neighbours, tilesInRadius } from './grid.ts';
 import { canStandOn, checkMove } from './movement.ts';
 import { moveUnitTo } from './move.ts';
 import { nextCommonUpgrade } from './production.ts';
-import { atWar, hasTechFlag } from './queries.ts';
+import { atWar, hasTechFlag, invalidateTileOwners } from './queries.ts';
+import { declareWar, meetAround } from './diplomacy.ts';
 import type { Rules } from './rules.ts';
 import {
   FLAG_CAMP,
@@ -135,10 +136,22 @@ export function attackBlocker(rules: Rules, state: GameState, u: Unit, tile: num
   return null;
 }
 
-/** The defender `u` would meet attacking `tile`, and the odds; null when nothing there defends. */
-export function previewAttack(rules: Rules, state: GameState, u: Unit, tile: number): AttackPreview | null {
+/** Units on `tile` a stealth attacker may single out (docs/rules/combat.md). */
+export function stealthTargets(rules: Rules, state: GameState, u: Unit, tile: number): Unit[] {
+  if (!rules.unit(u.type).specialActions.includes('stealthAttack')) return [];
+  const domain = rules.unit(u.type).domain;
+  return Object.values(state.units)
+    .filter((x) => x.tile === tile && x.owner !== u.owner && x.carriedBy === null && isCombatant(rules, state, x) && (rules.unit(x.type).domain === 'sea') === (domain === 'sea'))
+    .sort((a, b) => a.id - b.id);
+}
+
+/**
+ * The defender `u` would meet attacking `tile`, and the odds; null when nothing there
+ * defends. A stealth attacker may name the unit it goes for (`chosen`).
+ */
+export function previewAttack(rules: Rules, state: GameState, u: Unit, tile: number, chosen?: number): AttackPreview | null {
   const kind: CombatKind = rules.unit(u.type).domain === 'sea' ? 'sea' : 'land';
-  const defender = pickDefender(rules, state, u, tile, kind, u.tile);
+  const defender = chosen === undefined ? pickDefender(rules, state, u, tile, kind, u.tile) : stealthTargets(rules, state, u, tile).find((x) => x.id === chosen);
   if (!defender) return null;
   const a = attackSide(rules, state, u, defender);
   const d = defenceSide(rules, state, defender, u, kind, u.tile);
@@ -149,7 +162,7 @@ export function previewAttack(rules: Rules, state: GameState, u: Unit, tile: num
  * A move onto `to`: an attack when enemy units defend it, a capture when an enemy city
  * or enemy units there are undefended, otherwise an ordinary step.
  */
-export function moveOrAttack(rules: Rules, tx: Tx, unitId: number, to: number, raze: boolean): CommandError | null {
+export function moveOrAttack(rules: Rules, tx: Tx, unitId: number, to: number, raze: boolean, chosen?: number): CommandError | null {
   const state = tx.state;
   const u = state.units[unitId]!;
   const enemies = Object.values(state.units).filter((x) => x.tile === to && x.owner !== u.owner);
@@ -167,7 +180,8 @@ export function moveOrAttack(rules: Rules, tx: Tx, unitId: number, to: number, r
   if (distance(state.map, u.tile, to) !== 1) return err('notAdjacent', 'Units attack an adjacent tile.');
   const why = attackBlocker(rules, state, u, to);
   if (why) return err('invalid', why);
-  const preview = previewAttack(rules, state, u, to);
+  const preview = previewAttack(rules, state, u, to, chosen);
+  if (chosen !== undefined && !preview) return err('invalid', 'That unit cannot be singled out.');
   tx.unit(unitId).order = null;
   if (preview) {
     attack(rules, tx, unitId, preview.defender.id, preview.kind, raze);
@@ -470,6 +484,7 @@ export function checkElimination(rules: Rules, tx: Tx, player: number, by: numbe
   const pl = tx.player(player);
   pl.alive = false;
   pl.atWarWith = [];
+  pl.warSince = {};
   pl.weariness = {};
   tx.emit({ type: 'playerEliminated', player, by });
 }
@@ -896,6 +911,82 @@ function loadCommand(rules: Rules, tx: Tx, u: Unit): CommandError | null {
   return null;
 }
 
+/** A city of the player's on `tile` with an airport (or what acts as one). */
+function airportCity(rules: Rules, state: GameState, player: number, tile: number): City | null {
+  const c = cityAt(state, tile);
+  if (!c || c.owner !== player) return null;
+  const have = empireInfo(rules, state, player).effective.get(c.id) ?? new Set<string>();
+  return [...have].some((b) => rules.building(b).effects.includes('allowsAirTrade')) ? c : null;
+}
+
+/** Why `u` cannot jump onto `tile`, or null (docs/rules/air.md). */
+export function airdropBlocker(rules: Rules, state: GameState, u: Unit, tile: number): string | null {
+  const rule = rules.unit(u.type);
+  if (!rule.specialActions.includes('airdrop')) return `${rule.name} cannot parachute.`;
+  const base = cityAt(state, u.tile);
+  if (!base || base.owner !== u.owner || u.carriedBy !== null) return 'Paratroopers jump from one of your cities.';
+  if (u.acted || u.movesLeft < unitMaxMoves(rules, state, u)) return 'Paratroopers jump before moving.';
+  const range = Math.max(1, rule.operationalRange);
+  const d = distance(state.map, u.tile, tile);
+  if (d < 1 || d > range) return `Out of range (${range} tiles).`;
+  if (!((state.players[u.owner]!.explored[tile >> 5]! >>> (tile & 31)) & 1)) return 'Jump onto known land.';
+  const blocked = canStandOn(rules, state, u, tile, false);
+  if (blocked) return blocked;
+  if (Object.values(state.units).some((x) => x.tile === tile && x.owner !== u.owner)) return 'The landing zone is occupied.';
+  const city = cityAt(state, tile);
+  if (city && city.owner !== u.owner) return 'Paratroopers cannot land in a foreign city.';
+  return null;
+}
+
+function airdropCommand(rules: Rules, tx: Tx, u: Unit, tile: number): CommandError | null {
+  const why = airdropBlocker(rules, tx.state, u, tile);
+  if (why) return err('invalid', why);
+  const from = u.tile;
+  const w = tx.unit(u.id);
+  w.tile = tile;
+  w.movesLeft = 0;
+  w.acted = true;
+  w.fortified = false;
+  w.order = null;
+  invalidateTileOwners(tx.state);
+  tx.emit({ type: 'airdrop', unit: u.id, player: u.owner, from, tile });
+  tx.emit({ type: 'unitMoved', unit: u.id, player: u.owner, from, to: tile, cost: 0 });
+  const sight = tilesInRadius(tx.state.map, tile, 1);
+  reveal(tx, u.owner, sight);
+  meetAround(tx, u.owner, sight);
+  return null;
+}
+
+/** Why `u` cannot be airlifted to `tile`, or null (docs/rules/air.md). */
+export function airliftBlocker(rules: Rules, state: GameState, u: Unit, tile: number): string | null {
+  const rule = rules.unit(u.type);
+  if (!rule.specialActions.includes('airlift')) return `${rule.name} cannot be airlifted.`;
+  const from = airportCity(rules, state, u.owner, u.tile);
+  if (!from || u.carriedBy !== null) return 'Airlifts leave from one of your cities with an airport.';
+  if (from.airliftedOn === state.turn) return `${from.name} has already flown a unit out this turn.`;
+  if (u.acted) return 'The unit has already moved this turn.';
+  const to = airportCity(rules, state, u.owner, tile);
+  if (!to || to.id === from.id) return 'Fly to another of your cities with an airport.';
+  return null;
+}
+
+function airliftCommand(rules: Rules, tx: Tx, u: Unit, tile: number): CommandError | null {
+  const why = airliftBlocker(rules, tx.state, u, tile);
+  if (why) return err('invalid', why);
+  const from = u.tile;
+  tx.city(cityAt(tx.state, from)!.id).airliftedOn = tx.state.turn;
+  const w = tx.unit(u.id);
+  w.tile = tile;
+  w.movesLeft = 0;
+  w.acted = true;
+  w.fortified = false;
+  w.order = null;
+  invalidateTileOwners(tx.state);
+  tx.emit({ type: 'airlift', unit: u.id, player: u.owner, from, tile });
+  tx.emit({ type: 'unitMoved', unit: u.id, player: u.owner, from, to: tile, cost: 0 });
+  return null;
+}
+
 // ---------------------------------------------------------------------------
 // Dispatch
 // ---------------------------------------------------------------------------
@@ -910,28 +1001,7 @@ export function applyWarCommand(rules: Rules, tx: Tx, cmd: Command): CommandErro
     destroyCity(rules, tx, c.id, cmd.player);
     return null;
   }
-  if (cmd.type === 'declareWar' || cmd.type === 'makePeace') {
-    const t = state.players[cmd.target];
-    if (!t?.alive || cmd.target === cmd.player) return err('invalid', 'Pick another living civilization.');
-    if (t.barbarian) return err('invalid', 'There is no treaty with the barbarians.');
-    const at = state.players[cmd.player]!.atWarWith.includes(cmd.target);
-    if (cmd.type === 'declareWar') {
-      if (at) return err('invalid', `Already at war with ${t.name}.`);
-      tx.player(cmd.player).atWarWith = [...state.players[cmd.player]!.atWarWith, cmd.target].sort((a, b) => a - b);
-      tx.player(cmd.target).atWarWith = [...t.atWarWith, cmd.player].sort((a, b) => a - b);
-      tx.emit({ type: 'warDeclared', player: cmd.player, target: cmd.target });
-    } else {
-      if (!at) return err('invalid', `Not at war with ${t.name}.`);
-      tx.player(cmd.player).atWarWith = state.players[cmd.player]!.atWarWith.filter((x) => x !== cmd.target);
-      tx.player(cmd.target).atWarWith = t.atWarWith.filter((x) => x !== cmd.player);
-      const a = tx.player(cmd.player);
-      a.weariness = Object.fromEntries(Object.entries(a.weariness).filter(([k]) => Number(k) !== cmd.target));
-      const b = tx.player(cmd.target);
-      b.weariness = Object.fromEntries(Object.entries(b.weariness).filter(([k]) => Number(k) !== cmd.player));
-      tx.emit({ type: 'peaceMade', player: cmd.player, target: cmd.target });
-    }
-    return null;
-  }
+  if (cmd.type === 'declareWar') return declareWar(tx, cmd.player, cmd.target);
   if (!('unit' in cmd)) return err('invalid', `Not a war command: ${cmd.type}.`);
   const u = state.units[cmd.unit]!;
   if (u.carriedBy !== null && state.units[u.carriedBy] && isArmy(rules, state.units[u.carriedBy]!))
@@ -955,6 +1025,10 @@ export function applyWarCommand(rules: Rules, tx: Tx, cmd: Command): CommandErro
       return joinArmyCommand(rules, tx, u, cmd.army);
     case 'leaderHurry':
       return leaderHurryCommand(rules, tx, u);
+    case 'airdrop':
+      return airdropCommand(rules, tx, u, cmd.target);
+    case 'airlift':
+      return airliftCommand(rules, tx, u, cmd.target);
     default:
       return err('invalid', `Not a war command: ${cmd.type}.`);
   }

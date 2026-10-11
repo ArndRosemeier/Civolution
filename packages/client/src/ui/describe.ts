@@ -1,7 +1,7 @@
 /**
  * Plain-language text for engine events (the turn log), and small formatting helpers.
  */
-import { buildName, formatYear, yearOf, type GameEvent, type GameState } from '@civolution/engine';
+import { buildName, formatYear, yearOf, PEACE_TURNS, type GameEvent, type GameState, type TreatyKind } from '@civolution/engine';
 import { rules } from '../rules.ts';
 
 export function unitName(state: GameState, id: number): string {
@@ -23,6 +23,19 @@ function cityName(state: GameState, id: number): string {
 
 function who(state: GameState, p: number): string {
   return state.players[p]?.name ?? 'Someone';
+}
+
+const TREATY_NAMES: Record<TreatyKind, string> = {
+  peace: 'peace treaty',
+  ceasefire: 'ceasefire',
+  rightOfPassage: 'right of passage',
+  mutualProtection: 'mutual protection pact',
+  alliance: 'alliance',
+  embargo: 'embargo',
+};
+
+export function treatyName(t: TreatyKind): string {
+  return TREATY_NAMES[t];
 }
 
 function typeName(t: string): string {
@@ -50,7 +63,26 @@ export function concernsHuman(e: GameEvent, human: number): boolean {
       return e.player === human || e.targetPlayer === human;
     case 'warDeclared':
     case 'peaceMade':
+    case 'treatyBroken':
+    case 'ceasefireAgreed':
+    case 'ceasefireEnded':
+    case 'dealMade':
+    case 'dealCancelled':
+    case 'dealExpired':
+    case 'dealRejected':
+    case 'dealProposed':
       return e.player === human || e.target === human;
+    case 'contactMade':
+      return e.player === human || e.other === human;
+    case 'cityTraded':
+    case 'cityRevolted':
+    case 'unitsExpelled':
+      return e.player === human || e.from === human;
+    case 'espionage':
+      // A mission against us is only noticed when the spy is caught.
+      return e.player === human || (e.target === human && !e.success);
+    case 'barbarianLanding':
+      return true;
     case 'playerEliminated':
     case 'nuclearStrike':
     case 'campAppeared':
@@ -183,7 +215,54 @@ export function describeEvent(s: { state: GameState; human: number }, e: GameEve
     case 'warDeclared':
       return e.player === s.human ? `We are at war with ${who(st, e.target)}.` : `${who(st, e.player)} declares war on us!`;
     case 'peaceMade':
-      return e.player === s.human ? `Peace with ${who(st, e.target)}.` : `${who(st, e.player)} makes peace with us.`;
+      if (e.player !== s.human && e.target !== s.human) return null;
+      return `A peace treaty is signed with ${who(st, e.player === s.human ? e.target : e.player)}. It binds both sides for ${PEACE_TURNS} turns.`;
+    case 'contactMade': {
+      const other = e.player === s.human ? e.other : e.player;
+      const civ = st.players[other]?.civ;
+      if (!civ) return `We have made contact with ${who(st, other)}.`;
+      const c = rules.civ(civ);
+      return `We have met the ${c.noun}, led by ${c.leaderTitle} ${c.leader}.`;
+    }
+    case 'treatyBroken':
+      return e.player === s.human
+        ? `We broke our ${treatyName(e.treaty)} with ${who(st, e.target)}; every civilization will remember.`
+        : `${who(st, e.player)} broke the ${treatyName(e.treaty)} and attacks without warning!`;
+    case 'ceasefireAgreed':
+      return `Ceasefire with ${who(st, e.player === s.human ? e.target : e.player)} until turn ${e.until}.`;
+    case 'ceasefireEnded':
+      return `The ceasefire with ${who(st, e.player === s.human ? e.target : e.player)} has run out: we are at war again.`;
+    case 'dealMade': {
+      const other = who(st, e.player === s.human ? e.target : e.player);
+      const mine = e.player === s.human ? e.give : e.take;
+      const theirs = e.player === s.human ? e.take : e.give;
+      return `Agreement with ${other}: we give ${mine.join(', ') || 'nothing'}; we receive ${theirs.join(', ') || 'nothing'}.`;
+    }
+    case 'dealRejected':
+      return e.target === s.human ? `We decline the offer from ${who(st, e.player)}.` : `${who(st, e.player)} turns down our offer.`;
+    case 'dealProposed':
+      return e.target === s.human ? `${who(st, e.player)} has an offer for us.` : null;
+    case 'dealCancelled':
+      return `The agreement between ${who(st, e.player)} and ${who(st, e.target)} has fallen through: ${e.why}`;
+    case 'dealExpired':
+      return `An agreement between ${who(st, e.player)} and ${who(st, e.target)} has run its course.`;
+    case 'unitsExpelled':
+      return e.player === s.human ? `${e.units} of our units were sent home from ${who(st, e.from)} lands.` : `${e.units} ${who(st, e.player)} units left our lands.`;
+    case 'cityTraded':
+      return e.player === s.human ? `${e.name} joins our civilization by treaty.` : `${e.name} is handed over to ${who(st, e.player)}.`;
+    case 'cityRevolted':
+      return e.player === s.human ? `Our propaganda wins over ${e.name}: the city joins us!` : `${e.name} has been turned against us by ${who(st, e.player)} propaganda and defects!`;
+    case 'espionage':
+      if (e.target === s.human) return `A ${who(st, e.player)} spy was caught in our lands.`;
+      return e.success
+        ? `${rules.mission(e.mission).name}: ${e.detail} (${e.cost} gold)`
+        : `${rules.mission(e.mission).name} against ${who(st, e.target)} failed. ${e.detail} (${e.cost} gold)`.replace(' .', '.');
+    case 'airdrop':
+      return `${unitName(st, e.unit)} parachutes into position.`;
+    case 'airlift':
+      return `${unitName(st, e.unit)} is airlifted to ${Object.values(st.cities).find((c) => c.tile === e.tile)?.name ?? 'another city'}.`;
+    case 'barbarianLanding':
+      return st.cities[e.near]?.owner === s.human ? `Barbarians have landed near ${cityName(st, e.near)}!` : null;
     case 'playerEliminated':
       return e.player === s.human ? 'Your civilization has been destroyed.' : `The ${who(st, e.player)} civilization has been destroyed.`;
     case 'campDestroyed':

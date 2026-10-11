@@ -7,7 +7,7 @@ import { invalidateCaches } from './caches.ts';
 import type { GameEvent } from './commands.ts';
 import { invalidateTileOwners } from './queries.ts';
 import { nextInt } from './rng.ts';
-import type { City, GameState, MapState, Player, Unit, WorkProgress } from './state.ts';
+import type { City, Diplomacy, GameState, MapState, Player, Unit, WorkProgress } from './state.ts';
 
 type MapArray = 'terrain' | 'underlying' | 'rivers' | 'resource' | 'improvements' | 'flags' | 'territory';
 
@@ -24,6 +24,8 @@ export interface Tx {
   removeCity(id: number): void;
   setWonder(building: string, city: number): void;
   setWork(tile: number, w: WorkProgress | null): void;
+  /** The diplomacy record, copied on first write (its lists may be replaced or edited). */
+  diplomacy(): Diplomacy;
   random(n: number): number;
   emit(e: GameEvent): void;
 }
@@ -41,6 +43,7 @@ export function beginTx(input: GameState, reason?: string): Tx {
   let rngCopied = false;
   let citiesCopied = false;
   let wondersCopied = false;
+  let diplomacyCopied = false;
   const touchedCities = new Set<number>();
 
   const units = () => {
@@ -87,7 +90,7 @@ export function beginTx(input: GameState, reason?: string): Tx {
       const p = state.players[id];
       if (!p) throw new Error(`no player ${id}`);
       if (touchedPlayers.has(id)) return p;
-      const copy = { ...p, explored: [...p.explored] };
+      const copy = { ...p, explored: [...p.explored], memory: { ...p.memory } };
       state.players[id] = copy;
       touchedPlayers.add(id);
       return copy;
@@ -167,6 +170,15 @@ export function beginTx(input: GameState, reason?: string): Tx {
       if (w) state.work[tile] = w;
       // eslint-disable-next-line @typescript-eslint/no-dynamic-delete -- records keyed by tile
       else delete state.work[tile];
+    },
+    diplomacy() {
+      invalidateCaches(state);
+      if (!diplomacyCopied) {
+        const d = state.diplomacy;
+        state.diplomacy = { ...d, treaties: [...d.treaties], ongoing: [...d.ongoing], proposals: [...d.proposals] };
+        diplomacyCopied = true;
+      }
+      return state.diplomacy;
     },
     random(n) {
       if (!rngCopied) {

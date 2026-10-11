@@ -123,11 +123,25 @@ export interface Player {
   explored: number[];
   /** Players this player is at war with. */
   atWarWith: number[];
+  /** Turn each current war began, by enemy player id. */
+  warSince: Record<string, number>;
   /** War weariness points per enemy player id (docs/rules/war-weariness.md). */
   weariness: Record<string, number>;
   /** One of the player's armies has won a battle (unlocks the Military Academy and Heroic Epic). */
   armyVictory: boolean;
   endedTurn: boolean;
+  /** The civilization played (rules.set.civs), or null for unnamed players and the barbarians. */
+  civ: string | null;
+  /** Civilizations this one has met (docs/rules/diplomacy.md). */
+  contacts: number[];
+  /** Civilizations where this one keeps an embassy. */
+  embassies: number[];
+  /** Civilizations where this one has planted a spy (docs/rules/espionage.md). */
+  spies: number[];
+  /** Standing for keeping its word, 0–100; broken treaties lower it. */
+  reputation: number;
+  /** What this civilization remembers about each other one, −100 … 100 (attitude before standing and circumstances). */
+  memory: Record<string, number>;
 }
 
 export interface Rates {
@@ -185,6 +199,8 @@ export interface City {
   wonderUnitTimer: number;
   /** Turn the current owner took the city by force, or null; it may be razed that turn. */
   capturedOn: number | null;
+  /** Last turn a unit was airlifted out of the city (one airlift per airport and turn). */
+  airliftedOn: number;
 }
 
 export interface WorkProgress {
@@ -193,9 +209,72 @@ export interface WorkProgress {
   done: number;
 }
 
+export type TreatyKind = 'peace' | 'ceasefire' | 'rightOfPassage' | 'mutualProtection' | 'alliance' | 'embargo';
+
+/** A standing agreement between two civilizations (docs/rules/diplomacy.md). */
+export interface Treaty {
+  id: number;
+  kind: TreatyKind;
+  /** The two parties, lower id first. */
+  parties: [number, number];
+  since: number;
+  /** Turn the treaty runs out (ceasefires), or null when it lasts until broken. */
+  until: number | null;
+  /** The common enemy of an alliance, or the target of an embargo. */
+  against?: number;
+}
+
+/** One thing changing hands in a deal. Treaty items bind both sides whichever list holds them. */
+export type DealItem =
+  | { kind: 'gold'; amount: number }
+  | { kind: 'goldPerTurn'; amount: number }
+  | { kind: 'tech'; tech: string }
+  | { kind: 'worldMap' }
+  | { kind: 'contact'; player: number }
+  | { kind: 'embassy' }
+  | { kind: 'resource'; resource: string }
+  | { kind: 'city'; city: number }
+  | { kind: 'peace' }
+  | { kind: 'ceasefire' }
+  | { kind: 'rightOfPassage' }
+  | { kind: 'mutualProtection' }
+  | { kind: 'alliance'; against: number }
+  | { kind: 'embargo'; against: number };
+
+/** A trade offer: `give` goes from `from` to `to`, `take` from `to` to `from`. */
+export interface Deal {
+  from: number;
+  to: number;
+  give: DealItem[];
+  take: DealItem[];
+}
+
+/** An offer waiting for its recipient's answer. */
+export interface Proposal extends Deal {
+  id: number;
+  turn: number;
+}
+
+/** A per-turn obligation from a deal: gold or a resource flowing for a number of turns. */
+export interface OngoingDeal {
+  id: number;
+  from: number;
+  to: number;
+  item: { kind: 'goldPerTurn'; amount: number } | { kind: 'resource'; resource: string };
+  since: number;
+  until: number;
+}
+
+export interface Diplomacy {
+  treaties: Treaty[];
+  ongoing: OngoingDeal[];
+  proposals: Proposal[];
+  nextId: number;
+}
+
 export interface GameState {
   format: 'civolution-state';
-  version: 3;
+  version: 4;
   rulesHash: string;
   seed: number;
   rng: RngState;
@@ -213,4 +292,5 @@ export interface GameState {
   nextCityId: number;
   /** Great wonders built anywhere, mapped to the city that holds them (-1: destroyed with its city). */
   wonders: Record<string, number>;
+  diplomacy: Diplomacy;
 }

@@ -224,7 +224,10 @@ function tradeNetwork(
 
   // Resources: on a network tile, or in a city's work area, inside the player's borders.
   const resources = new Map<number, Set<string>>();
-  for (const c of cities) if (!resources.has(component.get(c.id)!)) resources.set(component.get(c.id)!, new Set(p.resources));
+  // Scenario grants and resources delivered by deals reach every city.
+  const granted = [...p.resources];
+  for (const o of state.diplomacy.ongoing) if (o.to === player && o.item.kind === 'resource') granted.push(o.item.resource);
+  for (const c of cities) if (!resources.has(component.get(c.id)!)) resources.set(component.get(c.id)!, new Set(granted));
   const areaOf = new Map<number, number>();
   for (const c of cities) for (const t of cityRadiusTiles(m, c.tile)) if (!areaOf.has(t)) areaOf.set(t, component.get(c.id)!);
   for (let t = 0; t < n; t++) {

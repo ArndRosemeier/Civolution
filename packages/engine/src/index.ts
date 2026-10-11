@@ -50,3 +50,33 @@ export { cargoOf, cargoSpace, currentHp, isArmy, levelHp, maxHp, unitMaxMoves, c
 export { barbarianPlayer, campTiles, BARBARIAN_START_TURN } from './barbarians.ts';
 export { boardingTransport } from './movement.ts';
 export { CAMP_GOLD } from './move.ts';
+export {
+  attitude,
+  attitudeLevel,
+  civilizations,
+  dealBlocker,
+  dealItemLabel,
+  embargoed,
+  hasContact,
+  hasTreaty,
+  incomingResources,
+  isTreatyItem,
+  militaryPower,
+  peaceBinding,
+  relation,
+  resourceSurplus,
+  score,
+  canReceiveTech,
+  tradingPartners,
+  treatiesBetween,
+  BREACH_PENALTY,
+  CEASEFIRE_TURNS,
+  DEAL_TURNS,
+  PEACE_TURNS,
+  type Attitude,
+  type AttitudeLevel,
+  type Relation,
+} from './diplomacy.ts';
+export { cultureOpinion, missionBlocker, missionChance, missionCost, COUNTER_ESPIONAGE } from './espionage.ts';
+export { airdropBlocker, airliftBlocker, stealthTargets } from './war.ts';
+export { HUMAN_COST_FACTOR, KNOWN_TECH_DISCOUNT } from './science.ts';

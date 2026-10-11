@@ -1,5 +1,14 @@
 [
   {
+    "version": "0.015",
+    "date": "2026-10-11",
+    "title": "Border gaps",
+    "items": [
+      "A single empty tile between the borders of your own cities now becomes your territory automatically.",
+      "Units found in tribal villages by automated units now join automation instead of standing idle."
+    ]
+  },
+  {
     "version": "0.014",
     "date": "2026-10-11",
     "title": "Village gold",

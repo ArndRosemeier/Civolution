@@ -20,7 +20,9 @@ area and later rings grow roughly as circles.
 A tile in several rings is a culture contest: each competing city's influence on it is
 its culture points ÷ its distance to the tile in tiles (at least 1), the highest influence
 wins, and a tie goes to the older city (`territory.ts`, `computeTerritory`). A city's own
-tile is always its owner's. *Source: owner's ruling 2026-10-11.* Borders decide which tiles a
+tile is always its owner's. A single unclaimed tile between one player's borders, with
+that player's land on two opposite sides, becomes theirs too; a gap between two different
+players stays unclaimed (`fillGaps`). *Source: owner's ruling 2026-10-11.* Borders decide which tiles a
 city may work ([cities.md](cities.md)) and where resources count
 ([trade.md](trade.md)); a player always sees their own territory.
 

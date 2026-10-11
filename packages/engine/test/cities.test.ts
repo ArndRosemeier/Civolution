@@ -499,3 +499,29 @@ describe('contested tiles (owner ruling 2026-10-11)', () => {
     expect(owner[b.tile]).toBe(1);
   });
 });
+
+describe('border gaps (owner ruling 2026-10-11)', () => {
+  // Cities four tiles apart with ring-1 borders leave one empty tile between them.
+  function pair(ownerB: number) {
+    const first = found(flatGame(), 0, 20, 20);
+    const { s } = found(first.s, ownerB, 28, 20);
+    for (const id of Object.keys(s.cities)) s.cities[+id] = { ...s.cities[+id]!, culture: 0 };
+    invalidateCaches(s);
+    return s;
+  }
+
+  it('gives a one-tile gap between your own borders to you', () => {
+    const s = pair(0);
+    const owner = computeTerritory(rules, s);
+    expect(owner[at(s, 22, 20)]).toBe(0);
+    expect(owner[at(s, 26, 20)]).toBe(0);
+    expect(owner[at(s, 24, 20)]).toBe(0);
+    // A tile touching only one side's border stays unclaimed.
+    expect(owner[at(s, 24, 16)]).toBe(-1);
+  });
+
+  it('leaves a gap between two different civilizations unclaimed', () => {
+    const s = pair(1);
+    expect(computeTerritory(rules, s)[at(s, 24, 20)]).toBe(-1);
+  });
+});

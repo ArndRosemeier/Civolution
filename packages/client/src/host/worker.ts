@@ -154,9 +154,9 @@ const host = {
     return jobBoard(rules, current(), human);
   },
 
-  /** Test scenario (`?scenario=empire`): a 200-city late-game empire to automate. */
-  empire(): Snapshot {
-    state = empireScenario(rules);
+  /** Test scenario (`?scenario=empire`, `&cities=N`): a late-game empire (200 cities by default) to automate. */
+  empire(cities = 200): Snapshot {
+    state = empireScenario(rules, { cities });
     human = 0;
     turnStart = state;
     return snapshot();

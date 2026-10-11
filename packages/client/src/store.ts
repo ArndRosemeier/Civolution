@@ -229,9 +229,10 @@ export const useGame = create<Store>((set, get) => {
       set({ busy: true, log: [], selected: null, panel: null, news: [], razePrompt: null, aim: null, digest: [], digestOpen: false, tilePick: null });
       let snapshot = await host().newGame(options, 0);
       // Test scenarios (e2e and visual checks): ?scenario=skirmish, ?scenario=empire.
-      const scenario = new URLSearchParams(location.search).get('scenario');
+      const params = new URLSearchParams(location.search);
+      const scenario = params.get('scenario');
       if (scenario === 'skirmish') snapshot = await host().skirmish();
-      if (scenario === 'empire') snapshot = await host().empire();
+      if (scenario === 'empire') snapshot = await host().empire(Number(params.get('cities') ?? 200));
       set({ snapshot, busy: false, lastEvents: [] });
       get().selectNext();
     },

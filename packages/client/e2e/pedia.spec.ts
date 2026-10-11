@@ -16,7 +16,7 @@ test('Civilopedia, settings and advisor hints', async ({ page }) => {
   await expect(pedia.locator('.pedia-facts')).toContainText('Iron Working');
   await pedia.locator('.pedia-facts').getByRole('link', { name: 'Iron Working' }).click();
   await expect(pedia.locator('#pedia-title')).toHaveText('Iron Working');
-  await pedia.getByRole('button', { name: 'Back' }).click();
+  await pedia.getByRole('button', { name: 'Back', exact: true }).click();
   await expect(pedia.locator('#pedia-title')).toHaveText('Legionary');
   await pedia.getByRole('searchbox').fill('happiness');
   await pedia.getByRole('button', { name: /Happiness and Disorder/ }).click();

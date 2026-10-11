@@ -47,6 +47,12 @@ test('new game, found a city, run it, end turns, save and load', async ({ page }
   await expect(page.locator('.city-table tbody tr')).toHaveCount(1);
   await page.keyboard.press('Escape');
 
+  // The victory screen: the histograph and the ways to win.
+  await page.keyboard.press('F8');
+  await expect(page.locator('.histograph')).toBeVisible();
+  await expect(page.locator('.victory-grid')).toContainText('Space race');
+  await page.keyboard.press('Escape');
+
   // Save, play on, load back.
   await page.keyboard.press('Control+KeyS');
   await page.getByLabel('Save name').fill('smoke');

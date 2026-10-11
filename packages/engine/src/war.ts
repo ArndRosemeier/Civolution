@@ -141,7 +141,7 @@ export function stealthTargets(rules: Rules, state: GameState, u: Unit, tile: nu
   if (!rules.unit(u.type).specialActions.includes('stealthAttack')) return [];
   const domain = rules.unit(u.type).domain;
   return Object.values(state.units)
-    .filter((x) => x.tile === tile && x.owner !== u.owner && x.carriedBy === null && isCombatant(rules, state, x) && (rules.unit(x.type).domain === 'sea') === (domain === 'sea'))
+    .filter((x) => x.tile === tile && x.owner !== u.owner && x.carriedBy === null && isCombatant(rules, state, x) && (domain === 'air' || (rules.unit(x.type).domain === 'sea') === (domain === 'sea')))
     .sort((a, b) => a.id - b.id);
 }
 
@@ -505,20 +505,21 @@ function destroyable(rules: Rules, c: City): string[] {
  * defence; each hit takes a hit point from a unit (never the last one unless the
  * bombard is lethal), a citizen, or a building.
  */
-function bombardTile(rules: Rules, tx: Tx, shooter: Unit, strength: number, rof: number, tile: number, kind: CombatKind, buildingsOnly: boolean): BombardHit[] {
+function bombardTile(rules: Rules, tx: Tx, shooter: Unit, strength: number, rof: number, tile: number, kind: CombatKind, buildingsOnly: boolean, focus?: number): BombardHit[] {
   const rule = rules.unit(shooter.type);
   const hits: BombardHit[] = [];
   const b = strength * 100;
   for (let r = 0; r < Math.max(1, rof); r++) {
+    // A stealth strike (`focus`) aims at one unit only: no citizens, no buildings.
     const targets = Object.values(tx.state.units)
-      .filter((x) => x.tile === tile && x.owner !== shooter.owner && x.carriedBy === null && isCombatant(rules, tx.state, x) && !isArmy(rules, x))
+      .filter((x) => x.tile === tile && x.owner !== shooter.owner && x.carriedBy === null && isCombatant(rules, tx.state, x) && !isArmy(rules, x) && (focus === undefined || x.id === focus))
       .sort((x, y) => x.id - y.id);
     const lethal = (x: Unit) => {
       const water = rules.terrains[tx.state.map.terrain[x.tile]!]!.water;
       return water ? rule.abilities.includes('lethalSeaBombard') : rule.abilities.includes('lethalLandBombard');
     };
     const hurtable = targets.filter((x) => x.hp > 1 || lethal(x));
-    const city = cityAt(tx.state, tile);
+    const city = focus === undefined ? cityAt(tx.state, tile) : undefined;
     const options: ('unit' | 'population' | 'building')[] = [];
     if (!buildingsOnly && hurtable.length > 0) options.push('unit');
     if (city && city.owner !== shooter.owner) {
@@ -702,7 +703,13 @@ function airCommand(rules: Rules, tx: Tx, cmd: Extract<Command, { type: 'airMiss
   // Bombing.
   if (dist < 1 || dist > range) return err('invalid', `Out of range (${range} tiles).`);
   if (cmd.mission === 'precisionBomb' && !hasTechFlag(rules, p, 'enablesPrecisionBombing')) return err('invalid', 'Precision bombing needs the right technology.');
-  const owner = targetOwner(tx.state, u, target);
+  if (cmd.targetUnit !== undefined) {
+    if (!rule.specialActions.includes('stealthAttack')) return err('invalid', `${rule.name} cannot single out a target.`);
+    const chosen = tx.state.units[cmd.targetUnit];
+    if (!chosen || chosen.tile !== target || chosen.owner === u.owner || chosen.carriedBy !== null || !isCombatant(rules, tx.state, chosen) || isArmy(rules, chosen))
+      return err('invalid', 'Pick a unit on the target tile.');
+  }
+  const owner = cmd.targetUnit !== undefined ? tx.state.units[cmd.targetUnit]!.owner : targetOwner(tx.state, u, target);
   if (owner === null) return err('invalid', 'Nothing to bomb there.');
   if (!atWar(tx.state, u.owner, owner)) return err('notAtWar', `You are at peace with ${name(tx.state, owner)}.`);
   tx.emit({ type: 'airMission', unit: u.id, player: u.owner, mission: cmd.mission, from: u.tile, target });
@@ -711,7 +718,7 @@ function airCommand(rules: Rules, tx: Tx, cmd: Extract<Command, { type: 'airMiss
     return null;
   }
   const plane = tx.state.units[u.id]!;
-  const hits = bombardTile(rules, tx, plane, rule.bombardStrength, rule.rateOfFire, target, 'air', cmd.mission === 'precisionBomb');
+  const hits = bombardTile(rules, tx, plane, rule.bombardStrength, rule.rateOfFire, target, 'air', cmd.mission === 'precisionBomb', cmd.targetUnit);
   tx.emit({ type: 'bombarded', unit: u.id, player: u.owner, from: u.tile, tile: target, targetPlayer: owner, hits });
   spend(rules, tx, u.id);
   checkElimination(rules, tx, owner, u.owner);

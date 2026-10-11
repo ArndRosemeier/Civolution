@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { indexRules, stateHash } from '@civolution/engine';
 import { conquests } from '@civolution/rules';
-import { ai, builder, defaultPlayers, explorer, idle, replay, runGame, runTournament } from '../src/index.ts';
+import { ai, automated, builder, defaultPlayers, explorer, idle, replay, runGame, runTournament } from '../src/index.ts';
 
 const rules = indexRules(conquests);
 const withScouts = [...rules.set.general.startUnits, rules.set.general.scoutUnit];
@@ -20,7 +20,7 @@ describe('headless games', () => {
     const game = { seed: 11, map: { worldSize: 'tiny' }, players: defaultPlayers(2), startUnits: withScouts };
     const { report } = runGame({ rules, game, controllers: [explorer, explorer], turns: 15 });
     // Changing this hash needs a stated reason in the commit (PLAN.md §11).
-    expect(report.finalHash).toMatchInlineSnapshot(`"cb10c97f3e92cfcd"`);
+    expect(report.finalHash).toMatchInlineSnapshot(`"6215fb2974644c2d"`);
   });
 
   it('explores a Huge map with 16 players and builds roads (Phase 1 exit criterion)', () => {
@@ -41,6 +41,15 @@ describe('headless games', () => {
     expect(state.players[0]!.era).toBe(modern);
     expect(report.players[0]!.cities).toBeGreaterThanOrEqual(8);
     expect(report.turns).toBeLessThan(540);
+  }, 120_000);
+
+  it('plays a fully delegated civilization to the modern era (Phase 5)', () => {
+    const game = { seed: 2, map: { worldSize: 'tiny', barbarians: 'none' as const }, players: defaultPlayers(1) };
+    const modern = rules.eraIndex('modern');
+    const { state, report } = runGame({ rules, game, controllers: [automated], turns: 540, until: (s) => s.players[0]!.era >= modern });
+    expect(report.invariantFailures).toEqual([]);
+    expect(state.players[0]!.era).toBe(modern);
+    expect(report.players[0]!.cities).toBeGreaterThanOrEqual(10);
   }, 120_000);
 
   it('fights wars between four AI civilizations with barbarians about (Phase 3)', () => {

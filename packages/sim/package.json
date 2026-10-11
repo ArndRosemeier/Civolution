@@ -2,7 +2,7 @@
   "name": "@civolution/sim",
   "private": true,
   "type": "module",
-  "exports": { ".": "./src/index.ts" },
+  "exports": { ".": "./src/index.ts", "./scenarios": "./src/scenarios.ts" },
   "scripts": {
     "sim": "tsx src/cli.ts",
     "tournament": "tsx src/tournament.ts"

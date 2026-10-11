@@ -2,6 +2,7 @@
  * Saves: the state as JSON with a small header. Loading checks the format, the
  * version and that the save was made with the same rule set.
  */
+import { defaultAutomation } from './automation.ts';
 import { tileCount } from './grid.ts';
 import { hashValue } from './hash.ts';
 import type { Rules } from './rules.ts';
@@ -9,7 +10,7 @@ import type { GameState } from './state.ts';
 
 export interface SaveHeader {
   format: 'civolution-save';
-  version: 4;
+  version: 5;
   rulesHash: string;
   turn: number;
   players: string[];
@@ -18,7 +19,7 @@ export interface SaveHeader {
 export function saveGame(state: GameState): string {
   const header: SaveHeader = {
     format: 'civolution-save',
-    version: 4,
+    version: 5,
     rulesHash: state.rulesHash,
     turn: state.turn,
     players: state.players.map((p) => p.name),
@@ -35,10 +36,10 @@ export function loadGame(rules: Rules, text: string): GameState {
   } catch {
     throw new SaveError('The save is not valid JSON.');
   }
-  const { header, state } = (parsed ?? {}) as { header?: Partial<SaveHeader>; state?: GameState };
-  if (header?.format !== 'civolution-save' || !state) throw new SaveError('This is not a Civolution save.');
-  if (header.version !== 4 || (state.version as number) !== 4)
-    throw new SaveError(`This save comes from an older version of the game (format ${String(header.version)}) and cannot be loaded.`);
+  const { header, state: raw } = (parsed ?? {}) as { header?: { format?: string; version?: number }; state?: GameState };
+  if (header?.format !== 'civolution-save' || !raw) throw new SaveError('This is not a Civolution save.');
+  const state = upgrade(raw, header.version);
+  if (!state) throw new SaveError(`This save comes from an older version of the game (format ${String(header.version)}) and cannot be loaded.`);
   if (state.rulesHash !== rules.hash)
     throw new SaveError('This save was made with a different rule set.');
   const n = tileCount(state.map);
@@ -47,6 +48,16 @@ export function loadGame(rules: Rules, text: string): GameState {
     if (!Array.isArray(m[key]) || m[key].length !== n) throw new SaveError(`The save's map is damaged (${key}).`);
   }
   return state;
+}
+
+/** Brings a save of an older format up to date, or returns null when that is not possible. */
+function upgrade(state: GameState, version: number | undefined): GameState | null {
+  const v = state.version as number;
+  if (version !== v) return null;
+  if (v === 5) return state;
+  // Format 4 (alpha 0.002) had no automation settings.
+  if (v === 4) return { ...state, version: 5, players: state.players.map((p) => ({ ...p, automation: defaultAutomation() })) };
+  return null;
 }
 
 /** Golden-hash helper: a stable digest of the whole state. */

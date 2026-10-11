@@ -5,6 +5,7 @@
  * is echoed on the resulting events so the UI can show why something happened.
  */
 
+import type { AutomationSettings } from './automation.ts';
 import type { Build, DealItem, Rates, TreatyKind } from './state.ts';
 
 interface Base {
@@ -23,7 +24,8 @@ export type Command =
   /** A unit flies from a city with an airport to another (one airlift per airport and turn). */
   | (Base & { type: 'airlift'; unit: number; target: number })
   | (Base & { type: 'bombard'; unit: number; target: number })
-  | (Base & { type: 'airMission'; unit: number; mission: AirMission; target?: number })
+  /** A stealth bomber may single out one unit on the target tile (`targetUnit`). */
+  | (Base & { type: 'airMission'; unit: number; mission: AirMission; target?: number; targetUnit?: number })
   | (Base & { type: 'nuke'; unit: number; target: number })
   | (Base & { type: 'pillage'; unit: number })
   | (Base & { type: 'upgrade'; unit: number })
@@ -61,6 +63,8 @@ export type Command =
   | (Base & { type: 'setRates'; rates: Rates })
   | (Base & { type: 'setResearch'; tech: string })
   | (Base & { type: 'revolution'; government: string })
+  /** Replaces the player's automation settings (automation.ts). */
+  | (Base & { type: 'setAutomation'; settings: AutomationSettings })
   | (Base & { type: 'endTurn' });
 
 export type AirMission = 'bomb' | 'precisionBomb' | 'recon' | 'rebase' | 'intercept';

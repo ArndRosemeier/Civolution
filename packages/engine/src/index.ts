@@ -5,6 +5,7 @@
 export * from './commands.ts';
 export * from './grid.ts';
 export * from './state.ts';
+export * from './automation.ts';
 export { indexRules, type Rules } from './rules.ts';
 export { createGame, apply, resolveSettings, PLAYER_COLORS, type NewGameOptions, type ApplyResult } from './game.ts';
 export { generateMap } from './map/generate.ts';
@@ -18,7 +19,7 @@ export { saveGame, loadGame, stateHash, SaveError, type SaveHeader } from './sav
 export { checkInvariants, invariants, type Invariant } from './invariants.ts';
 export { canonicalJson, hashString, hashValue } from './hash.ts';
 export { yearOf, formatYear, yearsBetween } from './calendar.ts';
-export { invalidateCaches } from './caches.ts';
+export { invalidateEverything as invalidateCaches } from './caches.ts';
 export {
   cityReport,
   cityTileYield,
@@ -37,8 +38,8 @@ export {
   type TileOutput,
 } from './city.ts';
 export { foundBlocker, placeableTiles, unitSupportCost } from './cities.ts';
-export { availableResources, cityResources, connectedToCapital, empireInfo, landMasses, type EmpireInfo } from './empire.ts';
-export { defaultSpecialist, placeCitizens, type Placement } from './governor.ts';
+export { availableResources, cityResources, connectedToCapital, empireInfo, landMasses, tradeRoute, type EmpireInfo } from './empire.ts';
+export { avoidDisorder, defaultSpecialist, placeCitizens, type Placement } from './governor.ts';
 export { buildBlocker, buildCategory, buildCost, buildName, buildOptions, hurryQuote, isCommonUnit, type BuildCategory, type BuildOption, type HurryQuote } from './production.ts';
 export { eraFor, requiredTechs, researchableTechs, researchBlocker, techCost } from './science.ts';
 export { borderRadius, cityAt, cityRadiusTiles, computeTerritory, playerCities, ringTiles, CITY_RADIUS } from './territory.ts';

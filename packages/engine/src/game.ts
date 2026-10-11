@@ -25,6 +25,7 @@ import { answerDeal, dropProposalsTo, proposeDeal, runDiplomacyTurn } from './di
 import { runMission } from './espionage.ts';
 import { isCommonUnit } from './production.ts';
 import { invalidateCaches } from './caches.ts';
+import { automationBlocker, defaultAutomation } from './automation.ts';
 import { eraFor } from './science.ts';
 import { cargoOf, isArmy, newUnit, removeUnitDeep, unitMaxMoves } from './units.ts';
 import { reveal, unitSight } from './vision.ts';
@@ -110,6 +111,7 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
     era: eraFor(rules, startTechs),
     revolution: null,
     culture: 0,
+    automation: defaultAutomation(),
   }));
   if (settings.barbarians !== 'none') {
     players.push({
@@ -141,11 +143,12 @@ export function createGame(rules: Rules, options: NewGameOptions): GameState {
       era: eraFor(rules, []),
       revolution: null,
       culture: 0,
+      automation: defaultAutomation(),
     });
   }
   const base: GameState = {
     format: 'civolution-state',
-    version: 4,
+    version: 5,
     rulesHash: rules.hash,
     seed: options.seed >>> 0,
     rng: seedRng(options.seed ^ 0x67616d65),
@@ -221,6 +224,13 @@ export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult
     dropProposalsTo(tx, cmd.player);
     tx.emit({ type: 'playerEndedTurn', player: cmd.player });
     if (tx.state.players.every((p) => !p.alive || p.endedTurn || p.barbarian)) runEndOfTurn(rules, tx);
+    return done(tx);
+  }
+
+  if (cmd.type === 'setAutomation') {
+    const why = automationBlocker(cmd.settings);
+    if (why) return err(state, 'invalid', why);
+    tx.player(cmd.player).automation = structuredClone(cmd.settings);
     return done(tx);
   }
 

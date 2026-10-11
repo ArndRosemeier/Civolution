@@ -20,6 +20,10 @@ import {
   playerUnits,
   relation,
   techCost,
+  availableResources,
+  resourceSurplus,
+  tradeRoute,
+  IMP_ROAD,
   type City,
   type Command,
   type GameState,
@@ -299,5 +303,30 @@ describe('barbarian landings', () => {
       if (!s.players[0]!.alive) break;
     }
     expect(landed).toBe(true);
+  });
+});
+
+describe('resource trade routes (docs/rules/trade.md)', () => {
+  it('needs a road joining the capitals, and the resource stops when the road is cut', () => {
+    let s = flatGame();
+    s = found(s, 0, 20, 20).s;
+    s = found(s, 1, 30, 20).s;
+    const wines = rules.resourceIndex('wines');
+    s.map.resource[at(s, 21, 21)] = wines;
+    s.map.resource[at(s, 19, 19)] = wines;
+    invalidateCaches(s);
+    expect(resourceSurplus(rules, s, 0, 'wines')).toBe(1);
+    expect(tradeRoute(rules, s, 0, 1)).toBe(false);
+    const refused = apply(rules, s, { type: 'proposeDeal', player: 0, target: 1, give: [{ kind: 'resource', resource: 'wines' }], take: [] });
+    expect(refused.error?.message).toMatch(/trade route/);
+    for (let x = 20; x <= 30; x++) s.map.improvements[at(s, x, 20)]! |= IMP_ROAD;
+    invalidateCaches(s);
+    expect(tradeRoute(rules, s, 0, 1)).toBe(true);
+    s = deal(s, 0, 1, [{ kind: 'resource', resource: 'wines' }]);
+    expect(availableResources(rules, s, 1).has('wines')).toBe(true);
+    s.map.improvements[at(s, 25, 20)] = 0;
+    invalidateCaches(s);
+    expect(availableResources(rules, s, 1).has('wines')).toBe(false);
+    expect(checkInvariants(rules, s)).toEqual([]);
   });
 });

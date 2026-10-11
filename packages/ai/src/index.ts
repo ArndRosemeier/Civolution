@@ -6,7 +6,7 @@
  * engine's attitude model. The AI issues ordinary commands only and sees only what its
  * fog of war shows.
  */
-import { bestSite, planGovernment, planRates, planResearch, proposeRoutine } from '@civolution/automation';
+import { bestSite, governCity, jobBoard, planGovernment, planRates, planResearch, poolWorkers, proposeRoutine, samePlacement, type RoutineContext } from '@civolution/automation';
 import {
   buildBlocker,
   cargoOf,
@@ -169,6 +169,22 @@ function runCities(ctx: Ctx, needs: BuildNeeds): void {
   }
 }
 
+/**
+ * Citizens: the automation's Balanced governor, or Production while the city is in
+ * danger. Only cities whose placement would change get a command.
+ */
+function runGovernors(ctx: Ctx): void {
+  const { view } = ctx;
+  for (const c of playerCities(ctx.state(), view.player)) {
+    const s = ctx.state();
+    const city = s.cities[c.id]!;
+    const danger = (view.threat.get(city.id) ?? 0) > 0;
+    const plan = governCity(view.rules, s, city, { preset: danger ? 'production' : 'balanced', hurry: false });
+    if (samePlacement(city, plan)) continue;
+    ctx.act({ type: 'setCitizens', player: view.player, city: city.id, worked: plan.worked, specialists: plan.specialists, reason: why(plan.reason) });
+  }
+}
+
 /** Settlers settle, workers work, scouts explore, ships wait in port. */
 function runCivilians(ctx: Ctx, garrison: Set<number>): void {
   const { view } = ctx;
@@ -216,17 +232,22 @@ function trimUnits(ctx: Ctx, garrison: Set<number>): void {
   for (const u of spare.slice(0, Math.ceil(support / per))) ctx.act({ type: 'disband', player: view.player, unit: u.id, reason: why('unit upkeep: not needed in the garrison') });
 }
 
-/** Runs every unit routine to completion for the turn, through the given command channel. */
+/**
+ * Runs every unit routine to completion for the turn, through the given command channel.
+ * Workers share the automation's worker pool (one job board per turn).
+ */
 function runRoutines(ctx: Ctx): void {
   const rules = ctx.view.rules;
-  for (const unit of playerUnits(ctx.state(), ctx.view.player)) {
+  const player = ctx.view.player;
+  const routineCtx: RoutineContext = poolWorkers(ctx.state(), player).length > 0 ? { board: jobBoard(rules, ctx.state(), player) } : {};
+  for (const unit of playerUnits(ctx.state(), player)) {
     if (!unit.routine) continue;
     for (let step = 0; step < 8; step++) {
       const u = ctx.state().units[unit.id];
       if (!u?.routine) break;
-      const proposal = proposeRoutine(rules, ctx.state(), u);
+      const proposal = proposeRoutine(rules, ctx.state(), u, routineCtx);
       if (!proposal || !ctx.act(proposal.command)) break;
-      if (proposal.finished || proposal.command.type === 'skip' || proposal.command.type === 'work') break;
+      if (proposal.finished || proposal.command.type === 'skip' || proposal.command.type === 'work' || proposal.command.type === 'fortify') break;
       const after = ctx.state().units[unit.id];
       if (!after || after.movesLeft <= 0 || after.order?.type === 'goto') break;
     }
@@ -303,6 +324,7 @@ export function takeTurn(rules: Rules, state: GameState, player: number, act: (c
     }
   }
   runCities(ctx, needs);
+  runGovernors(ctx);
   runLeaders(ctx);
   const garrison = manageGarrisons(ctx, needs);
   counterAttack(ctx);

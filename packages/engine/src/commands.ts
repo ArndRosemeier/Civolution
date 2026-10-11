@@ -28,6 +28,8 @@ export type Command =
   | (Base & { type: 'pillage'; unit: number })
   | (Base & { type: 'upgrade'; unit: number })
   | (Base & { type: 'load'; unit: number })
+  /** A unit aboard a ship in port (or on land) steps off it. */
+  | (Base & { type: 'unload'; unit: number })
   | (Base & { type: 'buildArmy'; unit: number })
   | (Base & { type: 'joinArmy'; unit: number; army: number })
   | (Base & { type: 'leaderHurry'; unit: number })
@@ -156,6 +158,7 @@ export type GameEvent = { reason?: string } & (
   | { type: 'unitJoinedArmy'; unit: number; army: number; player: number }
   | { type: 'unitUpgraded'; unit: number; player: number; from: string; to: string; gold: number }
   | { type: 'unitBoarded'; unit: number; transport: number; player: number }
+  | { type: 'unitUnloaded'; unit: number; transport: number; player: number }
   | { type: 'tilePillaged'; tile: number; player: number; removed: string }
   | { type: 'cityCaptured'; city: number; player: number; from: number; tile: number; name: string; gold: number }
   | { type: 'cityDestroyed'; city: number; player: number; by: number; tile: number; name: string }

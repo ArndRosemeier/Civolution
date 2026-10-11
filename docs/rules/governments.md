@@ -36,7 +36,7 @@ civilizations have shorter anarchy (Phase 6).
 Every military unit (attack or defence above 0) counts. The government supports, for free,
 its per-town, per-city and per-metropolis number for each city; every unit beyond costs
 the government's gold per unit each turn. Workers, settlers and explorers are free.
-Difficulty's extra free support applies to AI players (Phase 4).
+Computer players get the difficulty's extra free support ([ai-handicaps.md](ai-handicaps.md)).
 
 ## Sources
 

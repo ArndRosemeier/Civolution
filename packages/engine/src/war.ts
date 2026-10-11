@@ -987,6 +987,17 @@ function airliftCommand(rules: Rules, tx: Tx, u: Unit, tile: number): CommandErr
   return null;
 }
 
+function unloadCommand(rules: Rules, tx: Tx, u: Unit): CommandError | null {
+  const holder = u.carriedBy === null ? undefined : tx.state.units[u.carriedBy];
+  if (!holder || isArmy(rules, holder)) return err('invalid', 'Not aboard a ship.');
+  if (rules.terrains[tx.state.map.terrain[u.tile]!]!.water) return err('invalid', 'Units go ashore in port or by stepping onto land.');
+  const w = tx.unit(u.id);
+  w.carriedBy = null;
+  w.order = null;
+  tx.emit({ type: 'unitUnloaded', unit: u.id, transport: holder.id, player: u.owner });
+  return null;
+}
+
 // ---------------------------------------------------------------------------
 // Dispatch
 // ---------------------------------------------------------------------------
@@ -1019,6 +1030,8 @@ export function applyWarCommand(rules: Rules, tx: Tx, cmd: Command): CommandErro
       return upgradeCommand(rules, tx, u);
     case 'load':
       return loadCommand(rules, tx, u);
+    case 'unload':
+      return unloadCommand(rules, tx, u);
     case 'buildArmy':
       return buildArmyCommand(rules, tx, u);
     case 'joinArmy':

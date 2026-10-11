@@ -4,7 +4,8 @@
   "type": "module",
   "exports": { ".": "./src/index.ts" },
   "scripts": {
-    "sim": "tsx src/cli.ts"
+    "sim": "tsx src/cli.ts",
+    "tournament": "tsx src/tournament.ts"
   },
   "dependencies": {
     "@civolution/ai": "workspace:*",

@@ -12,6 +12,8 @@ import {
   cityReport,
   checkJob,
   costField,
+  landMasses,
+  tilesInRadius,
   distance,
   foundBlocker,
   playerCities,
@@ -20,7 +22,7 @@ import {
   IMP_ROAD,
   isExplored,
   neighbours,
-  unitsAt,
+  tileOwners,
   type Command,
   type GameState,
   type Rules,
@@ -123,6 +125,12 @@ export function proposeAutoSettle(rules: Rules, state: GameState, u: Unit): Prop
  */
 export function proposeAutoWorker(rules: Rules, state: GameState, u: Unit): Proposal | null {
   if (u.order?.type === 'work') return null;
+  // Already on the way to a job: the engine carries the goto on at the start of each turn.
+  const owners = tileOwners(state);
+  const foreign = (t: number) => (owners.get(t) ?? []).some((o) => o !== u.owner);
+  if (u.order?.type === 'goto' && u.order.target !== u.tile && !foreign(u.order.target)) {
+    return { command: { type: 'skip', player: u.owner, unit: u.id, reason: 'Auto worker: travelling to the job' } };
+  }
   const home = homeTile(state, u.owner, u.tile);
   const claimed = new Set<number>();
   for (const other of Object.values(state.units)) {
@@ -130,19 +138,22 @@ export function proposeAutoWorker(rules: Rules, state: GameState, u: Unit): Prop
     if (other.order?.type === 'goto') claimed.add(other.order.target);
     if (other.order?.type === 'work') claimed.add(other.tile);
   }
-  const field = costField(rules, state, u, rules.moveScale * 30);
+  // Candidates: explored tiles near home on the worker's own land; travel by distance
+  // (a full path search per idle worker per turn costs too much on big maps).
+  const masses = landMasses(rules, state);
+  const p = state.players[u.owner]!;
   const candidates: Job[] = [];
   // A home city short of food wants forests and wetlands cleared in its work area.
   const homeCity = cityAt(state, home);
   const hungry = homeCity ? cityReport(rules, state, homeCity).foodSurplus < 2 : false;
-  for (const [tile, cost] of field) {
+  for (const tile of tilesInRadius(state.map, home, 6)) {
     const d = distance(state.map, home, tile);
-    if (d > 6 || claimed.has(tile)) continue;
+    if (claimed.has(tile) || masses[tile] !== masses[u.tile] || !isExplored(p, tile)) continue;
     const t = rules.terrains[state.map.terrain[tile]!]!;
     const imp = state.map.improvements[tile]!;
-    const travel = Math.floor(cost / rules.moveScale);
+    const travel = distance(state.map, u.tile, tile);
     const consider = (job: string, value: number, why: string) => {
-      if (unitsAt(state, tile).some((o) => o.owner !== u.owner)) return;
+      if (foreign(tile)) return;
       const probe = { ...u, tile };
       if (!checkJob(rules, state, probe, job).ok) return;
       candidates.push({ tile, job, score: value - travel * 2 - d, why });

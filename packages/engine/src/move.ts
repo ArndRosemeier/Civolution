@@ -139,6 +139,7 @@ export function canHostBarbarian(rules: Rules, tx: Tx, t: number): boolean {
 
 /** Moves a unit along its goto order as far as its movement allows. */
 export function continueGoto(rules: Rules, tx: Tx, unitId: number): void {
+  let route: number[] = [];
   for (let guard = 0; guard < 1000; guard++) {
     const u = tx.state.units[unitId];
     if (!u || u.order?.type !== 'goto') return;
@@ -149,14 +150,20 @@ export function continueGoto(rules: Rules, tx: Tx, unitId: number): void {
       return;
     }
     if (u.movesLeft <= 0) return;
-    const path = findPath(rules, tx.state, u, target);
-    const next = path?.tiles[0];
-    const check = next === undefined ? null : checkMove(rules, tx.state, u, next);
+    // Follow the planned route; plan (again) when there is none or the next step is refused.
+    let next = route[0];
+    let check = next === undefined ? null : checkMove(rules, tx.state, u, next);
+    if (next === undefined || !check?.ok) {
+      route = findPath(rules, tx.state, u, target)?.tiles ?? [];
+      next = route[0];
+      check = next === undefined ? null : checkMove(rules, tx.state, u, next);
+    }
     if (next === undefined || !check?.ok) {
       tx.unit(unitId).order = null;
       tx.emit({ type: 'gotoFinished', unit: unitId, player: u.owner, arrived: false });
       return;
     }
+    route = route.slice(1);
     moveUnitTo(rules, tx, unitId, next, check.cost);
   }
 }

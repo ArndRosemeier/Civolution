@@ -56,8 +56,14 @@ export function empireInfo(rules: Rules, state: GameState, player: number): Empi
   return info;
 }
 
+// Keyed by the terrain array, which a transaction copies before changing it (tx.mapArray
+// drops the entry for the copy), so land masses survive every write that leaves terrain be.
 const landCache = new WeakMap<number[], Int32Array>();
-registerCache((s) => landCache.delete(s.map.terrain));
+
+/** Forgets the land masses computed for a terrain array about to change. */
+export function invalidateLandMasses(terrain: number[]): void {
+  landCache.delete(terrain);
+}
 
 /** Connected land masses (ids from 0); water tiles get -1. */
 export function landMasses(rules: Rules, state: GameState): Int32Array {

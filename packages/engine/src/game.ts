@@ -264,6 +264,7 @@ export function apply(rules: Rules, state: GameState, cmd: Command): ApplyResult
     case 'pillage':
     case 'upgrade':
     case 'load':
+    case 'unload':
     case 'buildArmy':
     case 'joinArmy':
     case 'airdrop':

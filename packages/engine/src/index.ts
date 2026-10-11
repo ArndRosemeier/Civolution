@@ -46,7 +46,7 @@ export { CITY_NAMES } from './names.ts';
 export { makeRng, hash3, type Rng, type RngState } from './rng.ts';
 export { attackStrength, battleOdds, defenceStrength, fight, pickDefender, attackSide, defenceSide, isCombatant, retreatChance, type Strength, type Odds, type Side, type CombatKind, type BattleResult } from './combat.ts';
 export { armyCount, armyLimit, attackBlocker, previewAttack, upgradeQuote, wearinessFaces, nukesEnabled, PROMOTION_ODDS, LEADER_ODDS, type AttackPreview } from './war.ts';
-export { cargoOf, cargoSpace, currentHp, isArmy, levelHp, maxHp, unitMaxMoves, canCarry } from './units.ts';
+export { cargoOf, cargoSpace, currentHp, isArmy, levelHp, maxHp, unitMaxMoves, canCarry, transportFor } from './units.ts';
 export { barbarianPlayer, campTiles, BARBARIAN_START_TURN } from './barbarians.ts';
 export { boardingTransport } from './movement.ts';
 export { CAMP_GOLD } from './move.ts';

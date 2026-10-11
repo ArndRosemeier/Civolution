@@ -24,6 +24,10 @@ Code: `packages/engine/src/barbarians.ts`, `raidCity` (war.ts), tribal villages 
 - **Tribal villages** may now hold 1 or 2 barbarians (after turn 5, not within 3 tiles of
   your cities) or teach an advance.
 
+- **Landings:** from turn 40, with a chance per turn of 2, 3 or 5 % (roaming, restless,
+  raging), a barbarian ship appears off a random coastal city and puts 1 to 3 raiders
+  ashore on a free tile within 2 tiles of it. The ship waits offshore.
+
 ## Not yet
 
-Barbarian ships and landings, uprisings, and barbarian leaders.
+Uprisings and barbarian leaders.

@@ -6,6 +6,7 @@
  */
 import {
   attackBlocker,
+  checkMove,
   cargoOf,
   cargoSpace,
   cityAt,
@@ -171,29 +172,73 @@ export function counterAttack(ctx: Ctx): void {
 export interface Campaign {
   enemy: number;
   target: City;
-  staging: City;
+  /** Own city to muster in, or null for a force already ashore in enemy land. */
+  staging: City | null;
 }
 
-/** The enemy city to march on: known, on a land mass the AI holds, nearest to one of its cities. */
-export function chooseTarget(view: View, state: GameState, enemies: number[]): Campaign | null {
-  const mine = playerCities(state, view.player);
-  if (mine.length === 0) return null;
+function defendersSeen(view: View, state: GameState, c: City): number {
+  return view.visible[c.tile] ? Object.values(state.units).filter((u) => u.tile === c.tile && u.owner === c.owner).length : Math.max(2, Math.ceil(c.size / 3));
+}
+
+/**
+ * The enemy city to march on from land mass `mass`: known, on that mass, nearest to the
+ * AI's own cities there (or to `from` for a force ashore without a city).
+ */
+export function chooseTarget(view: View, state: GameState, enemies: number[], mass: number, from: number): Campaign | null {
+  const mine = playerCities(state, view.player).filter((c) => view.masses[c.tile] === mass);
   let best: Campaign | null = null;
   let bestScore = Infinity;
   for (const c of Object.values(state.cities)) {
-    if (!enemies.includes(c.owner) || !isExplored(view.me, c.tile)) continue;
-    const staging = nearestCity(state, mine, c.tile, view.masses);
-    if (!staging || view.masses[staging.tile] !== view.masses[c.tile]) continue;
-    const d = distance(state.map, staging.tile, c.tile);
-    if (d > 24) continue;
-    const defenders = view.visible[c.tile] ? Object.values(state.units).filter((u) => u.tile === c.tile && u.owner === c.owner).length : 2;
-    const score = d * 2 + defenders * 3 + c.size - ('palace' in c.buildings ? 0 : 0);
+    if (!enemies.includes(c.owner) || view.masses[c.tile] !== mass || !isExplored(view.me, c.tile)) continue;
+    const staging = mine.length > 0 ? nearestCity(state, mine, c.tile, view.masses) : null;
+    const d = distance(state.map, staging?.tile ?? from, c.tile);
+    if (staging && d > 24) continue;
+    // An army already at the walls keeps its target.
+    let near = 0;
+    for (const u of Object.values(state.units)) if (u.owner === view.player && u.carriedBy === null && distance(state.map, u.tile, c.tile) <= 2 && view.rules.unit(u.type).attack > 0) near++;
+    const score = d * 2 + defendersSeen(view, state, c) * 3 + c.size - near * 6;
     if (score < bestScore || (score === bestScore && best && c.id < best.target.id)) {
       best = { enemy: c.owner, target: c, staging };
       bestScore = score;
     }
   }
   return best;
+}
+
+/** Attackers, siege and armies free for the field (not garrisons, not on routines, not aboard). */
+export function fieldUnits(ctx: Ctx, garrison: Set<number>): Unit[] {
+  const rules = ctx.view.rules;
+  const s0 = ctx.state();
+  return playerUnits(s0, ctx.view.player).filter((u) => {
+    if (garrison.has(u.id) || u.carriedBy !== null || u.routine) return false;
+    const r = roleOf(rules.unit(u.type));
+    return (r === 'attacker' || r === 'siege' || (r === 'army' && cargoOf(s0, u.id).length > 0)) && rules.unit(u.type).domain === 'land';
+  });
+}
+
+/** Waits in a gathering city (or the nearest own city on the unit's land). */
+export function gather(ctx: Ctx, field: Unit[], gatherAt: City | null): void {
+  const { view } = ctx;
+  for (const u of field) {
+    const v = ctx.state().units[u.id];
+    if (!v || v.movesLeft <= 0) continue;
+    const home = gatherAt && view.masses[gatherAt.tile] === view.masses[v.tile] ? gatherAt : nearestCity(ctx.state(), playerCities(ctx.state(), view.player), v.tile, view.masses);
+    if (!home) continue;
+    if (v.tile === home.tile) fortify(ctx, v, 'standing ready');
+    else goto(ctx, v, home.tile, `gathering at ${home.name}`);
+  }
+}
+
+/** Strikes on weak enemies next to field units, before anything else. */
+export function strikeExposed(ctx: Ctx, field: Unit[]): void {
+  const rules = ctx.view.rules;
+  for (const u of field) {
+    const s = ctx.state();
+    const v = s.units[u.id];
+    if (!v || roleOf(rules.unit(v.type)) === 'siege') continue;
+    const near = neighbours(s.map, v.tile).filter((t) => enemyAt(s, ctx.view.player, t) && !cityAt(s, t));
+    if (near.length > 0) strike(ctx, v.id, near, 0.65, 'attacking an exposed enemy');
+  }
 }
 
 /** Approach tiles round a target: land next to it, free of enemies, nearest the unit first. */
@@ -213,51 +258,29 @@ function approaches(ctx: Ctx, target: number, from: number): number[] {
 }
 
 /**
- * The field army: gathers at the staging city until strong enough, then marches on the
- * target, bombards it and assaults it. Opportunistic attacks on the way.
+ * A field force on one land mass: gathers at the staging city until strong enough, then
+ * marches on the target, bombards it and assaults it. A force ashore without a staging
+ * city goes straight in.
  */
-export function runCampaign(ctx: Ctx, campaign: Campaign | null, garrison: Set<number>, gatherAt: City | null): void {
+export function runCampaign(ctx: Ctx, field: Unit[], campaign: Campaign): void {
   const { view } = ctx;
   const rules = view.rules;
-  const s0 = ctx.state();
-  const field = playerUnits(s0, view.player).filter((u) => {
-    if (garrison.has(u.id) || u.carriedBy !== null || u.routine) return false;
-    const r = roleOf(rules.unit(u.type));
-    return (r === 'attacker' || r === 'siege' || (r === 'army' && cargoOf(s0, u.id).length > 0)) && rules.unit(u.type).domain === 'land';
-  });
   if (field.length === 0) return;
-  // Strike anything weak within reach first.
-  for (const u of field) {
-    const s = ctx.state();
-    const v = s.units[u.id];
-    if (!v || roleOf(rules.unit(v.type)) === 'siege') continue;
-    const near = neighbours(s.map, v.tile).filter((t) => enemyAt(s, view.player, t) && !cityAt(s, t));
-    if (near.length > 0) strike(ctx, v.id, near, 0.65, 'attacking an exposed enemy');
-  }
-  if (!campaign) {
-    // No war to fight: wait in the gathering city (or the nearest one).
-    for (const u of field) {
-      const v = ctx.state().units[u.id];
-      if (!v || v.movesLeft <= 0) continue;
-      const home = gatherAt && view.masses[gatherAt.tile] === view.masses[v.tile] ? gatherAt : nearestCity(ctx.state(), playerCities(ctx.state(), view.player), v.tile, view.masses);
-      if (!home) continue;
-      if (v.tile === home.tile) fortify(ctx, v, 'standing ready');
-      else goto(ctx, v, home.tile, `gathering at ${home.name}`);
-    }
-    return;
-  }
   const { target, staging } = campaign;
   const s = ctx.state();
   const live = s.cities[target.id];
   if (!live || live.owner !== campaign.enemy) return;
   const toTarget = (u: Unit) => distance(s.map, u.tile, target.tile);
-  const stagingDist = distance(s.map, staging.tile, target.tile);
-  const visibleDefenders = view.visible[target.tile] ? Object.values(s.units).filter((u) => u.tile === target.tile && u.owner === target.owner).length : Math.max(2, Math.ceil(target.size / 3));
-  const needed = Math.max(4, visibleDefenders * 2 + 2);
-  const ready = field.filter((u) => toTarget(u) <= stagingDist + 1 || distance(s.map, u.tile, staging.tile) <= 2);
+  const needed = Math.max(4, defendersSeen(view, s, target) * 2 + 2);
   const close = field.filter((u) => toTarget(u) <= 2);
-  const advance = ready.length >= needed || close.length >= Math.ceil(needed / 2);
-  if (!advance) {
+  let advance = staging === null;
+  if (staging) {
+    const stagingDist = distance(s.map, staging.tile, target.tile);
+    const ready = field.filter((u) => toTarget(u) <= stagingDist + 1 || distance(s.map, u.tile, staging.tile) <= 2);
+    advance = ready.length >= needed || close.length >= Math.ceil(needed / 2);
+  }
+  if (!advance && staging) {
+    const stagingDist = distance(s.map, staging.tile, target.tile);
     for (const u of field) {
       const v = ctx.state().units[u.id];
       if (!v) continue;
@@ -298,9 +321,23 @@ export function runCampaign(ctx: Ctx, campaign: Campaign | null, garrison: Set<n
       if (v.order === null && !v.fortified && roleOf(rules.unit(v.type)) !== 'siege') fortify(ctx, v, `besieging ${target.name}`);
       continue;
     }
-    const spot = approaches(ctx, target.tile, v.tile)[0];
-    if (spot !== undefined) goto(ctx, v, spot, `marching on ${target.name}`);
+    closeIn(ctx, v, target.tile, `marching on ${target.name}`);
   }
+}
+
+/**
+ * Moves a unit toward `target`: by a known route to the best approach tile, another one
+ * if that fails, else a single step that closes the distance (into the unknown, if need be).
+ */
+function closeIn(ctx: Ctx, v: Unit, target: number, reason: string): void {
+  if (v.order?.type === 'goto' && distance(ctx.state().map, v.order.target, target) <= 1) return;
+  for (const spot of approaches(ctx, target, v.tile).slice(0, 3)) if (goto(ctx, v, spot, reason)) return;
+  const s = ctx.state();
+  const here = distance(s.map, v.tile, target);
+  const steps = neighbours(s.map, v.tile)
+    .filter((t) => distance(s.map, t, target) < here && checkMove(ctx.view.rules, s, v, t).ok)
+    .sort((a, b) => distance(s.map, a, target) - distance(s.map, b, target) || a - b);
+  if (steps[0] !== undefined) ctx.act({ type: 'moveUnit', player: v.owner, unit: v.id, to: steps[0], reason: why(reason) });
 }
 
 /** Bombers strike enemy units or cities in range; fighters guard the skies. */

@@ -4,6 +4,7 @@
  * parts it touches: the state object once, each touched unit, player or map array once.
  */
 import { invalidateCaches } from './caches.ts';
+import { invalidateLandMasses } from './empire.ts';
 import type { GameEvent } from './commands.ts';
 import { invalidateTileOwners } from './queries.ts';
 import { nextInt } from './rng.ts';
@@ -103,6 +104,7 @@ export function beginTx(input: GameState, reason?: string): Tx {
         touchedArrays.add(name);
         m.revision = m.revision + 1;
       }
+      if (name === 'terrain') invalidateLandMasses(m.terrain);
       return m[name];
     },
     addUnit(u) {

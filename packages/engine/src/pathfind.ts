@@ -3,8 +3,9 @@
  * using the movement rules for step costs. A step never counts for more than the
  * unit's full movement, because a unit may always make one step per turn.
  */
-import { neighbours } from './grid.ts';
-import { stepCost } from './movement.ts';
+import { distance, neighbours } from './grid.ts';
+import { stepCost, stepValue } from './movement.ts';
+import { IMP_RAIL } from './state.ts';
 import { isExplored, maxMoves } from './queries.ts';
 import type { Rules } from './rules.ts';
 import type { GameState, Unit } from './state.ts';
@@ -63,24 +64,28 @@ export function findPath(rules: Rules, state: GameState, u: Unit, target: number
   const owner = state.players[u.owner]!;
   if (!isExplored(owner, target)) return null;
   const cap = Math.max(1, maxMoves(rules, u));
+  // A*: every step costs at least a road move, unless railroads (free) exist anywhere.
+  const floor = hasRails(state) ? 0 : 1;
+  const h = (t: number) => (floor === 0 ? 0 : distance(state.map, t, target) * floor);
   const dist = new Map<number, number>([[u.tile, 0]]);
   const prev = new Map<number, number>();
   const heap = new Heap();
-  heap.push(0, u.tile);
+  heap.push(h(u.tile), u.tile);
   while (heap.size > 0) {
-    const [d, tile] = heap.pop();
-    if (d > (dist.get(tile) ?? Infinity)) continue;
+    const [f, tile] = heap.pop();
+    const d = dist.get(tile) ?? Infinity;
+    if (f - h(tile) > d) continue;
     if (tile === target) break;
     if (d > maxCost) break;
     for (const next of neighbours(state.map, tile)) {
       if (!isExplored(owner, next)) continue;
-      const step = stepCost(rules, state, u, tile, next);
-      if (!step.ok) continue;
-      const nd = d + Math.min(step.cost, cap);
+      const step = stepValue(rules, state, u, tile, next);
+      if (step < 0) continue;
+      const nd = d + Math.min(step, cap);
       if (nd < (dist.get(next) ?? Infinity)) {
         dist.set(next, nd);
         prev.set(next, tile);
-        heap.push(nd, next);
+        heap.push(nd + h(next), next);
       }
     }
   }
@@ -118,9 +123,9 @@ export function reachableThisTurn(rules: Rules, state: GameState, u: Unit): numb
     const left = best.get(tile)!;
     if (left <= 0) continue;
     for (const next of neighbours(state.map, tile)) {
-      const step = stepCost(rules, state, u, tile, next);
-      if (!step.ok) continue;
-      const after = Math.max(0, left - step.cost);
+      const step = stepValue(rules, state, u, tile, next);
+      if (step < 0) continue;
+      const after = Math.max(0, left - step);
       if (after > (best.get(next) ?? -1)) {
         best.set(next, after);
         queue.push(next);
@@ -146,9 +151,9 @@ export function costField(rules: Rules, state: GameState, u: Unit, maxCost = Inf
     if (d > (dist.get(tile) ?? Infinity) || d > maxCost) continue;
     for (const next of neighbours(state.map, tile)) {
       if (!isExplored(owner, next)) continue;
-      const step = stepCost(rules, state, u, tile, next);
-      if (!step.ok) continue;
-      const nd = d + Math.min(step.cost, cap);
+      const step = stepValue(rules, state, u, tile, next);
+      if (step < 0) continue;
+      const nd = d + Math.min(step, cap);
       if (nd < (dist.get(next) ?? Infinity)) {
         dist.set(next, nd);
         heap.push(nd, next);
@@ -156,4 +161,17 @@ export function costField(rules: Rules, state: GameState, u: Unit, maxCost = Inf
     }
   }
   return dist;
+}
+
+const railCache = new WeakMap<number[], boolean>();
+
+/** Whether any railroad exists (free moves make the A* distance bound useless). */
+function hasRails(state: GameState): boolean {
+  const imp = state.map.improvements;
+  let v = railCache.get(imp);
+  if (v === undefined) {
+    v = imp.some((x) => (x & IMP_RAIL) !== 0);
+    railCache.set(imp, v);
+  }
+  return v;
 }

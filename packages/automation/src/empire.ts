@@ -9,6 +9,7 @@ import {
   cityReport,
   distance,
   hasFreshWater,
+  landMasses,
   isCoastal,
   playerCities,
   playerUnits,
@@ -47,14 +48,17 @@ export function siteScore(rules: Rules, state: GameState, player: number, tile: 
   return score;
 }
 
-/** Best site within `range` tiles of `from`, weighing travel. */
+/** Best site within `range` tiles of `from` on the same land (settlers walk there), weighing travel. */
 export function bestSite(rules: Rules, state: GameState, player: number, from: number, range = 10): number {
   const p = state.players[player]!;
   let best = -1;
   let bestScore = 0;
   const own = playerCities(state, player);
+  const masses = landMasses(rules, state);
+  const home = masses[from]!;
   for (const tile of tilesInRadius(state.map, from, range)) {
     const d = distance(state.map, from, tile);
+    if (home >= 0 && masses[tile] !== home) continue;
     if (!((p.explored[tile >> 5]! >>> (tile & 31)) & 1)) continue;
     const base = siteScore(rules, state, player, tile);
     if (base <= 0) continue;

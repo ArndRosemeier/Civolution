@@ -14,6 +14,7 @@ import {
   playerCities,
   techCost,
   distance,
+  isCoastal,
   type Deal,
   type GameState,
   type Proposal,
@@ -22,6 +23,7 @@ import {
 import { accepts, dealGain, peaceValue } from './value.ts';
 import type { Ctx } from './military.ts';
 import type { View } from './view.ts';
+import { canSail } from './naval.ts';
 
 const why = (text: string) => `AI: ${text}`;
 
@@ -30,19 +32,22 @@ export function respond(rules: Rules, state: GameState, player: number, proposal
   return accepts(rules, state, player, proposal);
 }
 
-/** Neighbours worth fighting: met, alive, with cities on a land mass the AI holds, nearest first. */
-function neighboursByLand(view: View, state: GameState): { id: number; distance: number }[] {
+/**
+ * Rivals worth fighting: met, alive, with cities on a land mass the AI holds, nearest
+ * first; across the water too (counted farther) once the AI can build transports.
+ */
+function rivalsInReach(view: View, state: GameState): { id: number; distance: number }[] {
   const mine = playerCities(state, view.player);
+  const sail = canSail(view, state);
+  const coastal = mine.filter((c) => isCoastal(view.rules, state, c.tile));
   const out: { id: number; distance: number }[] = [];
   for (const o of view.me.contacts) {
-    const p = state.players[o];
-    if (!p?.alive || p.barbarian) continue;
+    const q = state.players[o];
+    if (!q?.alive || q.barbarian) continue;
     let best = Infinity;
     for (const c of playerCities(state, o)) {
-      for (const m of mine) {
-        if (view.masses[m.tile] !== view.masses[c.tile]) continue;
-        best = Math.min(best, distance(state.map, m.tile, c.tile));
-      }
+      for (const m of mine) if (view.masses[m.tile] === view.masses[c.tile]) best = Math.min(best, distance(state.map, m.tile, c.tile));
+      if (sail && isCoastal(view.rules, state, c.tile)) for (const m of coastal) best = Math.min(best, distance(state.map, m.tile, c.tile) + 6);
     }
     if (best < Infinity) out.push({ id: o, distance: best });
   }
@@ -78,7 +83,7 @@ export function planWar(ctx: Ctx, fieldReady: boolean): WarPlan {
   if (view.enemies.length > 0) return { preparing: null };
   // Too early, or by nature peaceful: no new wars.
   if (s.turn < 40 - view.traits.aggression * 8) return { preparing: null };
-  const candidates = neighboursByLand(view, s).filter((n) => n.distance <= 16);
+  const candidates = rivalsInReach(view, s).filter((n) => n.distance <= 20);
   let best: { id: number; score: number } | null = null;
   for (const n of candidates) {
     if (peaceBinding(s, view.player, n.id) && view.traits.aggression < 2) continue;

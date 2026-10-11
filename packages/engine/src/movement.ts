@@ -41,35 +41,78 @@ export function canStandOn(rules: Rules, state: GameState, u: Unit, tile: number
   return null;
 }
 
-/** Cost of one step, ignoring how many moves the unit has left. */
-export function stepCost(rules: Rules, state: GameState, u: Unit, from: number, to: number): MoveCheck {
+const BLOCK_NOT_ADJACENT = -1;
+const BLOCK_AIR = -2;
+const BLOCK_IMMOBILE = -3;
+const BLOCK_TERRAIN = -4;
+const BLOCK_ENEMY = -5;
+const BLOCK_FOREIGN_UNIT = -6;
+const BLOCK_CITY = -7;
+
+/**
+ * The cost of one step in movement thirds, or a negative block code. The hot path of
+ * path finding: no strings, no allocation.
+ */
+export function stepValue(rules: Rules, state: GameState, u: Unit, from: number, to: number): number {
   const dir = directionTo(state.map, from, to);
-  if (dir < 0) return fail('notAdjacent', 'Units move one tile at a time to an adjacent tile.');
+  if (dir < 0) return BLOCK_NOT_ADJACENT;
   const rule = rules.unit(u.type);
-  if (rule.domain === 'air') return fail('cannotEnter', 'Aircraft fly missions; rebase them to move.');
-  if (rule.abilities.includes('immobile')) return fail('cannotEnter', `${rule.name} cannot move by itself.`);
-  const blocked = canStandOn(rules, state, u, to, false);
-  if (blocked) return fail('cannotEnter', blocked);
-  for (const owner of tileOwners(state).get(to) ?? []) {
-    if (owner === u.owner) continue;
-    if (atWar(state, u.owner, owner)) return fail('cannotEnter', 'Enemy units hold that tile; move onto it to attack.');
-    return fail('cannotEnter', `Another civilization's unit holds that tile.`);
+  if (rule.domain === 'air') return BLOCK_AIR;
+  if (rule.abilities.includes('immobile')) return BLOCK_IMMOBILE;
+  if (canStandOn(rules, state, u, to, false) !== null) return BLOCK_TERRAIN;
+  const owners = tileOwners(state).get(to);
+  if (owners) {
+    for (const owner of owners) {
+      if (owner === u.owner) continue;
+      return atWar(state, u.owner, owner) ? BLOCK_ENEMY : BLOCK_FOREIGN_UNIT;
+    }
   }
   const city = cityAt(state, to);
-  if (city && city.owner !== u.owner) return fail('cannotEnter', `${city.name} belongs to another civilization.`);
+  if (city && city.owner !== u.owner) return BLOCK_CITY;
   const scale = rules.moveScale;
-  if (rule.domain === 'sea') return { ok: true, cost: scale, explain: 'Open water: 1' };
+  if (rule.domain === 'sea') return scale;
   const imp = state.map.improvements;
-  const owner = state.players[u.owner]!;
   const river = crossesRiver(state, from, dir);
-  const bridged = !river || hasTechFlag(rules, owner, 'enablesBridges');
-  if (imp[from]! & imp[to]! & IMP_RAIL && bridged) return { ok: true, cost: 0, explain: 'Railroad: free' };
-  if (imp[from]! & imp[to]! & IMP_ROAD && bridged) return { ok: true, cost: 1, explain: 'Road: 1/3' };
-  if (rule.abilities.includes('allTerrainAsRoads')) return { ok: true, cost: 1, explain: `${rule.name} treats all terrain as road: 1/3` };
+  const bridged = !river || hasTechFlag(rules, state.players[u.owner]!, 'enablesBridges');
+  if (imp[from]! & imp[to]! & IMP_RAIL && bridged) return 0;
+  if (imp[from]! & imp[to]! & IMP_ROAD && bridged) return 1;
+  if (rule.abilities.includes('allTerrainAsRoads')) return 1;
   const terrain = rules.terrains[state.map.terrain[to]!]!;
-  if (rule.ignoresTerrainCost.includes(terrain.id)) return { ok: true, cost: scale, explain: `${rule.name} ignores ${terrain.name}: 1` };
-  const roadNote = imp[from]! & imp[to]! & IMP_ROAD ? ' (road does not bridge the river yet)' : '';
-  return { ok: true, cost: terrain.movementCost * scale, explain: `${terrain.name}: ${terrain.movementCost}${roadNote}` };
+  if (rule.ignoresTerrainCost.includes(terrain.id)) return scale;
+  return terrain.movementCost * scale;
+}
+
+/** Cost of one step, ignoring how many moves the unit has left, with the reason for the UI. */
+export function stepCost(rules: Rules, state: GameState, u: Unit, from: number, to: number): MoveCheck {
+  const cost = stepValue(rules, state, u, from, to);
+  const rule = rules.unit(u.type);
+  switch (cost) {
+    case BLOCK_NOT_ADJACENT:
+      return fail('notAdjacent', 'Units move one tile at a time to an adjacent tile.');
+    case BLOCK_AIR:
+      return fail('cannotEnter', 'Aircraft fly missions; rebase them to move.');
+    case BLOCK_IMMOBILE:
+      return fail('cannotEnter', `${rule.name} cannot move by itself.`);
+    case BLOCK_TERRAIN:
+      return fail('cannotEnter', canStandOn(rules, state, u, to, false) ?? 'Cannot enter.');
+    case BLOCK_ENEMY:
+      return fail('cannotEnter', 'Enemy units hold that tile; move onto it to attack.');
+    case BLOCK_FOREIGN_UNIT:
+      return fail('cannotEnter', `Another civilization's unit holds that tile.`);
+    case BLOCK_CITY:
+      return fail('cannotEnter', `${cityAt(state, to)!.name} belongs to another civilization.`);
+  }
+  if (rule.domain === 'sea') return { ok: true, cost, explain: 'Open water: 1' };
+  const imp = state.map.improvements;
+  const terrain = rules.terrains[state.map.terrain[to]!]!;
+  const road = (imp[from]! & imp[to]! & IMP_ROAD) !== 0;
+  let explain: string;
+  if (cost === 0) explain = 'Railroad: free';
+  else if (cost === 1 && road) explain = 'Road: 1/3';
+  else if (cost === 1) explain = `${rule.name} treats all terrain as road: 1/3`;
+  else if (rule.ignoresTerrainCost.includes(terrain.id)) explain = `${rule.name} ignores ${terrain.name}: 1`;
+  else explain = `${terrain.name}: ${terrain.movementCost}${road ? ' (road does not bridge the river yet)' : ''}`;
+  return { ok: true, cost, explain };
 }
 
 /**

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { indexRules, stateHash } from '@civolution/engine';
 import { conquests } from '@civolution/rules';
-import { ai, builder, defaultPlayers, explorer, idle, replay, runGame } from '../src/index.ts';
+import { ai, builder, defaultPlayers, explorer, idle, replay, runGame, runTournament } from '../src/index.ts';
 
 const rules = indexRules(conquests);
 const withScouts = [...rules.set.general.startUnits, rules.set.general.scoutUnit];
@@ -20,7 +20,7 @@ describe('headless games', () => {
     const game = { seed: 11, map: { worldSize: 'tiny' }, players: defaultPlayers(2), startUnits: withScouts };
     const { report } = runGame({ rules, game, controllers: [explorer, explorer], turns: 15 });
     // Changing this hash needs a stated reason in the commit (PLAN.md §11).
-    expect(report.finalHash).toMatchInlineSnapshot(`"2bada2326d1521d5"`);
+    expect(report.finalHash).toMatchInlineSnapshot(`"cb10c97f3e92cfcd"`);
   });
 
   it('explores a Huge map with 16 players and builds roads (Phase 1 exit criterion)', () => {
@@ -52,4 +52,31 @@ describe('headless games', () => {
     expect(report.war.barbarianCamps).toBeGreaterThan(0);
     expect(stateHash(replay(rules, game, log))).toBe(stateHash(state));
   }, 120_000);
+
+  it('runs AI civilizations through diplomacy and war: contacts, treaties, deals, invariants clean (Phase 4)', () => {
+    const game = { seed: 2, map: { worldSize: 'small' }, players: defaultPlayers(4) };
+    const { state, log, report } = runGame({ rules, game, controllers: [ai, ai, ai, ai], turns: 200 });
+    expect(report.invariantFailures).toEqual([]);
+    expect(report.diplomacy.contacts).toBeGreaterThan(0);
+    expect(report.diplomacy.wars).toBeGreaterThan(0);
+    expect(report.diplomacy.deals).toBeGreaterThan(0);
+    // The AI's commands are almost all accepted.
+    expect(report.refused).toBeLessThan(report.commands / 20);
+    expect(stateHash(replay(rules, game, log))).toBe(stateHash(state));
+  }, 240_000);
+
+  it('plays an AI-only game to turn 500 without stalls (Phase 4 exit criterion)', () => {
+    const [g] = runTournament({ rules, size: 'tiny', players: 3, turns: 500, seeds: [3] });
+    expect(g!.report.turns).toBe(500);
+    expect(g!.report.invariantFailures).toEqual([]);
+    expect(g!.report.players.filter((p) => p.controller === 'ai' && p.alive).length).toBeGreaterThan(0);
+  }, 600_000);
+
+  it('beats a passive player at Monarch (Phase 4 exit criterion)', () => {
+    const games = runTournament({ rules, size: 'tiny', players: 2, turns: 300, seeds: [1, 5], difficulty: 'monarch', passive: true });
+    for (const g of games) {
+      expect(g.report.invariantFailures).toEqual([]);
+      expect(g.aiWon).toBe(true);
+    }
+  }, 240_000);
 });

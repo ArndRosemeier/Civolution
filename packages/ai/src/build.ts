@@ -5,7 +5,8 @@
  * shaded by the civilization's build preferences.
  */
 import { planBuild } from '@civolution/automation';
-import { buildOptions, playerUnits, unitsAt, type Build, type City, type GameState } from '@civolution/engine';
+import { buildOptions, cityReport, isCoastal, playerUnits, unitsAt, type Build, type City, type GameState } from '@civolution/engine';
+import { bestTransport, explorerShip } from './naval.ts';
 import type { UnitRule } from '@civolution/data-schema';
 import { roleOf, type View } from './view.ts';
 
@@ -17,6 +18,12 @@ export interface BuildNeeds {
   settlersWanted: number;
   /** Defenders each city wants. */
   garrison: Map<number, number>;
+  /** The coastal city that should build a transport for an invasion, if any. */
+  transportAt?: number;
+  /** A ship to explore the seas is wanted. */
+  seaExplorer?: boolean;
+  /** A coastal city should build settlers for a colony across the water. */
+  colonize?: boolean;
   /** Naval and air are not built by the AI yet beyond what it already has. */
 }
 
@@ -54,13 +61,12 @@ export function defendersIn(view: View, state: GameState, city: City): number {
 /** How many defenders a city wants: one, more on the frontier, in the capital, when big or threatened. */
 export function garrisonFor(view: View, city: City): number {
   let n = 1;
-  if (view.frontier.has(city.id)) n++;
-  if (city.id === view.capital?.id) n++;
-  if (city.size >= 10) n++;
+  const frontier = view.frontier.has(city.id);
+  if (frontier && (view.enemies.length > 0 || city.size >= 4 || city.id === view.capital?.id)) n++;
+  if (city.size >= 12) n++;
   const threat = view.threat.get(city.id) ?? 0;
-  if (threat > 0) n += Math.min(3, Math.ceil(threat / 6));
-  if (view.enemies.length > 0 && view.frontier.has(city.id)) n++;
-  return Math.min(n, 6);
+  if (threat > 0) n += Math.min(2, Math.ceil(threat / 8));
+  return Math.min(n, 4);
 }
 
 /** The field force a civilization keeps: more when at war, preparing one, or warlike by nature. */
@@ -93,6 +99,27 @@ export function aiBuild(view: View, state: GameState, city: City, needs: BuildNe
   if (defender && defenders < want && (defenders === 0 || report.threat > 0 || view.enemies.length > 0 || defenders < Math.min(want, 2))) {
     return { build: { kind: 'unit', id: defender.id }, reason: defenders === 0 ? 'AI: no defender in the city' : `AI: garrison ${defenders} of ${want}` };
   }
+  if (needs.transportAt === city.id) {
+    const ship = bestTransport(units);
+    if (ship) {
+      needs.transportAt = -1;
+      return { build: { kind: 'unit', id: ship.id }, reason: 'AI: a transport for the crossing' };
+    }
+  }
+  if (needs.seaExplorer && isCoastal(view.rules, state, city.tile)) {
+    const ship = explorerShip(units);
+    if (ship) {
+      needs.seaExplorer = false;
+      return { build: { kind: 'unit', id: ship.id }, reason: 'AI: a ship to explore the coasts' };
+    }
+  }
+  if (needs.colonize && city.size >= 3 && isCoastal(view.rules, state, city.tile)) {
+    const settler = units.find((u) => u.specialActions.includes('buildCity'));
+    if (settler) {
+      needs.colonize = false;
+      return { build: { kind: 'unit', id: settler.id }, reason: 'AI: settlers for new land across the water' };
+    }
+  }
   // Field army when at war or preparing one, from cities with production to spare.
   if (needs.haveField < needs.wantField && city.size >= 2) {
     const siegeShare = needs.haveField > 0 && needs.haveField % 4 === 3;
@@ -103,7 +130,10 @@ export function aiBuild(view: View, state: GameState, city: City, needs: BuildNe
       return { build: { kind: 'unit', id: attacker.id }, reason: `AI: field army ${needs.haveField} of ${needs.wantField}` };
     }
   }
-  const plan = planBuild(view.rules, state, city, { noSettlers: needs.settlersWanted <= 0, noWonders: view.traits.never.has('wonders') });
+  // Settlers come from cities big enough to spare a citizen; wonders from cities with the production for them.
+  const shields = cityReport(view.rules, state, city).shields.value;
+  const settlerOk = needs.settlersWanted > 0;
+  const plan = planBuild(view.rules, state, city, { noSettlers: !settlerOk, noWonders: view.traits.never.has('wonders') || shields < 8 });
   if (plan.build.kind === 'unit' && view.rules.unit(plan.build.id).specialActions.includes('buildCity')) needs.settlersWanted--;
   if (plan.build.kind === 'building' && plan.build.id === 'wealth') return fallback(view, units);
   return { build: plan.build, reason: `AI: ${plan.reason}` };

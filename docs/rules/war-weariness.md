@@ -1,14 +1,14 @@
 # War, peace and war weariness
 
-**Status:** draft (Phase 3; full diplomacy in Phase 4) · **Confidence:** low (our model)
+**Status:** draft (Phase 3) · **Confidence:** low (our model)
 
 Code: `addWeariness`, `decayWeariness`, `wearinessFaces` in `packages/engine/src/war.ts`.
 
 ## Rule
 
-- **War and peace** are declared from the war room (F4). Both take effect at once for both
-  sides until treaties and AI attitudes arrive in Phase 4. Barbarians are always at war
-  with everyone and cannot be treated with.
+- **War** is declared on the diplomacy screen (F4) and takes effect at once; **peace**
+  needs the other side's agreement ([diplomacy.md](diplomacy.md)). Barbarians are always
+  at war with everyone and cannot be treated with.
 - **Points** a civilization collects against each enemy: +1 for every battle with them, +3
   for every unit lost to them, +10 for a city lost to them, +10 for being struck by a
   nuclear weapon. Battles with barbarians do not count.

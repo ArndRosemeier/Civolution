@@ -20,8 +20,8 @@ describe('headless games', () => {
   it('keeps a golden hash for a fixed seed', () => {
     const game = { seed: 11, map: { worldSize: 'tiny' }, players: defaultPlayers(2), startUnits: withScouts };
     const { report } = runGame({ rules, game, controllers: [explorer, explorer], turns: 15 });
-    // Changing this hash needs a stated reason in the commit (PLAN.md §11). Owner's ruling 2026-10-11: new tribal village odds (70 % barbarians, gifts otherwise).
-    expect(report.finalHash).toMatchInlineSnapshot(`"c5bf945eb3a92706"`);
+    // Changing this hash needs a stated reason in the commit (PLAN.md §11). Owner's rulings 2026-10-11: new tribal village odds (70 % barbarians, gifts otherwise); village gold 25 in the first era, 25 or 50 later.
+    expect(report.finalHash).toMatchInlineSnapshot(`"f5a9ce8214962973"`);
   });
 
   it('explores a Huge map with 16 players and builds roads (Phase 1 exit criterion)', () => {

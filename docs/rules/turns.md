@@ -40,7 +40,7 @@ Entering a village with a land unit opens it once (`enterHut` in
 | 30–44 (15 %) | a map of the tiles within 6 |
 | 45–61 (17 %) | a free Warrior |
 | 62–76 (15 %) | a free advance: one of the three cheapest the player can research (not a starting one) |
-| 77–89 (13 %) | 1–2 barbarian warriors next to the village, only after turn 5, away from the player's cities (within 3 tiles) and while barbarians are in the game |
+| 77–89 (13 %) | 1–2 barbarian warriors next to the village, only after turn 5, away from the player's cities (within 3 tiles) while barbarians are in the game, and only once the player has two cities (our default) |
 | 90–99 (10 %) | nothing |
 
 An outcome that cannot happen (no advance to give, barbarians not allowed) falls through to

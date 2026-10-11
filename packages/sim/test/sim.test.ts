@@ -19,8 +19,8 @@ describe('headless games', () => {
   it('keeps a golden hash for a fixed seed', () => {
     const game = { seed: 11, map: { worldSize: 'tiny' }, players: defaultPlayers(2), startUnits: withScouts };
     const { report } = runGame({ rules, game, controllers: [explorer, explorer], turns: 15 });
-    // Changing this hash needs a stated reason in the commit (PLAN.md §11).
-    expect(report.finalHash).toMatchInlineSnapshot(`"d919a4f1d2ca7220"`);
+    // Changing this hash needs a stated reason in the commit (PLAN.md §11). Phase 8: villages hold no barbarians for a civilization with fewer than two cities.
+    expect(report.finalHash).toMatchInlineSnapshot(`"d8b667b7527c3fc0"`);
   });
 
   it('explores a Huge map with 16 players and builds roads (Phase 1 exit criterion)', () => {

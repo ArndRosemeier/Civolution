@@ -221,10 +221,11 @@ export function planBuild(rules: Rules, state: GameState, city: City, opts: Plan
     if (best) return { build: { kind: 'unit', id: best.id }, reason: 'No defender in the city' };
   }
   const settler = rules.set.units.find((u) => u.specialActions.includes('buildCity'));
-  // With `growFirst`, settlers (two citizens) come only from cities of size 4 or more (3 while
-  // the empire has two cities or fewer), so cities keep growing while the empire expands.
+  // With `growFirst`, settlers (two citizens) come only from cities of size 4 or more, so
+  // cities keep growing while the empire expands; the first few cities start them at any
+  // size (the settler waits for the city to grow while its shields pile up, the usual opening).
   const cities0 = playerCities(state, city.owner).length;
-  const bigEnough = !opts.growFirst || city.size >= 4 || (cities0 <= 2 && city.size >= 3);
+  const bigEnough = !opts.growFirst || city.size >= 4 || cities0 <= 3;
   if (settler && !opts.noSettlers && bigEnough && report.foodSurplus >= 1 && wantsMoreCities(rules, state, city.owner) && ok({ kind: 'unit', id: settler.id })) {
     const settling = bestSite(rules, state, city.owner, city.tile, 12);
     if (settling >= 0) return { build: { kind: 'unit', id: settler.id }, reason: 'Room for another city nearby' };

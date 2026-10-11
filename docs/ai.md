@@ -38,3 +38,11 @@ human players at higher difficulties, less between AIs by the difficulty's AI tr
 
 `pnpm --filter @civolution/sim tournament` plays many seeds; see docs/PLAN.md §11 and the
 Phase 4 notes for results.
+
+## Phase 8 changes
+
+- The first three cities start settlers at any size (the settler waits while the city
+  grows and its shields pile up); later cities give up settlers from size 4.
+- A city raising settlers or workers uses the Growth governor instead of Balanced.
+- A threatened city of size 4 or more with fewer than two defenders drafts one when its
+  government and Nationalism allow it.

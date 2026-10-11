@@ -94,6 +94,8 @@ function enterHut(rules: Rules, tx: Tx, unitId: number, tile: number): void {
   const roll = tx.random(100);
   const p = tx.state.players[u.owner]!;
   const barbarians = tx.state.players.find((x) => x.barbarian && x.alive);
+  // A civilization with a single city meets no barbarians in villages: two warriors could end a game before it starts.
+  const ownCities = Object.values(tx.state.cities).filter((c) => c.owner === u.owner).length;
   const nearOwnCity = Object.values(tx.state.cities).some((c) => c.owner === u.owner && tilesInRadius(tx.state.map, c.tile, 3).includes(tile));
   const techs = rules.set.techs.filter((t) => researchBlocker(rules, p, t.id) === null && t.prerequisites.length > 0).sort((a, b) => a.costFactor - b.costFactor || a.id.localeCompare(b.id));
   let outcome: HutOutcome;
@@ -112,7 +114,7 @@ function enterHut(rules: Rules, tx: Tx, unitId: number, tile: number): void {
     const tech = techs[tx.random(Math.min(3, techs.length))]!.id;
     learn(rules, tx, u.owner, tech);
     outcome = { kind: 'tech', tech };
-  } else if (roll < 90 && barbarians && !nearOwnCity && tx.state.turn > 5) {
+  } else if (roll < 90 && barbarians && !nearOwnCity && tx.state.turn > 5 && ownCities >= 2) {
     const count = 1 + tx.random(2);
     const spots = tilesInRadius(tx.state.map, tile, 1).filter((t) => t !== tile && canHostBarbarian(rules, tx, t));
     let made = 0;

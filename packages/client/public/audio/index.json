@@ -7,6 +7,34 @@
     "airlift-1.mp3",
     "airlift-2.mp3"
   ],
+  "ambience-city": [
+    "ambience-city-1.mp3",
+    "ambience-city-2.mp3"
+  ],
+  "ambience-desert": [
+    "ambience-desert-1.mp3",
+    "ambience-desert-2.mp3"
+  ],
+  "ambience-forest": [
+    "ambience-forest-1.mp3",
+    "ambience-forest-2.mp3"
+  ],
+  "ambience-grassland": [
+    "ambience-grassland-1.mp3",
+    "ambience-grassland-2.mp3"
+  ],
+  "ambience-ocean": [
+    "ambience-ocean-1.mp3",
+    "ambience-ocean-2.mp3"
+  ],
+  "ambience-snow": [
+    "ambience-snow-1.mp3",
+    "ambience-snow-2.mp3"
+  ],
+  "arrived": [
+    "arrived-1.mp3",
+    "arrived-2.mp3"
+  ],
   "attack-air": [
     "attack-air-1.mp3",
     "attack-air-2.mp3",
@@ -106,6 +134,10 @@
     "city-captured-1.mp3",
     "city-captured-2.mp3"
   ],
+  "city-ceded": [
+    "city-ceded-1.mp3",
+    "city-ceded-2.mp3"
+  ],
   "city-destroyed": [
     "city-destroyed-1.mp3",
     "city-destroyed-2.mp3"
@@ -143,6 +175,10 @@
     "digest-open-1.mp3",
     "digest-open-2.mp3"
   ],
+  "disband": [
+    "disband-1.mp3",
+    "disband-2.mp3"
+  ],
   "disorder": [
     "disorder-1.mp3",
     "disorder-2.mp3"
@@ -166,6 +202,10 @@
   "era-entered": [
     "era-entered-1.mp3"
   ],
+  "expelled": [
+    "expelled-1.mp3",
+    "expelled-2.mp3"
+  ],
   "first-contact": [
     "first-contact-1.mp3",
     "first-contact-2.mp3"
@@ -187,12 +227,28 @@
     "golden-age-1.mp3",
     "golden-age-2.mp3"
   ],
+  "golden-age-ended": [
+    "golden-age-ended-1.mp3",
+    "golden-age-ended-2.mp3"
+  ],
   "government-changed": [
     "government-changed-1.mp3"
   ],
   "hurry": [
     "hurry-1.mp3",
     "hurry-2.mp3"
+  ],
+  "hut-empty": [
+    "hut-empty-1.mp3",
+    "hut-empty-2.mp3"
+  ],
+  "hut-map": [
+    "hut-map-1.mp3",
+    "hut-map-2.mp3"
+  ],
+  "join-army": [
+    "join-army-1.mp3",
+    "join-army-2.mp3"
   ],
   "leader-born": [
     "leader-born-1.mp3"
@@ -204,8 +260,58 @@
   "missile-intercepted": [
     "missile-intercepted-1.mp3"
   ],
+  "move-air": [
+    "move-air-1.mp3",
+    "move-air-2.mp3",
+    "move-air-3.mp3"
+  ],
+  "move-foot": [
+    "move-foot-1.mp3",
+    "move-foot-2.mp3",
+    "move-foot-3.mp3"
+  ],
+  "move-mounted": [
+    "move-mounted-1.mp3",
+    "move-mounted-2.mp3",
+    "move-mounted-3.mp3"
+  ],
+  "move-ship": [
+    "move-ship-1.mp3",
+    "move-ship-2.mp3",
+    "move-ship-3.mp3"
+  ],
+  "move-wheeled": [
+    "move-wheeled-1.mp3",
+    "move-wheeled-2.mp3",
+    "move-wheeled-3.mp3"
+  ],
+  "music-ancient": [
+    "music-ancient-1.mp3",
+    "music-ancient-2.mp3",
+    "music-ancient-3.mp3"
+  ],
+  "music-industrial": [
+    "music-industrial-1.mp3",
+    "music-industrial-2.mp3",
+    "music-industrial-3.mp3"
+  ],
+  "music-medieval": [
+    "music-medieval-1.mp3",
+    "music-medieval-2.mp3",
+    "music-medieval-3.mp3"
+  ],
+  "music-modern": [
+    "music-modern-2.mp3"
+  ],
+  "music-title": [
+    "music-title-1.mp3"
+  ],
   "nuclear-blast": [
     "nuclear-blast-1.mp3"
+  ],
+  "order": [
+    "order-1.mp3",
+    "order-2.mp3"
   ],
   "order-restored": [
     "order-restored-1.mp3"
@@ -229,6 +335,10 @@
   "promotion": [
     "promotion-1.mp3",
     "promotion-2.mp3"
+  ],
+  "quill": [
+    "quill-1.mp3",
+    "quill-2.mp3"
   ],
   "rally-call": [
     "rally-call-1.mp3",
@@ -266,10 +376,22 @@
     "template-set-1.mp3",
     "template-set-2.mp3"
   ],
+  "timber": [
+    "timber-1.mp3",
+    "timber-2.mp3"
+  ],
+  "treaty-expired": [
+    "treaty-expired-1.mp3",
+    "treaty-expired-2.mp3"
+  ],
   "treaty-signed": [
     "treaty-signed-1.mp3",
     "treaty-signed-2.mp3",
     "treaty-signed-3.mp3"
+  ],
+  "turn-start": [
+    "turn-start-1.mp3",
+    "turn-start-2.mp3"
   ],
   "ui-click": [
     "ui-click-1.mp3",
@@ -284,14 +406,35 @@
     "ui-open-1.mp3",
     "ui-open-2.mp3"
   ],
+  "ui-select": [
+    "ui-select-1.mp3",
+    "ui-select-2.mp3"
+  ],
   "un-vote": [
     "un-vote-1.mp3",
     "un-vote-2.mp3"
+  ],
+  "unit-lost": [
+    "unit-lost-1.mp3",
+    "unit-lost-2.mp3",
+    "unit-lost-3.mp3"
   ],
   "unit-trained": [
     "unit-trained-1.mp3",
     "unit-trained-2.mp3",
     "unit-trained-3.mp3"
+  ],
+  "unit-upgraded": [
+    "unit-upgraded-1.mp3",
+    "unit-upgraded-2.mp3"
+  ],
+  "unit-woke": [
+    "unit-woke-1.mp3",
+    "unit-woke-2.mp3"
+  ],
+  "unload": [
+    "unload-1.mp3",
+    "unload-2.mp3"
   ],
   "victory": [
     "victory-1.mp3",
@@ -301,12 +444,25 @@
     "war-declared-1.mp3",
     "war-declared-2.mp3"
   ],
+  "warning": [
+    "warning-1.mp3",
+    "warning-2.mp3"
+  ],
   "wonder-complete": [
     "wonder-complete-1.mp3",
     "wonder-complete-2.mp3"
   ],
+  "work-done": [
+    "work-done-1.mp3",
+    "work-done-2.mp3"
+  ],
   "work-started": [
+    "work-started-1.mp3",
     "work-started-2.mp3",
     "work-started-3.mp3"
+  ],
+  "zoc-strike": [
+    "zoc-strike-1.mp3",
+    "zoc-strike-2.mp3"
   ]
 }

@@ -2812,5 +2812,341 @@
     "hash": "12a74d9fcb45bae8",
     "date": "2026-10-11",
     "costUsd": 0.01
+  },
+  "packages/client/public/art/units/jaguarWarrior.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: an Aztec jaguar warrior in a spotted jaguar-skin suit with the jaws framing his face, holding a wooden club edged with obsidian and a round feathered shield, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "896b09be244a8077",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/hoplite.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Greek hoplite in a crested bronze helmet and bronze breastplate, with a large round bronze shield and a long spear, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "10b265b71dea477f",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/bowman.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Babylonian bowman in a long fringed tunic and conical cap, drawing a composite bow, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "b5f1ccc7c1a8b90d",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/impi.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Zulu impi warrior with a tall oxhide shield in black and white patches and a short stabbing spear, wearing a feathered headband and cow-tail armlets, running forward, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "3ace4012b73442db",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/legionary.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Roman legionary in segmented iron armour and a red tunic, with a tall curved red rectangular shield and a short sword, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "bf55ef0e91bb398e",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/immortals.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Persian immortal in an embroidered robe and soft cloth cap, with a wicker shield, a spear and a quiver of arrows, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "ae26f10889eabbd6",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/warChariot.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: an Egyptian two-wheeled war chariot drawn by two horses, an archer standing in it beside the driver, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "956afb931cbc3feb",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/rider.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Chinese armoured horseman in lamellar armour with a lance, on a sturdy horse with a red saddle cloth, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "1e0041b39fc5fab4",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/mountedWarrior.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: an Iroquois mounted warrior with a feather in his hair and a bow, riding a spotted horse bareback, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "c39655b8067fb62d",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/musketeer.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a French musketeer in a blue tabard with a white cross, a wide feathered hat and a long musket, a rapier at his side, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "e221e9ad8a81f709",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/samurai.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Japanese samurai in lacquered plate armour and a horned helmet, holding a long curved sword with both hands, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "e7f387e43de5ef2d",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/warElephant.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: an Indian war elephant with a decorated howdah carrying a spearman, its tusks capped with metal, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "995f4a8d99fe89e9",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/cossack.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Russian cossack in a tall fur hat and long coat with cartridge loops, riding a fast horse with a curved sabre raised, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "54a907f905764847",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/panzer.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a German mid-twentieth-century battle tank in dark grey with a long gun barrel and wide tracks, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "7247706f34d7e9c8",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/manOWar.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: an English three-masted man-of-war with two gun decks, white sails and open gun ports, under way on a choppy sea, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "a345f5c7591508b2",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/keshik.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Mongol horse archer in a fur-trimmed helmet and padded coat, turning in the saddle to shoot a bow, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "8a530e896e7b3fec",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/f15.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: an American twin-engine jet fighter with twin tail fins in light grey, banking in a clear sky, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "561524d8a3cb4add",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/conquistador.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Spanish conquistador in a crested steel helmet and breastplate, riding a horse with a lance, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "e9d255ec8876910a",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/berserk.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Viking berserker in a bearskin with a round painted wooden shield and a broad axe, charging, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "2435c2ac589164ae",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/gallicSwordsman.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Gallic swordsman with long braided hair and a moustache, a tall oval shield and a long iron sword, wearing checked trousers, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "261fb991058b39f0",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/sipahi.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: an Ottoman sipahi cavalryman in a pointed helmet and mail, with a lance carrying a small pennant and a round shield, on a galloping horse, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "83162ff5e0b1f8d9",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/ansarWarrior.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: an Arab ansar warrior on a camel, in flowing robes and a turban, with a curved sword, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "1ed3f48fc56cc282",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/numidianMercenary.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Numidian mercenary with a round leather shield and a bundle of javelins, in a light tunic, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "ac3ae321894c4339",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/enkiduWarrior.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Sumerian warrior with a rectangular shield and a long spear, in a sheepskin kilt and a leather cap, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "b2bc71d8bf325823",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/hwacha.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Korean hwach'a, a wooden two-wheeled cart holding a rack of many fire arrows, with two gunners beside it, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "c524b52d0b1b0f58",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/threeManChariot.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Hittite heavy chariot drawn by two horses carrying three men: a driver, a spearman and a shield bearer, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "276dd45a8d6bc962",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/swissMercenary.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Swiss mercenary pikeman in a slashed doublet in bright colours and a plumed hat, with a long pike and a halberd, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "7c565ab31411ebec",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/carrack.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Portuguese carrack with a high stern castle, round hull and square sails with red crosses, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "cd77ee91c82b4106",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/chasquiScout.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: an Inca chasqui runner in a woven tunic with a conch-shell horn and a knotted cord at the belt, running along a mountain path, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "7c1ac0ca610a6bf9",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/javelinThrower.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Maya javelin thrower with a jade-decorated headdress, poised to cast a javelin with a spear-thrower, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "bd41df0e9b2aeb6e",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/dromon.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a Byzantine dromon, a long oared war galley with a lateen sail and a bronze siphon at the bow, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "adb7b896c7ce7835",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/ancientCavalry.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: an ancient Greek cavalryman in a bronze helmet and short cloak, riding with a spear, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "da1084e8ca156020",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/crusader.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a crusader knight on foot in mail and a white surcoat with a red cross, holding a kite shield and a sword, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "40e3be9384b245db",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/units/princess.png": {
+    "model": "meta/muse-image",
+    "prompt": "Game portrait of a unit: a young princess in a flowing embroidered gown and a slim gold circlet, standing calmly under a small canopy, shown whole and in profile, centered on a round medallion with a soft sky-and-earth background and an unbroken, even, thin bronze rim, the bronze rim touching all four edges of the image so the medallion fills the whole square. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "03b0dacb06539ffd",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/terrain/grassland.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Seamless tileable ground texture seen straight from above, flat even lighting with no shadows cast across the image and no perspective: lush green meadow grass with small clover and a few tiny wildflowers. Evenly spread detail over the whole square with no single focal point, no horizon, no objects standing out, no border or frame. Painted in the game's stylised hand-painted look. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "4e9922a9994d787d",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/leaders/barbarians.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Painted head-and-shoulders portrait for a strategy game's diplomacy screen: a fierce barbarian warlord in his forties with a braided beard, a fur mantle over a mail shirt and an iron helmet with horns of bone, before a smoky camp fire and rough tents at dusk. Facing the viewer, scowling, softly lit from the upper left, the face in the middle of the image with space around it. Hand-painted, stylised, not a caricature. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. No frame. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "ede39935d43091de",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/terrain/plains.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Seamless tileable ground texture seen straight from above, flat even lighting with no shadows cast across the image and no perspective: dry golden-green steppe grass with patches of bare earth. Evenly spread detail over the whole square with no single focal point, no horizon, no objects standing out, no border or frame. Painted in the game's stylised hand-painted look. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "b789140b50e96b84",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/terrain/desert.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Seamless tileable ground texture seen straight from above, flat even lighting with no shadows cast across the image and no perspective: rippled pale sand dunes with a few small pebbles. Evenly spread detail over the whole square with no single focal point, no horizon, no objects standing out, no border or frame. Painted in the game's stylised hand-painted look. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "684a94ae527fac39",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/terrain/tundra.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Seamless tileable ground texture seen straight from above, flat even lighting with no shadows cast across the image and no perspective: cold tundra ground: grey-green moss and lichen, low shrubs and small stones. Evenly spread detail over the whole square with no single focal point, no horizon, no objects standing out, no border or frame. Painted in the game's stylised hand-painted look. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "8d86ffd1f7de86f3",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/terrain/floodPlain.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Seamless tileable ground texture seen straight from above, flat even lighting with no shadows cast across the image and no perspective: dark fertile river silt with short green shoots and small puddles. Evenly spread detail over the whole square with no single focal point, no horizon, no objects standing out, no border or frame. Painted in the game's stylised hand-painted look. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "d6b7a305808aee8e",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/terrain/hills.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Seamless tileable ground texture seen straight from above, flat even lighting with no shadows cast across the image and no perspective: grassy rolling ground with scattered rocks and patches of brown earth. Evenly spread detail over the whole square with no single focal point, no horizon, no objects standing out, no border or frame. Painted in the game's stylised hand-painted look. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "6c0f9557b1c1f541",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/terrain/mountains.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Seamless tileable ground texture seen straight from above, flat even lighting with no shadows cast across the image and no perspective: rugged grey granite rock with cracks and small ledges. Evenly spread detail over the whole square with no single focal point, no horizon, no objects standing out, no border or frame. Painted in the game's stylised hand-painted look. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "e741f9df392f9335",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/terrain/forest.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Seamless tileable ground texture seen straight from above, flat even lighting with no shadows cast across the image and no perspective: forest floor: fallen leaves, pine needles, moss and small twigs. Evenly spread detail over the whole square with no single focal point, no horizon, no objects standing out, no border or frame. Painted in the game's stylised hand-painted look. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "a74527e9d335a86a",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/terrain/marsh.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Seamless tileable ground texture seen straight from above, flat even lighting with no shadows cast across the image and no perspective: marshy wetland: reeds, muddy water and green algae. Evenly spread detail over the whole square with no single focal point, no horizon, no objects standing out, no border or frame. Painted in the game's stylised hand-painted look. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "3adfa882411a47bb",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/terrain/jungle.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Seamless tileable ground texture seen straight from above, flat even lighting with no shadows cast across the image and no perspective: tropical jungle floor: broad dark green leaves, ferns and wet soil. Evenly spread detail over the whole square with no single focal point, no horizon, no objects standing out, no border or frame. Painted in the game's stylised hand-painted look. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "ccaaf53262afb9c1",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/terrain/volcano.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Seamless tileable ground texture seen straight from above, flat even lighting with no shadows cast across the image and no perspective: black volcanic ash and dark basalt rock with faint red cracks. Evenly spread detail over the whole square with no single focal point, no horizon, no objects standing out, no border or frame. Painted in the game's stylised hand-painted look. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "122dd211f9edd52b",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/terrain/snow.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Seamless tileable ground texture seen straight from above, flat even lighting with no shadows cast across the image and no perspective: wind-packed white snow with faint blue shadows. Evenly spread detail over the whole square with no single focal point, no horizon, no objects standing out, no border or frame. Painted in the game's stylised hand-painted look. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "a20b94418dff9b46",
+    "date": "2026-10-11",
+    "costUsd": 0.01
+  },
+  "packages/client/public/art/terrain/beach.jpg": {
+    "model": "meta/muse-image",
+    "prompt": "Seamless tileable ground texture seen straight from above, flat even lighting with no shadows cast across the image and no perspective: fine warm beach sand with a few tiny shells. Evenly spread detail over the whole square with no single focal point, no horizon, no objects standing out, no border or frame. Painted in the game's stylised hand-painted look. Absolutely no text: no letters, words, numbers, runes, labels, banners with writing, signatures or watermarks anywhere in the image. Square image.\n\nStyle: Art direction for a modern strategy game about building civilizations from the ancient era onward: stylised, hand-painted look with clean shapes, soft directional light from the upper left, warm natural palette (sunlit greens, ochre, terracotta, sea turquoise, deep navy), subtle texture, no outlines, readable at small sizes. Polished and premium, like a contemporary 4X game, not photo-real, not pixel art, no text. Absolutely no text of any kind: no letters, words, numbers, labels, captions, titles, banners with writing, signatures or watermarks anywhere in the image.",
+    "hash": "ffa3c7dfb8e25624",
+    "date": "2026-10-11",
+    "costUsd": 0.01
   }
 }

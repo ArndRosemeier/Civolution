@@ -106,7 +106,7 @@ export async function loadModels(): Promise<ModelSet> {
   const loader = new GLTFLoader();
   const ids = Object.keys(MODELS);
   const geos = await Promise.all(ids.map((id) => loadOne(loader, MODELS[id]!)));
-  return Object.fromEntries(ids.map((id, i) => [id, geos[i]!])) as ModelSet;
+  return Object.fromEntries<THREE.BufferGeometry>(ids.map((id, i) => [id, geos[i]!]));
 }
 
 /** Model used for a unit type; unit types without their own model yet borrow a family member's. */

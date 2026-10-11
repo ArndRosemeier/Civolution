@@ -65,7 +65,7 @@ export function jobBlocker(rules: Rules, state: GameState, player: number, tile:
       if (terrain.irrigationFood === 0) return `${terrain.name} cannot be irrigated.`;
       if (imp & IMP_IRRIGATION) return 'This tile is already irrigated.';
       if (!hasFreshWaterAccess(state, tile, IMP_IRRIGATION) && !hasTechFlag(rules, p, 'irrigationWithoutFreshWater'))
-        return 'Needs fresh water: a river, a lake or an irrigated tile next to it.';
+        return 'Needs fresh water: a river, a lake, an irrigated tile or a city by fresh water next to it (diagonals count).';
       return null;
     case 'mine':
       if (terrain.mineShields === 0) return `${terrain.name} cannot be mined.`;

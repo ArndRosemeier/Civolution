@@ -1,0 +1,6 @@
+{
+  "title": "Civolution",
+  "tagline": "Civilization III Complete (Conquests rules) rebuilt as a single-player TypeScript web app with a modern 3D map and first-class player automation.",
+  "tags": ["game", "4X", "strategy", "civilization"],
+  "screenshot": "/shots/civolution.jpg"
+}
